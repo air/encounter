@@ -1,5 +1,7 @@
 // Gamma-corrected RGB values from http://www.pepto.de/projects/colorvic/
 
+// TODO use THREE.Color
+
 if (C64 == null || typeof(C64) != "object") { var C64 = new Object(); } else { console.error('can\'t reserve namespace C64'); }
 
 C64.palette = new Array(

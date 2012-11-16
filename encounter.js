@@ -5,8 +5,11 @@
 // time to pass 10 obelisks: 8s
 
 // TODOs
+// move to THREE.Clock in all js files
+// check use of obj.position for everything - technically this is all local positioning
+// review class variables and make em private with var
 
-// obelisks
+// obelisk constants
 var OB = new Object();
 OB.gridSizeX = 50;
 OB.gridSizeZ = 50;
@@ -16,47 +19,83 @@ OB.radius = 40;
 OB.MAX_X = (OB.gridSizeX - 1) * OB.spacing;
 OB.MAX_Z = (OB.gridSizeZ - 1) * OB.spacing;
 
-// player
+// player constants
 var PLAYER = new Object();
 PLAYER.cameraHeight = OB.height / 2;
-PLAYER.shots = new Object();
-PLAYER.shots.interval = 1000; // ms
-PLAYER.shots.allowed = 3;
-PLAYER.shots.lastTimeFired = 0;
-PLAYER.shots.inFlight = 0;
+PLAYER.shotInterval = 1000; // ms, // TODO confirm
+PLAYER.shotsAllowed = 3;
 
-// shots
+// shot constants
 var SHOT = new Object();
-SHOT.radius = 45;
+SHOT.radius = 40;
+SHOT.offset = 100; // created this far in front of you
+SHOT.canTravel = 5000; // TODO confirm
 
 // constants modelling the original game
 var ENCOUNTER = new Object();
 ENCOUNTER.drawDistance = 3000; // use with init3D()
 ENCOUNTER.movementSpeed = 1.2;
 ENCOUNTER.turnSpeed = 0.0007;
-ENCOUNTER.shotSpeed = 1.8; // TODO confirm
+ENCOUNTER.shotSpeed = 1.9; // TODO confirm
 
 // objects we want visible in the debugger
 var cameraControls;
 var keys = new EncounterKeys();
 var sound = new EncounterSound();
+var actors = new Array();
 var GROUND = new Object();
 
-// main
+// main ----------------------------------------------------------------------------
 init3d(OB.MAX_X);
 scene.add(new THREE.AxisHelper(300));
 initEncounterObjects();
 initEncounterControls();
 document.body.appendChild(renderer.domElement);
 initListeners();
+
+// late init so we can use the camera
+var player = camera; // just overload the camera for now
+// TODO make a class
+player.lastTimeFired = 0;
+player.shotsInFlight = 0;
+
 console.info('init complete');
 animate();
+// ---------------------------------------------------------------------------------
+Shot.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
+function Shot(firingObject) {
+  THREE.Mesh.call(this, SHOT.geometry, SHOT.material); // super constructor
+
+  this.position.copy(firingObject.position);
+  this.rotation.copy(firingObject.rotation);
+  this.updateMatrix(); // setting the rotation is not enough, translate acts on the underlying matrix
+  this.translateZ(-SHOT.offset);
+  this.isDead = false;
+  this.hasTravelled = 0;
+}
+
+Shot.prototype.update = function(t) {
+  var actualMoveSpeed = t * ENCOUNTER.shotSpeed;
+  this.translateZ(-actualMoveSpeed);
+  this.hasTravelled += actualMoveSpeed;
+
+  if (this.hasTravelled > SHOT.canTravel) {
+    this.isDead = true; 
+  }
+  if (this.isDead) {
+    this.deadCallback.apply(undefined, [this]); // just pass reference to this actor
+  }
+}
+
+Shot.prototype.callbackWhenDead = function(callback) {
+  this.deadCallback = callback;
+}
 
 function initEncounterObjects() {
   OB.geometry = new THREE.CylinderGeometry(OB.radius, OB.radius, OB.height, 16, 1, false); // topRadius, bottomRadius, height, segments, heightSegments
   OB.material = MATS.normal;
 
-  SHOT.geometry = new THREE.SphereGeometry(SHOT.radius);
+  SHOT.geometry = new THREE.SphereGeometry(SHOT.radius, 16, 16);
   SHOT.material = MATS.normal;
 
   // TODO consider adding all obelisks to an invisible parent object
@@ -107,30 +146,49 @@ function initEncounterControls() {
 
 function interpretKeys(t) {
   if (keys.shooting) {
-    if (PLAYER.shots.inFlight < PLAYER.shots.allowed) {
+    if (player.shotsInFlight < PLAYER.shotsAllowed) {
       var now = new Date().getTime();
-      var timeSinceLastShot = now - PLAYER.shots.lastTimeFired;
-      if (timeSinceLastShot > PLAYER.shots.interval) {
-        shoot(camera);
-        PLAYER.shots.inFlight += 1;
-        PLAYER.shots.lastTimeFired = now;
+      var timeSinceLastShot = now - player.lastTimeFired;
+      if (timeSinceLastShot > PLAYER.shotInterval) {
+        shoot(player, now);        
       }
-      
     }
   }
 }
 
-function shoot(firingObject) {
-  console.info('BAM!');
-  sound.playerShoot();
+// invoked as a callback
+function actorIsDead(actor) {
+  if (typeof actor === "undefined") console.error('actor undefined!'); // args must be an array
+
+  var index = actors.indexOf(actor);
+  if (index !== -1) {
+    actors.splice(index, 1);
+  }
+
+  player.shotsInFlight -= 1; // FIXME not general case
+  scene.remove(actor);
 }
 
+function shoot(firingObject, time) {
+  sound.playerShoot();
+  var shot = new Shot(firingObject);
+  shot.callbackWhenDead(actorIsDead);
+  firingObject.shotsInFlight += 1;
+  firingObject.lastTimeFired = time;
+  actors.push(shot);
+  scene.add(shot);
+}
+
+
 function updateGameState(t) {
-  // no op
+  for (var i = 0; i < actors.length; i++) {
+    actors[i].update(t);
+  };
 }
 
 function update(t) {
+  updateGameState(t);
   cameraControls.update(t);
   interpretKeys(t);
-  updateGameState(t);
+  //collisions();
 }

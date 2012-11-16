@@ -4,7 +4,7 @@ EncounterKeys = function() {
 
   this.shooting = false;
 
-  this.onKeyUp = function (event) {
+  EncounterKeys.prototype.onKeyUp = function (event) {
     switch(event.keyCode) {
       case 70: // f
         initFlyControls();
@@ -17,7 +17,7 @@ EncounterKeys = function() {
     }
   };
 
-  this.onKeyDown = function (event) {
+  EncounterKeys.prototype.onKeyDown = function (event) {
     switch(event.keyCode) {
       case 32: // space
       case 90: // z
