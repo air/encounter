@@ -19,24 +19,21 @@ OB.radius = 40;
 OB.MAX_X = (OB.gridSizeX - 1) * OB.spacing;
 OB.MAX_Z = (OB.gridSizeZ - 1) * OB.spacing;
 
-// player constants
-var PLAYER = new Object();
-PLAYER.cameraHeight = OB.height / 2;
-PLAYER.shotInterval = 1000; // ms, // TODO confirm
-PLAYER.shotsAllowed = 3;
-
 // shot constants
 var SHOT = new Object();
 SHOT.radius = 40;
-SHOT.offset = 100; // created this far in front of you
-SHOT.canTravel = 5000; // TODO confirm
+SHOT.offset = 120; // created this far in front of you
+SHOT.canTravel = 16000; // TODO confirm
 
 // constants modelling the original game
 var ENCOUNTER = new Object();
 ENCOUNTER.drawDistance = 3000; // use with init3D()
+ENCOUNTER.cameraHeight = OB.height / 2;
 ENCOUNTER.movementSpeed = 1.2;
 ENCOUNTER.turnSpeed = 0.0007;
-ENCOUNTER.shotSpeed = 1.9; // TODO confirm
+ENCOUNTER.shotSpeed = 3.0;
+ENCOUNTER.shotInterval = 400; // ms
+ENCOUNTER.shotsAllowed = 15; // original has illusion of no shot limit or range limit, but max 3 on screen
 
 // objects we want visible in the debugger
 var cameraControls;
@@ -125,7 +122,7 @@ function initEncounterObjects() {
   scene.add(GROUND.object);
   console.info('ground plane placed');
 
-  camera.position.set(OB.MAX_X / 2, PLAYER.cameraHeight, OB.MAX_Z / 2);
+  camera.position.set(OB.MAX_X / 2, ENCOUNTER.cameraHeight, OB.MAX_Z / 2);
 }
 
 // can be invoked at runtime
@@ -146,10 +143,10 @@ function initEncounterControls() {
 
 function interpretKeys(t) {
   if (keys.shooting) {
-    if (player.shotsInFlight < PLAYER.shotsAllowed) {
+    if (player.shotsInFlight < ENCOUNTER.shotsAllowed) {
       var now = new Date().getTime();
       var timeSinceLastShot = now - player.lastTimeFired;
-      if (timeSinceLastShot > PLAYER.shotInterval) {
+      if (timeSinceLastShot > ENCOUNTER.shotInterval) {
         shoot(player, now);        
       }
     }
