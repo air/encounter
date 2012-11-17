@@ -14,6 +14,9 @@ EncounterKeys = function() {
       case 90: // z
         this.shooting = false;
         break;
+      case 80: // p
+        isPaused = !isPaused;
+        break;
     }
   };
 

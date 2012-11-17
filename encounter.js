@@ -11,13 +11,14 @@
 
 // obelisk constants
 var OB = new Object();
-OB.gridSizeX = 50;
-OB.gridSizeZ = 50;
+OB.gridSizeX = 30;
+OB.gridSizeZ = 30;
 OB.spacing = 1000;
 OB.height = 100;
 OB.radius = 40;
 OB.MAX_X = (OB.gridSizeX - 1) * OB.spacing;
 OB.MAX_Z = (OB.gridSizeZ - 1) * OB.spacing;
+OB.rows = []; // each row is an X line of OB.gridSizeX obelisks
 
 // shot constants
 var SHOT = new Object();
@@ -36,14 +37,16 @@ ENCOUNTER.shotInterval = 400; // ms
 ENCOUNTER.shotsAllowed = 15; // original has illusion of no shot limit or range limit, but max 3 on screen
 
 // objects we want visible in the debugger
+var isPaused = false;
 var cameraControls;
 var keys = new EncounterKeys();
 var sound = new EncounterSound();
+var physics = new EncounterPhysics();
 var actors = new Array();
 var GROUND = new Object();
 
 // main ----------------------------------------------------------------------------
-init3d(OB.MAX_X);
+init3d(OB.MAX_X * 1.4);
 scene.add(new THREE.AxisHelper(300));
 initEncounterObjects();
 initEncounterControls();
@@ -58,35 +61,6 @@ player.shotsInFlight = 0;
 
 console.info('init complete');
 animate();
-// ---------------------------------------------------------------------------------
-Shot.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
-function Shot(firingObject) {
-  THREE.Mesh.call(this, SHOT.geometry, SHOT.material); // super constructor
-
-  this.position.copy(firingObject.position);
-  this.rotation.copy(firingObject.rotation);
-  this.updateMatrix(); // setting the rotation is not enough, translate acts on the underlying matrix
-  this.translateZ(-SHOT.offset);
-  this.isDead = false;
-  this.hasTravelled = 0;
-}
-
-Shot.prototype.update = function(t) {
-  var actualMoveSpeed = t * ENCOUNTER.shotSpeed;
-  this.translateZ(-actualMoveSpeed);
-  this.hasTravelled += actualMoveSpeed;
-
-  if (this.hasTravelled > SHOT.canTravel) {
-    this.isDead = true; 
-  }
-  if (this.isDead) {
-    this.deadCallback.apply(undefined, [this]); // just pass reference to this actor
-  }
-}
-
-Shot.prototype.callbackWhenDead = function(callback) {
-  this.deadCallback = callback;
-}
 
 function initEncounterObjects() {
   OB.geometry = new THREE.CylinderGeometry(OB.radius, OB.radius, OB.height, 16, 1, false); // topRadius, bottomRadius, height, segments, heightSegments
@@ -96,12 +70,17 @@ function initEncounterObjects() {
   SHOT.material = MATS.normal;
 
   // TODO consider adding all obelisks to an invisible parent object
-  for (var xpos=0; xpos<(OB.gridSizeX * OB.spacing); xpos+=OB.spacing) {
-    for (var zpos=0; zpos<(OB.gridSizeZ * OB.spacing); zpos+=OB.spacing) {
+  for (var rowIndex=0; rowIndex<OB.gridSizeZ; rowIndex++) {
+    var row = [];
+    for (var colIndex=0; colIndex<OB.gridSizeX; colIndex++) {
+      var xpos = colIndex * OB.spacing;
+      var zpos = rowIndex * OB.spacing;
       var obelisk = new THREE.Mesh(OB.geometry, OB.material);
       obelisk.position.set(xpos, OB.height / 2, zpos);
+      row.push(obelisk);
       scene.add(obelisk);
     }
+    OB.rows[rowIndex] = row;
   }
   console.info('obelisks placed')
 
@@ -147,7 +126,7 @@ function interpretKeys(t) {
       var now = new Date().getTime();
       var timeSinceLastShot = now - player.lastTimeFired;
       if (timeSinceLastShot > ENCOUNTER.shotInterval) {
-        shoot(player, now);        
+        shoot(player, now);
       }
     }
   }
@@ -184,8 +163,10 @@ function updateGameState(t) {
 }
 
 function update(t) {
-  updateGameState(t);
-  cameraControls.update(t);
-  interpretKeys(t);
-  //collisions();
+  if (!isPaused) {
+    updateGameState(t);
+    cameraControls.update(t);
+    interpretKeys(t);
+    //collisions();
+  }
 }
