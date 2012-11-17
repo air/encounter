@@ -8,11 +8,12 @@
 // move to THREE.Clock in all js files
 // check use of obj.position for everything - technically this is all local positioning
 // review class variables and make em private with var
+// Make into classes: OB, the grid (OB.rows)
 
 // obelisk constants
 var OB = new Object();
-OB.gridSizeX = 30;
-OB.gridSizeZ = 30;
+OB.gridSizeX = 5;
+OB.gridSizeZ = 5;
 OB.spacing = 1000;
 OB.height = 100;
 OB.radius = 40;

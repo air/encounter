@@ -3,9 +3,12 @@ EncounterPhysics = function() {
   var lastHighlight = new THREE.Vector2();
 
   // Pass a Vector3 and the radius of the object
-  // A rectangular bounding box check using modulus
+  // A 2D rectangular bounding box check using modulus
   EncounterPhysics.prototype.isCloseToAnObelisk = function(position, radius) {
     if (typeof radius === "undefined") throw('required: radius');
+    // special case for out of bounds
+    if (position.x > OB.MAX_X || position.x < 0) return false;
+    if (position.z > OB.MAX_Z || position.z < 0) return false;
 
     var collisionThreshold = OB.radius + radius; // must be this close together to touch
     var collisionMax = OB.spacing - collisionThreshold; // getting close to next Z line (obelisk)
@@ -31,14 +34,30 @@ EncounterPhysics = function() {
     return new THREE.Vector2(xPos, zPos);
   };
 
-  EncounterPhysics.prototype.highlightObelisk = function(x, z) {
+  EncounterPhysics.prototype.highlightObelisk = function(x, z, scale) {
     OB.rows[z][x].material = MATS.red;
-    OB.rows[z][x].scale.set(1, 3, 1);
+    OB.rows[z][x].scale.set(1, scale, 1);
   };
 
   EncounterPhysics.prototype.unHighlightObelisk = function(x, z) {
     OB.rows[z][x].material = MATS.normal;
     OB.rows[z][x].scale.set(1, 1, 1);
+  };
+
+  // pass in a Vector3. Performs 2D circle intersection check
+  EncounterPhysics.prototype.isCollidingwithObelisk = function(position, radius) {
+    // ignore the Y position
+    var position2d = new THREE.Vector2(position.x, position.z);
+
+    // now the obelisk. First the grid index as a Vector2
+    var obPosition = this.getClosestObelisk(position, radius);
+    // then the object
+    var obeliskObject = OB.rows[obPosition.y][obPosition.x];
+    // then the 2D component
+    var obelisk2d = new THREE.Vector2(obeliskObject.position.x, obeliskObject.position.z);
+
+    var collisionThreshold = OB.radius + radius; // must be this close together to touch
+    return (obelisk2d.distanceTo(position2d) < collisionThreshold);
   };
 
 };
