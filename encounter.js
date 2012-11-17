@@ -118,6 +118,9 @@ function initEncounterControls() {
   cameraControls = new SimpleControls(camera);
   cameraControls.movementSpeed = ENCOUNTER.movementSpeed;
   cameraControls.turnSpeed = ENCOUNTER.turnSpeed;
+  camera.position.y = ENCOUNTER.cameraHeight;
+  camera.rotation.x = 0;
+  camera.rotation.z = 0;
 }
 
 function interpretKeys(t) {

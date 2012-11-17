@@ -7,8 +7,11 @@ EncounterKeys = function() {
   EncounterKeys.prototype.onKeyUp = function (event) {
     switch(event.keyCode) {
       case 70: // f
-        initFlyControls();
-        console.info('switched to fly controls');
+        if (cameraControls instanceof SimpleControls) {
+          initFlyControls();
+        } else {
+          initEncounterControls();
+        }
         break;
       case 32: // space
       case 90: // z
