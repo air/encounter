@@ -134,7 +134,7 @@ function interpretKeys(t) {
 
 // invoked as a callback
 function actorIsDead(actor) {
-  if (typeof actor === "undefined") console.error('actor undefined!'); // args must be an array
+  if (typeof actor === "undefined") throw('actor undefined'); // args must be an array
 
   var index = actors.indexOf(actor);
   if (index !== -1) {

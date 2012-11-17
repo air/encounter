@@ -21,9 +21,13 @@ Shot.prototype.update = function(t) {
 
   // unhighlight the old closest obelisk
   physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
-  // find the new closest
+  // if an obelisk is close, highlight it
+  if (physics.isCloseToAnObelisk(this.position, SHOT.radius)) {
+    physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
+  }
+
+  // always need to know the closest for drawing the debug line
   this.closeObeliskIndex = physics.getClosestObelisk(this.position);
-  physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
 
   // kill old line and add a new one
   scene.remove(this.line);

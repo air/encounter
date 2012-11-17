@@ -5,6 +5,8 @@ EncounterPhysics = function() {
   // Pass a Vector3 and the radius of the object
   // A rectangular bounding box check using modulus
   EncounterPhysics.prototype.isCloseToAnObelisk = function(position, radius) {
+    if (typeof radius === "undefined") throw('required: radius');
+
     var collisionThreshold = OB.radius + radius; // must be this close together to touch
     var collisionMax = OB.spacing - collisionThreshold; // getting close to next Z line (obelisk)
 
