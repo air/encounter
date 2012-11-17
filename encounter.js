@@ -12,8 +12,8 @@
 
 // obelisk constants
 var OB = new Object();
-OB.gridSizeX = 5;
-OB.gridSizeZ = 5;
+OB.gridSizeX = 50;
+OB.gridSizeZ = 50;
 OB.spacing = 1000;
 OB.height = 100;
 OB.radius = 40;
