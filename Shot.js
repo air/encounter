@@ -39,14 +39,19 @@ Shot.prototype.update = function(t) {
 
   // kill old line and add a new one
   scene.remove(this.line);
+  scene.remove(this.pointer);
+
   // get the obelisk object itself to read its position
   var obelisk = OB.rows[this.closeObeliskIndex.y][this.closeObeliskIndex.x];
   this.line = new MY3.Line(this.position, obelisk.position);
+  this.pointer = new MY3.Pointer(this.position, new THREE.Vector3(0,0,0), 200, true);
   scene.add(this.line);
+  scene.add(this.pointer);
 
   if (this.hasTravelled > SHOT.canTravel) {
     this.isDead = true;
     scene.remove(this.line);
+    scene.remove(this.pointer);
     physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
   }
   if (this.isDead) {
