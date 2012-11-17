@@ -89,7 +89,6 @@ function initEncounterObjects() {
   GROUND.geometry = new THREE.PlaneGeometry(OB.MAX_X, OB.MAX_Z, 16, 16);
   //GROUND.material = new THREE.MeshLambertMaterial({ color : C64.palette.green });
   GROUND.material = MATS.normal;
-  GROUND.material.side = THREE.DoubleSide; // TODO remove this
   GROUND.object = new THREE.Mesh(GROUND.geometry, GROUND.material);
   // plane inits as a wall on X axis facing the positive Z space, turn away to make a floor
   GROUND.object.rotation.x = -90 * TO_RADIANS;

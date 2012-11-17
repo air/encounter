@@ -21,9 +21,13 @@ Shot.prototype.update = function(t) {
 
   // unhighlight the old closest obelisk
   physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
-  // if an obelisk is close, highlight it. If we're colliding, highlight it more
+  // if an obelisk is close (fast check), highlight it
+  // if we're colliding (slow check), bounce and highlight it more
   if (physics.isCloseToAnObelisk(this.position, SHOT.radius)) {
-    if (physics.isCollidingwithObelisk(this.position, SHOT.radius)) {
+    var obelisk = physics.getCollidingObelisk(this.position, SHOT.radius);
+    if (typeof obelisk !== "undefined") {
+      physics.collideWithObelisk(obelisk, this);
+      sound.shotBounce();
       physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
     } else {
       physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);

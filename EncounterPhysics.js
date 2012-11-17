@@ -44,8 +44,8 @@ EncounterPhysics = function() {
     OB.rows[z][x].scale.set(1, 1, 1);
   };
 
-  // pass in a Vector3. Performs 2D circle intersection check
-  EncounterPhysics.prototype.isCollidingwithObelisk = function(position, radius) {
+  // pass in a Vector3. Performs 2D circle intersection check. Returns undefined if not colliding
+  EncounterPhysics.prototype.getCollidingObelisk = function(position, radius) {
     // ignore the Y position
     var position2d = new THREE.Vector2(position.x, position.z);
 
@@ -57,7 +57,17 @@ EncounterPhysics = function() {
     var obelisk2d = new THREE.Vector2(obeliskObject.position.x, obeliskObject.position.z);
 
     var collisionThreshold = OB.radius + radius; // must be this close together to touch
-    return (obelisk2d.distanceTo(position2d) < collisionThreshold);
+    if (obelisk2d.distanceTo(position2d) < collisionThreshold) {
+      return obeliskObject;
+    } else {
+      return undefined;
+    }
+  };
+
+  EncounterPhysics.prototype.collideWithObelisk = function(obelisk, object) {
+    // calculate new direction based on collision angle
+    // move collider out of the intersection
+    // rotate to face new
   };
 
 };
