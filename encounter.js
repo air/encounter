@@ -65,10 +65,11 @@ animate();
 
 function initEncounterObjects() {
   OB.geometry = new THREE.CylinderGeometry(OB.radius, OB.radius, OB.height, 16, 1, false); // topRadius, bottomRadius, height, segments, heightSegments
-  OB.material = MATS.normal;
+  OB.material = MATS.wireframe.clone();
+  OB.material.color = 0x000000;
 
   SHOT.geometry = new THREE.SphereGeometry(SHOT.radius, 16, 16);
-  SHOT.material = MATS.normal;
+  SHOT.material = MATS.wireframe;
 
   // TODO consider adding all obelisks to an invisible parent object
   for (var rowIndex=0; rowIndex<OB.gridSizeZ; rowIndex++) {

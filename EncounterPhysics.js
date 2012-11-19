@@ -35,12 +35,12 @@ EncounterPhysics = function() {
   };
 
   EncounterPhysics.prototype.highlightObelisk = function(x, z, scale) {
-    OB.rows[z][x].material = MATS.red;
+    //OB.rows[z][x].material = MATS.red;
     OB.rows[z][x].scale.set(1, scale, 1);
   };
 
   EncounterPhysics.prototype.unHighlightObelisk = function(x, z) {
-    OB.rows[z][x].material = MATS.normal;
+    //OB.rows[z][x].material = MATS.normal;
     OB.rows[z][x].scale.set(1, 1, 1);
   };
 
@@ -80,6 +80,44 @@ EncounterPhysics = function() {
     x = Math.min(p1.x, p2.x) + Math.abs( (p1.x - p2.x) / 2 );
     y = Math.min(p1.y, p2.y) + Math.abs( (p1.y - p2.y) / 2 );
     return new THREE.Vector2(x, y);
+  };
+
+  // Pass in two intersecting circles. Move the second circle out of the first by the shortest path.
+  // Points = objects with a .position Vector2
+  // Radius = radius of the circle
+  EncounterPhysics.prototype.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, movingPoint, movingRadius)
+  {
+    // move the circle a tiny bit further than required, to account for rounding
+    var MOVE_EPSILON = 0.000001;
+
+    // sanity check
+    var centreDistance = staticPoint.distanceTo(movingPoint);
+    var distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
+    // if intersecting, this should be negative
+    console.info('distance between edges: ' + distanceBetweenEdges);
+    if (distanceBetweenEdges >= 0) {
+      throw('no separation needed. Static ' + staticPoint + ' radius ' + staticRadius + ', moving ' + movingPoint + ' radius ' + movingRadius);
+    }
+
+    var moveDistance = -distanceBetweenEdges; // moving circle must go this far directly away from static
+
+    // ratio of small triangle to big one
+    var scale = (moveDistance / centreDistance) + MOVE_EPSILON;
+
+    var moveX = (staticPoint.x - movingPoint.x) * -scale;
+    var moveY = (staticPoint.y - movingPoint.y) * -scale;
+
+    movingPoint.x += moveX;
+    movingPoint.y += moveY;
+
+    // sanity check
+    centreDistance = staticPoint.distanceTo(movingPoint);
+    distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
+    if (distanceBetweenEdges < 0) {
+      throw('separation failed, distance between edges ' + distanceBetweenEdges);
+    }
+
+    // TODO could return angle of movingPoint's movement
   };
 
 };
