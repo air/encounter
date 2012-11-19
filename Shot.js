@@ -10,6 +10,7 @@ function Shot(firingObject) {
   this.translateZ(-SHOT.offset);
   this.isDead = false;
   this.hasTravelled = 0;
+  this.radius = SHOT.radius;
   this.closeObeliskIndex = new THREE.Vector2(0,0);
 }
 

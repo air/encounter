@@ -67,10 +67,15 @@ EncounterPhysics = function() {
     }
   };
 
+  // object must have a .radius
   EncounterPhysics.prototype.collideWithObelisk = function(obelisk, object) {
+    if (typeof object.radius === "undefined") throw('object must have radius');
+
+    // move collider out of the obelisk, get the movement that was executed
+    var movement = physics.moveCircleOutOfStaticCircle(obelisk.position, OB.radius, object.position, object.radius);
 
     // calculate new direction based on collision angle
-    // move collider out of the intersection
+
     // rotate to face new
   };
 
@@ -100,7 +105,6 @@ EncounterPhysics = function() {
     var centreDistance = staticPoint2d.distanceTo(movingPoint2d); // careful to ignore Ys here
     var distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
     // if intersecting, this should be negative
-    console.info('distance between edges before separation: ' + distanceBetweenEdges);
     if (distanceBetweenEdges >= 0) {
       throw('no separation needed. Static ' + staticPoint + ' radius ' + staticRadius + ', moving ' + movingPoint + ' radius ' + movingRadius);
     }
@@ -124,7 +128,6 @@ EncounterPhysics = function() {
     if (distanceBetweenEdges < 0) {
       throw('separation failed, distance between edges ' + distanceBetweenEdges);
     }
-    console.info('distance between edges after separation: ' + distanceBetweenEdges);
 
     return movement;
   };

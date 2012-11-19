@@ -8,7 +8,9 @@
 // move to THREE.Clock in all js files
 // check use of obj.position for everything - technically this is all local positioning
 // review class variables and make em private with var
-// Make into classes: OB, the grid (OB.rows)
+// Make into classes:
+//  OB - include a radius property and optimise physics function signatures
+//  the grid (OB.rows)
 
 // obelisk constants
 var OB = new Object();
@@ -65,11 +67,13 @@ animate();
 
 function initEncounterObjects() {
   OB.geometry = new THREE.CylinderGeometry(OB.radius, OB.radius, OB.height, 16, 1, false); // topRadius, bottomRadius, height, segments, heightSegments
-  OB.material = MATS.wireframe.clone();
-  OB.material.color = 0x000000;
+  OB.material = MATS.normal;
+  //OB.material = MATS.wireframe.clone();
+  //OB.material.color = 0x000000;
 
   SHOT.geometry = new THREE.SphereGeometry(SHOT.radius, 16, 16);
-  SHOT.material = MATS.wireframe;
+  SHOT.material = MATS.normal;
+  //SHOT.material = MATS.wireframe;
 
   // TODO consider adding all obelisks to an invisible parent object
   for (var rowIndex=0; rowIndex<OB.gridSizeZ; rowIndex++) {
