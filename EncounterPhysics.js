@@ -83,20 +83,24 @@ EncounterPhysics = function() {
     return new THREE.Vector2(x, y);
   };
 
-  // Pass in two intersecting circles. Move the second circle out of the first by the shortest path.
-  // Points = objects with a .position Vector2
-  // Radius = radius of the circle
-  // Returns a Vector2 containing the movement executed, in case that's useful.
+  // Pass in two Vector3 positions, which intersect in the X-Z plane given a radius for each.
+  // This function will move the second position out of the first by the shortest path (again on the X-Z plane).
+  // All Y values are ignored.
+  // Points = Vector3s
+  // Radius = radius of the circles on the X-Z plane
+  // Returns a Vector3 containing the movement executed, in case that's useful. Y will be zero.
   EncounterPhysics.prototype.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, movingPoint, movingRadius)
   {
     // move the circle a tiny bit further than required, to account for rounding
     var MOVE_EPSILON = 0.000001;
+    var staticPoint2d = new THREE.Vector2(staticPoint.x, staticPoint.z);
+    var movingPoint2d = new THREE.Vector2(movingPoint.x, movingPoint.z);
 
     // sanity check
-    var centreDistance = staticPoint.distanceTo(movingPoint);
+    var centreDistance = staticPoint2d.distanceTo(movingPoint2d); // careful to ignore Ys here
     var distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
     // if intersecting, this should be negative
-    console.info('distance between edges: ' + distanceBetweenEdges);
+    console.info('distance between edges before separation: ' + distanceBetweenEdges);
     if (distanceBetweenEdges >= 0) {
       throw('no separation needed. Static ' + staticPoint + ' radius ' + staticRadius + ', moving ' + movingPoint + ' radius ' + movingRadius);
     }
@@ -106,18 +110,21 @@ EncounterPhysics = function() {
     // ratio of small triangle to big one. Add a small buffer distance
     var scale = (moveDistance / centreDistance) + MOVE_EPSILON;
 
-    var movement = new THREE.Vector2();
+    var movement = new THREE.Vector3();
     movement.x = (staticPoint.x - movingPoint.x) * -scale;
-    movement.y = (staticPoint.y - movingPoint.y) * -scale;
+    movement.y = 0;
+    movement.z = (staticPoint.z - movingPoint.z) * -scale;
 
     movingPoint.add(movingPoint, movement);
+    movingPoint2d = new THREE.Vector2(movingPoint.x, movingPoint.z);
 
     // sanity check
-    centreDistance = staticPoint.distanceTo(movingPoint);
+    centreDistance = staticPoint2d.distanceTo(movingPoint2d); // again ignore the Ys
     distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
     if (distanceBetweenEdges < 0) {
       throw('separation failed, distance between edges ' + distanceBetweenEdges);
     }
+    console.info('distance between edges after separation: ' + distanceBetweenEdges);
 
     return movement;
   };
