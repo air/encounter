@@ -46,6 +46,9 @@ EncounterPhysics = function() {
 
   // pass in a Vector3. Performs 2D circle intersection check. Returns undefined if not colliding
   EncounterPhysics.prototype.getCollidingObelisk = function(position, radius) {
+    // collision overlap must exceed a small epsilon so we don't count rounding errors
+    var COLLISION_EPSILON = 0.01;
+
     // ignore the Y position
     var position2d = new THREE.Vector2(position.x, position.z);
 
@@ -56,7 +59,7 @@ EncounterPhysics = function() {
     // then the 2D component
     var obelisk2d = new THREE.Vector2(obeliskObject.position.x, obeliskObject.position.z);
 
-    var collisionThreshold = OB.radius + radius; // must be this close together to touch
+    var collisionThreshold = OB.radius + radius - COLLISION_EPSILON; // must be this close together to touch
     if (obelisk2d.distanceTo(position2d) < collisionThreshold) {
       return obeliskObject;
     } else {
@@ -68,6 +71,15 @@ EncounterPhysics = function() {
     // calculate new direction based on collision angle
     // move collider out of the intersection
     // rotate to face new
+  };
+
+  // pass in two Vector2s, returns a Vector2
+  EncounterPhysics.prototype.lineMidpoint = function(p1, p2)
+  {
+    var  x, y, dx, dy;
+    x = Math.min(p1.x, p2.x) + Math.abs( (p1.x - p2.x) / 2 );
+    y = Math.min(p1.y, p2.y) + Math.abs( (p1.y - p2.y) / 2 );
+    return new THREE.Vector2(x, y);
   };
 
 };
