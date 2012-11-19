@@ -68,6 +68,7 @@ EncounterPhysics = function() {
   };
 
   EncounterPhysics.prototype.collideWithObelisk = function(obelisk, object) {
+
     // calculate new direction based on collision angle
     // move collider out of the intersection
     // rotate to face new
@@ -85,6 +86,7 @@ EncounterPhysics = function() {
   // Pass in two intersecting circles. Move the second circle out of the first by the shortest path.
   // Points = objects with a .position Vector2
   // Radius = radius of the circle
+  // Returns a Vector2 containing the movement executed, in case that's useful.
   EncounterPhysics.prototype.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, movingPoint, movingRadius)
   {
     // move the circle a tiny bit further than required, to account for rounding
@@ -101,14 +103,14 @@ EncounterPhysics = function() {
 
     var moveDistance = -distanceBetweenEdges; // moving circle must go this far directly away from static
 
-    // ratio of small triangle to big one
+    // ratio of small triangle to big one. Add a small buffer distance
     var scale = (moveDistance / centreDistance) + MOVE_EPSILON;
 
-    var moveX = (staticPoint.x - movingPoint.x) * -scale;
-    var moveY = (staticPoint.y - movingPoint.y) * -scale;
+    var movement = new THREE.Vector2();
+    movement.x = (staticPoint.x - movingPoint.x) * -scale;
+    movement.y = (staticPoint.y - movingPoint.y) * -scale;
 
-    movingPoint.x += moveX;
-    movingPoint.y += moveY;
+    movingPoint.add(movingPoint, movement);
 
     // sanity check
     centreDistance = staticPoint.distanceTo(movingPoint);
@@ -117,7 +119,7 @@ EncounterPhysics = function() {
       throw('separation failed, distance between edges ' + distanceBetweenEdges);
     }
 
-    // TODO could return angle of movingPoint's movement
+    return movement;
   };
 
 };
