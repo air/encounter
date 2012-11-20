@@ -69,6 +69,7 @@ EncounterPhysics = function() {
     }
   };
 
+  // FIXME look at the direct bounce back case first - not happening
   // object must have a .radius
   EncounterPhysics.prototype.collideWithObelisk = function(obelisk, object) {
     if (typeof object.radius === "undefined") throw('object must have radius');
