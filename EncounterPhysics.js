@@ -1,6 +1,5 @@
 
 EncounterPhysics = function() {
-  var lastHighlight = new THREE.Vector2();
 
   // Pass a Vector3 and the radius of the object
   // A 2D rectangular bounding box check using modulus
@@ -74,9 +73,20 @@ EncounterPhysics = function() {
     // move collider out of the obelisk, get the movement that was executed
     var movement = physics.moveCircleOutOfStaticCircle(obelisk.position, OB.radius, object.position, object.radius);
 
-    // calculate new direction based on collision angle
+    // the movement that was executed is the surface normal of the obelisk as the object hits it
+    movement.normalize();
 
-    // rotate to face new
+    // "Let the unit vector in the direction that the object hits the rigid surface be V.
+    // Let the unit normal of the surface be N.
+    // Then, the vector after collision R = V + 2N((-V).N)"
+
+
+    // add a pointer down new direction
+    var pointer = new MY3.Pointer(object.position, new THREE.Vector3(0,0,1), 200);
+    scene.add(pointer);
+
+    // pause to check
+    isPaused = true;
   };
 
   // pass in two Vector2s, returns a Vector2
@@ -87,6 +97,28 @@ EncounterPhysics = function() {
     y = Math.min(p1.y, p2.y) + Math.abs( (p1.y - p2.y) / 2 );
     return new THREE.Vector2(x, y);
   };
+
+  // Pass an object with a .radius, or a Vector3. Will mod 360.
+  // Worth documenting the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
+  // 90 along negative X axis
+  // 180 along positive Z axis
+  // -90 along positive X axis
+  EncounterPhysics.prototype.yRotationToDegrees = function(object)
+  {
+    if (typeof object.rotation === "undefined") {
+      return (object.y * TO_DEGREES) % 360;
+    } else {
+      return (object.rotation.y * TO_DEGREES) % 360;
+    }
+  };
+
+  EncounterPhysics.prototype.objectRotationAsUnitVector = function(object) {
+    // sin expects radians
+    var xComponent = Math.sin(object.rotation.y);
+    var zComponent = Math.cos(object.rotation.y);
+    var vector = new THREE.Vector3(xComponent, 0, zComponent);
+    return vector.normalize();
+  }
 
   // Pass in two Vector3 positions, which intersect in the X-Z plane given a radius for each.
   // This function will move the second position out of the first by the shortest path (again on the X-Z plane).
@@ -120,6 +152,7 @@ EncounterPhysics = function() {
     movement.z = (staticPoint.z - movingPoint.z) * -scale;
 
     movingPoint.add(movingPoint, movement);
+
     movingPoint2d = new THREE.Vector2(movingPoint.x, movingPoint.z);
 
     // sanity check

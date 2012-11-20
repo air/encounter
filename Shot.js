@@ -6,8 +6,8 @@ function Shot(firingObject) {
 
   this.position.copy(firingObject.position);
   this.rotation.copy(firingObject.rotation);
-  this.updateMatrix(); // setting the rotation is not enough, translate acts on the underlying matrix
-  this.translateZ(-SHOT.offset);
+  this.updateMatrix(); // push the position/rotation changes into the underlying matrix
+  this.translateZ(-SHOT.offset); // this depends on the matrix being up to date
   this.isDead = false;
   this.hasTravelled = 0;
   this.radius = SHOT.radius;
@@ -22,15 +22,18 @@ Shot.prototype.update = function(t) {
 
   // unhighlight the old closest obelisk
   physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
-  // if an obelisk is close (fast check), highlight it
-  // if we're colliding (slow check), bounce and highlight it more
+
+  // if an obelisk is close (fast check), highlight it to a small degree and do further collision checks
   if (physics.isCloseToAnObelisk(this.position, SHOT.radius)) {
+    // check for precise collision
     var obelisk = physics.getCollidingObelisk(this.position, SHOT.radius);
     if (typeof obelisk !== "undefined") {
+      // we have a collision, bounce
       physics.collideWithObelisk(obelisk, this);
       sound.shotBounce();
       physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
     } else {
+      // otherwise a near miss, highlight a little to visually notify
       physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);
     }
   }

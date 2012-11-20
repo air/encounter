@@ -50,7 +50,7 @@ var GROUND = new Object();
 
 // main ----------------------------------------------------------------------------
 init3d(OB.MAX_X * 1.4);
-scene.add(new THREE.AxisHelper(300));
+scene.add(new THREE.AxisHelper(800));
 initEncounterObjects();
 initEncounterControls();
 document.body.appendChild(renderer.domElement);
@@ -173,8 +173,7 @@ function updateGameState(t) {
 function update(t) {
   if (!isPaused) {
     updateGameState(t);
-    cameraControls.update(t);
-    interpretKeys(t);
-    //collisions();
   }
+  cameraControls.update(t);
+  interpretKeys(t);
 }
