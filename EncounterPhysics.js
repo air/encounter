@@ -1,3 +1,6 @@
+// FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
+
+// FIXME isNormal -> isUnit or isNormalized, confusing terminology
 
 EncounterPhysics = function() {
 
@@ -76,17 +79,26 @@ EncounterPhysics = function() {
     // the movement that was executed is the surface normal of the obelisk as the object hits it
     movement.normalize();
 
-    // "Let the unit vector in the direction that the object hits the rigid surface be V.
+    // Let the unit vector in the direction that the object hits the rigid surface be V.
     // Let the unit normal of the surface be N.
-    // Then, the vector after collision R = V + 2N((-V).N)"
+    // Then, the vector after collision R = V - 2 * N.V * N
 
+    // or V + 2N((-V).N)
 
-    // add a pointer down new direction
-    var pointer = new MY3.Pointer(object.position, new THREE.Vector3(0,0,1), 200);
-    scene.add(pointer);
+    var N = movement;
+    var V = physics.objectRotationAsUnitVector(object);
+    // get the scalar valuess
+    var NdotV = N.dot(V);
+    var twoNdotV = 2 * NdotV;
+    // now multiply the vector, which is awkward given all vecmath methods are destructive
+    var NbyTwoNdotV = N.clone(); // otherwise N gets changed by the multiplication
+    NbyTwoNdotV.multiplyScalar(twoNdotV);
+    var result = V.clone(); // clone otherwise V is changed in the final subtraction
+    result.sub(V, NbyTwoNdotV);
 
-    // pause to check
-    isPaused = true;
+    // apply the result to the object: convert the unit vector back to rotation
+    var newRotation = physics.unitVectorToRotation(result);
+    object.rotation.y = newRotation;
   };
 
   // pass in two Vector2s, returns a Vector2
@@ -112,12 +124,23 @@ EncounterPhysics = function() {
     }
   };
 
+  // pass in an object3D, get the .rotation as the unit vector of X and Z
   EncounterPhysics.prototype.objectRotationAsUnitVector = function(object) {
-    // sin expects radians
-    var xComponent = Math.sin(object.rotation.y);
-    var zComponent = Math.cos(object.rotation.y);
+    // 1. sin expects radians
+    // 2. have to adjust the signs to match three.js orientation
+    var xComponent = -Math.sin(object.rotation.y);
+    var zComponent = -Math.cos(object.rotation.y);
     var vector = new THREE.Vector3(xComponent, 0, zComponent);
     return vector.normalize();
+  }
+
+  // pass in a unit Vector3 with X and Z values, get the Y rotation in radians
+  // TODO technically we don't have to care if it's unit or not?
+  EncounterPhysics.prototype.unitVectorToRotation = function(vector) {
+    if (!MY3.isNormal(vector)) throw('must be a unit vector, length: ' + vector.length());
+    // 1. we have all three sides (hypotenuse=1 in a unit vector) so only one component needed
+    // 2. have to adjust the signs to match three.js orientation
+    return -Math.asin(vector.x);
   }
 
   // Pass in two Vector3 positions, which intersect in the X-Z plane given a radius for each.

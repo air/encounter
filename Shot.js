@@ -48,7 +48,8 @@ Shot.prototype.update = function(t) {
   // get the obelisk object itself to read its position
   var obelisk = OB.rows[this.closeObeliskIndex.y][this.closeObeliskIndex.x];
   this.line = new MY3.Line(this.position, obelisk.position);
-  this.pointer = new MY3.Pointer(this.position, new THREE.Vector3(0,0,0), 200, true);
+  // FIXME - broken
+  this.pointer = new MY3.Pointer(this.position, physics.objectRotationAsUnitVector(this), 200);
   scene.add(this.line);
   scene.add(this.pointer);
 
