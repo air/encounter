@@ -5,12 +5,14 @@
 // time to pass 10 obelisks: 8s
 
 // TODOs
+// something breaks when the camera flips from Simple to FirstPerson? Can't keep shots on the ground.
 // move to THREE.Clock in all js files
 // check use of obj.position for everything - technically this is all local positioning
 // review class variables and make em private with var
 // Make into classes:
 //  OB - include a radius property and optimise physics function signatures
 //  the grid (OB.rows)
+// see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 
 // obelisk constants
 var OB = new Object();
@@ -49,7 +51,7 @@ var actors = new Array();
 var GROUND = new Object();
 
 // main ----------------------------------------------------------------------------
-init3d(OB.MAX_X * 1.4);
+init3d(OB.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 scene.add(new THREE.AxisHelper(800));
 initEncounterObjects();
 initEncounterControls();

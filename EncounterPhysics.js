@@ -95,7 +95,7 @@ EncounterPhysics = function() {
     var NbyTwoNdotV = N.clone(); // otherwise N gets changed by the multiplication
     NbyTwoNdotV.multiplyScalar(twoNdotV);
     var result = V.clone(); // clone otherwise V is changed in the final subtraction
-    result.sub(V, NbyTwoNdotV);
+    result.subVectors(V, NbyTwoNdotV);
 
     // apply the result to the object: convert the unit vector back to rotation
     var newRotation = physics.unitVectorToRotation(result);
@@ -175,7 +175,7 @@ EncounterPhysics = function() {
     movement.y = 0;
     movement.z = (staticPoint.z - movingPoint.z) * -scale;
 
-    movingPoint.add(movingPoint, movement);
+    movingPoint.add(movement);
 
     movingPoint2d = new THREE.Vector2(movingPoint.x, movingPoint.z);
 
