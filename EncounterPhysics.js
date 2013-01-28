@@ -1,5 +1,4 @@
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
-
 // FIXME isNormal -> isNormalized, confusing terminology
 
 EncounterPhysics = function() {
@@ -69,7 +68,6 @@ EncounterPhysics = function() {
     }
   };
 
-  // FIXME the result vector looks ok - the unitVectorToRotation is confused somewhere between normal/three.js rotations
   // collides a moving Object3D with a static point and radius
   // object must have a .radius
   EncounterPhysics.prototype.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object) {
@@ -84,7 +82,6 @@ EncounterPhysics = function() {
     // Let the unit vector in the direction that the object hits the rigid surface be V.
     // Let the unit normal of the surface be N.
     // Then, the vector after collision R = V - 2 * N.V * N
-
     // or V + 2N((-V).N)
 
     var N = movement;
@@ -99,7 +96,7 @@ EncounterPhysics = function() {
     result.subVectors(V, NbyTwoNdotV);
 
     // apply the result to the object: convert the unit vector back to rotation
-    var newRotation = physics.unitVectorToRotation(result);
+    var newRotation = physics.vectorToRotation(result);
     object.rotation.y = newRotation;
   };
 
@@ -113,7 +110,7 @@ EncounterPhysics = function() {
   };
 
   // Pass an object with a .radius, or a Vector3. Will mod 360.
-  // Worth documenting the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
+  // Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
   // 90 along negative X axis
   // 180 along positive Z axis
   // -90 along positive X axis
@@ -136,14 +133,15 @@ EncounterPhysics = function() {
     return vector.normalize();
   }
 
-  // pass in a unit Vector3 with X and Z values, get the Y rotation in radians
-  // FIXME this appears part of the problem
-  // TODO technically we don't have to care if it's unit or not?
-  EncounterPhysics.prototype.unitVectorToRotation = function(vector) {
-    if (!MY3.isNormal(vector)) throw('must be a unit vector, length: ' + vector.length());
-    // 1. we have all three sides (hypotenuse=1 in a unit vector) so only one component needed
-    // 2. have to adjust the signs to match three.js orientation
-    return Math.acos(-vector.z);
+  // pass in a Vector3 with X and Z values, get the rotation in radians, suitable for object.rotation.y
+  // Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
+  // 90 along negative X axis
+  // 180 along positive Z axis
+  // -90 along positive X axis
+  EncounterPhysics.prototype.vectorToRotation = function(vector) {
+    // we need atan2 to get all quadrants
+    // atan2 rotates to the X axis (+Z for us) - so invert the values to get a rotation to -Z axis
+    return Math.atan2(-vector.x, -vector.z);
   }
 
   // Pass in two Vector3 positions, which intersect in the X-Z plane given a radius for each.
