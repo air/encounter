@@ -1,6 +1,6 @@
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
 
-// FIXME isNormal -> isUnit or isNormalized, confusing terminology
+// FIXME isNormal -> isNormalized, confusing terminology
 
 EncounterPhysics = function() {
 
@@ -69,13 +69,14 @@ EncounterPhysics = function() {
     }
   };
 
-  // FIXME look at the direct bounce back case first - not happening
+  // FIXME the result vector looks ok - the unitVectorToRotation is confused somewhere between normal/three.js rotations
+  // collides a moving Object3D with a static point and radius
   // object must have a .radius
-  EncounterPhysics.prototype.collideWithObelisk = function(obelisk, object) {
+  EncounterPhysics.prototype.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object) {
     if (typeof object.radius === "undefined") throw('object must have radius');
 
     // move collider out of the obelisk, get the movement that was executed
-    var movement = physics.moveCircleOutOfStaticCircle(obelisk.position, OB.radius, object.position, object.radius);
+    var movement = physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, object.position, object.radius);
 
     // the movement that was executed is the surface normal of the obelisk as the object hits it
     movement.normalize();
@@ -88,7 +89,7 @@ EncounterPhysics = function() {
 
     var N = movement;
     var V = physics.objectRotationAsUnitVector(object);
-    // get the scalar valuess
+    // get the scalar values
     var NdotV = N.dot(V);
     var twoNdotV = 2 * NdotV;
     // now multiply the vector, which is awkward given all vecmath methods are destructive
@@ -136,12 +137,13 @@ EncounterPhysics = function() {
   }
 
   // pass in a unit Vector3 with X and Z values, get the Y rotation in radians
+  // FIXME this appears part of the problem
   // TODO technically we don't have to care if it's unit or not?
   EncounterPhysics.prototype.unitVectorToRotation = function(vector) {
     if (!MY3.isNormal(vector)) throw('must be a unit vector, length: ' + vector.length());
     // 1. we have all three sides (hypotenuse=1 in a unit vector) so only one component needed
     // 2. have to adjust the signs to match three.js orientation
-    return -Math.asin(vector.x);
+    return Math.acos(-vector.z);
   }
 
   // Pass in two Vector3 positions, which intersect in the X-Z plane given a radius for each.

@@ -29,7 +29,7 @@ Shot.prototype.update = function(t) {
     var obelisk = physics.getCollidingObelisk(this.position, SHOT.radius);
     if (typeof obelisk !== "undefined") {
       // we have a collision, bounce
-      physics.collideWithObelisk(obelisk, this);
+      physics.bounceObjectOutOfIntersectingCircle(obelisk.position, OB.radius, this);
       sound.shotBounce();
       physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
     } else {
