@@ -1,5 +1,4 @@
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
-// FIXME isNormal -> isNormalized, confusing terminology
 
 EncounterPhysics = function() {
 

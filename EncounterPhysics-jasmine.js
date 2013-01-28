@@ -36,7 +36,6 @@ describe("physics.bounceObjectOutOfIntersectingCircle", function() {
   var object;
 
   // all tests against a static point at 1,1 with radius 1.
-  // TODO: need to test all quadrants, some ok and some not.
 
   it("rotates correctly to 1,1 when heading -1,-1 and colliding square on from NE", function() {
     object = new THREE.Object3D();
