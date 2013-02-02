@@ -6,7 +6,6 @@
 
 // TODOs
 // something breaks when the camera flips from Simple to FirstPerson? Can't keep shots on the ground.
-// move to THREE.Clock in all js files
 // check use of obj.position for everything - technically this is all local positioning
 // review class variables and make em private with var
 // Make into classes:
@@ -176,6 +175,7 @@ function update(t) {
   if (!isPaused) {
     updateGameState(t);
   }
+  console.info(t);
   cameraControls.update(t);
   interpretKeys(t);
 }
