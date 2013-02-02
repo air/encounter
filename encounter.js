@@ -48,6 +48,8 @@ var sound = new EncounterSound();
 var physics = new EncounterPhysics();
 var actors = new Array();
 var GROUND = new Object();
+var gui = new dat.GUI();
+var global = Function('return this')(); // nice hacky ref to global object for dat.gui
 
 // main ----------------------------------------------------------------------------
 init3d(OB.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
@@ -56,6 +58,7 @@ initEncounterObjects();
 initEncounterControls();
 document.body.appendChild(renderer.domElement);
 initListeners();
+initGui();
 
 // late init so we can use the camera
 var player = camera; // just overload the camera for now
@@ -65,6 +68,10 @@ player.shotsInFlight = 0;
 
 console.info('init complete');
 animate();
+
+function initGui() {
+  gui.add(global, 'isPaused');
+}
 
 function initEncounterObjects() {
   OB.geometry = new THREE.CylinderGeometry(OB.radius, OB.radius, OB.height, 16, 1, false); // topRadius, bottomRadius, height, segments, heightSegments
@@ -175,7 +182,6 @@ function update(t) {
   if (!isPaused) {
     updateGameState(t);
   }
-  console.info(t);
   cameraControls.update(t);
   interpretKeys(t);
 }
