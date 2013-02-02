@@ -4,14 +4,18 @@ EncounterKeys = function() {
 
   this.shooting = false;
 
+  EncounterKeys.prototype.switchControls = function () {
+    if (cameraControls instanceof SimpleControls) {
+      initFlyControls();
+    } else {
+      initEncounterControls();
+    }
+  }
+
   EncounterKeys.prototype.onKeyUp = function (event) {
     switch(event.keyCode) {
-      case 70: // f
-        if (cameraControls instanceof SimpleControls) {
-          initFlyControls();
-        } else {
-          initEncounterControls();
-        }
+      case 67: // c
+        this.switchControls();
         break;
       case 32: // space
       case 90: // z

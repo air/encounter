@@ -70,7 +70,12 @@ console.info('init complete');
 animate();
 
 function initGui() {
-  gui.add(global, 'isPaused');
+  gui.add(global, 'isPaused').name('paused (p)').listen();
+  gui.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
+  gui.add(keys, 'switchControls').name('toggle controls (c)');
+  gui.add(camera.position, 'x').listen().name('player x');
+  gui.add(camera.position, 'y').listen().name('player y');
+  gui.add(camera.position, 'z').listen().name('player z');
 }
 
 function initEncounterObjects() {

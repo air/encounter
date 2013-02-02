@@ -4,7 +4,7 @@
 
 * WSAD or arrows to move
 * Space or Z to shoot
-* F to fly like a dirty cheat (R and F are enabled in fly mode)
+* C to toggle controls (R and F are enabled in fly mode)
 * P to pause
 
 # Status #
