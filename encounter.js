@@ -5,9 +5,12 @@
 // time to pass 10 obelisks: 8s
 
 // TODOs
+// make player a class, not the camera
+// Detach the camera from the player, be able to fly free or attach to other entities
 // something breaks when the camera flips from Simple to FirstPerson? Can't keep shots on the ground.
 // check use of obj.position for everything - technically this is all local positioning
 // review class variables and make em private with var
+// fade sound based on proximity
 // Make into classes:
 //  OB - include a radius property and optimise physics function signatures
 //  the grid (OB.rows)
@@ -50,12 +53,15 @@ var actors = new Array();
 var GROUND = new Object();
 var gui = new dat.GUI();
 var global = Function('return this')(); // nice hacky ref to global object for dat.gui
+// FIXME testing only
+var spawner;
 
 // main ----------------------------------------------------------------------------
 init3d(OB.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 scene.add(new THREE.AxisHelper(800));
 initEncounterObjects();
-initEncounterControls();
+//initEncounterControls();
+initFlyControls();
 document.body.appendChild(renderer.domElement);
 initListeners();
 initGui();
@@ -120,6 +126,12 @@ function initEncounterObjects() {
   console.info('ground plane placed');
 
   camera.position.set(OB.MAX_X / 2, ENCOUNTER.cameraHeight, OB.MAX_Z / 2);
+
+  spawner = new ShotSpawner(camera.position);
+  actors.push(spawner);
+  scene.add(spawner);
+  camera.position.set(OB.MAX_X / 2, 4000, OB.MAX_Z / 2);
+  camera.lookAt(new THREE.Vector3(OB.MAX_X / 2, ENCOUNTER.cameraHeight, OB.MAX_Z / 2));
 }
 
 // can be invoked at runtime
@@ -127,7 +139,7 @@ function initFlyControls() {
   cameraControls = new THREE.FirstPersonControls(camera);
   cameraControls.movementSpeed = 2.0;
   cameraControls.lookSpeed = 0.0001;
-  cameraControls.constrainVertical = true; // default false
+  cameraControls.constrainVertical = false; // default false
   cameraControls.verticalMin = 45 * TO_RADIANS;
   cameraControls.verticalMax = 135 * TO_RADIANS;
 }
@@ -144,6 +156,7 @@ function initEncounterControls() {
 function interpretKeys(t) {
   if (keys.shooting) {
     if (player.shotsInFlight < ENCOUNTER.shotsAllowed) {
+      // FIXME use the clock
       var now = new Date().getTime();
       var timeSinceLastShot = now - player.lastTimeFired;
       if (timeSinceLastShot > ENCOUNTER.shotInterval) {
@@ -166,6 +179,7 @@ function actorIsDead(actor) {
   scene.remove(actor);
 }
 
+// FIXME last time fired is player specific, we want to generically emit a shot
 function shoot(firingObject, time) {
   sound.playerShoot();
   var shot = new Shot(firingObject);

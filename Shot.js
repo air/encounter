@@ -1,6 +1,7 @@
 // Player or enemy shot
 
 Shot.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
+// a firingObject has a position and a rotation from which the shot emerges
 function Shot(firingObject) {
   THREE.Mesh.call(this, SHOT.geometry, SHOT.material); // super constructor
 
@@ -48,7 +49,7 @@ Shot.prototype.update = function(t) {
   // get the obelisk object itself to read its position
   var obelisk = OB.rows[this.closeObeliskIndex.y][this.closeObeliskIndex.x];
   this.line = new MY3.Line(this.position, obelisk.position);
-  // FIXME - broken
+  // FIXME - broken?
   this.pointer = new MY3.Pointer(this.position, physics.objectRotationAsUnitVector(this), 200);
   scene.add(this.line);
   scene.add(this.pointer);
@@ -66,4 +67,31 @@ Shot.prototype.update = function(t) {
 
 Shot.prototype.callbackWhenDead = function(callback) {
   this.deadCallback = callback;
+}
+
+ShotSpawner.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
+// location is a Vector3 placement for the spawner
+function ShotSpawner(location) {
+  THREE.Mesh.call(this, SHOT.geometry, MATS.red); // super constructor
+  this.SHOT_INTERVAL_MILLIS = 50;
+  this.lastShotAt = 0;
+  this.position.copy(location);
+  this.setRotationDegreesPerSecond(-45);
+}
+
+ShotSpawner.prototype.setRotationDegreesPerSecond = function(degreesPerSecond) {
+  this.ROTATE_RADIANS_PER_MS = (degreesPerSecond / 1000) * TO_RADIANS;
+}
+
+ShotSpawner.prototype.update = function(t) {
+  var rotateRadians = t * this.ROTATE_RADIANS_PER_MS;
+  this.rotateOnAxis(new THREE.Vector3(0,1,0), rotateRadians);
+
+  var timeNow = clock.oldTime;
+  var millisSinceLastShot = timeNow - this.lastShotAt;
+  if (millisSinceLastShot > this.SHOT_INTERVAL_MILLIS)
+  {
+    shoot(this, new Date().getTime());
+    this.lastShotAt = timeNow;
+  }
 }
