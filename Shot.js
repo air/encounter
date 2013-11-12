@@ -21,8 +21,11 @@ Shot.prototype.update = function(t) {
   this.translateZ(-actualMoveSpeed);
   this.hasTravelled += actualMoveSpeed;
 
-  // unhighlight the old closest obelisk
-  physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
+  if (physics.debug)
+  {
+    // unhighlight the old closest obelisk
+    physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
+  }
 
   // if an obelisk is close (fast check), highlight it to a small degree and do further collision checks
   if (physics.isCloseToAnObelisk(this.position, SHOT.radius)) {
@@ -32,33 +35,45 @@ Shot.prototype.update = function(t) {
       // we have a collision, bounce
       physics.bounceObjectOutOfIntersectingCircle(obelisk.position, OB.radius, this);
       sound.shotBounce();
-      physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
+      if (physics.debug)
+      {
+        physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
+      }
     } else {
-      // otherwise a near miss, highlight a little to visually notify
-      physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);
+      // otherwise a near miss, highlight for debug purposes
+      if (physics.debug)
+      {
+        physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);
+      }
     }
   }
 
-  // always need to know the closest for drawing the debug line
-  this.closeObeliskIndex = physics.getClosestObelisk(this.position);
+  if (physics.debug)
+  {
+    // always need to know the closest for drawing the debug line
+    this.closeObeliskIndex = physics.getClosestObelisk(this.position);
 
-  // kill old line and add a new one
-  scene.remove(this.line);
-  scene.remove(this.pointer);
+    // kill old line and add a new one
+    scene.remove(this.line);
+    scene.remove(this.pointer);
 
-  // get the obelisk object itself to read its position
-  var obelisk = OB.rows[this.closeObeliskIndex.y][this.closeObeliskIndex.x];
-  this.line = new MY3.Line(this.position, obelisk.position);
-  // FIXME - broken?
-  this.pointer = new MY3.Pointer(this.position, physics.objectRotationAsUnitVector(this), 200);
-  scene.add(this.line);
-  scene.add(this.pointer);
+    // get the obelisk object itself to read its position
+    var obelisk = OB.rows[this.closeObeliskIndex.y][this.closeObeliskIndex.x];
+    this.line = new MY3.Line(this.position, obelisk.position);
+    
+    this.pointer = new MY3.Pointer(this.position, physics.objectRotationAsUnitVector(this), 200);
+    scene.add(this.line);
+    scene.add(this.pointer);
+  }
 
   if (this.hasTravelled > SHOT.canTravel) {
     this.isDead = true;
-    scene.remove(this.line);
-    scene.remove(this.pointer);
-    physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
+    if (physics.debug)
+    {
+      scene.remove(this.line);
+      scene.remove(this.pointer);
+      physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
+    }
   }
   if (this.isDead) {
     this.deadCallback.apply(undefined, [this]); // just pass reference to this actor
@@ -79,6 +94,7 @@ function ShotSpawner(location) {
   this.setRotationDegreesPerSecond(-45);
 }
 
+// negative number to go clockwise
 ShotSpawner.prototype.setRotationDegreesPerSecond = function(degreesPerSecond) {
   this.ROTATE_RADIANS_PER_MS = (degreesPerSecond / 1000) * TO_RADIANS;
 }

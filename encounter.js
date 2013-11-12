@@ -11,6 +11,7 @@
 // check use of obj.position for everything - technically this is all local positioning
 // review class variables and make em private with var
 // fade sound based on proximity
+// replace direct use of rotation.y with rotateOnAxis()
 // Make into classes:
 //  OB - include a radius property and optimise physics function signatures
 //  the grid (OB.rows)
@@ -49,12 +50,11 @@ var cameraControls;
 var keys = new EncounterKeys();
 var sound = new EncounterSound();
 var physics = new EncounterPhysics();
+physics.debug = false;
 var actors = new Array();
 var GROUND = new Object();
 var gui = new dat.GUI();
 var global = Function('return this')(); // nice hacky ref to global object for dat.gui
-// FIXME testing only
-var spawner;
 
 // main ----------------------------------------------------------------------------
 init3d(OB.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
@@ -127,11 +127,17 @@ function initEncounterObjects() {
 
   camera.position.set(OB.MAX_X / 2, ENCOUNTER.cameraHeight, OB.MAX_Z / 2);
 
-  spawner = new ShotSpawner(camera.position);
+  // shot testing
+  var spawner = new ShotSpawner(camera.position);
+  spawner.setRotationDegreesPerSecond(-45);
   actors.push(spawner);
   scene.add(spawner);
+  var spawner2 = new ShotSpawner(camera.position);
+  spawner2.setRotationDegreesPerSecond(45);
+  actors.push(spawner2);
+  scene.add(spawner2);
   camera.position.set(OB.MAX_X / 2, 4000, OB.MAX_Z / 2);
-  camera.lookAt(new THREE.Vector3(OB.MAX_X / 2, ENCOUNTER.cameraHeight, OB.MAX_Z / 2));
+  camera.lookAt(new THREE.Vector3(OB.MAX_X / 2, ENCOUNTER.cameraHeight, OB.MAX_Z / 2)); // not working
 }
 
 // can be invoked at runtime
