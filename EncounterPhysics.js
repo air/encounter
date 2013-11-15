@@ -1,5 +1,6 @@
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
 
+// Class definition style 1 of 3, see Shot and Obelisk. Do we do this all in one function because we're not inheriting?
 EncounterPhysics = function() {
 
   // Pass a Vector3 and the radius of the object
@@ -7,17 +8,17 @@ EncounterPhysics = function() {
   EncounterPhysics.prototype.isCloseToAnObelisk = function(position, radius) {
     if (typeof radius === "undefined") throw('required: radius');
     // special case for out of bounds
-    if (position.x > OB.MAX_X || position.x < 0) return false;
-    if (position.z > OB.MAX_Z || position.z < 0) return false;
+    if (position.x > Grid.MAX_X || position.x < 0) return false;
+    if (position.z > Grid.MAX_Z || position.z < 0) return false;
 
-    var collisionThreshold = OB.radius + radius; // must be this close together to touch
-    var collisionMax = OB.spacing - collisionThreshold; // getting close to next Z line (obelisk)
+    var collisionThreshold = Obelisk.radius + radius; // must be this close together to touch
+    var collisionMax = Grid.spacing - collisionThreshold; // getting close to next Z line (obelisk)
 
-    var distanceBeyondZLine = position.x % OB.spacing;
+    var distanceBeyondZLine = position.x % Grid.spacing;
     // if we're further past than the radius sum, and not yet up to the next line minus that sum, we're safe
     if (distanceBeyondZLine > collisionThreshold && distanceBeyondZLine < collisionMax) return false;
 
-    var distanceBeyondXLine = position.z % OB.spacing;
+    var distanceBeyondXLine = position.z % Grid.spacing;
     if (distanceBeyondXLine > collisionThreshold && distanceBeyondXLine < collisionMax) return false;
 
     return true;
@@ -25,23 +26,23 @@ EncounterPhysics = function() {
 
   // pass a Vector3, return a Vector2
   EncounterPhysics.prototype.getClosestObelisk = function(position) {
-    var xPos = Math.round(position.x / OB.spacing);
-    xPos = THREE.Math.clamp(xPos, 0, OB.gridSizeX-1);
+    var xPos = Math.round(position.x / Grid.spacing);
+    xPos = THREE.Math.clamp(xPos, 0, Grid.sizeX-1);
 
-    var zPos = Math.round(position.z / OB.spacing);
-    zPos = THREE.Math.clamp(zPos, 0, OB.gridSizeZ-1);
+    var zPos = Math.round(position.z / Grid.spacing);
+    zPos = THREE.Math.clamp(zPos, 0, Grid.sizeZ-1);
 
     return new THREE.Vector2(xPos, zPos);
   };
 
   EncounterPhysics.prototype.highlightObelisk = function(x, z, scale) {
-    //OB.rows[z][x].material = MATS.red;
-    OB.rows[z][x].scale.set(1, scale, 1);
+    //Grid.rows[z][x].material = MATS.red;
+    Grid.rows[z][x].scale.set(1, scale, 1);
   };
 
   EncounterPhysics.prototype.unHighlightObelisk = function(x, z) {
-    //OB.rows[z][x].material = MATS.normal;
-    OB.rows[z][x].scale.set(1, 1, 1);
+    //Grid.rows[z][x].material = MATS.normal;
+    Grid.rows[z][x].scale.set(1, 1, 1);
   };
 
   // pass in a Vector3. Performs 2D circle intersection check. Returns undefined if not colliding
@@ -55,11 +56,11 @@ EncounterPhysics = function() {
     // now the obelisk. First the grid index as a Vector2
     var obPosition = this.getClosestObelisk(position, radius);
     // then the object
-    var obeliskObject = OB.rows[obPosition.y][obPosition.x];
+    var obeliskObject = Grid.rows[obPosition.y][obPosition.x];
     // then the 2D component
     var obelisk2d = new THREE.Vector2(obeliskObject.position.x, obeliskObject.position.z);
 
-    var collisionThreshold = OB.radius + radius - COLLISION_EPSILON; // must be this close together to touch
+    var collisionThreshold = Obelisk.radius + radius - COLLISION_EPSILON; // must be this close together to touch
     if (obelisk2d.distanceTo(position2d) < collisionThreshold) {
       return obeliskObject;
     } else {
