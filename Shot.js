@@ -3,35 +3,35 @@
 // define this so we can define some constants on it
 function Shot() {};
 
-// static constants FIXME make caps
-Shot.radius = 40;
-Shot.offset = 120; // created this far in front of you
-Shot.canTravel = 16000; // TODO confirm
-Shot.geometry = new THREE.SphereGeometry(Shot.radius, 16, 16);
-Shot.material = MATS.normal;
+// static constants
+Shot.RADIUS = 40;
+Shot.OFFSET_FROM_SHOOTER = 120; // created this far in front of you
+Shot.CAN_TRAVEL = 16000; // TODO confirm
+Shot.GEOMETRY = new THREE.SphereGeometry(Shot.RADIUS, 16, 16);
+Shot.MATERIAL = MATS.normal;
 // set material to undefined for lovely colours!
-//Shot.material = MATS.wireframe;
+//Shot.MATERIAL = MATS.wireframe;
 
 // Class definition style 2 of 3, see EncounterPhysics and Obelisk
 // A Shot is_a THREE.Mesh
 Shot.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
 // a firingObject has a position and a rotation from which the shot emerges
 function Shot(firingObject) {
-  THREE.Mesh.call(this, Shot.geometry, Shot.material); // super constructor
+  THREE.Mesh.call(this, Shot.GEOMETRY, Shot.MATERIAL); // super constructor
 
   this.position.copy(firingObject.position);
   this.rotation.copy(firingObject.rotation);
   this.updateMatrix(); // push the position/rotation changes into the underlying matrix
-  this.translateZ(-Shot.offset); // this depends on the matrix being up to date
+  this.translateZ(-Shot.OFFSET_FROM_SHOOTER); // this depends on the matrix being up to date
   this.isDead = false;
   this.hasTravelled = 0;
-  this.radius = Shot.radius;
+  this.radius = Shot.RADIUS;
   this.closeObeliskIndex = new THREE.Vector2(0,0);
 }
 
 Shot.prototype.update = function(t) {
   // move
-  var actualMoveSpeed = t * ENCOUNTER.shotSpeed;
+  var actualMoveSpeed = t * ENCOUNTER.SHOT_SPEED;
   this.translateZ(-actualMoveSpeed);
   this.hasTravelled += actualMoveSpeed;
 
@@ -42,12 +42,12 @@ Shot.prototype.update = function(t) {
   }
 
   // if an obelisk is close (fast check), highlight it to a small degree and do further collision checks
-  if (physics.isCloseToAnObelisk(this.position, Shot.radius)) {
+  if (physics.isCloseToAnObelisk(this.position, Shot.RADIUS)) {
     // check for precise collision
-    var obelisk = physics.getCollidingObelisk(this.position, Shot.radius);
+    var obelisk = physics.getCollidingObelisk(this.position, Shot.RADIUS);
     if (typeof obelisk !== "undefined") {
       // we have a collision, bounce
-      physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.radius, this);
+      physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.RADIUS, this);
       sound.shotBounce();
       if (physics.debug)
       {
@@ -80,7 +80,7 @@ Shot.prototype.update = function(t) {
     scene.add(this.pointer);
   }
 
-  if (this.hasTravelled > Shot.canTravel) {
+  if (this.hasTravelled > Shot.CAN_TRAVEL) {
     this.isDead = true;
     if (physics.debug)
     {
@@ -101,7 +101,7 @@ Shot.prototype.callbackWhenDead = function(callback) {
 ShotSpawner.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
 // location is a Vector3 placement for the spawner
 function ShotSpawner(location) {
-  THREE.Mesh.call(this, Shot.geometry, MATS.red); // super constructor
+  THREE.Mesh.call(this, Shot.GEOMETRY, MATS.red); // super constructor
   this.SHOT_INTERVAL_MILLIS = 50;
   this.lastShotAt = 0;
   this.position.copy(location);

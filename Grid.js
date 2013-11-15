@@ -22,8 +22,8 @@ Grid.init = function()
     for (var colIndex=0; colIndex<Grid.sizeX; colIndex++) {
       var xpos = colIndex * Grid.spacing;
       var zpos = rowIndex * Grid.spacing;
-      var obelisk = new THREE.Mesh(Obelisk.geometry, Obelisk.material);
-      obelisk.position.set(xpos, Obelisk.height / 2, zpos);
+      var obelisk = new THREE.Mesh(Obelisk.GEOMETRY, Obelisk.MATERIAL);
+      obelisk.position.set(xpos, Obelisk.HEIGHT / 2, zpos);
       row.push(obelisk);
       scene.add(obelisk);
     }

@@ -19,13 +19,13 @@
 
 // constants modelling the original game
 var ENCOUNTER = new Object();
-ENCOUNTER.drawDistance = 3000; // use with init3D()
-ENCOUNTER.cameraHeight = Obelisk.height / 2;
-ENCOUNTER.movementSpeed = 1.2;
-ENCOUNTER.turnSpeed = 0.0007;
-ENCOUNTER.shotSpeed = 3.0;
-ENCOUNTER.shotInterval = 400; // ms
-ENCOUNTER.shotsAllowed = 15; // original has illusion of no shot limit or range limit, but max 3 on screen
+ENCOUNTER.DRAW_DISTANCE = 3000; // use with init3D() for the real C64 draw distance
+ENCOUNTER.CAMERA_HEIGHT = Obelisk.HEIGHT / 2;
+ENCOUNTER.MOVEMENT_SPEED = 1.2;
+ENCOUNTER.TURN_SPEED = 0.0007;
+ENCOUNTER.SHOT_SPEED = 3.0;
+ENCOUNTER.SHOT_INTERVAL_MS = 400;
+ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot limit or range limit, but max 3 on screen
 
 // objects we want visible in the debugger
 var isPaused = false;
@@ -86,7 +86,7 @@ function initEncounterObjects() {
 
   Grid.init();
 
-  camera.position.set(Grid.MAX_X / 2, ENCOUNTER.cameraHeight, Grid.MAX_Z / 2);
+  camera.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
 
   // shot testing
   var spawner = new ShotSpawner(camera.position);
@@ -98,7 +98,7 @@ function initEncounterObjects() {
   actors.push(spawner2);
   scene.add(spawner2);
   camera.position.set(Grid.MAX_X / 2, 4000, Grid.MAX_Z / 2);
-  camera.lookAt(new THREE.Vector3(Grid.MAX_X / 2, ENCOUNTER.cameraHeight, Grid.MAX_Z / 2)); // not working
+  camera.lookAt(new THREE.Vector3(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2)); // not working
 }
 
 // can be invoked at runtime
@@ -113,20 +113,20 @@ function initFlyControls() {
 
 function initEncounterControls() {
   cameraControls = new SimpleControls(camera);
-  cameraControls.movementSpeed = ENCOUNTER.movementSpeed;
-  cameraControls.turnSpeed = ENCOUNTER.turnSpeed;
-  camera.position.y = ENCOUNTER.cameraHeight;
+  cameraControls.movementSpeed = ENCOUNTER.MOVEMENT_SPEED;
+  cameraControls.turnSpeed = ENCOUNTER.TURN_SPEED;
+  camera.position.y = ENCOUNTER.CAMERA_HEIGHT;
   camera.rotation.x = 0;
   camera.rotation.z = 0;
 }
 
 function interpretKeys(t) {
   if (keys.shooting) {
-    if (player.shotsInFlight < ENCOUNTER.shotsAllowed) {
+    if (player.shotsInFlight < ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED) {
       // FIXME use the clock
       var now = new Date().getTime();
       var timeSinceLastShot = now - player.lastTimeFired;
-      if (timeSinceLastShot > ENCOUNTER.shotInterval) {
+      if (timeSinceLastShot > ENCOUNTER.SHOT_INTERVAL_MS) {
         shoot(player, now);
       }
     }

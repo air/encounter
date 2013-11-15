@@ -11,7 +11,7 @@ EncounterPhysics = function() {
     if (position.x > Grid.MAX_X || position.x < 0) return false;
     if (position.z > Grid.MAX_Z || position.z < 0) return false;
 
-    var collisionThreshold = Obelisk.radius + radius; // must be this close together to touch
+    var collisionThreshold = Obelisk.RADIUS + radius; // must be this close together to touch
     var collisionMax = Grid.spacing - collisionThreshold; // getting close to next Z line (obelisk)
 
     var distanceBeyondZLine = position.x % Grid.spacing;
@@ -60,7 +60,7 @@ EncounterPhysics = function() {
     // then the 2D component
     var obelisk2d = new THREE.Vector2(obeliskObject.position.x, obeliskObject.position.z);
 
-    var collisionThreshold = Obelisk.radius + radius - COLLISION_EPSILON; // must be this close together to touch
+    var collisionThreshold = Obelisk.RADIUS + radius - COLLISION_EPSILON; // must be this close together to touch
     if (obelisk2d.distanceTo(position2d) < collisionThreshold) {
       return obeliskObject;
     } else {
