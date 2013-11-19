@@ -5,7 +5,7 @@ EncounterKeys = function() {
   this.shooting = false;
 
   EncounterKeys.prototype.switchControls = function () {
-    if (cameraControls instanceof SimpleControls) {
+    if (controls instanceof SimpleControls) {
       initFlyControls();
     } else {
       initEncounterControls();

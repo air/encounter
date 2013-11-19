@@ -7,8 +7,6 @@
 // Principles
 // - The file is the unit of organization, not the class
 // TODOs
-// make player a class, not the camera
-// Detach the camera from the player, be able to fly free or attach to other entities
 // Understand and get away from the insanely shit pseudo-OO of Javascript
 // check use of obj.position for everything - technically this is all local positioning
 // review class variables and make em private with var
@@ -31,7 +29,7 @@ ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot li
 
 // objects we want visible in the debugger
 var isPaused = false;
-var cameraControls;
+var controls;
 var keys = new EncounterKeys();
 var sound = new EncounterSound();
 var physics = new EncounterPhysics();
@@ -45,17 +43,11 @@ var global = Function('return this')(); // nice hacky ref to global object for d
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 scene.add(new THREE.AxisHelper(800));
 initEncounterObjects();
-//initEncounterControls();
-initFlyControls();
+initEncounterControls();
+//initFlyControls();
 document.body.appendChild(renderer.domElement);
 initListeners();
 initGui();
-
-// late init so we can use the camera
-var player = camera; // just overload the camera for now
-// TODO make a class
-player.lastTimeFired = 0;
-player.shotsInFlight = 0;
 
 console.info('init complete');
 animate();
@@ -64,9 +56,9 @@ function initGui() {
   gui.add(global, 'isPaused').name('paused (p)').listen();
   gui.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
   gui.add(keys, 'switchControls').name('toggle controls (c)');
-  gui.add(camera.position, 'x').listen().name('player x');
-  gui.add(camera.position, 'y').listen().name('player y');
-  gui.add(camera.position, 'z').listen().name('player z');
+  gui.add(Player.position, 'x').listen().name('player x');
+  gui.add(Player.position, 'y').listen().name('player y');
+  gui.add(Player.position, 'z').listen().name('player z');
 }
 
 function initEncounterObjects() {
@@ -87,49 +79,49 @@ function initEncounterObjects() {
   console.info('ground plane placed');
 
   Grid.init();
+  Player.init();
+  Camera.init();
 
-  camera.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
+  Player.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
 
   // shot testing
-  var spawner = new ShotSpawner(camera.position);
-  spawner.setRotationDegreesPerSecond(-45);
-  actors.push(spawner);
-  scene.add(spawner);
-  var spawner2 = new ShotSpawner(camera.position);
-  spawner2.setRotationDegreesPerSecond(45);
-  actors.push(spawner2);
-  scene.add(spawner2);
-  camera.position.set(Grid.MAX_X / 2, 4000, Grid.MAX_Z / 2);
-  camera.lookAt(new THREE.Vector3(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2)); // not working
+  //var spawner = new ShotSpawner(camera.position);
+  //spawner.setRotationDegreesPerSecond(-45);
+  //actors.push(spawner);
+  //scene.add(spawner);
+  //var spawner2 = new ShotSpawner(camera.position);
+  //spawner2.setRotationDegreesPerSecond(45);
+  //actors.push(spawner2);
+  //scene.add(spawner2);
 }
 
 // can be invoked at runtime
 function initFlyControls() {
-  cameraControls = new THREE.FirstPersonControls(camera);
-  cameraControls.movementSpeed = 2.0;
-  cameraControls.lookSpeed = 0.0001;
-  cameraControls.constrainVertical = false; // default false
-  cameraControls.verticalMin = 45 * TO_RADIANS;
-  cameraControls.verticalMax = 135 * TO_RADIANS;
+  controls = new THREE.FirstPersonControls(Player);
+  controls.movementSpeed = 2.0;
+  controls.lookSpeed = 0.0001;
+  controls.constrainVertical = false; // default false
+  controls.verticalMin = 45 * TO_RADIANS;
+  controls.verticalMax = 135 * TO_RADIANS;
 }
 
 function initEncounterControls() {
-  cameraControls = new SimpleControls(camera);
-  cameraControls.movementSpeed = ENCOUNTER.MOVEMENT_SPEED;
-  cameraControls.turnSpeed = ENCOUNTER.TURN_SPEED;
-  camera.position.y = ENCOUNTER.CAMERA_HEIGHT;
-  camera.rotation.x = 0;
-  camera.rotation.z = 0;
+  controls = new SimpleControls(Player);
+  controls.movementSpeed = ENCOUNTER.MOVEMENT_SPEED;
+  controls.turnSpeed = ENCOUNTER.TURN_SPEED;
+  Player.position.y = ENCOUNTER.CAMERA_HEIGHT;
+  Player.rotation.x = 0;
+  Player.rotation.z = 0;
 }
 
 function interpretKeys(t) {
   if (keys.shooting) {
-    if (player.shotsInFlight < ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED) {
+    if (Player.shotsInFlight < ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED) {
       // FIXME use the clock
       var now = new Date().getTime();
-      var timeSinceLastShot = now - player.lastTimeFired;
+      var timeSinceLastShot = now - Player.lastTimeFired;
       if (timeSinceLastShot > ENCOUNTER.SHOT_INTERVAL_MS) {
-        shoot(player, now);
+        shoot(Player, now);
       }
     }
   }
@@ -144,7 +136,7 @@ function actorIsDead(actor) {
     actors.splice(index, 1);
   }
 
-  player.shotsInFlight -= 1; // FIXME not general case
+  Player.shotsInFlight -= 1; // FIXME not general case
   scene.remove(actor);
 }
 
@@ -159,7 +151,6 @@ function shoot(firingObject, time) {
   scene.add(shot);
 }
 
-
 function updateGameState(t) {
   for (var i = 0; i < actors.length; i++) {
     actors[i].update(t);
@@ -170,6 +161,6 @@ function update(t) {
   if (!isPaused) {
     updateGameState(t);
   }
-  cameraControls.update(t);
+  controls.update(t);
   interpretKeys(t);
 }
