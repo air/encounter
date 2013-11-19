@@ -1,3 +1,5 @@
+// Usage: A pure static class. Don't construct or initialise.
+
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
 
 // Class definition style 1 of 3, see Shot and Obelisk. Do we do this all in one function because we're not inheriting?
@@ -12,13 +14,13 @@ EncounterPhysics = function() {
     if (position.z > Grid.MAX_Z || position.z < 0) return false;
 
     var collisionThreshold = Obelisk.RADIUS + radius; // must be this close together to touch
-    var collisionMax = Grid.spacing - collisionThreshold; // getting close to next Z line (obelisk)
+    var collisionMax = Grid.SPACING - collisionThreshold; // getting close to next Z line (obelisk)
 
-    var distanceBeyondZLine = position.x % Grid.spacing;
+    var distanceBeyondZLine = position.x % Grid.SPACING;
     // if we're further past than the radius sum, and not yet up to the next line minus that sum, we're safe
     if (distanceBeyondZLine > collisionThreshold && distanceBeyondZLine < collisionMax) return false;
 
-    var distanceBeyondXLine = position.z % Grid.spacing;
+    var distanceBeyondXLine = position.z % Grid.SPACING;
     if (distanceBeyondXLine > collisionThreshold && distanceBeyondXLine < collisionMax) return false;
 
     return true;
@@ -26,11 +28,11 @@ EncounterPhysics = function() {
 
   // pass a Vector3, return a Vector2
   EncounterPhysics.prototype.getClosestObelisk = function(position) {
-    var xPos = Math.round(position.x / Grid.spacing);
-    xPos = THREE.Math.clamp(xPos, 0, Grid.sizeX-1);
+    var xPos = Math.round(position.x / Grid.SPACING);
+    xPos = THREE.Math.clamp(xPos, 0, Grid.SIZE_X-1);
 
-    var zPos = Math.round(position.z / Grid.spacing);
-    zPos = THREE.Math.clamp(zPos, 0, Grid.sizeZ-1);
+    var zPos = Math.round(position.z / Grid.SPACING);
+    zPos = THREE.Math.clamp(zPos, 0, Grid.SIZE_Z-1);
 
     return new THREE.Vector2(xPos, zPos);
   };

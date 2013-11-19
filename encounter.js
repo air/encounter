@@ -4,18 +4,20 @@
 // time for complete rotation: 9s
 // time to pass 10 obelisks: 8s
 
+// Principles
+// - The file is the unit of organization, not the class
 // TODOs
 // make player a class, not the camera
 // Detach the camera from the player, be able to fly free or attach to other entities
-// something breaks when the camera flips from Simple to FirstPerson? Can't keep shots on the ground.
+// Understand and get away from the insanely shit pseudo-OO of Javascript
 // check use of obj.position for everything - technically this is all local positioning
 // review class variables and make em private with var
 // fade sound based on proximity
-// replace direct use of rotation.y with rotateOnAxis()
-// Make into classes:
-//  OB - include a radius property and optimise physics function signatures
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // ease down the clock multiplier for a very cool slow-mo effect. This will break clock-elapsed timers.
+// FIXMEs
+// replace direct use of rotation.y with rotateOnAxis()
+// something breaks when the camera flips from Simple to FirstPerson? Can't keep shots on the ground.
 
 // constants modelling the original game
 var ENCOUNTER = new Object();

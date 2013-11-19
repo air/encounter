@@ -1,9 +1,12 @@
+// Usage: For use with 'new'.
+
 // Player or enemy shot
 
 // define this so we can define some constants on it
 function Shot() {};
 
 // static constants
+// FIXME every instance of Shot has a copy of these? Rubbish
 Shot.RADIUS = 40;
 Shot.OFFSET_FROM_SHOOTER = 120; // created this far in front of you
 Shot.CAN_TRAVEL = 16000; // TODO confirm
