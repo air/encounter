@@ -5,6 +5,10 @@ One man's mission to remake this 80s gem in WebGL.
 * [Lemon64 entry](http://www.lemon64.com/games/details.php?ID=832)
 * [Downloadable D64 image from c64.com](http://www.c64.com/games/351)
 
+# How to run #
+
+Download the zip and open encounter.html.
+
 # Controls #
 
 * WSAD or arrows to move

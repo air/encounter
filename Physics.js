@@ -1,17 +1,18 @@
-// Usage: A pure static class. Don't construct or initialise.
-
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
 
-// Class definition style 1 of 3, see Shot and Obelisk. Do we do this all in one function because we're not inheriting?
 Physics = function() {
 
-  // Pass a Vector3 and the radius of the object
-  // A 2D rectangular bounding box check using modulus
+  // Pass a Vector3 and the radius of the object - does this sphere approach a collision with an Obelisk?
+  // Uses a 2D rectangular bounding box check using modulus.
   Physics.prototype.isCloseToAnObelisk = function(position, radius) {
     if (typeof radius === "undefined") throw('required: radius');
     // special case for out of bounds
     if (position.x > Grid.MAX_X || position.x < 0) return false;
     if (position.z > Grid.MAX_Z || position.z < 0) return false;
+    // special case for too high (fly mode only)
+    if (position.y > (Obelisk.HEIGHT + radius)) return false;
+    // special case for too low (fly mode only)
+    if (position.y < -radius) return false;
 
     var collisionThreshold = Obelisk.RADIUS + radius; // must be this close together to touch
     var collisionMax = Grid.SPACING - collisionThreshold; // getting close to next Z line (obelisk)
