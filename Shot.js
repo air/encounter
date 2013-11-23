@@ -15,7 +15,7 @@ Shot.MATERIAL = MATS.normal;
 // set material to undefined for lovely colours!
 //Shot.MATERIAL = MATS.wireframe;
 
-// Class definition style 2 of 3, see EncounterPhysics and Obelisk
+// Class definition style 2 of 3, see Physics and Obelisk
 // A Shot is_a THREE.Mesh
 Shot.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
 // a firingObject has a position and a rotation from which the shot emerges

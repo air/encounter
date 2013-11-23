@@ -3,11 +3,11 @@
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
 
 // Class definition style 1 of 3, see Shot and Obelisk. Do we do this all in one function because we're not inheriting?
-EncounterPhysics = function() {
+Physics = function() {
 
   // Pass a Vector3 and the radius of the object
   // A 2D rectangular bounding box check using modulus
-  EncounterPhysics.prototype.isCloseToAnObelisk = function(position, radius) {
+  Physics.prototype.isCloseToAnObelisk = function(position, radius) {
     if (typeof radius === "undefined") throw('required: radius');
     // special case for out of bounds
     if (position.x > Grid.MAX_X || position.x < 0) return false;
@@ -27,7 +27,7 @@ EncounterPhysics = function() {
   };
 
   // pass a Vector3, return a Vector2
-  EncounterPhysics.prototype.getClosestObelisk = function(position) {
+  Physics.prototype.getClosestObelisk = function(position) {
     var xPos = Math.round(position.x / Grid.SPACING);
     xPos = THREE.Math.clamp(xPos, 0, Grid.SIZE_X-1);
 
@@ -37,18 +37,18 @@ EncounterPhysics = function() {
     return new THREE.Vector2(xPos, zPos);
   };
 
-  EncounterPhysics.prototype.highlightObelisk = function(x, z, scale) {
+  Physics.prototype.highlightObelisk = function(x, z, scale) {
     //Grid.rows[z][x].material = MATS.red;
     Grid.rows[z][x].scale.set(1, scale, 1);
   };
 
-  EncounterPhysics.prototype.unHighlightObelisk = function(x, z) {
+  Physics.prototype.unHighlightObelisk = function(x, z) {
     //Grid.rows[z][x].material = MATS.normal;
     Grid.rows[z][x].scale.set(1, 1, 1);
   };
 
   // pass in a Vector3. Performs 2D circle intersection check. Returns undefined if not colliding
-  EncounterPhysics.prototype.getCollidingObelisk = function(position, radius) {
+  Physics.prototype.getCollidingObelisk = function(position, radius) {
     // collision overlap must exceed a small epsilon so we don't count rounding errors
     var COLLISION_EPSILON = 0.01;
 
@@ -72,7 +72,7 @@ EncounterPhysics = function() {
 
   // collides a moving Object3D with a static point and radius
   // object must have a .radius
-  EncounterPhysics.prototype.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object) {
+  Physics.prototype.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object) {
     if (typeof object.radius === "undefined") throw('object must have radius');
 
     // move collider out of the obelisk, get the movement that was executed
@@ -103,7 +103,7 @@ EncounterPhysics = function() {
   };
 
   // pass in two Vector2s, returns a Vector2
-  EncounterPhysics.prototype.lineMidpoint = function(p1, p2)
+  Physics.prototype.lineMidpoint = function(p1, p2)
   {
     var  x, y, dx, dy;
     x = Math.min(p1.x, p2.x) + Math.abs( (p1.x - p2.x) / 2 );
@@ -116,7 +116,7 @@ EncounterPhysics = function() {
   // 90 along negative X axis
   // 180 along positive Z axis
   // -90 along positive X axis
-  EncounterPhysics.prototype.yRotationToDegrees = function(object)
+  Physics.prototype.yRotationToDegrees = function(object)
   {
     if (typeof object.rotation === "undefined") {
       return (object.y * TO_DEGREES) % 360;
@@ -126,7 +126,7 @@ EncounterPhysics = function() {
   };
 
   // pass in an object3D, get the .rotation as the unit vector of X and Z
-  EncounterPhysics.prototype.objectRotationAsUnitVector = function(object) {
+  Physics.prototype.objectRotationAsUnitVector = function(object) {
     // 1. sin expects radians
     // 2. have to adjust the signs to match three.js orientation
     var xComponent = -Math.sin(object.rotation.y);
@@ -140,7 +140,7 @@ EncounterPhysics = function() {
   // 90 along negative X axis
   // 180 along positive Z axis
   // -90 along positive X axis
-  EncounterPhysics.prototype.vectorToRotation = function(vector) {
+  Physics.prototype.vectorToRotation = function(vector) {
     // we need atan2 to get all quadrants
     // atan2 rotates to the X axis (+Z for us) - so invert the values to get a rotation to -Z axis
     return Math.atan2(-vector.x, -vector.z);
@@ -152,7 +152,7 @@ EncounterPhysics = function() {
   // Points = Vector3s
   // Radius = radius of the circles on the X-Z plane
   // Returns a Vector3 containing the movement executed, in case that's useful. Y will be zero.
-  EncounterPhysics.prototype.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, movingPoint, movingRadius)
+  Physics.prototype.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, movingPoint, movingRadius)
   {
     // move the circle a tiny bit further than required, to account for rounding
     var MOVE_EPSILON = 0.000001;

@@ -1,4 +1,4 @@
-var physics = new EncounterPhysics();
+var physics = new Physics();
 
 describe("physics.moveCircleOutOfStaticCircle", function() {
   var staticPoint = new THREE.Vector3(1, 0, 1);

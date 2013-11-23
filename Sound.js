@@ -1,7 +1,7 @@
 // Ctrl-C at http://www.superflashbros.net/as3sfxr/
 
 // 16-sound mixer using multiple Audio instances
-EncounterSound = function() {
+Sound = function() {
   this.MIXSIZE = 16;
   this.audios = new Array(this.MIXSIZE);
   for (var i=0; i<this.MIXSIZE; i++) {
@@ -13,28 +13,28 @@ EncounterSound = function() {
   this.thud = jsfxr('3,,0.2257,0.7679,0.201,0.0653,,,,,,,,,,0.7916,0.1249,-0.1609,1,,,,,0.5');
   this.bounce = jsfxr('3,,0.1806,0.4688,0.23,0.4086,,-0.2499,0.0292,0.0255,,-0.0127,,,,0.7522,,0.0393,1,0.0321,,,,0.5');
 
-  EncounterSound.prototype.getAudio = function() {
+  Sound.prototype.getAudio = function() {
     var index = this.audioPointer;
     this.audioPointer += 1;
     if (this.audioPointer >= this.MIXSIZE) this.audioPointer = 0;
     return this.audios[index];
   };
 
-  EncounterSound.prototype.play = function(sound) {
+  Sound.prototype.play = function(sound) {
     var audio = this.getAudio();
     audio.src = sound;
     audio.play();
   };
 
-  EncounterSound.prototype.playerShoot = function() {
+  Sound.prototype.playerShoot = function() {
     this.play(this.shoot);
   };
 
-  EncounterSound.prototype.playerThud = function() {
+  Sound.prototype.playerThud = function() {
     this.play(this.thud);
   }
 
-  EncounterSound.prototype.shotBounce = function() {
+  Sound.prototype.shotBounce = function() {
     this.play(this.bounce);
   }
 

@@ -1,10 +1,10 @@
 // TODO might need to re-add the domElement stuff from SimpleControls.js
 
-EncounterKeys = function() {
+Keys = function() {
 
   this.shooting = false;
 
-  EncounterKeys.prototype.switchControls = function () {
+  Keys.prototype.switchControls = function () {
     if (controls instanceof SimpleControls) {
       initFlyControls();
     } else {
@@ -12,7 +12,7 @@ EncounterKeys = function() {
     }
   }
 
-  EncounterKeys.prototype.onKeyUp = function (event) {
+  Keys.prototype.onKeyUp = function (event) {
     switch(event.keyCode) {
       case 67: // c
         this.switchControls();
@@ -27,7 +27,7 @@ EncounterKeys = function() {
     }
   };
 
-  EncounterKeys.prototype.onKeyDown = function (event) {
+  Keys.prototype.onKeyDown = function (event) {
     switch(event.keyCode) {
       case 32: // space
       case 90: // z

@@ -30,9 +30,9 @@ ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot li
 // objects we want visible in the debugger
 var isPaused = false;
 var controls;
-var keys = new EncounterKeys();
-var sound = new EncounterSound();
-var physics = new EncounterPhysics();
+var keys = new Keys();
+var sound = new Sound();
+var physics = new Physics();
 physics.debug = false;
 var actors = new Array();
 var GROUND = new Object();
