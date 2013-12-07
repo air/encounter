@@ -4,18 +4,19 @@
 // time for complete rotation: 9s
 // time to pass 10 obelisks: 8s
 
-// Principles
+// = Principles
 // - The file is the unit of organization, not the class
-// TODOs
+// = TODOs
 // Understand and get away from the insanely shit pseudo-OO of Javascript
 // check use of obj.position for everything - technically this is all local positioning
-// review class variables and make em private with var
 // fade sound based on proximity
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
-// ease down the clock multiplier for a very cool slow-mo effect. This will break clock-elapsed timers.
-// FIXMEs
+// = FIXMEs
 // replace direct use of rotation.y with rotateOnAxis()
-// something breaks when the camera flips from Simple to FirstPerson? Can't keep shots on the ground.
+// Y rotation breaks when the camera flips from Simple to FirstPerson.
+// = Effects
+// ease down the clock multiplier for a very cool slow-mo effect. This will break clock-elapsed timers.
+// very slow rotate/pan is cool for a 'static' but live menu screen
 
 // constants modelling the original game
 var ENCOUNTER = new Object();
@@ -56,9 +57,15 @@ function initGui() {
   gui.add(global, 'isPaused').name('paused (p)').listen();
   gui.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
   gui.add(keys, 'switchControls').name('toggle controls (c)');
-  gui.add(Player.position, 'x').listen().name('player x');
-  gui.add(Player.position, 'y').listen().name('player y');
-  gui.add(Player.position, 'z').listen().name('player z');
+  var guiPlayer = gui.addFolder('Player');
+  guiPlayer.open();
+  guiPlayer.add(Player.position, 'x').listen().name('x');
+  guiPlayer.add(Player.position, 'y').listen().name('y');
+  guiPlayer.add(Player.position, 'z').listen().name('z');
+  // The step values here depend on a dat.gui patch from https://code.google.com/p/dat-gui/issues/detail?id=31
+  guiPlayer.add(Player.rotation, 'x').step(0.01).listen().name('rotated x');
+  guiPlayer.add(Player.rotation, 'y').step(0.01).listen().name('rotated y');
+  guiPlayer.add(Player.rotation, 'z').step(0.01).listen().name('rotated z');
 }
 
 function initEncounterObjects() {

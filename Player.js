@@ -1,4 +1,4 @@
-var Player = new THREE.Mesh();
+var Player = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 
 Player.RADIUS = 40;
 Player.GEOMETRY = new THREE.SphereGeometry(Player.RADIUS, 8, 4);
