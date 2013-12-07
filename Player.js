@@ -15,3 +15,8 @@ Player.init = function()
   scene.add(Player);
   //actors.push(playerMesh);
 }
+
+Player.update = function()
+{
+  
+}

@@ -106,7 +106,7 @@ function initEncounterControls() {
   Player.rotation.z = 0;
 }
 
-function interpretKeys(t) {
+function interpretKeys(timeDeltaMillis) {
   if (keys.shooting) {
     if (Player.shotsInFlight < ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED) {
       // FIXME use the clock
@@ -133,6 +133,7 @@ function actorIsDead(actor) {
 }
 
 // FIXME last time fired is player specific, we want to generically emit a shot
+// FIXME why are we passing in time here, is it ever not now?
 function shoot(firingObject, time) {
   sound.playerShoot();
   var shot = new Shot(firingObject);
@@ -143,16 +144,19 @@ function shoot(firingObject, time) {
   scene.add(shot);
 }
 
-function updateGameState(t) {
+// ask all actors to update their state based on the last t milliseconds
+function updateGameState(timeDeltaMillis) {
   for (var i = 0; i < actors.length; i++) {
-    actors[i].update(t);
+    actors[i].update(timeDeltaMillis);
   };
 }
 
-function update(t) {
+// controls are fed an update(t) call but aren't in the actors list
+// controls currently change the Player position/rotation state
+function update(timeDeltaMillis) {
   if (!isPaused) {
-    updateGameState(t);
+    controls.update(timeDeltaMillis);
+    updateGameState(timeDeltaMillis);
   }
-  controls.update(t);
-  interpretKeys(t);
+  interpretKeys(timeDeltaMillis);
 }
