@@ -5,9 +5,9 @@ One man's mission to remake this 80s gem in WebGL.
 * [Lemon64 entry](http://www.lemon64.com/games/details.php?ID=832)
 * [Downloadable D64 image from c64.com](http://www.c64.com/games/351)
 
-# How to run #
+# How to play #
 
-Download the zip and open encounter.html.
+[Play the current build on github](http://air.github.io/encounter).
 
 # Controls #
 
@@ -25,4 +25,3 @@ Download the zip and open encounter.html.
 * Collisions
 * Enemies and AI
 * Lighting and colours
-
