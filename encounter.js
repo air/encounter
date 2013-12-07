@@ -12,6 +12,7 @@
 // fade sound based on proximity
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // = FIXME
+// shot pointers are incorrect in fly mode. Seem ok in normal mode
 // replace direct use of rotation.y with rotateOnAxis()
 // Y rotation breaks when the camera flips from Simple to FirstPerson.
 // = Effects
@@ -35,6 +36,7 @@ var keys = new Keys();
 var sound = new Sound();
 var physics = new Physics();
 physics.debug = false;
+// actors are objects that stop when we go into pause mode.
 var actors = new Array();
 var GROUND = new Object();
 var gui = new dat.GUI();
@@ -151,11 +153,13 @@ function updateGameState(timeDeltaMillis) {
   };
 }
 
-// controls are fed an update(t) call but aren't in the actors list
+// controls and camera are fed an update(t) but aren't in the actors list; they can move in pause mode
 // controls currently change the Player position/rotation state
 function update(timeDeltaMillis) {
+  controls.update(timeDeltaMillis);
+  Camera.update(timeDeltaMillis);
+
   if (!isPaused) {
-    controls.update(timeDeltaMillis);
     updateGameState(timeDeltaMillis);
   }
   interpretKeys(timeDeltaMillis);

@@ -2,7 +2,8 @@ var Camera = new Object();
 
 Camera.init = function()
 {
-  actors.push(Camera);
+  // removed since we want the camera to move in pause mode
+  //actors.push(Camera);
 }
 
 Camera.update = function(time)

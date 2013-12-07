@@ -26,45 +26,39 @@ function Shot(firingObject) {
   this.rotation.copy(firingObject.rotation);
   this.updateMatrix(); // push the position/rotation changes into the underlying matrix
   this.translateZ(-Shot.OFFSET_FROM_SHOOTER); // this depends on the matrix being up to date
-  this.isDead = false;
+
   this.hasTravelled = 0;
   this.radius = Shot.RADIUS;
-  this.closeObeliskIndex = new THREE.Vector2(0,0);
+  this.closeObeliskIndex = new THREE.Vector2(0,0); // not actually true at init time
 }
 
-Shot.prototype.update = function(t) {
-  // move
-  var actualMoveSpeed = t * ENCOUNTER.SHOT_SPEED;
-  this.translateZ(-actualMoveSpeed);
-  this.hasTravelled += actualMoveSpeed;
-
-  if (physics.debug)
-  {
-    // unhighlight the old closest obelisk
-    physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
-  }
-
+Shot.prototype.updateLiveShot = function(t)
+{
   // if an obelisk is close (fast check), do a detailed collision check
-  if (physics.isCloseToAnObelisk(this.position, Shot.RADIUS)) {
+  if (physics.isCloseToAnObelisk(this.position, Shot.RADIUS))
+  {
     // check for precise collision
     var obelisk = physics.getCollidingObelisk(this.position, Shot.RADIUS);
-    if (typeof obelisk !== "undefined") {
+    // if we get a return value we have work to do
+    if (typeof obelisk !== "undefined")
+    {
       // we have a collision, bounce
       physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.RADIUS, this);
       sound.shotBounce();
+      
       if (physics.debug)
       {
         physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
       }
-    } else {
+    }
+    else if (physics.debug)
+    {
       // otherwise a near miss, highlight for debug purposes
-      if (physics.debug)
-      {
-        physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);
-      }
+      physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);
     }
   }
 
+  // draw some informational lines if we're in debug mode
   if (physics.debug)
   {
     // always need to know the closest for drawing the debug line
@@ -82,24 +76,49 @@ Shot.prototype.update = function(t) {
     scene.add(this.line);
     scene.add(this.pointer);
   }
+}
 
-  if (this.hasTravelled > Shot.CAN_TRAVEL) {
-    this.isDead = true;
-    if (physics.debug)
-    {
-      scene.remove(this.line);
-      scene.remove(this.pointer);
-      physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
-    }
+Shot.prototype.cleanUpDeadShot = function()
+{
+  // clean up debug lines
+  if (physics.debug)
+  {
+    scene.remove(this.line);
+    scene.remove(this.pointer);
+    physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
   }
-  if (this.isDead) {
-    this.deadCallback.apply(undefined, [this]); // just pass reference to this actor
+
+  this.deadCallback.apply(undefined, [this]); // just pass reference to this actor
+}
+
+Shot.prototype.update = function(t) {
+  // move the shot
+  var actualMoveSpeed = t * ENCOUNTER.SHOT_SPEED;
+  this.translateZ(-actualMoveSpeed);
+  this.hasTravelled += actualMoveSpeed;
+
+  if (physics.debug)
+  {
+    // unhighlight the old closest obelisk
+    physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
+  }
+
+  // expire an aging shot based on distance travelled
+  if (this.hasTravelled > Shot.CAN_TRAVEL)
+  {
+    this.cleanUpDeadShot();
+  }
+  else
+  {
+    this.updateLiveShot(t);
   }
 }
 
 Shot.prototype.callbackWhenDead = function(callback) {
   this.deadCallback = callback;
 }
+
+// A ShotSpawner is a visible Mesh that generates a bunch of Shots
 
 ShotSpawner.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
 // location is a Vector3 placement for the spawner
