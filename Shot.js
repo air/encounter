@@ -44,7 +44,7 @@ Shot.prototype.update = function(t) {
     physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
   }
 
-  // if an obelisk is close (fast check), highlight it to a small degree and do further collision checks
+  // if an obelisk is close (fast check), do a detailed collision check
   if (physics.isCloseToAnObelisk(this.position, Shot.RADIUS)) {
     // check for precise collision
     var obelisk = physics.getCollidingObelisk(this.position, Shot.RADIUS);
