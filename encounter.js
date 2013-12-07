@@ -5,13 +5,13 @@
 // time to pass 10 obelisks: 8s
 
 // = Principles
-// - The file is the unit of organization, not the class
-// = TODOs
+// The file is the unit of organization, not the class
+// = TODO
 // Understand and get away from the insanely shit pseudo-OO of Javascript
 // check use of obj.position for everything - technically this is all local positioning
 // fade sound based on proximity
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
-// = FIXMEs
+// = FIXME
 // replace direct use of rotation.y with rotateOnAxis()
 // Y rotation breaks when the camera flips from Simple to FirstPerson.
 // = Effects
@@ -40,18 +40,16 @@ var GROUND = new Object();
 var gui = new dat.GUI();
 var global = Function('return this')(); // nice hacky ref to global object for dat.gui
 
-// main ----------------------------------------------------------------------------
+// main -----------------------------------------------------------------------
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
-scene.add(new THREE.AxisHelper(800));
 initEncounterObjects();
 initEncounterControls();
-//initFlyControls();
 document.body.appendChild(renderer.domElement);
 initListeners();
 initGui();
-
 console.info('init complete');
 animate();
+// END main -------------------------------------------------------------------
 
 function initGui() {
   gui.add(global, 'isPaused').name('paused (p)').listen();
@@ -69,22 +67,9 @@ function initGui() {
 }
 
 function initEncounterObjects() {
-  // ground plane. Lots of segments will KILL your fps
-  GROUND.geometry = new THREE.PlaneGeometry(Grid.MAX_X, Grid.MAX_Z, 16, 16);
-  //GROUND.material = new THREE.MeshLambertMaterial({ color : C64.palette.green });
-  GROUND.material = MATS.normal;
-  GROUND.object = new THREE.Mesh(GROUND.geometry, GROUND.material);
-  // plane inits as a wall on X axis facing the positive Z space, turn away to make a floor
-  GROUND.object.rotation.x = -90 * TO_RADIANS;
-  // plane is anchored at its centre
-  GROUND.object.position.x = Grid.MAX_X / 2;
-  GROUND.object.position.z = Grid.MAX_Z / 2;
-  // zero Y is ground
-  GROUND.object.position.y = 0;
-  GROUND.object.receiveShadow = true;
-  scene.add(GROUND.object);
-  console.info('ground plane placed');
+  scene.add(new THREE.AxisHelper(800));
 
+  Ground.init();
   Grid.init();
   Player.init();
   Camera.init();
