@@ -71,13 +71,13 @@ Physics = function() {
     }
   };
 
-  // collides a moving Object3D with a static point and radius
-  // object must have a .radius
+  // Collide a moving Object3D with a static point and radius. The object position and rotation will be modified.
+  // object must have a .RADIUS
   Physics.prototype.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object) {
-    if (typeof object.radius === "undefined") throw('object must have radius');
+    if (typeof object.RADIUS === "undefined") throw('object must have RADIUS');
 
     // move collider out of the obelisk, get the movement that was executed
-    var movement = physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, object.position, object.radius);
+    var movement = physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, object.position, object.RADIUS);
 
     // the movement that was executed is the surface normal of the obelisk as the object hits it
     movement.normalize();
@@ -112,7 +112,7 @@ Physics = function() {
     return new THREE.Vector2(x, y);
   };
 
-  // Pass an object with a .radius, or a Vector3. Will mod 360.
+  // Pass an object with a .rotation, or a Vector3. Will mod 360.
   // Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
   // 90 along negative X axis
   // 180 along positive Z axis
@@ -155,6 +155,9 @@ Physics = function() {
   // Returns a Vector3 containing the movement executed, in case that's useful. Y will be zero.
   Physics.prototype.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, movingPoint, movingRadius)
   {
+    if (typeof staticPoint.x === "undefined") throw('staticPoint must have an x, wrong type?');
+    if (typeof movingPoint.x === "undefined") throw('movingPoint must have an x, wrong type?');
+
     // move the circle a tiny bit further than required, to account for rounding
     var MOVE_EPSILON = 0.000001;
     var staticPoint2d = new THREE.Vector2(staticPoint.x, staticPoint.z);

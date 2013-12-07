@@ -7,13 +7,15 @@
 // = Principles
 // The file is the unit of organization, not the class
 // = TODO
-// Understand and get away from the insanely shit pseudo-OO of Javascript
+// third camera mode where we use tank controls but the camera is in chase mode
+// rationalise the notion of actors (affected by pause) and pause-immune actors
 // check use of obj.position for everything - technically this is all local positioning
 // fade sound based on proximity
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
+// replace direct use of rotation.y with rotateOnAxis()
+// top down radar which is an actual second camera in orthographic projection? Good for debug also
 // = FIXME
 // shot pointers are incorrect in fly mode. Seem ok in normal mode
-// replace direct use of rotation.y with rotateOnAxis()
 // Y rotation breaks when the camera flips from Simple to FirstPerson.
 // = Effects
 // ease down the clock multiplier for a very cool slow-mo effect. This will break clock-elapsed timers.
@@ -31,7 +33,7 @@ ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot li
 
 // objects we want visible in the debugger
 var isPaused = false;
-var controls;
+var controls; // controls are currently responsible for changing the Player position/rotation
 var keys = new Keys();
 var sound = new Sound();
 var physics = new Physics();
@@ -146,17 +148,17 @@ function shoot(firingObject, time) {
   scene.add(shot);
 }
 
-// ask all actors to update their state based on the last t milliseconds
+// ask all actors to update their state based on the last time delta
 function updateGameState(timeDeltaMillis) {
   for (var i = 0; i < actors.length; i++) {
     actors[i].update(timeDeltaMillis);
   };
 }
 
-// controls and camera are fed an update(t) but aren't in the actors list; they can move in pause mode
-// controls currently change the Player position/rotation state
 function update(timeDeltaMillis) {
+  // some entities can move even in pause mode; update them
   controls.update(timeDeltaMillis);
+  Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
 
   if (!isPaused) {

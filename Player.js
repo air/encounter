@@ -15,28 +15,19 @@ Player.init = function()
   scene.add(Player);
   //actors.push(playerMesh);
 }
-/*
+
 Player.update = function()
 {
   // if an obelisk is close (fast check), do a detailed collision check
-  if (physics.isCloseToAnObelisk(this.position, Shot.RADIUS)) {
+  if (physics.isCloseToAnObelisk(Player.position, Player.RADIUS))
+  {
     // check for precise collision
-    var obelisk = physics.getCollidingObelisk(this.position, Shot.RADIUS);
+    var obelisk = physics.getCollidingObelisk(Player.position, Player.RADIUS);
+    // if we get a return there is work to do
     if (typeof obelisk !== "undefined") {
-      // we have a collision, bounce
-      physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.RADIUS, this);
-      sound.shotBounce();
-      if (physics.debug)
-      {
-        physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
-      }
-    } else {
-      // otherwise a near miss, highlight for debug purposes
-      if (physics.debug)
-      {
-        physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);
-      }
+      // we have a collision, move the player out but don't change the rotation
+      physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Player.position, Player.RADIUS);
+      sound.playerCollideObelisk();
     }
   }
 }
-*/

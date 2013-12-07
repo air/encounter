@@ -15,7 +15,6 @@ Shot.MATERIAL = MATS.normal;
 // set material to undefined for lovely colours!
 //Shot.MATERIAL = MATS.wireframe;
 
-// Class definition style 2 of 3, see Physics and Obelisk
 // A Shot is_a THREE.Mesh
 Shot.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
 // a firingObject has a position and a rotation from which the shot emerges
@@ -27,8 +26,10 @@ function Shot(firingObject) {
   this.updateMatrix(); // push the position/rotation changes into the underlying matrix
   this.translateZ(-Shot.OFFSET_FROM_SHOOTER); // this depends on the matrix being up to date
 
+  // FIXME what a piece of shit object model
+  this.RADIUS = Shot.RADIUS;
+
   this.hasTravelled = 0;
-  this.radius = Shot.RADIUS;
   this.closeObeliskIndex = new THREE.Vector2(0,0); // not actually true at init time
 }
 

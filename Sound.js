@@ -30,7 +30,7 @@ Sound = function() {
     this.play(this.shoot);
   };
 
-  Sound.prototype.playerThud = function() {
+  Sound.prototype.playerCollideObelisk = function() {
     this.play(this.thud);
   }
 
