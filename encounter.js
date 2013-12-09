@@ -8,12 +8,13 @@
 // The file is the unit of organization, not the class
 // = TODO
 // third camera mode where we use tank controls but the camera is in chase mode
+// Use a THREE.ArrowHelper for the Pointer class
 // rationalise the notion of actors (affected by pause) and pause-immune actors
 // check use of obj.position for everything - technically this is all local positioning
 // fade sound based on proximity
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.y with rotateOnAxis()
-// top down radar which is an actual second camera in orthographic projection? Good for debug also
+// top down radar which is an actual second OrthographicCamera? Good for debug also
 // = FIXME
 // shot pointers are incorrect in fly mode. Seem ok in normal mode
 // Y rotation breaks when the camera flips from Simple to FirstPerson.
@@ -68,6 +69,9 @@ function initGui() {
   guiPlayer.add(Player.rotation, 'x').step(0.01).listen().name('rotated x');
   guiPlayer.add(Player.rotation, 'y').step(0.01).listen().name('rotated y');
   guiPlayer.add(Player.rotation, 'z').step(0.01).listen().name('rotated z');
+  var guiCamera = gui.addFolder('Camera');
+  guiCamera.open();
+  guiCamera.add(Camera, 'mode', [Camera.MODE_FIRST_PERSON, Camera.MODE_CHASE]);
 }
 
 function initEncounterObjects() {
