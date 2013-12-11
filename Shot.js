@@ -1,4 +1,4 @@
-// Usage: For use with 'new'.
+// Usage: A real class for use with 'new'.
 
 // Player or enemy shot
 

@@ -1,12 +1,13 @@
+// FIXME Camera and camera is confusing
 var Camera = new Object();
 
 Camera.MODE_FIRST_PERSON = 'first person';
 Camera.MODE_CHASE = 'chase';
 Camera.mode = Camera.MODE_CHASE;
 
-Camera.CHASE_Z_OFFSET = 220;
-Camera.CHASE_Y_OFFSET = 80;
-Camera.CHASE_ANGLE_DOWN = 20 * TO_RADIANS; // TODO angle down a bit
+Camera.CHASE_DISTANCE = 220;
+Camera.CHASE_HEIGHT = 80;
+Camera.CHASE_ANGLE_DOWN = 20 * -TO_RADIANS;
 
 Camera.init = function()
 {
@@ -17,11 +18,14 @@ Camera.init = function()
 Camera.update = function(time)
 {
   camera.position.copy(Player.position);
+  camera.rotation.copy(Player.rotation);
   if (Camera.mode == Camera.MODE_CHASE)
   {
-    camera.position.y += Camera.CHASE_Y_OFFSET;
-    camera.position.z += Camera.CHASE_Z_OFFSET * Math.cos(Player.rotation.y);
-    camera.position.x += Camera.CHASE_Z_OFFSET * Math.sin(Player.rotation.y);
+    camera.position.y += Camera.CHASE_HEIGHT;
+    // could have used translateZ() instead here I think, after a pushMatrix() - see Shot constructor
+    camera.position.z += Camera.CHASE_DISTANCE * Math.cos(Player.rotation.y);
+    camera.position.x += Camera.CHASE_DISTANCE * Math.sin(Player.rotation.y);
+
+    camera.rotateOnAxis(X_AXIS, Camera.CHASE_ANGLE_DOWN);
   }
-  camera.rotation.copy(Player.rotation);
 }

@@ -57,11 +57,12 @@ animate();
 // END main -------------------------------------------------------------------
 
 function initGui() {
-  gui.add(global, 'isPaused').name('paused (p)').listen();
-  gui.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
-  gui.add(keys, 'switchControls').name('toggle controls (c)');
+  var guiControls = gui.addFolder('Controls');
+  guiControls.add(global, 'isPaused').name('paused (p)').listen();
+  guiControls.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
+  guiControls.add(keys, 'switchControls').name('toggle controls (c)');
   var guiPlayer = gui.addFolder('Player');
-  guiPlayer.open();
+  //guiPlayer.open();
   guiPlayer.add(Player.position, 'x').listen().name('x');
   guiPlayer.add(Player.position, 'y').listen().name('y');
   guiPlayer.add(Player.position, 'z').listen().name('z');
@@ -72,6 +73,9 @@ function initGui() {
   var guiCamera = gui.addFolder('Camera');
   guiCamera.open();
   guiCamera.add(Camera, 'mode', [Camera.MODE_FIRST_PERSON, Camera.MODE_CHASE]);
+  guiCamera.add(Camera, 'CHASE_HEIGHT', 0, 300).step(10);
+  guiCamera.add(Camera, 'CHASE_DISTANCE', 0, 400).step(10);
+  guiCamera.add(Camera, 'CHASE_ANGLE_DOWN', -0.5, 0.5).step(0.01);
 }
 
 function initEncounterObjects() {
