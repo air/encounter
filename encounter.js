@@ -72,7 +72,7 @@ function initGui() {
   guiPlayer.add(Player.rotation, 'z').step(0.01).listen().name('rotated z');
   var guiCamera = gui.addFolder('Camera');
   guiCamera.open();
-  guiCamera.add(Camera, 'mode', [Camera.MODE_FIRST_PERSON, Camera.MODE_CHASE]);
+  guiCamera.add(Camera, 'mode', [Camera.MODE_FIRST_PERSON, Camera.MODE_CHASE, Camera.MODE_ORBIT]).listen();
   guiCamera.add(Camera, 'CHASE_HEIGHT', 0, 300).step(10);
   guiCamera.add(Camera, 'CHASE_DISTANCE', 0, 400).step(10);
   guiCamera.add(Camera, 'CHASE_ANGLE_DOWN', -0.5, 0.5).step(0.01);
@@ -162,14 +162,17 @@ function updateGameState(timeDeltaMillis) {
 }
 
 function update(timeDeltaMillis) {
-  // some entities can move even in pause mode; update them
+  // update player if we're alive, even in pause mode (for the moment)
   if (Player.isAlive)
   {
     controls.update(timeDeltaMillis);
     Player.update(timeDeltaMillis);
-    Camera.update(timeDeltaMillis);
   }
 
+  // camera can move after death
+  Camera.update(timeDeltaMillis);
+
+  // update non-Player game actors
   if (!isPaused && Player.isAlive)
   {
     updateGameState(timeDeltaMillis);

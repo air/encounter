@@ -87,6 +87,7 @@ Shot.prototype.collideWithShips = function()
   {
     sound.playerKilled();
     Player.isAlive = false;
+    Camera.mode = Camera.MODE_ORBIT;
   }
 }
 
