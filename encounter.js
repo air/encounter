@@ -89,14 +89,12 @@ function initEncounterObjects() {
   Player.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
 
   // shot testing
-  //var spawner = new ShotSpawner(camera.position);
-  //spawner.setRotationDegreesPerSecond(-45);
-  //actors.push(spawner);
-  //scene.add(spawner);
-  //var spawner2 = new ShotSpawner(camera.position);
-  //spawner2.setRotationDegreesPerSecond(45);
-  //actors.push(spawner2);
-  //scene.add(spawner2);
+  var spawner = new ShotSpawner(Player.position);
+  spawner.position.x += 800;
+  spawner.position.z -= 3600;
+  spawner.setRotationDegreesPerSecond(-45);
+  actors.push(spawner);
+  scene.add(spawner);
 }
 
 // can be invoked at runtime
@@ -165,12 +163,16 @@ function updateGameState(timeDeltaMillis) {
 
 function update(timeDeltaMillis) {
   // some entities can move even in pause mode; update them
-  controls.update(timeDeltaMillis);
-  Player.update(timeDeltaMillis);
-  Camera.update(timeDeltaMillis);
-
-  if (!isPaused) {
-    updateGameState(timeDeltaMillis);
+  if (Player.isAlive)
+  {
+    controls.update(timeDeltaMillis);
+    Player.update(timeDeltaMillis);
+    Camera.update(timeDeltaMillis);
   }
-  interpretKeys(timeDeltaMillis);
+
+  if (!isPaused && Player.isAlive)
+  {
+    updateGameState(timeDeltaMillis);
+    interpretKeys(timeDeltaMillis);
+  }
 }

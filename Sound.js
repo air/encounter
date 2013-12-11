@@ -1,5 +1,7 @@
 // Ctrl-C at http://www.superflashbros.net/as3sfxr/
 
+// FIXME don't instantiate
+
 // 16-sound mixer using multiple Audio instances
 Sound = function() {
   this.MIXSIZE = 16;
@@ -9,9 +11,10 @@ Sound = function() {
   }
   this.audioPointer = 0;
 
-  this.shoot = jsfxr('0,,0.1979,,0.3775,0.7516,0.2,-0.3046,,,,,,0.3302,0.0139,,,,1,,,0.1373,,0.5');
-  this.thud = jsfxr('3,,0.2257,0.7679,0.201,0.0653,,,,,,,,,,0.7916,0.1249,-0.1609,1,,,,,0.5');
-  this.bounce = jsfxr('3,,0.1806,0.4688,0.23,0.4086,,-0.2499,0.0292,0.0255,,-0.0127,,,,0.7522,,0.0393,1,0.0321,,,,0.5');
+  this.SHOOT = jsfxr('0,,0.1979,,0.3775,0.7516,0.2,-0.3046,,,,,,0.3302,0.0139,,,,1,,,0.1373,,0.5');
+  this.THUD = jsfxr('3,,0.2257,0.7679,0.201,0.0653,,,,,,,,,,0.7916,0.1249,-0.1609,1,,,,,0.5');
+  this.BOUNCE = jsfxr('3,,0.1806,0.4688,0.23,0.4086,,-0.2499,0.0292,0.0255,,-0.0127,,,,0.7522,,0.0393,1,0.0321,,,,0.5');
+  this.PLAYER_KILLED = jsfxr('3,,0.78,0.5468,0.93,0.2478,,0.1714,,0.59,0.35,,,,,0.4695,,,1,,,,,0.5');
 
   Sound.prototype.getAudio = function() {
     var index = this.audioPointer;
@@ -27,15 +30,19 @@ Sound = function() {
   };
 
   Sound.prototype.playerShoot = function() {
-    this.play(this.shoot);
+    this.play(this.SHOOT);
   };
 
   Sound.prototype.playerCollideObelisk = function() {
-    this.play(this.thud);
+    this.play(this.THUD);
   }
 
   Sound.prototype.shotBounce = function() {
-    this.play(this.bounce);
+    this.play(this.BOUNCE);
+  }
+
+  Sound.prototype.playerKilled = function() {
+    this.play(this.PLAYER_KILLED);
   }
 
 };

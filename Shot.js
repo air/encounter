@@ -18,8 +18,10 @@ Shot.MATERIAL = MATS.normal;
 // A Shot is_a THREE.Mesh
 Shot.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
 // a firingObject has a position and a rotation from which the shot emerges
+// FIXME assumptions about input = bad
 function Shot(firingObject) {
   THREE.Mesh.call(this, Shot.GEOMETRY, Shot.MATERIAL); // super constructor
+  this.shooter = firingObject;
 
   this.position.copy(firingObject.position);
   this.rotation.copy(firingObject.rotation);
@@ -33,7 +35,7 @@ function Shot(firingObject) {
   this.closeObeliskIndex = new THREE.Vector2(0,0); // not actually true at init time
 }
 
-Shot.prototype.updateLiveShot = function(t)
+Shot.prototype.collideWithObelisks = function()
 {
   // if an obelisk is close (fast check), do a detailed collision check
   if (physics.isCloseToAnObelisk(this.position, Shot.RADIUS))
@@ -79,6 +81,15 @@ Shot.prototype.updateLiveShot = function(t)
   }
 }
 
+Shot.prototype.collideWithShips = function()
+{
+  if (physics.doCirclesCollide(this.position, Shot.RADIUS, Player.position, Player.RADIUS))
+  {
+    sound.playerKilled();
+    Player.isAlive = false;
+  }
+}
+
 Shot.prototype.cleanUpDeadShot = function()
 {
   // clean up debug lines
@@ -92,9 +103,9 @@ Shot.prototype.cleanUpDeadShot = function()
   this.deadCallback.apply(undefined, [this]); // just pass reference to this actor
 }
 
-Shot.prototype.update = function(t) {
+Shot.prototype.update = function(timeDeltaMillis) {
   // move the shot
-  var actualMoveSpeed = t * ENCOUNTER.SHOT_SPEED;
+  var actualMoveSpeed = timeDeltaMillis * ENCOUNTER.SHOT_SPEED;
   this.translateZ(-actualMoveSpeed);
   this.hasTravelled += actualMoveSpeed;
 
@@ -111,7 +122,8 @@ Shot.prototype.update = function(t) {
   }
   else
   {
-    this.updateLiveShot(t);
+    this.collideWithObelisks();
+    this.collideWithShips()
   }
 }
 
@@ -125,7 +137,7 @@ ShotSpawner.prototype = Object.create(THREE.Mesh.prototype); // inheritance styl
 // location is a Vector3 placement for the spawner
 function ShotSpawner(location) {
   THREE.Mesh.call(this, Shot.GEOMETRY, MATS.red); // super constructor
-  this.SHOT_INTERVAL_MILLIS = 50;
+  this.SHOT_INTERVAL_MILLIS = 100;
   this.lastShotAt = 0;
   this.position.copy(location);
   this.setRotationDegreesPerSecond(-45);

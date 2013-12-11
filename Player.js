@@ -7,6 +7,7 @@ Player.MATERIAL = MATS.wireframe.clone();
 // state
 Player.lastTimeFired = 0;
 Player.shotsInFlight = 0;
+Player.isAlive = true;
 
 Player.init = function()
 {

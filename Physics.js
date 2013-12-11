@@ -1,10 +1,12 @@
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
+// FIXME Physics and physics is confusing, don't instantiate
 
-Physics = function() {
-
+Physics = function()
+{
   // Pass a Vector3 and the radius of the object - does this sphere approach a collision with an Obelisk?
   // Uses a 2D rectangular bounding box check using modulus.
-  Physics.prototype.isCloseToAnObelisk = function(position, radius) {
+  Physics.prototype.isCloseToAnObelisk = function(position, radius)
+  {
     if (typeof radius === "undefined") throw('required: radius');
     // special case for out of bounds
     if (position.x > Grid.MAX_X || position.x < 0) return false;
@@ -28,7 +30,8 @@ Physics = function() {
   };
 
   // pass a Vector3, return a Vector2
-  Physics.prototype.getClosestObelisk = function(position) {
+  Physics.prototype.getClosestObelisk = function(position)
+  {
     var xPos = Math.round(position.x / Grid.SPACING);
     xPos = THREE.Math.clamp(xPos, 0, Grid.SIZE_X-1);
 
@@ -48,8 +51,11 @@ Physics = function() {
     Grid.rows[z][x].scale.set(1, 1, 1);
   };
 
-  // pass in a Vector3. Performs 2D circle intersection check. Returns undefined if not colliding
-  Physics.prototype.getCollidingObelisk = function(position, radius) {
+  // pass in a Vector3 and radius that might be colliding with an Obelisk.
+  // Y axis is ignored.
+  // Performs 2D circle intersection check. Returns the colliding Obelisk object, or undefined if not colliding.
+  Physics.prototype.getCollidingObelisk = function(position, radius)
+  {
     // collision overlap must exceed a small epsilon so we don't count rounding errors
     var COLLISION_EPSILON = 0.01;
 
@@ -63,7 +69,7 @@ Physics = function() {
     // then the 2D component
     var obelisk2d = new THREE.Vector2(obeliskObject.position.x, obeliskObject.position.z);
 
-    var collisionThreshold = Obelisk.RADIUS + radius - COLLISION_EPSILON; // must be this close together to touch
+    var collisionThreshold = Obelisk.RADIUS + radius - COLLISION_EPSILON; // centres must be this close together to touch
     if (obelisk2d.distanceTo(position2d) < collisionThreshold) {
       return obeliskObject;
     } else {
@@ -71,9 +77,20 @@ Physics = function() {
     }
   };
 
+  // pass in two Vector3s and their radii. Y axis is ignored.
+  Physics.prototype.doCirclesCollide = function(position1, radius1, position2, radius2)
+  {
+    // collision overlap must exceed a small epsilon so we don't count rounding errors
+    var COLLISION_EPSILON = 0.01;
+    var collisionThreshold = radius1 + radius2 - COLLISION_EPSILON; // centres must be this close together to touch
+    var distance = new THREE.Vector2(position1.x, position1.z).distanceTo(new THREE.Vector2(position2.x, position2.z));    
+    return (distance < collisionThreshold);
+  }
+
   // Collide a moving Object3D with a static point and radius. The object position and rotation will be modified.
   // object must have a .RADIUS
-  Physics.prototype.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object) {
+  Physics.prototype.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object)
+  {
     if (typeof object.RADIUS === "undefined") throw('object must have RADIUS');
 
     // move collider out of the obelisk, get the movement that was executed
@@ -127,7 +144,8 @@ Physics = function() {
   };
 
   // pass in an object3D, get the .rotation as the unit vector of X and Z
-  Physics.prototype.objectRotationAsUnitVector = function(object) {
+  Physics.prototype.objectRotationAsUnitVector = function(object)
+  {
     // 1. sin expects radians
     // 2. have to adjust the signs to match three.js orientation
     var xComponent = -Math.sin(object.rotation.y);
@@ -141,7 +159,8 @@ Physics = function() {
   // 90 along negative X axis
   // 180 along positive Z axis
   // -90 along positive X axis
-  Physics.prototype.vectorToRotation = function(vector) {
+  Physics.prototype.vectorToRotation = function(vector)
+  {
     // we need atan2 to get all quadrants
     // atan2 rotates to the X axis (+Z for us) - so invert the values to get a rotation to -Z axis
     return Math.atan2(-vector.x, -vector.z);

@@ -7,7 +7,7 @@ Camera.mode = Camera.MODE_CHASE;
 
 Camera.CHASE_DISTANCE = 220;
 Camera.CHASE_HEIGHT = 80;
-Camera.CHASE_ANGLE_DOWN = 20 * -TO_RADIANS;
+Camera.CHASE_ANGLE_DOWN = 10 * -TO_RADIANS;
 
 Camera.init = function()
 {
