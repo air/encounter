@@ -40,7 +40,7 @@ describe("physics.bounceObjectOutOfIntersectingCircle", function() {
   it("rotates correctly to 1,1 when heading -1,-1 and colliding square on from NE", function() {
     object = new THREE.Object3D();
     object.position.set(2, 0, 2);
-    object.radius=1;
+    object.RADIUS=1;
     object.rotation.y = Math.PI/4; // +45 degrees anticlockwise from negative Z is -1,-1
     physics.bounceObjectOutOfIntersectingCircle(staticPoint, staticRadius, object);
     expect(object.rotation.y).toBeCloseTo((Math.PI / 4) * -3);
@@ -49,7 +49,7 @@ describe("physics.bounceObjectOutOfIntersectingCircle", function() {
   it("rotates correctly to -1,-1 when heading 1,1 and colliding square on from SW", function() {
     object = new THREE.Object3D();
     object.position.set(0, 0, 0);
-    object.radius=1;
+    object.RADIUS=1;
     object.rotation.y = (Math.PI/4) * -3; // -135 degrees anticlockwise from negative Z is 1,1
     physics.bounceObjectOutOfIntersectingCircle(staticPoint, staticRadius, object);
     expect(object.rotation.y).toBeCloseTo(Math.PI / 4);
