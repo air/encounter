@@ -12,7 +12,7 @@ Keys = function() {
     }
   }
 
-  Keys.prototype.onKeyUp = function (event) {
+  function keyUp (event) {
     switch(event.keyCode) {
       case 67: // c
         this.switchControls();
@@ -27,7 +27,7 @@ Keys = function() {
     }
   };
 
-  Keys.prototype.onKeyDown = function (event) {
+  function keyDown (event) {
     switch(event.keyCode) {
       case 32: // space
       case 90: // z
@@ -36,13 +36,7 @@ Keys = function() {
     }
   };
 
-  document.addEventListener('keydown', bind(this, this.onKeyDown), false);
-  document.addEventListener('keyup', bind(this, this.onKeyUp), false);
-
-  function bind(scope, fn) {
-    return function () {
-      fn.apply(scope, arguments);
-    };
-  };
+  document.addEventListener('keydown', keyDown.bind(this), false);
+  document.addEventListener('keyup', keyUp.bind(this), false);
 
 };
