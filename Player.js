@@ -14,7 +14,11 @@ Player.init = function()
   // actually set up this Mesh using our materials
   THREE.Mesh.call(Player, Player.GEOMETRY, Player.MATERIAL); 
   scene.add(Player);
+
+  // player can move in pause mode 
   //actors.push(playerMesh);
+
+  Player.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
 }
 
 Player.update = function()

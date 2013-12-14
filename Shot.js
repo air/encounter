@@ -83,11 +83,17 @@ Shot.prototype.collideWithObelisks = function()
 
 Shot.prototype.collideWithShips = function()
 {
+  // kill the player
   if (physics.doCirclesCollide(this.position, Shot.RADIUS, Player.position, Player.RADIUS))
   {
     sound.playerKilled();
     Player.isAlive = false;
     Camera.mode = Camera.MODE_ORBIT;
+  }
+  // kill the enemy
+  if (physics.doCirclesCollide(this.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
+  {
+    Enemy.destroyed();
   }
 }
 

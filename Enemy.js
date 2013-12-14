@@ -4,10 +4,14 @@ Enemy.RADIUS = 40;
 Enemy.GEOMETRY = new THREE.SphereGeometry(Enemy.RADIUS, 8, 4);
 Enemy.MATERIAL = MATS.wireframe.clone();
 
+// Player speed is currently 1.0
+Enemy.MOVEMENT_SPEED = 0.8;
+
 // state
 Enemy.lastTimeFired = 0;
 Enemy.shotsInFlight = 0;
 Enemy.isAlive = true;
+
 
 Enemy.init = function()
 {
@@ -15,10 +19,16 @@ Enemy.init = function()
   THREE.Mesh.call(Enemy, Enemy.GEOMETRY, Enemy.MATERIAL); 
   scene.add(Enemy);
   actors.push(Enemy);
+
+  Enemy.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
+  Enemy.position.x += 800;
+  Enemy.position.z -= 3600;
 }
 
-Enemy.update = function()
+Enemy.update = function(timeDeltaMillis)
 {
+  Enemy.doAI(timeDeltaMillis);
+
   // if an obelisk is close (fast check), do a detailed collision check
   if (physics.isCloseToAnObelisk(Enemy.position, Enemy.RADIUS))
   {
@@ -30,5 +40,18 @@ Enemy.update = function()
       physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Enemy.position, Enemy.RADIUS);
       sound.PlayerCollideObelisk();
     }
-  }
+  } 
+}
+
+Enemy.doAI = function(timeDeltaMillis)
+{
+  var actualMoveSpeed = timeDeltaMillis * Enemy.MOVEMENT_SPEED;
+
+  Enemy.translateZ(actualMoveSpeed);
+}
+
+Enemy.destroyed = function()
+{
+	sound.playerKilled();
+
 }
