@@ -72,6 +72,6 @@ Enemy.doAI = function(timeDeltaMillis)
 
 Enemy.destroyed = function()
 {
-	sound.playerKilled();
+  sound.playerKilled();
   Enemy.spawn();
 }
