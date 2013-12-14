@@ -51,7 +51,7 @@ Enemy.update = function(timeDeltaMillis)
 
 Enemy.shoot = function()
 {
-  sound.playerShoot();
+  sound.enemyShoot();
   var shot = new Shot(Enemy);
   shot.callbackWhenDead(actorIsDead); // FIXME make this sane
   actors.push(shot);
