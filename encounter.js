@@ -84,17 +84,21 @@ function initEncounterObjects() {
   Ground.init();
   Grid.init();
   Player.init();
+  Enemy.init();
   Camera.init();
 
   Player.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
+  Enemy.position.copy(Player.position);
+  Enemy.position.x += 800;
+  Enemy.position.z -= 3600;
 
   // shot testing
-  var spawner = new ShotSpawner(Player.position);
-  spawner.position.x += 800;
-  spawner.position.z -= 3600;
-  spawner.setRotationDegreesPerSecond(-45);
-  actors.push(spawner);
-  scene.add(spawner);
+  //var spawner = new ShotSpawner(Player.position);
+  //spawner.position.x += 800;
+  //spawner.position.z -= 3600;
+  //spawner.setRotationDegreesPerSecond(-45);
+  //actors.push(spawner);
+  //scene.add(spawner);
 }
 
 // can be invoked at runtime
