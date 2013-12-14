@@ -8,9 +8,9 @@ Enemy.MATERIAL = MATS.wireframe.clone();
 Enemy.MOVEMENT_SPEED = 0.8;
 
 // state
-Enemy.lastTimeFired = 0;
-Enemy.shotsInFlight = 0;
-Enemy.isAlive = true;
+//Enemy.lastTimeFired = 0;
+//Enemy.shotsInFlight = 0;
+//Enemy.isAlive = true;
 
 
 Enemy.init = function()
@@ -27,7 +27,7 @@ Enemy.spawn = function()
 {
   Enemy.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
   Enemy.position.x += 800;
-  Enemy.position.z -= 3600;
+  Enemy.position.z -= 800;
 }
 
 Enemy.update = function(timeDeltaMillis)
@@ -40,19 +40,34 @@ Enemy.update = function(timeDeltaMillis)
     // check for precise collision
     var obelisk = physics.getCollidingObelisk(Enemy.position, Enemy.RADIUS);
     // if we get a return there is work to do
-    if (typeof obelisk !== "undefined") {
+    if (typeof obelisk !== "undefined")
+    {
       // we have a collision, move the Enemy out but don't change the rotation
       physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Enemy.position, Enemy.RADIUS);
-      sound.PlayerCollideObelisk();
+      sound.playerCollideObelisk();
     }
   } 
+}
+
+Enemy.shoot = function()
+{
+  sound.playerShoot();
+  var shot = new Shot(Enemy);
+  shot.callbackWhenDead(actorIsDead); // FIXME make this sane
+  actors.push(shot);
+  scene.add(shot);
 }
 
 Enemy.doAI = function(timeDeltaMillis)
 {
   var actualMoveSpeed = timeDeltaMillis * Enemy.MOVEMENT_SPEED;
+  Enemy.translateZ(-actualMoveSpeed);
 
-  Enemy.translateZ(actualMoveSpeed);
+  if (random(0,100) == 42)
+  {
+    Enemy.rotateOnAxis(Y_AXIS, Math.random());
+    Enemy.shoot();
+  }
 }
 
 Enemy.destroyed = function()
