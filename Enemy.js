@@ -20,6 +20,11 @@ Enemy.init = function()
   scene.add(Enemy);
   actors.push(Enemy);
 
+  Enemy.spawn();
+}
+
+Enemy.spawn = function()
+{
   Enemy.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
   Enemy.position.x += 800;
   Enemy.position.z -= 3600;
@@ -53,5 +58,5 @@ Enemy.doAI = function(timeDeltaMillis)
 Enemy.destroyed = function()
 {
 	sound.playerKilled();
-
+  Enemy.spawn();
 }
