@@ -36,3 +36,24 @@ Player.update = function()
     }
   }
 }
+
+Player.shoot = function()
+{
+  if (Player.shotsInFlight < ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED)
+  {
+    // FIXME use the clock
+    var now = new Date().getTime();
+    var timeSinceLastShot = now - Player.lastTimeFired;
+    if (timeSinceLastShot > ENCOUNTER.SHOT_INTERVAL_MS)
+    {
+      sound.playerShoot();
+      var shot = new Shot(Player);
+      shot.callbackWhenDead(actorIsDead); // FIXME make this sane
+      Player.shotsInFlight += 1;
+      Player.lastTimeFired = now;
+      actors.push(shot);
+      scene.add(shot);    
+    }
+  }
+
+}

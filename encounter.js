@@ -116,15 +116,9 @@ function initEncounterControls() {
 }
 
 function interpretKeys(timeDeltaMillis) {
-  if (keys.shooting) {
-    if (Player.shotsInFlight < ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED) {
-      // FIXME use the clock
-      var now = new Date().getTime();
-      var timeSinceLastShot = now - Player.lastTimeFired;
-      if (timeSinceLastShot > ENCOUNTER.SHOT_INTERVAL_MS) {
-        shoot(Player, now);
-      }
-    }
+  if (keys.shooting)
+  {
+    Player.shoot();
   }
 }
 
@@ -139,18 +133,6 @@ function actorIsDead(actor) {
 
   Player.shotsInFlight -= 1; // FIXME not general case
   scene.remove(actor);
-}
-
-// FIXME last time fired is player specific, we want to generically emit a shot
-// FIXME why are we passing in time here, is it ever not now?
-function shoot(firingObject, time) {
-  sound.playerShoot();
-  var shot = new Shot(firingObject);
-  shot.callbackWhenDead(actorIsDead);
-  firingObject.shotsInFlight += 1;
-  firingObject.lastTimeFired = time;
-  actors.push(shot);
-  scene.add(shot);
 }
 
 // ask all actors to update their state based on the last time delta

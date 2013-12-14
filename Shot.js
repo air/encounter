@@ -94,6 +94,8 @@ Shot.prototype.collideWithShips = function()
   if (physics.doCirclesCollide(this.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
   {
     Enemy.destroyed();
+    // remove the shot
+    this.cleanUpDeadShot();
   }
 }
 
