@@ -81,6 +81,7 @@ function initGui() {
 function initEncounterObjects() {
   scene.add(new THREE.AxisHelper(800));
 
+  Net.init();
   Ground.init();
   Grid.init();
   Player.init();

@@ -1,0 +1,16 @@
+<!-- client script downloaded from a running server and saved locally -->
+<script src="lib/socket.io.js"></script>
+<script>
+  var socket = io.connect(atob('aHR0cDovLzUwLjE5LjE4NC4yMjg='));
+  console.log('connected');
+
+  socket.on('connect', function ()
+  {
+    socket.send('hi from client');
+
+    socket.on('message', function (received) {
+    console.log('received:');
+    console.log(received);
+    });
+  });
+</script>
