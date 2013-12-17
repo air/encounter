@@ -1,7 +1,6 @@
 var Net = {};
 
-//Net.HOST = atob('NTAuMTkuMTg0LjIyOA==');
-Net.HOST = 'localhost';
+Net.HOST = atob('NTAuMTkuMTg0LjIyOA==');
 Net.PORT = 80;
 Net.socket = null;
 
