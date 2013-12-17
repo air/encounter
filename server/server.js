@@ -9,8 +9,12 @@ io.sockets.on('connection', function (socket)
   
   socket.on('message', function (received)
   {
-    console.log('message received:');
-    console.log(received);
+    // include number hints with +
+    var x = +received.split(' ')[0];
+    x += 200;
+    var z = +received.split(' ')[1];
+    z += 200;
+    socket.send(x + ' ' + z);
   });
 
   socket.on('disconnect', function ()

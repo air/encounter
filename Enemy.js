@@ -60,14 +60,13 @@ Enemy.shoot = function()
 
 Enemy.doAI = function(timeDeltaMillis)
 {
-  var actualMoveSpeed = timeDeltaMillis * Enemy.MOVEMENT_SPEED;
-  Enemy.translateZ(-actualMoveSpeed);
-
-  if (random(0,100) == 42)
-  {
-    Enemy.rotateOnAxis(Y_AXIS, Math.random());
-    Enemy.shoot();
-  }
+  //var actualMoveSpeed = timeDeltaMillis * Enemy.MOVEMENT_SPEED;
+  //Enemy.translateZ(-actualMoveSpeed);
+  //if (random(0,100) == 42)
+  //{
+  //  Enemy.rotateOnAxis(Y_AXIS, Math.random());
+  //  Enemy.shoot();
+  //}
 }
 
 Enemy.destroyed = function()

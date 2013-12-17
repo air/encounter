@@ -1,18 +1,28 @@
 var Net = {};
 
-Net.HOST = atob('NTAuMTkuMTg0LjIyOA==');
+//Net.HOST = atob('NTAuMTkuMTg0LjIyOA==');
+Net.HOST = 'localhost';
 Net.PORT = 80;
+Net.socket = null;
 
 Net.init = function()
 {
-  var socket = io.connect('http://' + Net.HOST + ':' + Net.PORT);
-  socket.on('connect', function ()
-  {
-    console.log('connected to host: ' + Net.HOST);
-    socket.send('hello from client');
+  Net.socket = io.connect('http://' + Net.HOST + ':' + Net.PORT);
 
-    socket.on('message', function (received) {
-    console.log(received);
-    });
+  Net.socket.on('connect', function () {
+    console.log('net connected to host: ' + Net.HOST);
+    Net.socket.on('message', Net.receive);
   });
+}
+
+Net.receive = function(received)
+{
+  var position = received.split(' ');
+  Enemy.position.x = position[0];
+  Enemy.position.z = position[1];
+}
+
+Net.update = function(timeDeltaMillis)
+{
+  Net.socket.send(Player.position.x + ' ' + Player.position.z);
 }

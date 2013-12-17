@@ -151,6 +151,8 @@ function update(timeDeltaMillis) {
     Player.update(timeDeltaMillis);
   }
 
+  Net.update(timeDeltaMillis);
+
   // camera can move after death
   Camera.update(timeDeltaMillis);
 
