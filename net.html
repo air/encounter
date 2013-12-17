@@ -2,13 +2,17 @@
 <script src="lib/socket.io.js"></script>
 <script>
   var socket = io.connect('localhost');
-  console.log('connected');
+  var me = null;
 
   socket.on('connect', function () {
-    socket.send('hi from client');
+    me = socket.socket.sessionid;
+    console.log('connected as client: ' + me);
 
-    socket.on('message', function (received) {
-      console.log('received:' + received);
-    });
+    socket.send('hello from ' + me);
   });
+
+  socket.on('message', function (received) {
+    console.log('received: ' + received);
+  });
+
 </script>
