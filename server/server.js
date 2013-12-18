@@ -62,5 +62,6 @@ Server.socketDisconnected = function(socket)
 // main
 var io = require('socket.io').listen(Server.PORT);
 io.set('log level', 1); // reduce debug
+io.set('origins', 'http://air.github.io:*');
 io.sockets.on('connection', Server.acceptConnection);
 console.log('listening on port ' + Server.PORT);
