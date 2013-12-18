@@ -9,9 +9,15 @@ Server.PORT = 80;
 Server.socketQueue = [];
 Server.MAX_QUEUE_SIZE = 2;
 
+
+Server.log = function(msg)
+{
+  console.log(new Date() + ' ' + msg);
+}
+
 Server.acceptConnection = function(socket)
 {
-  console.log('+ new connection received');
+  Server.log('+ new connection received');
 
   socket.on('disconnect', Server.socketDisconnected);
 
@@ -19,14 +25,14 @@ Server.acceptConnection = function(socket)
 
   if (Server.socketQueue.length == 1)
   {
-    console.log('only one client connected, waiting for new connections');
+    Server.log('only one client connected, waiting for new connections');
   }
   else if (Server.socketQueue.length > Server.MAX_QUEUE_SIZE)
   {
-    console.log('new client exceeds server limit of ' + Server.MAX_QUEUE_SIZE);
+    Server.log('new client exceeds server limit of ' + Server.MAX_QUEUE_SIZE);
     var discarded = Server.socketQueue.shift();
     discarded.disconnect();
-    console.log('discarded oldest client, new queue size: ' + Server.socketQueue.length);
+    Server.log('discarded oldest client, new queue size: ' + Server.socketQueue.length);
   }
 
   if (Server.socketQueue.length == 2)
@@ -51,11 +57,11 @@ Server.socketDisconnected = function(socket)
   {
     // FIXME is never invoked
     Server.socketQueue.splice(socketIndex, 1);
-    console.log('- removed socket from queue after client disconnected');
+    Server.log('- removed socket from queue after client disconnected');
   }
   else
   {
-    console.log('- received disconnect event but socket was not in queue');
+    Server.log('- received disconnect event but socket was not in queue');
   }
 }
 
@@ -64,4 +70,4 @@ var io = require('socket.io').listen(Server.PORT);
 io.set('log level', 1); // reduce debug
 io.set('origins', 'http://air.github.io:*');
 io.sockets.on('connection', Server.acceptConnection);
-console.log('listening on port ' + Server.PORT);
+Server.log('listening on port ' + Server.PORT);
