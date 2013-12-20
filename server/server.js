@@ -29,10 +29,9 @@ Server.acceptConnection = function(socket)
   }
   else if (Server.socketQueue.length > Server.MAX_QUEUE_SIZE)
   {
-    Server.log('new client exceeds server limit of ' + Server.MAX_QUEUE_SIZE);
+    Server.log('new client exceeds server limit of ' + Server.MAX_QUEUE_SIZE + ', discarding oldest');
     var discarded = Server.socketQueue.shift();
     discarded.disconnect();
-    Server.log('discarded oldest client, new queue size: ' + Server.socketQueue.length);
   }
 
   if (Server.socketQueue.length == 2)
