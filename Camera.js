@@ -17,17 +17,18 @@ Camera.ORBIT_SPEED = 0.0002;
 Camera.orbitCounter = 0;
 
 Camera.normalCamera = camera;
-Camera.orthoCamera = new THREE.CombinedCamera(500, 500, 60, 1, 2000, 1, 2000);
+Camera.orthoCamera = new THREE.OrthographicCamera(Grid.MAX_X / -2, Grid.MAX_X / 2, Grid.MAX_Z / 2, Grid.MAX_Z / -2, 1, 1000);
+
+Camera.TOPDOWN_HEIGHT_CUTOFF = 100;
 
 Camera.init = function()
 {
   // removed since we want the camera to move in pause mode
   //actors.push(Camera);
 
-  Camera.orthoCamera.toOrthographic();
-  Camera.orthoCamera.toTopView();
-  Camera.orthoCamera.position.set(0, 500, 0);
-  Camera.orthoCamera.lookAt(Player.position);
+  Camera.orthoCamera.position.set(Grid.MAX_X / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.MAX_Z / 2);
+  // look down
+  Camera.orthoCamera.rotateOnAxis(X_AXIS, -90 * TO_RADIANS);
 }
 
 Camera.update = function(timeDeltaMillis)

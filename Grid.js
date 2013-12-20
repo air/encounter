@@ -1,7 +1,7 @@
 var Grid = new Object();
 
-Grid.SIZE_X = 50;
-Grid.SIZE_Z = 50;
+Grid.SIZE_X = 10;
+Grid.SIZE_Z = 10;
 Grid.SPACING = 1000;
 // 'MAX' = the furthest extent in these directions
 Grid.MAX_X = (Grid.SIZE_X - 1) * Grid.SPACING;
