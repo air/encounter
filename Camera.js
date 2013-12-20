@@ -16,13 +16,15 @@ Camera.ORBIT_HEIGHT = 200;
 Camera.ORBIT_SPEED = 0.0002;
 Camera.orbitCounter = 0;
 
-Camera.normalCamera = camera;
+Camera.perspectiveCamera = null;
 Camera.orthoCamera = new THREE.OrthographicCamera(Grid.MAX_X / -2, Grid.MAX_X / 2, Grid.MAX_Z / 2, Grid.MAX_Z / -2, 1, 1000);
 
 Camera.TOPDOWN_HEIGHT_CUTOFF = 100;
 
 Camera.init = function()
 {
+  Camera.perspectiveCamera = camera;
+
   // removed since we want the camera to move in pause mode
   //actors.push(Camera);
 
@@ -33,6 +35,15 @@ Camera.init = function()
 
 Camera.update = function(timeDeltaMillis)
 {
+  if (Camera.mode == Camera.MODE_TOP_DOWN)
+  {
+    camera = Camera.orthoCamera;
+  }
+  else
+  {
+    camera = Camera.perspectiveCamera;
+  }
+
   if (Camera.mode == Camera.MODE_FIRST_PERSON)
   {
     camera.position.copy(Player.position);
@@ -52,14 +63,12 @@ Camera.update = function(timeDeltaMillis)
   }
   else if (Camera.mode == Camera.MODE_ORBIT)
   {
+    camera.position.copy(Player.position);
+    camera.rotation.copy(Player.rotation);
     camera.position.y += Camera.ORBIT_HEIGHT;
     camera.position.z += Camera.ORBIT_DISTANCE * Math.cos(Camera.orbitCounter);
     camera.position.x += Camera.ORBIT_DISTANCE * Math.sin(Camera.orbitCounter);
     camera.lookAt(Player.position);
     Camera.orbitCounter += (Camera.ORBIT_SPEED * timeDeltaMillis);
-  }
-  else if (Camera.mode == Camera.MODE_TOP_DOWN)
-  {
-    camera = Camera.orthoCamera;
   }
 }
