@@ -5,7 +5,7 @@ Camera.MODE_FIRST_PERSON = 'first person';
 Camera.MODE_CHASE = 'chase';
 Camera.MODE_ORBIT = 'orbit';
 Camera.MODE_TOP_DOWN = 'top down';
-Camera.mode = Camera.MODE_TOP_DOWN;
+Camera.mode = Camera.MODE_CHASE;
 
 Camera.CHASE_DISTANCE = 220;
 Camera.CHASE_HEIGHT = 80;
@@ -17,14 +17,17 @@ Camera.ORBIT_SPEED = 0.0002;
 Camera.orbitCounter = 0;
 
 Camera.perspectiveCamera = null;
+Camera.orthoCamera = null;
 
 Camera.TOPDOWN_HEIGHT_CUTOFF = 100;
+// TODO adjust viewport shape to match screen shape
 Camera.TOPDOWN_VIEWPORT_SIDE = 3000;
-Camera.orthoCamera = new THREE.OrthographicCamera(Camera.TOPDOWN_VIEWPORT_SIDE / -2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / -2, 1, 100);
 
 Camera.init = function()
 {
+  // store a ref to the normal camera
   Camera.perspectiveCamera = camera;
+  Camera.orthoCamera = new THREE.OrthographicCamera(Camera.TOPDOWN_VIEWPORT_SIDE / -2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / -2, 1, 100);
 
   // removed since we want the camera to move in pause mode
   //actors.push(Camera);
