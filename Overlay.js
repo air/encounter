@@ -14,13 +14,13 @@ Overlay.init = function()
   // textBox adds padding, alignment, background
   var textBox = document.createElement(DIV);
   textBox.id = 'textBox';
-  textBox.style.cssText = 'padding:5px 5px 5px 5px;text-align:left;background-color:#000';
+  textBox.style.cssText = 'padding:5px 5px 5px 5px; text-align:left; background-color:#000';
   container.appendChild(textBox);
 
   // text is the content
   var text = document.createElement(DIV);
   text.id = 'text';
-  text.style.cssText = 'color:#0ff;font-family:Helvetica,Arial,sans-serif;font-size:36px;font-weight:bold;line-height:18px';
+  text.style.cssText = 'color:#0ff; font-family:Helvetica,Arial,sans-serif; font-size:36px; font-weight:bold; /* line-height:18px */';
   text.innerHTML = 'W01 E06 L03';
   textBox.appendChild(text);
 
