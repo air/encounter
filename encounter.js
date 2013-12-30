@@ -8,6 +8,7 @@
 // The file is the unit of organization, not the class
 // = TODO
 // third camera mode where we use tank controls but the camera is in chase mode
+// can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
 // rationalise the notion of actors (affected by pause) and pause-immune actors
 // fade sound based on proximity
@@ -55,7 +56,8 @@ console.info('init complete');
 animate();
 // END main -------------------------------------------------------------------
 
-function initGui() {
+function initGui()
+{
   var guiControls = gui.addFolder('Controls');
   guiControls.add(global, 'isPaused').name('paused (p)').listen();
   guiControls.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
@@ -77,7 +79,13 @@ function initGui() {
   //guiCamera.add(Camera, 'CHASE_ANGLE_DOWN', -0.5, 0.5).step(0.01);
 }
 
-function initEncounterObjects() {
+function initEncounterObjects()
+{
+  // move the default Stats overlay
+  STATS.domElement.style.top = '';
+  STATS.domElement.style.bottom = '0px';
+  STATS.domElement.style.opacity = '0.5';
+
   scene.add(new THREE.AxisHelper(800));
 
   Ground.init();
@@ -85,6 +93,7 @@ function initEncounterObjects() {
   Player.init();
   Enemy.init();
   Camera.init();
+  Overlay.init();
 
   // shot testing
   //var spawner = new ShotSpawner(Player.position);
@@ -96,7 +105,8 @@ function initEncounterObjects() {
 }
 
 // can be invoked at runtime
-function initFlyControls() {
+function initFlyControls()
+{
   controls = new THREE.FirstPersonControls(Player);
   controls.movementSpeed = 2.0;
   controls.lookSpeed = 0.0001;
@@ -105,7 +115,8 @@ function initFlyControls() {
   controls.verticalMax = 135 * TO_RADIANS;
 }
 
-function initEncounterControls() {
+function initEncounterControls()
+{
   controls = new SimpleControls(Player);
   controls.movementSpeed = ENCOUNTER.MOVEMENT_SPEED;
   controls.turnSpeed = ENCOUNTER.TURN_SPEED;
@@ -114,7 +125,8 @@ function initEncounterControls() {
   Player.rotation.z = 0;
 }
 
-function interpretKeys(timeDeltaMillis) {
+function interpretKeys(timeDeltaMillis)
+{
   if (keys.shooting)
   {
     Player.shoot();
@@ -122,7 +134,8 @@ function interpretKeys(timeDeltaMillis) {
 }
 
 // invoked as a callback
-function actorIsDead(actor) {
+function actorIsDead(actor)
+{
   if (typeof actor === "undefined") throw('actor undefined'); // args must be an array
 
   var index = actors.indexOf(actor);
@@ -135,13 +148,15 @@ function actorIsDead(actor) {
 }
 
 // ask all actors to update their state based on the last time delta
-function updateGameState(timeDeltaMillis) {
+function updateGameState(timeDeltaMillis)
+{
   for (var i = 0; i < actors.length; i++) {
     actors[i].update(timeDeltaMillis);
   };
 }
 
-function update(timeDeltaMillis) {
+function update(timeDeltaMillis)
+{
   // update player if we're alive, even in pause mode (for the moment)
   if (Player.isAlive)
   {
