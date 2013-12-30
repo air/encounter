@@ -17,7 +17,8 @@ Overlay.init = function()
   var textBox = document.createElement(DIV);
   textBox.id = 'textBox';
   // padding order: top right bottom left
-  textBox.style.cssText = 'padding:0px 5px 0px 5px; text-align:left; background-color:#000';
+  // TODO gradient needs multiple declarations to work in all browsers
+  textBox.style.cssText = 'padding:0px 5px 0px 5px; text-align:left; background-color:#000; background-image:-webkit-linear-gradient(top, rgba(255,255,255,.4) 0%, rgba(0,0,0,.35) 100%)';
   container.appendChild(textBox);
 
   // text is the content
