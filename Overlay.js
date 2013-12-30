@@ -14,7 +14,8 @@ Overlay.init = function()
   // textBox adds padding, alignment, background
   var textBox = document.createElement(DIV);
   textBox.id = 'textBox';
-  textBox.style.cssText = 'padding:5px 5px 5px 5px; text-align:left; background-color:#000';
+  // padding order: top right bottom left
+  textBox.style.cssText = 'padding:0px 5px 0px 5px; text-align:left; background-color:#000';
   container.appendChild(textBox);
 
   // text is the content
