@@ -2,6 +2,8 @@ var Overlay = {};
 
 var DIV = 'div';
 
+Overlay.text = null;
+
 Overlay.init = function()
 {
   // just set width or height if we can and trap mouseclicks
@@ -19,14 +21,18 @@ Overlay.init = function()
   container.appendChild(textBox);
 
   // text is the content
-  var text = document.createElement(DIV);
-  text.id = 'text';
-  text.style.cssText = 'color:#0ff; font-family:Helvetica,Arial,sans-serif; font-size:36px; font-weight:bold; /* line-height:18px */';
-  text.innerHTML = 'W01 E06 L03';
-  textBox.appendChild(text);
+  Overlay.text = document.createElement(DIV);
+  Overlay.text.id = 'text';
+  Overlay.text.style.cssText = 'color:#0ff; font-family:Helvetica,Arial,sans-serif; font-size:36px; font-weight:bold; /* line-height:18px */';
+  textBox.appendChild(Overlay.text);
 
   // place the overlay in the page
   container.style.position = 'absolute';
   container.style.top = '0px';
   document.body.appendChild(container);
+}
+
+Overlay.update = function()
+{
+  Overlay.text.innerHTML = 'W01 E06 L03';
 }

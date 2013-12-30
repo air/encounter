@@ -94,6 +94,7 @@ function initEncounterObjects()
   Enemy.init();
   Camera.init();
   Overlay.init();
+  Overlay.update(); // FIXME move to Level
 
   // shot testing
   //var spawner = new ShotSpawner(Player.position);
