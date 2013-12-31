@@ -17,7 +17,7 @@ Overlay.init = function()
   var textBox = document.createElement(DIV);
   textBox.id = 'textBox';
   // padding order: top right bottom left
-  // TODO gradient needs multiple declarations to work in all browsers
+  // TODO gradient needs multiple declarations to work in all browsers, as per stats.js/examples/theming.html
   textBox.style.cssText = 'padding:0px 5px 0px 5px; text-align:left; background-color:#000; background-image:-webkit-linear-gradient(top, rgba(255,255,255,.4) 0%, rgba(0,0,0,.35) 100%)';
   container.appendChild(textBox);
 
@@ -35,5 +35,6 @@ Overlay.init = function()
 
 Overlay.update = function()
 {
-  Overlay.text.innerHTML = 'W01 E06 L03';
+  // TODO Player.livesLeft
+  Overlay.text.innerHTML = 'W' + Levels.worldNumber + ' E' + Levels.enemiesRemaining;
 }

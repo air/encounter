@@ -73,5 +73,6 @@ Enemy.doAI = function(timeDeltaMillis)
 Enemy.destroyed = function()
 {
   sound.playerKilled();
+  Levels.enemyKilled();
   Enemy.spawn();
 }
