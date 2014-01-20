@@ -7,7 +7,6 @@
 // = Principles
 // The file is the unit of organization, not the class
 // = TODO
-// third camera mode where we use tank controls but the camera is in chase mode
 // can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
 // rationalise the notion of actors (affected by pause) and pause-immune actors
@@ -23,7 +22,7 @@
 // very slow rotate/pan is cool for a 'static' but live menu screen
 
 // constants modelling the original game
-var ENCOUNTER = new Object();
+var ENCOUNTER = {};
 ENCOUNTER.DRAW_DISTANCE = 3000; // use with init3D() for the real C64 draw distance
 ENCOUNTER.CAMERA_HEIGHT = Obelisk.HEIGHT / 2;
 ENCOUNTER.MOVEMENT_SPEED = 1.2;
@@ -95,14 +94,6 @@ function initEncounterObjects()
   Camera.init();
   Overlay.init();
   Levels.init();
-
-  // shot testing
-  //var spawner = new ShotSpawner(Player.position);
-  //spawner.position.x += 800;
-  //spawner.position.z -= 3600;
-  //spawner.setRotationDegreesPerSecond(-45);
-  //actors.push(spawner);
-  //scene.add(spawner);
 }
 
 // can be invoked at runtime
@@ -158,20 +149,5 @@ function updateGameState(timeDeltaMillis)
 
 function update(timeDeltaMillis)
 {
-  // update player if we're alive, even in pause mode (for the moment)
-  if (Player.isAlive)
-  {
-    controls.update(timeDeltaMillis);
-    Player.update(timeDeltaMillis);
-  }
-
-  // camera can move after death
-  Camera.update(timeDeltaMillis);
-
-  // update non-Player game actors
-  if (!isPaused && Player.isAlive)
-  {
-    updateGameState(timeDeltaMillis);
-    interpretKeys(timeDeltaMillis);
-  }
+  Levels.update(timeDeltaMillis);
 }
