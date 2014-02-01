@@ -1,22 +1,36 @@
-var Levels = {};
+var State = {};
 
-//Levels.MODE_WORLD = 'world';
-//Levels.MODE_WARP = 'warp';
-//Levels.mode = null;
+State.ATTRACT = 'attract';
+State.WAIT_FOR_ENEMY = 'waitForEnemy';
+State.COMBAT = 'combat';
+State.WAIT_FOR_PORTAL = 'waitForPortal';
+State.WARP = 'warp';
+State.GAME_OVER = 'gameOver';
 
-Levels.worldNumber = null;
-Levels.enemiesRemaining = null;
+State.current = null;
 
-Levels.init = function()
+State.worldNumber = null;
+State.enemiesRemaining = null;
+
+State.init = function()
 {
-  //Levels.mode = Levels.MODE_WORLD;
-  Levels.worldNumber = 1;
-  Levels.enemiesRemaining = 6;
+  State.current = State.ATTRACT;
+  State.setupAttract();
+}
+
+State.setupAttract = function()
+{
   Overlay.update();
 }
 
-Levels.enemyKilled = function()
+State.setupWaitForEnemy = function()
 {
-  Levels.enemiesRemaining -= 1;
+  State.worldNumber = 1;
+  State.enemiesRemaining = 6;
+}
+
+State.enemyKilled = function()
+{
+  State.enemiesRemaining -= 1;
   Overlay.update();
 }

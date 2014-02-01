@@ -94,7 +94,7 @@ function initEncounterObjects()
   Enemy.init();
   Camera.init();
   Overlay.init();
-  Levels.init();
+  State.init();
 
   // shot testing
   //var spawner = new ShotSpawner(Player.position);

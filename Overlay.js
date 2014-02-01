@@ -35,6 +35,18 @@ Overlay.init = function()
 
 Overlay.update = function()
 {
-  // TODO Player.livesLeft
-  Overlay.text.innerHTML = 'W' + Levels.worldNumber + ' E' + Levels.enemiesRemaining;
+  switch (State.current)
+  {
+    case State.ATTRACT:
+      Overlay.text.innerHTML = 'PRESS SPACE';
+      break;
+    case State.COMBAT:
+    case State.WAIT_FOR_ENEMY:
+    case State.WAIT_FOR_PORTAL:
+      // TODO Player.livesLeft
+      Overlay.text.innerHTML = 'W' + State.worldNumber + ' E' + State.enemiesRemaining;
+      break;
+    default:
+      console.error('unknown state: ', State.current);
+  }
 }
