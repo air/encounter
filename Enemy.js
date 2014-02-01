@@ -91,11 +91,10 @@ Enemy.destroyed = function()
   sound.playerKilled();
   scene.remove(Enemy);
 
-  log(actors.length);
   var index = actors.indexOf(Enemy);
   if (index !== -1) {
     actors.splice(index, 1);
   }
-  log(actors.length);
+
   State.enemyKilled();
 }

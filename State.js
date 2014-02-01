@@ -18,16 +18,8 @@ State.init = function()
   State.setupAttract();
 }
 
-State.setupAttract = function()
+State.initWorld = function()
 {
-  State.current = State.ATTRACT;
-  Overlay.update();
-}
-
-State.setupWaitForEnemy = function()
-{
-  State.current = State.WAIT_FOR_ENEMY;
-  
   scene.add(new THREE.AxisHelper(800));
   Ground.init();
   Grid.init();
@@ -39,32 +31,49 @@ State.setupWaitForEnemy = function()
 
   State.worldNumber = 1;
   State.enemiesRemaining = 3;
-  Overlay.update();
+}
 
+State.setupAttract = function()
+{
+  State.current = State.ATTRACT;
+  log(State.current);
+  Overlay.update();
+}
+
+State.setupWaitForEnemy = function()
+{
+  State.current = State.WAIT_FOR_ENEMY;
+  log(State.current);
+
+  Overlay.update();
   Enemy.startSpawnTimer();
 }
 
 State.setupCombat = function()
 {
   State.current = State.COMBAT;
+  log(State.current);
 }
 
 State.setupGameOver = function()
 {
   State.current = State.GAME_OVER;
+  log(State.current);
   Camera.mode = Camera.MODE_ORBIT;
 }
 
 State.enemyKilled = function()
 {
+  log('enemy destroyed');
   State.enemiesRemaining -= 1;
-  Overlay.update();
+  State.setupWaitForEnemy();
 }
 
 State.updateAttractMode = function(timeDeltaMillis)
 {
   if (keys.shooting)
   {
+    State.initWorld();
     State.setupWaitForEnemy();
   }
 }
