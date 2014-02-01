@@ -31,6 +31,7 @@ State.setupWaitForEnemy = function()
   Enemy.init();
   Camera.init();
   GUI.init();
+  Controls.init();
 
   State.worldNumber = 1;
   State.enemiesRemaining = 3;
@@ -57,7 +58,7 @@ State.updateCombat = function(timeDeltaMillis)
   // update player if we're alive, even in pause mode (for the moment)
   if (Player.isAlive)
   {
-    controls.update(timeDeltaMillis);
+    Controls.current.update(timeDeltaMillis);
     Player.update(timeDeltaMillis);
   }
 
@@ -67,9 +68,17 @@ State.updateCombat = function(timeDeltaMillis)
   // update non-Player game actors
   if (!isPaused && Player.isAlive)
   {
-    updateGameState(timeDeltaMillis);
-    interpretKeys(timeDeltaMillis);
+    State.updateActors(timeDeltaMillis);
+    Controls.interpretKeys(timeDeltaMillis);
   }
+}
+
+// ask all actors to update their state based on the last time delta
+State.updateActors = function(timeDeltaMillis)
+{
+  for (var i = 0; i < actors.length; i++) {
+    actors[i].update(timeDeltaMillis);
+  };
 }
 
 function update(timeDeltaMillis)
@@ -87,4 +96,18 @@ function update(timeDeltaMillis)
     default:
       console.error('unknown state: ', State.current);
   }
+}
+
+// invoked as a callback
+State.actorIsDead = function(actor)
+{
+  if (typeof actor === "undefined") throw('actor undefined'); // args must be an array
+
+  var index = actors.indexOf(actor);
+  if (index !== -1) {
+    actors.splice(index, 1);
+  }
+
+  Player.shotsInFlight -= 1; // FIXME not general case
+  scene.remove(actor);
 }

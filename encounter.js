@@ -34,78 +34,18 @@ ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot li
 
 // objects we want visible in the debugger
 var isPaused = false;
-var controls; // controls are currently responsible for changing the Player position/rotation
 var keys = new Keys();
 var sound = new Sound();
+var actors = new Array();
+
 var physics = new Physics();
 physics.debug = false;
-// actors are objects that stop when we go into pause mode.
-var actors = new Array();
-var GROUND = new Object();
-var global = Function('return this')(); // nice hacky ref to global object for dat.gui
 
-// main -----------------------------------------------------------------------
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
-initEncounterObjects();
-initEncounterControls();
+Overlay.init();
+State.init();
+
 document.body.appendChild(renderer.domElement);
+
 initListeners();
 animate();
-// END main -------------------------------------------------------------------
-
-function initEncounterObjects()
-{
-  Overlay.init();
-  State.init();
-}
-
-// can be invoked at runtime
-function initFlyControls()
-{
-  controls = new THREE.FirstPersonControls(Player);
-  controls.movementSpeed = 2.0;
-  controls.lookSpeed = 0.0001;
-  controls.constrainVertical = false; // default false
-  controls.verticalMin = 45 * TO_RADIANS;
-  controls.verticalMax = 135 * TO_RADIANS;
-}
-
-function initEncounterControls()
-{
-  controls = new SimpleControls(Player);
-  controls.movementSpeed = ENCOUNTER.MOVEMENT_SPEED;
-  controls.turnSpeed = ENCOUNTER.TURN_SPEED;
-  Player.position.y = ENCOUNTER.CAMERA_HEIGHT;
-  Player.rotation.x = 0;
-  Player.rotation.z = 0;
-}
-
-function interpretKeys(timeDeltaMillis)
-{
-  if (keys.shooting)
-  {
-    Player.shoot();
-  }
-}
-
-// invoked as a callback
-function actorIsDead(actor)
-{
-  if (typeof actor === "undefined") throw('actor undefined'); // args must be an array
-
-  var index = actors.indexOf(actor);
-  if (index !== -1) {
-    actors.splice(index, 1);
-  }
-
-  Player.shotsInFlight -= 1; // FIXME not general case
-  scene.remove(actor);
-}
-
-// ask all actors to update their state based on the last time delta
-function updateGameState(timeDeltaMillis)
-{
-  for (var i = 0; i < actors.length; i++) {
-    actors[i].update(timeDeltaMillis);
-  };
-}

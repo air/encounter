@@ -1,5 +1,7 @@
 var GUI = {};
 
+var global = Function('return this')(); // nice hacky ref to global object
+
 GUI.gui = null;
 
 GUI.init = function()

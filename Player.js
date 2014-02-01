@@ -49,7 +49,7 @@ Player.shoot = function()
     {
       sound.playerShoot();
       var shot = new Shot(Player);
-      shot.callbackWhenDead(actorIsDead); // FIXME make this sane
+      shot.callbackWhenDead(State.actorIsDead); // FIXME make this sane
       Player.shotsInFlight += 1;
       Player.lastTimeFired = now;
       actors.push(shot);

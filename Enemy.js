@@ -53,7 +53,7 @@ Enemy.shoot = function()
 {
   sound.enemyShoot();
   var shot = new Shot(Enemy);
-  shot.callbackWhenDead(actorIsDead); // FIXME make this sane
+  shot.callbackWhenDead(State.actorIsDead); // FIXME make this sane
   actors.push(shot);
   scene.add(shot);
 }
