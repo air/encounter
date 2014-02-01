@@ -37,10 +37,10 @@ Overlay.update = function()
 {
   switch (Levels.state.current)
   {
-    case 'attract mode':
+    case 'attract':
       Overlay.text.innerHTML = 'PRESS SPACE';
       break;
-    case 'in combat':
+    case 'combat':
       // TODO Player.livesLeft
       Overlay.text.innerHTML = 'W' + Levels.worldNumber + ' E' + Levels.enemiesRemaining;
       break;

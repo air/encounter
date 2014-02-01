@@ -8,23 +8,31 @@ Levels.state = null;
 Levels.init = function()
 {
   Levels.state = StateMachine.create({
-  initial: 'attract mode',
-  events: [
-    { name: 'gameStarted', from: 'attract mode', to: 'setup'},
-    { name: 'setupComplete', from: 'setup', to: 'wait for enemy'},
-    { name: 'enemySpawned', from: 'wait for enemy', to: 'in combat'},
-    { name: 'playerDiedInCombat', from: 'in combat', to: 'game over'},
-    { name: 'gameOverAcknowledged', from: 'game over', to: 'attract mode'},
-    { name: 'enemyDestroyed', from: 'in combat', to: 'wait for enemy'},
-    { name: 'lastEnemyDestroyed', from: 'in combat', to: 'wait for portal'},
-    { name: 'portalEntered', from: 'wait for portal', to: 'warp'},
-    { name: 'playerDiedInWarp', from: 'warp', to: 'game over'},
-    { name: 'warpCompleted', from: 'warp', to: 'wait for enemy'}
-  ]});
+    initial: 'attract',
+    events: [
+      { name: 'gameStarted', from: 'attract', to: 'setup'},
+      { name: 'setupComplete', from: 'setup', to: 'waitForEnemy'},
+      { name: 'enemySpawned', from: 'waitForEnemy', to: 'combat'},
+      { name: 'playerDiedInCombat', from: 'combat', to: 'gameOver'},
+      { name: 'gameOverAcknowledged', from: 'gameOver', to: 'attract'},
+      { name: 'enemyDestroyed', from: 'combat', to: 'waitForEnemy'},
+      { name: 'lastEnemyDestroyed', from: 'combat', to: 'waitForPortal'},
+      { name: 'portalEntered', from: 'waitForPortal', to: 'warp'},
+      { name: 'playerDiedInWarp', from: 'warp', to: 'gameOver'},
+      { name: 'warpCompleted', from: 'warp', to: 'waitForEnemy'}
+    ],
+    callbacks: {
+      // FIXME why can't I invoke Levels.myFunction in any callback?
+      onattract: function(event, from, to) 
+      {
+        console.log('hello');
+        Overlay.update();
+      }
+    }
+  });
   
   Levels.worldNumber = 1;
   Levels.enemiesRemaining = 3;
-  Overlay.update();
 }
 
 // FIXME assign function cleanly, remove switch?
@@ -32,10 +40,10 @@ function update(timeDeltaMillis)
 {
   switch (Levels.state.current)
   {
-    case 'attract mode':
+    case 'attract':
       Levels.updateLoopAttractMode(timeDeltaMillis);
       break;
-    case 'in combat':
+    case 'combat':
       Levels.updateLoopCombat(timeDeltaMillis);
       break;
     default:
@@ -47,11 +55,6 @@ Levels.enemyKilled = function()
 {
   Levels.enemiesRemaining -= 1;
   Overlay.update();
-}
-
-Levels.setupAttractMode = function()
-{
-
 }
 
 Levels.updateLoopAttractMode = function(timeDeltaMillis)
