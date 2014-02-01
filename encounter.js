@@ -42,7 +42,6 @@ physics.debug = false;
 // actors are objects that stop when we go into pause mode.
 var actors = new Array();
 var GROUND = new Object();
-var gui = new dat.GUI();
 var global = Function('return this')(); // nice hacky ref to global object for dat.gui
 
 // main -----------------------------------------------------------------------
@@ -51,58 +50,13 @@ initEncounterObjects();
 initEncounterControls();
 document.body.appendChild(renderer.domElement);
 initListeners();
-initGui();
-console.info('init complete');
 animate();
 // END main -------------------------------------------------------------------
 
-function initGui()
-{
-  var guiControls = gui.addFolder('Controls');
-  guiControls.add(global, 'isPaused').name('paused (p)').listen();
-  guiControls.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
-  guiControls.add(keys, 'switchControls').name('toggle controls (c)');
-  var guiPlayer = gui.addFolder('Player');
-  //guiPlayer.open();
-  guiPlayer.add(Player.position, 'x').listen().name('x');
-  guiPlayer.add(Player.position, 'y').listen().name('y');
-  guiPlayer.add(Player.position, 'z').listen().name('z');
-  // The step values here depend on a dat.gui patch from https://code.google.com/p/dat-gui/issues/detail?id=31
-  guiPlayer.add(Player.rotation, 'x').step(0.01).listen().name('rotated x');
-  guiPlayer.add(Player.rotation, 'y').step(0.01).listen().name('rotated y');
-  guiPlayer.add(Player.rotation, 'z').step(0.01).listen().name('rotated z');
-  var guiCamera = gui.addFolder('Camera');
-  guiCamera.open();
-  guiCamera.add(Camera, 'mode', [Camera.MODE_FIRST_PERSON, Camera.MODE_CHASE, Camera.MODE_ORBIT, Camera.MODE_TOP_DOWN]).listen();
-  //guiCamera.add(Camera, 'CHASE_HEIGHT', 0, 300).step(10);
-  //guiCamera.add(Camera, 'CHASE_DISTANCE', 0, 400).step(10);
-  //guiCamera.add(Camera, 'CHASE_ANGLE_DOWN', -0.5, 0.5).step(0.01);
-}
-
 function initEncounterObjects()
 {
-  // move the default Stats overlay
-  STATS.domElement.style.top = '';
-  STATS.domElement.style.bottom = '0px';
-  STATS.domElement.style.opacity = '0.5';
-
-  scene.add(new THREE.AxisHelper(800));
-
-  Ground.init();
-  Grid.init();
-  Player.init();
-  Enemy.init();
-  Camera.init();
   Overlay.init();
   State.init();
-
-  // shot testing
-  //var spawner = new ShotSpawner(Player.position);
-  //spawner.position.x += 800;
-  //spawner.position.z -= 3600;
-  //spawner.setRotationDegreesPerSecond(-45);
-  //actors.push(spawner);
-  //scene.add(spawner);
 }
 
 // can be invoked at runtime

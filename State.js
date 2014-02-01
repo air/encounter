@@ -24,6 +24,14 @@ State.setupAttract = function()
 
 State.setupWaitForEnemy = function()
 {
+  scene.add(new THREE.AxisHelper(800));
+  Ground.init();
+  Grid.init();
+  Player.init();
+  Enemy.init();
+  Camera.init();
+  GUI.init();
+
   State.worldNumber = 1;
   State.enemiesRemaining = 3;
   Overlay.update();
