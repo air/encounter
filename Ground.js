@@ -25,5 +25,4 @@ Ground.init = function()
   Ground.receiveShadow = true;
 
   scene.add(Ground);
-  console.info('ground plane placed');
 }

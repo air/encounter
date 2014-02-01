@@ -24,5 +24,4 @@ Grid.init = function()
     }
     Grid.rows[rowIndex] = row;
   }
-  console.info('obelisks placed')
 }

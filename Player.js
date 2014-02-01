@@ -42,7 +42,7 @@ Player.wasHit = function()
 {
   sound.playerKilled();
   Player.isAlive = false;
-  Camera.mode = Camera.MODE_ORBIT;
+  State.setupGameOver();
 }
 
 Player.shoot = function()

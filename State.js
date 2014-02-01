@@ -15,17 +15,18 @@ State.isPaused = false;
 
 State.init = function()
 {
-  State.current = State.ATTRACT;
   State.setupAttract();
 }
 
 State.setupAttract = function()
 {
+  State.current = State.ATTRACT;
   Overlay.update();
 }
 
 State.setupWaitForEnemy = function()
 {
+  State.current = State.WAIT_FOR_ENEMY;
   scene.add(new THREE.AxisHelper(800));
   Ground.init();
   Grid.init();
@@ -40,6 +41,12 @@ State.setupWaitForEnemy = function()
   Overlay.update();
 }
 
+State.setupGameOver = function()
+{
+  State.current = State.GAME_OVER;
+  Camera.mode = Camera.MODE_ORBIT;
+}
+
 State.enemyKilled = function()
 {
   State.enemiesRemaining -= 1;
@@ -50,29 +57,27 @@ State.updateAttractMode = function(timeDeltaMillis)
 {
   if (keys.shooting)
   {
-    State.current = State.WAIT_FOR_ENEMY;
     State.setupWaitForEnemy();
   }
 }
 
 State.updateCombat = function(timeDeltaMillis)
 {
-  // update player if we're alive, even in pause mode (for the moment)
-  if (Player.isAlive)
-  {
-    Controls.current.update(timeDeltaMillis);
-    Player.update(timeDeltaMillis);
-  }
-
-  // camera can move after death
+  Controls.current.update(timeDeltaMillis);
+  Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
 
   // update non-Player game actors
-  if (!State.isPaused && Player.isAlive)
+  if (!State.isPaused)
   {
     State.updateActors(timeDeltaMillis);
     Controls.interpretKeys(timeDeltaMillis);
   }
+}
+
+State.updateGameOver = function(timeDeltaMillis)
+{
+  Camera.update(timeDeltaMillis);  
 }
 
 // ask all actors to update their state based on the last time delta
@@ -95,6 +100,9 @@ function update(timeDeltaMillis)
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
       State.updateCombat(timeDeltaMillis);
+      break;
+    case State.GAME_OVER:
+      State.updateGameOver(timeDeltaMillis);
       break;
     default:
       console.error('unknown state: ', State.current);
