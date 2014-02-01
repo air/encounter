@@ -43,7 +43,7 @@ Overlay.update = function()
   switch (State.current)
   {
     case State.ATTRACT:
-      Overlay.text.innerHTML = 'PRESS SPACE';
+      Overlay.text.innerHTML = 'PRESS SPACE TO BEGIN';
       break;
     case State.COMBAT:
     case State.WAIT_FOR_ENEMY:

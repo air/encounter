@@ -38,6 +38,13 @@ Player.update = function()
   }
 }
 
+Player.wasHit = function()
+{
+  sound.playerKilled();
+  Player.isAlive = false;
+  Camera.mode = Camera.MODE_ORBIT;
+}
+
 Player.shoot = function()
 {
   if (Player.shotsInFlight < Encounter.MAX_PLAYERS_SHOTS_ALLOWED)

@@ -83,6 +83,7 @@ State.updateActors = function(timeDeltaMillis)
   };
 }
 
+// called from util.js
 function update(timeDeltaMillis)
 {
   switch (State.current)
@@ -103,7 +104,7 @@ function update(timeDeltaMillis)
 // invoked as a callback
 State.actorIsDead = function(actor)
 {
-  if (typeof actor === "undefined") throw('actor undefined'); // args must be an array
+  if (typeof actor === "undefined") throw('actor undefined');
 
   var index = actors.indexOf(actor);
   if (index !== -1) {

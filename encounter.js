@@ -31,6 +31,7 @@ Encounter.TURN_SPEED = 0.0007;
 Encounter.SHOT_SPEED = 3.0;
 Encounter.SHOT_INTERVAL_MS = 400;
 Encounter.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot limit or range limit, but max 3 on screen
+Encounter.TIME_TO_SPAWN_ENEMY_MS = 3000; // TODO not measured on original
 
 // TODO move to non-OO style
 var keys = new Keys();
