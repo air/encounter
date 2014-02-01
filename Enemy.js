@@ -25,7 +25,7 @@ Enemy.init = function()
 
 Enemy.spawn = function()
 {
-  Enemy.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
+  Enemy.position.set(Grid.MAX_X / 2, Encounter.CAMERA_HEIGHT, Grid.MAX_Z / 2);
   Enemy.position.x += 800;
   Enemy.position.z -= 800;
 }

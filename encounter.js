@@ -23,21 +23,19 @@
 // very slow rotate/pan is cool for a 'static' but live menu screen
 
 // constants modelling the original game
-var ENCOUNTER = new Object();
-ENCOUNTER.DRAW_DISTANCE = 3000; // use with init3D() for the real C64 draw distance
-ENCOUNTER.CAMERA_HEIGHT = Obelisk.HEIGHT / 2;
-ENCOUNTER.MOVEMENT_SPEED = 1.2;
-ENCOUNTER.TURN_SPEED = 0.0007;
-ENCOUNTER.SHOT_SPEED = 3.0;
-ENCOUNTER.SHOT_INTERVAL_MS = 400;
-ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot limit or range limit, but max 3 on screen
+var Encounter = {};
+Encounter.DRAW_DISTANCE = 3000; // use with init3D() for the real C64 draw distance
+Encounter.CAMERA_HEIGHT = Obelisk.HEIGHT / 2;
+Encounter.MOVEMENT_SPEED = 1.2;
+Encounter.TURN_SPEED = 0.0007;
+Encounter.SHOT_SPEED = 3.0;
+Encounter.SHOT_INTERVAL_MS = 400;
+Encounter.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot limit or range limit, but max 3 on screen
 
-// objects we want visible in the debugger
-var isPaused = false;
+// TODO move to non-OO style
 var keys = new Keys();
 var sound = new Sound();
 var actors = new Array();
-
 var physics = new Physics();
 physics.debug = false;
 

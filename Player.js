@@ -18,7 +18,7 @@ Player.init = function()
   // player can move in pause mode 
   //actors.push(playerMesh);
 
-  Player.position.set(Grid.MAX_X / 2, ENCOUNTER.CAMERA_HEIGHT, Grid.MAX_Z / 2);
+  Player.position.set(Grid.MAX_X / 2, Encounter.CAMERA_HEIGHT, Grid.MAX_Z / 2);
 }
 
 Player.update = function()
@@ -40,12 +40,12 @@ Player.update = function()
 
 Player.shoot = function()
 {
-  if (Player.shotsInFlight < ENCOUNTER.MAX_PLAYERS_SHOTS_ALLOWED)
+  if (Player.shotsInFlight < Encounter.MAX_PLAYERS_SHOTS_ALLOWED)
   {
     // FIXME use the clock
     var now = new Date().getTime();
     var timeSinceLastShot = now - Player.lastTimeFired;
-    if (timeSinceLastShot > ENCOUNTER.SHOT_INTERVAL_MS)
+    if (timeSinceLastShot > Encounter.SHOT_INTERVAL_MS)
     {
       sound.playerShoot();
       var shot = new Shot(Player);

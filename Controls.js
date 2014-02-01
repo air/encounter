@@ -20,9 +20,9 @@ Controls.useFlyControls = function()
 Controls.useEncounterControls = function()
 {
   Controls.current = new SimpleControls(Player);
-  Controls.current.movementSpeed = ENCOUNTER.MOVEMENT_SPEED;
-  Controls.current.turnSpeed = ENCOUNTER.TURN_SPEED;
-  Player.position.y = ENCOUNTER.CAMERA_HEIGHT;
+  Controls.current.movementSpeed = Encounter.MOVEMENT_SPEED;
+  Controls.current.turnSpeed = Encounter.TURN_SPEED;
+  Player.position.y = Encounter.CAMERA_HEIGHT;
   Player.rotation.x = 0;
   Player.rotation.z = 0;
 }

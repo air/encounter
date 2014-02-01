@@ -114,7 +114,7 @@ Shot.prototype.cleanUpDeadShot = function()
 
 Shot.prototype.update = function(timeDeltaMillis) {
   // move the shot
-  var actualMoveSpeed = timeDeltaMillis * ENCOUNTER.SHOT_SPEED;
+  var actualMoveSpeed = timeDeltaMillis * Encounter.SHOT_SPEED;
   this.translateZ(-actualMoveSpeed);
   this.hasTravelled += actualMoveSpeed;
 

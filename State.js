@@ -11,6 +11,8 @@ State.current = null;
 State.worldNumber = null;
 State.enemiesRemaining = null;
 
+State.isPaused = false;
+
 State.init = function()
 {
   State.current = State.ATTRACT;
@@ -66,7 +68,7 @@ State.updateCombat = function(timeDeltaMillis)
   Camera.update(timeDeltaMillis);
 
   // update non-Player game actors
-  if (!isPaused && Player.isAlive)
+  if (!State.isPaused && Player.isAlive)
   {
     State.updateActors(timeDeltaMillis);
     Controls.interpretKeys(timeDeltaMillis);

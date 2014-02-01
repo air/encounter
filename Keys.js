@@ -28,7 +28,7 @@ Keys = function()
         this.shooting = false;
         break;
       case 80: // p
-        isPaused = !isPaused;
+        State.isPaused = !State.isPaused;
         break;
     }
   };
