@@ -27,6 +27,7 @@ State.setupAttract = function()
 State.setupWaitForEnemy = function()
 {
   State.current = State.WAIT_FOR_ENEMY;
+  
   scene.add(new THREE.AxisHelper(800));
   Ground.init();
   Grid.init();
@@ -39,6 +40,13 @@ State.setupWaitForEnemy = function()
   State.worldNumber = 1;
   State.enemiesRemaining = 3;
   Overlay.update();
+
+  Enemy.startSpawnTimer();
+}
+
+State.setupCombat = function()
+{
+  State.current = State.COMBAT;
 }
 
 State.setupGameOver = function()
@@ -59,6 +67,22 @@ State.updateAttractMode = function(timeDeltaMillis)
   {
     State.setupWaitForEnemy();
   }
+}
+
+State.updateWaitForEnemy = function(timeDeltaMillis)
+{
+  Controls.current.update(timeDeltaMillis);
+  Player.update(timeDeltaMillis);
+  Camera.update(timeDeltaMillis);
+
+  // update non-Player game actors
+  if (!State.isPaused)
+  {
+    State.updateActors(timeDeltaMillis);
+    Controls.interpretKeys(timeDeltaMillis);
+  }
+
+  Enemy.spawnIfReady();
 }
 
 State.updateCombat = function(timeDeltaMillis)
@@ -97,9 +121,11 @@ function update(timeDeltaMillis)
       State.updateAttractMode(timeDeltaMillis);
       break;
     case State.COMBAT:
-    case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
       State.updateCombat(timeDeltaMillis);
+      break;
+    case State.WAIT_FOR_ENEMY:
+      State.updateWaitForEnemy(timeDeltaMillis);
       break;
     case State.GAME_OVER:
       State.updateGameOver(timeDeltaMillis);

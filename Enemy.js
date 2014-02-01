@@ -12,22 +12,38 @@ Enemy.MOVEMENT_SPEED = 0.8;
 //Enemy.shotsInFlight = 0;
 //Enemy.isAlive = true;
 
+Enemy.spawnTimerStartedAt = null;
 
 Enemy.init = function()
 {
   // actually set up this Mesh using our materials
-  THREE.Mesh.call(Enemy, Enemy.GEOMETRY, Enemy.MATERIAL); 
-  scene.add(Enemy);
-  actors.push(Enemy);
+  THREE.Mesh.call(Enemy, Enemy.GEOMETRY, Enemy.MATERIAL);
+}
 
-  Enemy.spawn();
+Enemy.startSpawnTimer = function()
+{
+  log('started spawn timer');
+  Enemy.spawnTimerStartedAt = clock.oldTime;
+}
+
+Enemy.spawnIfReady = function()
+{
+  if ((clock.oldTime - Enemy.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
+  {
+    Enemy.spawn();
+    State.setupCombat();
+  }
 }
 
 Enemy.spawn = function()
 {
+  log('spawning enemy');
   Enemy.position.set(Grid.MAX_X / 2, Encounter.CAMERA_HEIGHT, Grid.MAX_Z / 2);
   Enemy.position.x += 800;
   Enemy.position.z -= 800;
+
+  scene.add(Enemy);
+  actors.push(Enemy);
 }
 
 Enemy.update = function(timeDeltaMillis)
@@ -73,6 +89,13 @@ Enemy.doAI = function(timeDeltaMillis)
 Enemy.destroyed = function()
 {
   sound.playerKilled();
+  scene.remove(Enemy);
+
+  log(actors.length);
+  var index = actors.indexOf(Enemy);
+  if (index !== -1) {
+    actors.splice(index, 1);
+  }
+  log(actors.length);
   State.enemyKilled();
-  Enemy.spawn();
 }
