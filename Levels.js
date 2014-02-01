@@ -27,6 +27,22 @@ Levels.init = function()
   Overlay.update();
 }
 
+// FIXME assign function cleanly, remove switch?
+function update(timeDeltaMillis)
+{
+  switch (Levels.state.current)
+  {
+    case 'attract mode':
+      Levels.updateLoopAttractMode(timeDeltaMillis);
+      break;
+    case 'in combat':
+      Levels.updateLoopCombat(timeDeltaMillis);
+      break;
+    default:
+      console.error('unknown state: ', Levels.state.current);
+  }
+}
+
 Levels.enemyKilled = function()
 {
   Levels.enemiesRemaining -= 1;
@@ -38,8 +54,15 @@ Levels.setupAttractMode = function()
 
 }
 
-// how we update will depend on state
-Levels.update = function(timeDeltaMillis)
+Levels.updateLoopAttractMode = function(timeDeltaMillis)
+{
+  if (keys.shooting)
+  {
+    Levels.state.gameStarted();
+  }
+}
+
+Levels.updateLoopCombat = function(timeDeltaMillis)
 {
   // update player if we're alive, even in pause mode (for the moment)
   if (Player.isAlive)

@@ -147,7 +147,5 @@ function updateGameState(timeDeltaMillis)
   };
 }
 
-function update(timeDeltaMillis)
-{
-  Levels.update(timeDeltaMillis);
-}
+// FIXME can't assign a function
+//var update = Levels.updateLoopAttractMode();

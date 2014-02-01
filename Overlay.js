@@ -35,6 +35,16 @@ Overlay.init = function()
 
 Overlay.update = function()
 {
-  // TODO Player.livesLeft
-  Overlay.text.innerHTML = 'W' + Levels.worldNumber + ' E' + Levels.enemiesRemaining;
+  switch (Levels.state.current)
+  {
+    case 'attract mode':
+      Overlay.text.innerHTML = 'PRESS SPACE';
+      break;
+    case 'in combat':
+      // TODO Player.livesLeft
+      Overlay.text.innerHTML = 'W' + Levels.worldNumber + ' E' + Levels.enemiesRemaining;
+      break;
+    default:
+      console.error('unknown state: ', Levels.state.current);
+  }
 }
