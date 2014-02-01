@@ -155,23 +155,3 @@ function updateGameState(timeDeltaMillis)
     actors[i].update(timeDeltaMillis);
   };
 }
-
-function update(timeDeltaMillis)
-{
-  // update player if we're alive, even in pause mode (for the moment)
-  if (Player.isAlive)
-  {
-    controls.update(timeDeltaMillis);
-    Player.update(timeDeltaMillis);
-  }
-
-  // camera can move after death
-  Camera.update(timeDeltaMillis);
-
-  // update non-Player game actors
-  if (!isPaused && Player.isAlive)
-  {
-    updateGameState(timeDeltaMillis);
-    interpretKeys(timeDeltaMillis);
-  }
-}
