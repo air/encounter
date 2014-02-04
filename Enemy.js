@@ -10,7 +10,7 @@ Enemy.MOVEMENT_SPEED = 0.8;
 // state
 //Enemy.lastTimeFired = 0;
 //Enemy.shotsInFlight = 0;
-//Enemy.isAlive = true;
+Enemy.isAlive = false;
 
 Enemy.spawnTimerStartedAt = null;
 
@@ -22,7 +22,7 @@ Enemy.init = function()
 
 Enemy.startSpawnTimer = function()
 {
-  log('started spawn timer');
+  log('started enemy spawn timer');
   Enemy.spawnTimerStartedAt = clock.oldTime;
 }
 
@@ -31,6 +31,7 @@ Enemy.spawnIfReady = function()
   if ((clock.oldTime - Enemy.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
   {
     Enemy.spawn();
+    Enemy.isAlive = true;
     State.setupCombat();
   }
 }
@@ -90,6 +91,7 @@ Enemy.destroyed = function()
 {
   sound.playerKilled();
   scene.remove(Enemy);
+  Enemy.isAlive = false;
 
   var index = actors.indexOf(Enemy);
   if (index !== -1) {

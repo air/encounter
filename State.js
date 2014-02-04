@@ -30,6 +30,11 @@ State.initWorld = function()
   Controls.init();
 
   State.worldNumber = 1;
+  State.resetEnemyCounter();
+}
+
+State.resetEnemyCounter = function()
+{
   State.enemiesRemaining = 3;
 }
 
@@ -49,6 +54,15 @@ State.setupWaitForEnemy = function()
   Enemy.startSpawnTimer();
 }
 
+State.setupWaitForPortal = function()
+{
+  State.current = State.WAIT_FOR_PORTAL;
+  log(State.current);
+
+  Overlay.update();
+  Portal.startSpawnTimer();
+}
+
 State.setupCombat = function()
 {
   State.current = State.COMBAT;
@@ -66,7 +80,14 @@ State.enemyKilled = function()
 {
   log('enemy destroyed');
   State.enemiesRemaining -= 1;
-  State.setupWaitForEnemy();
+  if (State.enemiesRemaining > 0)
+  {
+    State.setupWaitForEnemy();
+  }
+  else
+  {
+    State.setupWaitForPortal();
+  }
 }
 
 State.updateAttractMode = function(timeDeltaMillis)
@@ -92,6 +113,22 @@ State.updateWaitForEnemy = function(timeDeltaMillis)
   }
 
   Enemy.spawnIfReady();
+}
+
+State.updateWaitForPortal = function(timeDeltaMillis)
+{
+  Controls.current.update(timeDeltaMillis);
+  Player.update(timeDeltaMillis);
+  Camera.update(timeDeltaMillis);
+
+  // update non-Player game actors
+  if (!State.isPaused)
+  {
+    State.updateActors(timeDeltaMillis);
+    Controls.interpretKeys(timeDeltaMillis);
+  }
+
+  Portal.update(timeDeltaMillis);
 }
 
 State.updateCombat = function(timeDeltaMillis)
@@ -130,8 +167,10 @@ function update(timeDeltaMillis)
       State.updateAttractMode(timeDeltaMillis);
       break;
     case State.COMBAT:
-    case State.WAIT_FOR_PORTAL:
       State.updateCombat(timeDeltaMillis);
+      break;
+    case State.WAIT_FOR_PORTAL:
+      State.updateWaitForPortal(timeDeltaMillis);
       break;
     case State.WAIT_FOR_ENEMY:
       State.updateWaitForEnemy(timeDeltaMillis);

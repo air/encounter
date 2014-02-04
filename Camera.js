@@ -5,7 +5,7 @@ Camera.MODE_FIRST_PERSON = 'first person';
 Camera.MODE_CHASE = 'chase';
 Camera.MODE_ORBIT = 'orbit';
 Camera.MODE_TOP_DOWN = 'top down';
-Camera.mode = Camera.MODE_CHASE;
+Camera.mode = Camera.MODE_FIRST_PERSON;
 
 Camera.CHASE_DISTANCE = 220;
 Camera.CHASE_HEIGHT = 80;

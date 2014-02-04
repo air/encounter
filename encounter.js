@@ -7,6 +7,7 @@
 // = Principles
 // The file is the unit of organization, not the class
 // = TODO
+// a Timer object that we can use everywhere rather than 'startedAt' checks
 // third camera mode where we use tank controls but the camera is in chase mode
 // can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
@@ -32,6 +33,7 @@ Encounter.SHOT_SPEED = 3.0;
 Encounter.SHOT_INTERVAL_MS = 400;
 Encounter.MAX_PLAYERS_SHOTS_ALLOWED = 15; // original has illusion of no shot limit or range limit, but max 3 on screen
 Encounter.TIME_TO_SPAWN_ENEMY_MS = 3000; // TODO not measured on original
+Encounter.TIME_TO_ENTER_PORTAL_MS = 12000; // TODO not measured 
 
 // TODO move to non-OO style
 var keys = new Keys();

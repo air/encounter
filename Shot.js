@@ -89,7 +89,7 @@ Shot.prototype.collideWithShips = function()
     Player.wasHit();
   }
   // kill the enemy
-  if (physics.doCirclesCollide(this.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
+  if (Enemy.isAlive && physics.doCirclesCollide(this.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
   {
     Enemy.destroyed();
     // remove the shot
@@ -130,7 +130,7 @@ Shot.prototype.update = function(timeDeltaMillis) {
   else
   {
     this.collideWithObelisks();
-    this.collideWithShips()
+    this.collideWithShips();
   }
 }
 
