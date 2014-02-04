@@ -25,3 +25,20 @@ Grid.init = function()
     Grid.rows[rowIndex] = row;
   }
 }
+
+// returns a Vector3
+Grid.randomLocation = function()
+{
+  return new THREE.Vector3(random(0, Grid.MAX_X), 0, random(0, Grid.MAX_Z));
+}
+
+// FIXME brute force alert!
+Grid.randomLocationCloseToPlayer = function(maxDistance)
+{
+  var location = null;
+  do
+  {
+    location = Grid.randomLocation();
+  } while (Player.position.distanceTo(location) > maxDistance);
+  return location;
+}
