@@ -28,6 +28,7 @@ State.initWorld = function()
   Camera.init();
   GUI.init();
   Controls.init();
+  Radar.init();
 
   State.worldNumber = 1;
   State.resetEnemyCounter();
