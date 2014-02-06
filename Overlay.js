@@ -36,6 +36,9 @@ Overlay.init = function()
   container.style.position = 'absolute';
   container.style.top = '0px';
   document.body.appendChild(container);
+
+  // FIXME move to State.init
+  Radar.init();
 }
 
 Overlay.update = function()

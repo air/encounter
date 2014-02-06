@@ -113,6 +113,7 @@ State.updateWaitForEnemy = function(timeDeltaMillis)
   }
 
   Enemy.spawnIfReady();
+  Radar.update();
 }
 
 State.updateWaitForPortal = function(timeDeltaMillis)
@@ -129,6 +130,7 @@ State.updateWaitForPortal = function(timeDeltaMillis)
   }
 
   Portal.update(timeDeltaMillis);
+  Radar.update();
 }
 
 State.updateCombat = function(timeDeltaMillis)
@@ -143,6 +145,7 @@ State.updateCombat = function(timeDeltaMillis)
     State.updateActors(timeDeltaMillis);
     Controls.interpretKeys(timeDeltaMillis);
   }
+  Radar.update();
 }
 
 State.updateGameOver = function(timeDeltaMillis)
