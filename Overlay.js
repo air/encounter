@@ -14,8 +14,9 @@ Overlay.init = function()
   // just set width or height if we can and trap mouseclicks
   var container = document.createElement(DIV);
   container.id = 'overlay';
-  // may not need this
-  container.addEventListener('mousedown', function (event) { event.preventDefault(); }, false);
+  // trap mouse clicks (also lets phone users start the game)
+  container.addEventListener('mousedown', function (event) { event.preventDefault(); keys.shooting = true; }, false);
+  
   container.style.cssText = '/* width:100px; */ /* height:50px; */ opacity:0.5; cursor:pointer';
 
   // textBox adds padding, alignment, background
