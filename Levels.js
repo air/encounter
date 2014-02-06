@@ -8,8 +8,9 @@ Levels.state = null;
 Levels.init = function()
 {
   Levels.state = StateMachine.create({
-    initial: 'attract',
+    initial: 'fsmStart',
     events: [
+      { name: 'oneTimeFsmStart', from: 'fsmStart', to: 'attract'},
       { name: 'gameStarted', from: 'attract', to: 'setup'},
       { name: 'setupComplete', from: 'setup', to: 'waitForEnemy'},
       { name: 'enemySpawned', from: 'waitForEnemy', to: 'combat'},
@@ -22,11 +23,9 @@ Levels.init = function()
       { name: 'warpCompleted', from: 'warp', to: 'waitForEnemy'}
     ],
     callbacks: {
-      // FIXME why can't I invoke Levels.myFunction in any callback?
       onattract: function(event, from, to) 
       {
-        console.log('hello');
-        Overlay.update();
+         Overlay.update();
       }
     }
   });

@@ -51,6 +51,7 @@ initEncounterControls();
 document.body.appendChild(renderer.domElement);
 initListeners();
 initGui();
+Levels.state.oneTimeFsmStart();
 console.info('init complete');
 animate();
 // END main -------------------------------------------------------------------
