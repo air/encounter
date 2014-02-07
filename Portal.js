@@ -67,6 +67,8 @@ Portal.updateClosing = function(timeDeltaMillis)
 
 Portal.updateWaitingForPlayer = function(timeDeltaMillis)
 {
+  // TODO check if player entered
+  
   if ((clock.oldTime - Portal.wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS)
   {
     log('player failed to enter portal, closing');
@@ -89,6 +91,8 @@ Portal.update = function(timeDeltaMillis)
       Portal.updateWaitingForPlayer(timeDeltaMillis);
       break;
     case Portal.PLAYER_ENTERED:
+      Portal.state = null;
+      State.setupWarp();
       break;
     case Portal.CLOSING:
       Portal.updateClosing(timeDeltaMillis);

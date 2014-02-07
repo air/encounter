@@ -80,6 +80,8 @@ State.setupGameOver = function()
 
 State.setupWarp = function()
 {
+  State.current = State.WARP;
+  log(State.current);
   document.body.style.background = C64.css.black;
 }
 
