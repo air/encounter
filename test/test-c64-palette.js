@@ -15,12 +15,12 @@ function initTestObjects() {
     scene.add(sphere);
   }
 
-  var light = new THREE.PointLight(C64.palette.white);
+  var light = new THREE.PointLight(C64.white);
   light.position.y = 300;
   light.position.z = 100;
   scene.add(light);
 
-  var light2 = new THREE.PointLight(C64.palette.white);
+  var light2 = new THREE.PointLight(C64.white);
   light2.position.y = -300;
   light2.position.z = 100;
   scene.add(light2);

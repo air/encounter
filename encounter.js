@@ -9,7 +9,6 @@
 // = TODO
 // add warp
 // fix 'edge of the world'
-// radar
 // a Timer object that we can use everywhere rather than 'startedAt' checks
 // third camera mode where we use tank controls but the camera is in chase mode
 // can event.preventDefault() help with the dropdown menu stealing focus?

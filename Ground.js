@@ -5,7 +5,7 @@ Ground.X_SEGMENTS = 16;
 Ground.Z_SEGMENTS = 16;
 Ground.GEOMETRY = new THREE.PlaneGeometry(Grid.MAX_X, Grid.MAX_Z, Ground.X_SEGMENTS, Ground.Z_SEGMENTS);
 
-// TODO Ground.MATERIAL = new THREE.MeshLambertMaterial({ color : C64.palette.green });
+// TODO Ground.MATERIAL = new THREE.MeshLambertMaterial({ color : C64.green });
 Ground.MATERIAL = MATS.normal;
 
 Ground.init = function()

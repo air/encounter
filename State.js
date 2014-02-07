@@ -20,6 +20,7 @@ State.init = function()
 
 State.initWorld = function()
 {
+  document.body.style.background = C64.css.lightblue;
   scene.add(new THREE.AxisHelper(800));
   Ground.init();
   Grid.init();
@@ -75,6 +76,11 @@ State.setupGameOver = function()
   State.current = State.GAME_OVER;
   log(State.current);
   Camera.mode = Camera.MODE_ORBIT;
+}
+
+State.setupWarp = function()
+{
+  document.body.style.background = C64.css.black;
 }
 
 State.enemyKilled = function()
