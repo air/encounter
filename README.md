@@ -18,10 +18,18 @@ One man's mission to remake this 80s gem in WebGL.
 
 # Status #
 
-* ~~Obelisks on a ground plane~~
-* ~~Controls~~
-* ~~Sound~~
-* ~~Shots~~
-* Collisions
-* Enemies and AI
-* Lighting and colours
+1. ~~Obelisks on a ground plane~~
+1. ~~Controls~~
+1. ~~Sound~~
+1. ~~Shots~~
+1. ~~Basic collisions~~
+1. ~~Basic enemies and AI~~
+1. ~~Radar~~
+1. Warp level
+1. Worlds 2-6
+1. Proper enemy AI
+1. Lighting and colours
+1. Missile enemies
+1. Accurate sound
+1. Accurate UI overlay
+1. Perfect collisions
