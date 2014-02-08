@@ -82,7 +82,7 @@ State.setupWarp = function()
 {
   State.current = State.WARP;
   log(State.current);
-  document.body.style.background = C64.css.black;
+  Warp.init();
 }
 
 State.enemyKilled = function()
@@ -186,6 +186,9 @@ function update(timeDeltaMillis)
       break;
     case State.WAIT_FOR_ENEMY:
       State.updateWaitForEnemy(timeDeltaMillis);
+      break;
+    case State.WARP:
+      Warp.update(timeDeltaMillis);
       break;
     case State.GAME_OVER:
       State.updateGameOver(timeDeltaMillis);

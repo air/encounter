@@ -67,9 +67,12 @@ Portal.updateClosing = function(timeDeltaMillis)
 
 Portal.updateWaitingForPlayer = function(timeDeltaMillis)
 {
-  // TODO check if player entered
-  
-  if ((clock.oldTime - Portal.wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS)
+  // FIXME hardcore portal entry after 5s
+  if ((clock.oldTime - Portal.wasOpenedAt) > 5000)
+  {
+    Portal.state = Portal.PLAYER_ENTERED;
+  }
+  else if ((clock.oldTime - Portal.wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS)
   {
     log('player failed to enter portal, closing');
     Portal.state = Portal.CLOSING;
