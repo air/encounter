@@ -7,12 +7,15 @@ Portal.WAITING_FOR_PLAYER = 'waitingForPlayer';
 Portal.PLAYER_ENTERED = 'playerEntered';
 Portal.CLOSING = 'closing';
 
-Portal.TIME_TO_ANIMATE_OPENING_MS = 4000;
+Portal.TIME_TO_ANIMATE_OPENING_MS = 1000;
 
 Portal.spawnTimerStartedAt = null;
 Portal.spawnedAt = null;
 Portal.wasOpenedAt = null;
 Portal.closeStartedAt = null;
+
+// FIXME placeholder object until we get a proper animated portal
+Portal.mesh = new THREE.Mesh(Obelisk.GEOMETRY, new THREE.MeshLambertMaterial({ color : C64.black }));
 
 Portal.init = function()
 {
@@ -37,9 +40,17 @@ Portal.spawnIfReady = function()
 
 Portal.spawn = function()
 {
-  log('portal spawned');
   Portal.spawnedAt = clock.oldTime;
-  // TODO pick a location using a Grid helper function
+
+  // TODO don't collide with obelisk
+  var spawnPosition = Grid.randomLocationCloseToPlayer(10000);
+  
+  // FIXME this is temporary
+  Portal.mesh.position.set(spawnPosition.x, Obelisk.HEIGHT / 2, spawnPosition.z);
+  Portal.mesh.update = function(){};
+  scene.add(Portal.mesh);
+  actors.push(Portal.mesh);
+  log('portal spawned');
 }
 
 Portal.updateOpening = function(timeDeltaMillis)
@@ -60,6 +71,13 @@ Portal.updateClosing = function(timeDeltaMillis)
   {
     log('portal closed');
     Portal.state = null;
+    // FIXME temporary
+    scene.remove(Portal.mesh);
+    var index = actors.indexOf(Portal.mesh);
+    if (index !== -1) {
+      actors.splice(index, 1);
+    }
+    // END FIXME
     State.resetEnemyCounter();
     State.setupWaitForEnemy();
   }
@@ -67,8 +85,7 @@ Portal.updateClosing = function(timeDeltaMillis)
 
 Portal.updateWaitingForPlayer = function(timeDeltaMillis)
 {
-  // FIXME hardcore portal entry after 5s
-  if ((clock.oldTime - Portal.wasOpenedAt) > 5000)
+  if (Player.position.distanceTo(Portal.mesh.position) < 70)
   {
     Portal.state = Portal.PLAYER_ENTERED;
   }

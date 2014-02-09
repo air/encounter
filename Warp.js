@@ -18,11 +18,19 @@ Warp.init = function()
 Warp.update = function(timeDeltaMillis)
 {
   // FIXME end warp after 5s
-  if ((clock.oldTime - Warp.enteredAt) > 5000)
+  if ((clock.oldTime - Warp.enteredAt) > 10000)
   {
     log('warp ended');
     Warp.state = null;
     State.resetEnemyCounter();
     State.setupWaitForEnemy();
+    // FIXME
+    scene.remove(Portal.mesh);
+    var index = actors.indexOf(Portal.mesh);
+    if (index !== -1) {
+      actors.splice(index, 1);
+    }
+    // END FIXME
+    document.body.style.background = C64.css.lightblue;
   }
 }
