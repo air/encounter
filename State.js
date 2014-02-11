@@ -30,6 +30,7 @@ State.initWorld = function()
   GUI.init();
   Controls.init();
   Radar.init();
+  Portal.init();
 
   State.worldNumber = 1;
   State.resetEnemyCounter();
@@ -140,6 +141,7 @@ State.updateWaitForPortal = function(timeDeltaMillis)
 
   Portal.update(timeDeltaMillis);
   Radar.update();
+  TWEEN.update(); // FIXME probably needed elsewhere
 }
 
 State.updateCombat = function(timeDeltaMillis)

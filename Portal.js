@@ -7,20 +7,21 @@ Portal.WAITING_FOR_PLAYER = 'waitingForPlayer';
 Portal.PLAYER_ENTERED = 'playerEntered';
 Portal.CLOSING = 'closing';
 
-Portal.TIME_TO_ANIMATE_OPENING_MS = 1000;
+Portal.TIME_TO_ANIMATE_OPENING_MS = 6000;
+Portal.MAX_SPAWN_DISTANCE_FROM_PLAYER = 8000;
 
 Portal.spawnTimerStartedAt = null;
 Portal.spawnedAt = null;
 Portal.wasOpenedAt = null;
 Portal.closeStartedAt = null;
 
-// FIXME placeholder object until we get a proper animated portal
-Portal.GEOMETRY = new THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
-Portal.mesh = new THREE.Mesh(Portal.GEOMETRY, new THREE.MeshLambertMaterial({ color : C64.black }));
+Portal.GEOMETRY = null;
+Portal.mesh = null;
 
 Portal.init = function()
 {
-  // no op so far
+  Portal.GEOMETRY = new THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
+  Portal.mesh = new THREE.Mesh(Portal.GEOMETRY, new THREE.MeshLambertMaterial({ color : C64.black }));
 }
 
 Portal.startSpawnTimer = function()
@@ -44,19 +45,28 @@ Portal.spawn = function()
   Portal.spawnedAt = clock.oldTime;
 
   // TODO don't collide with obelisk
-  var spawnPosition = Grid.randomLocationCloseToPlayer(10000);
+  var spawnPosition = Grid.randomLocationCloseToPlayer(Portal.MAX_SPAWN_DISTANCE_FROM_PLAYER);
   
   // FIXME this is temporary
   Portal.mesh.position.set(spawnPosition.x, Obelisk.HEIGHT / 2, spawnPosition.z);
   Portal.mesh.update = function(){};
+  Portal.mesh.scale.y = 0.01;
+
   scene.add(Portal.mesh);
   actors.push(Portal.mesh);
   log('portal spawned');
+  
+  // let's animate!
+  var tween = new TWEEN.Tween(Portal.mesh.scale).to({ y: 1.0 }, Portal.TIME_TO_ANIMATE_OPENING_MS);
+  //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
+  tween.onComplete(function() {
+    log('portal opening tween complete');
+  });
+  tween.start();
 }
 
 Portal.updateOpening = function(timeDeltaMillis)
 {
-  // TODO animate
   if ((clock.oldTime - Portal.spawnedAt) > Portal.TIME_TO_ANIMATE_OPENING_MS)
   {
     log('portal open');
