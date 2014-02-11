@@ -18,6 +18,7 @@
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
 // top down radar which is an actual second OrthographicCamera? Good for debug also
+// Try http://www.createjs.com/#!/SoundJS
 // = FIXME
 // shot pointers are incorrect in fly mode. Seem ok in normal mode
 // Y rotation breaks when the camera flips from Simple to FirstPerson.

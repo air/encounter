@@ -15,7 +15,8 @@ Portal.wasOpenedAt = null;
 Portal.closeStartedAt = null;
 
 // FIXME placeholder object until we get a proper animated portal
-Portal.mesh = new THREE.Mesh(Obelisk.GEOMETRY, new THREE.MeshLambertMaterial({ color : C64.black }));
+Portal.GEOMETRY = new THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
+Portal.mesh = new THREE.Mesh(Portal.GEOMETRY, new THREE.MeshLambertMaterial({ color : C64.black }));
 
 Portal.init = function()
 {
