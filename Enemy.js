@@ -2,8 +2,8 @@ var Enemy = new THREE.Mesh(); // initially a default mesh, we'll define this in 
 
 Enemy.RADIUS = 40;
 Enemy.GEOMETRY = new THREE.SphereGeometry(Enemy.RADIUS, 8, 4);
-Enemy.MATERIAL = MATS.wireframe.clone();
-
+Enemy.MATERIAL = MATS.normal; // see also MATS.wireframe.clone();
+Enemy.MESH_SCALE_Y = 0.4; // TODO improve UFO shape
 // Player speed is currently 1.0
 Enemy.MOVEMENT_SPEED = 0.8;
 
@@ -18,6 +18,7 @@ Enemy.init = function()
 {
   // actually set up this Mesh using our materials
   THREE.Mesh.call(Enemy, Enemy.GEOMETRY, Enemy.MATERIAL);
+  Enemy.scale.y = Enemy.MESH_SCALE_Y;
 }
 
 Enemy.startSpawnTimer = function()
