@@ -71,6 +71,15 @@ Enemy.updateWaiting = function(timeDeltaMillis)
   {
     Enemy.setupMoving();
   }
+  else
+  {
+    if (random(50) == 42)
+    {
+      physics.rotateObjectToLookAt(Enemy, Player.position);
+      Enemy.shoot();
+      Enemy.setupMoving();
+    }
+  }
 }
 
 Enemy.setupMoving = function()
