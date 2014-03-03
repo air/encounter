@@ -154,6 +154,12 @@ Physics = function()
     return vector.normalize();
   }
 
+  // returns rotation in radians, suitable for object.rotation
+  Physics.prototype.randomDirection = function()
+  {
+    return Math.random() * 2 * Math.PI;
+  }
+
   // pass in a Vector3 with X and Z values, get the rotation in radians, suitable for object.rotation.y
   // Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
   // 90 along negative X axis

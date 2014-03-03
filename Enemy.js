@@ -4,21 +4,29 @@ Enemy.RADIUS = 40;
 Enemy.GEOMETRY = new THREE.SphereGeometry(Enemy.RADIUS, 8, 4);
 Enemy.MATERIAL = MATS.normal; // see also MATS.wireframe.clone();
 Enemy.MESH_SCALE_Y = 0.4; // TODO improve UFO shape
-// Player speed is currently 1.0
-Enemy.MOVEMENT_SPEED = 0.8;
 
-// state
-//Enemy.lastTimeFired = 0;
-//Enemy.shotsInFlight = 0;
+// Player speed is Encounter.MOVEMENT_SPEED
+Enemy.MOVEMENT_SPEED = 0.9;
+
 Enemy.isAlive = false;
 
+Enemy.state = null;
+Enemy.STATE_MOVING = 'moving';
+Enemy.STATE_WAITING = 'waiting';
+
 Enemy.spawnTimerStartedAt = null;
+
+Enemy.movingCountdown = null;
+Enemy.waitingCountdown = null;
+Enemy.MOVE_TIME_MAX_MS = 5000;
+Enemy.MOVE_TIME_MIN_MS = 1000;
+Enemy.WAIT_TIME_MAX_MS = 2000;
+Enemy.WAIT_TIME_MIN_MS = 1000;
 
 Enemy.init = function()
 {
   // actually set up this Mesh using our materials
   THREE.Mesh.call(Enemy, Enemy.GEOMETRY, Enemy.MATERIAL);
-  Enemy.scale.y = Enemy.MESH_SCALE_Y;
 }
 
 Enemy.startSpawnTimer = function()
@@ -33,6 +41,7 @@ Enemy.spawnIfReady = function()
   {
     Enemy.spawn();
     Enemy.isAlive = true;
+    Enemy.setupMoving();
     State.setupCombat();
   }
 }
@@ -48,22 +57,70 @@ Enemy.spawn = function()
   actors.push(Enemy);
 }
 
+Enemy.setupWaiting = function()
+{
+  Enemy.waitingCountdown = random(Enemy.WAIT_TIME_MIN_MS, Enemy.WAIT_TIME_MAX_MS);
+  log('enemy waiting for ' + Enemy.waitingCountdown + 'ms');
+  Enemy.state = Enemy.STATE_WAITING;
+}
+
+Enemy.updateWaiting = function(timeDeltaMillis)
+{
+  Enemy.waitingCountdown -= timeDeltaMillis;
+  if (Enemy.waitingCountdown <= 0)
+  {
+    Enemy.setupMoving();
+  }
+}
+
+Enemy.setupMoving = function()
+{
+  Enemy.movingCountdown = random(Enemy.MOVE_TIME_MIN_MS, Enemy.MOVE_TIME_MAX_MS);
+  Enemy.rotation.y = physics.randomDirection();
+  log('enemy moving for ' + Enemy.movingCountdown + 'ms in direction ' + Enemy.rotation.y);
+  Enemy.state = Enemy.STATE_MOVING;
+}
+
+Enemy.updateMoving = function(timeDeltaMillis)
+{
+  Enemy.movingCountdown -= timeDeltaMillis;
+  if (Enemy.movingCountdown > 0)
+  {
+    var actualMoveSpeed = timeDeltaMillis * Enemy.MOVEMENT_SPEED;
+    Enemy.translateZ(-actualMoveSpeed);
+
+    // if an obelisk is close (fast check), do a detailed collision check
+    if (physics.isCloseToAnObelisk(Enemy.position, Enemy.RADIUS))
+    {
+      // check for precise collision
+      var obelisk = physics.getCollidingObelisk(Enemy.position, Enemy.RADIUS);
+      // if we get a return there is work to do
+      if (typeof obelisk !== "undefined")
+      {
+        // we have a collision, move the Enemy out but don't change the rotation
+        physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Enemy.position, Enemy.RADIUS);
+        sound.playerCollideObelisk();
+      }
+    }
+  }
+  else
+  {
+    Enemy.setupWaiting();
+  }
+}
+
 Enemy.update = function(timeDeltaMillis)
 {
-  Enemy.doAI(timeDeltaMillis);
-
-  // if an obelisk is close (fast check), do a detailed collision check
-  if (physics.isCloseToAnObelisk(Enemy.position, Enemy.RADIUS))
+  switch(Enemy.state)
   {
-    // check for precise collision
-    var obelisk = physics.getCollidingObelisk(Enemy.position, Enemy.RADIUS);
-    // if we get a return there is work to do
-    if (typeof obelisk !== "undefined")
-    {
-      // we have a collision, move the Enemy out but don't change the rotation
-      physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Enemy.position, Enemy.RADIUS);
-      sound.playerCollideObelisk();
-    }
+    case Enemy.STATE_WAITING:
+      Enemy.updateWaiting(timeDeltaMillis);
+      break;
+    case Enemy.STATE_MOVING:
+      Enemy.updateMoving(timeDeltaMillis);
+      break;
+    default:
+      error('unknown Enemy state: ' + Enemy.state);
   } 
 }
 
@@ -74,18 +131,6 @@ Enemy.shoot = function()
   shot.callbackWhenDead(State.actorIsDead); // FIXME make this sane
   actors.push(shot);
   scene.add(shot);
-}
-
-Enemy.doAI = function(timeDeltaMillis)
-{
-  var actualMoveSpeed = timeDeltaMillis * Enemy.MOVEMENT_SPEED;
-  Enemy.translateZ(-actualMoveSpeed);
-
-  if (random(0,100) == 42)
-  {
-    physics.rotateObjectToLookAt(Enemy, Player.position);
-    Enemy.shoot();
-  }
 }
 
 Enemy.destroyed = function()
