@@ -10,7 +10,6 @@
 // add warp
 // fix 'edge of the world'
 // a Timer object that we can use everywhere rather than 'startedAt' checks
-// third camera mode where we use tank controls but the camera is in chase mode
 // can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
 // rationalise the notion of actors (affected by pause) and pause-immune actors
@@ -18,7 +17,6 @@
 // rstats.js instead of STATS
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
-// top down radar which is an actual second OrthographicCamera? Good for debug also
 // Try http://www.createjs.com/#!/SoundJS
 // = FIXME
 // shot pointers are incorrect in fly mode. Seem ok in normal mode
