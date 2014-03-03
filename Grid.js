@@ -32,13 +32,23 @@ Grid.randomLocation = function()
   return new THREE.Vector3(random(0, Grid.MAX_X), 0, random(0, Grid.MAX_Z));
 }
 
-// FIXME brute force alert!
+// returns a Vector3
 Grid.randomLocationCloseToPlayer = function(maxDistance)
 {
+  return Grid.randomLocationCloseToPoint(Player.position, maxDistance);
+}
+
+// point: Vector3
+// returns a Vector3
+// FIXME brute force alert!
+Grid.randomLocationCloseToPoint = function(point, maxDistance)
+{
+  if (typeof point.x === "undefined") throw('point must have an x, wrong type?');
+
   var location = null;
   do
   {
     location = Grid.randomLocation();
-  } while (Player.position.distanceTo(location) > maxDistance);
+  } while (point.distanceTo(location) > maxDistance);
   return location;
 }

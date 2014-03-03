@@ -8,7 +8,6 @@ Portal.PLAYER_ENTERED = 'playerEntered';
 Portal.CLOSING = 'closing';
 
 Portal.TIME_TO_ANIMATE_OPENING_MS = 6000;
-Portal.MAX_SPAWN_DISTANCE_FROM_PLAYER = 8000;
 
 Portal.spawnTimerStartedAt = null;
 Portal.spawnedAt = null;
@@ -45,7 +44,7 @@ Portal.spawn = function()
   Portal.spawnedAt = clock.oldTime;
 
   // TODO don't collide with obelisk
-  var spawnPosition = Grid.randomLocationCloseToPlayer(Portal.MAX_SPAWN_DISTANCE_FROM_PLAYER);
+  var spawnPosition = Grid.randomLocationCloseToPlayer(Encounter.PORTAL_SPAWN_DISTANCE_MAX);
   
   // FIXME this is temporary
   Portal.mesh.position.set(spawnPosition.x, Obelisk.HEIGHT / 2, spawnPosition.z);

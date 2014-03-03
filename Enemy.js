@@ -39,10 +39,10 @@ Enemy.spawnIfReady = function()
 
 Enemy.spawn = function()
 {
-  log('spawning enemy');
-  Enemy.position.set(Grid.MAX_X / 2, Encounter.CAMERA_HEIGHT, Grid.MAX_Z / 2);
-  Enemy.position.x += 800;
-  Enemy.position.z -= 800;
+  var spawnPoint = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
+  spawnPoint.y = Encounter.CAMERA_HEIGHT;
+  log('spawning enemy at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z);
+  Enemy.position.copy(spawnPoint);
 
   scene.add(Enemy);
   actors.push(Enemy);
