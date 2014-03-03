@@ -15,6 +15,7 @@
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
 // rationalise the notion of actors (affected by pause) and pause-immune actors
 // fade sound based on proximity
+// rstats.js instead of STATS
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
 // top down radar which is an actual second OrthographicCamera? Good for debug also
