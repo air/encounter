@@ -166,6 +166,15 @@ Physics = function()
     return Math.atan2(-vector.x, -vector.z);
   }
 
+  // TODO if lookAt were fully understood we wouldn't need this?
+  Physics.prototype.rotateObjectToLookAt = function(object, point)
+  {
+    var vectorDelta = new THREE.Vector3();
+    vectorDelta.subVectors(point, object.position);
+    var rotation = this.vectorToRotation(vectorDelta);
+    object.rotation.y = rotation;
+  }
+
   // Pass in two Vector3 positions, which intersect in the X-Z plane given a radius for each.
   // This function will move the second position out of the first by the shortest path (again on the X-Z plane).
   // All Y values are ignored.

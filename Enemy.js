@@ -83,7 +83,7 @@ Enemy.doAI = function(timeDeltaMillis)
 
   if (random(0,100) == 42)
   {
-    Enemy.rotateOnAxis(Y_AXIS, Math.random());
+    physics.rotateObjectToLookAt(Enemy, Player.position);
     Enemy.shoot();
   }
 }
