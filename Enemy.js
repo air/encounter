@@ -6,7 +6,7 @@ Enemy.MATERIAL = MATS.normal; // see also MATS.wireframe.clone();
 Enemy.MESH_SCALE_Y = 0.4; // TODO improve UFO shape
 
 // Player speed is Encounter.MOVEMENT_SPEED
-Enemy.MOVEMENT_SPEED = 0.9;
+Enemy.MOVEMENT_SPEED = 0.8;
 
 Enemy.isAlive = false;
 
@@ -27,6 +27,7 @@ Enemy.init = function()
 {
   // actually set up this Mesh using our materials
   THREE.Mesh.call(Enemy, Enemy.GEOMETRY, Enemy.MATERIAL);
+  Enemy.scale.y = Enemy.MESH_SCALE_Y;
 }
 
 Enemy.startSpawnTimer = function()
