@@ -9,6 +9,7 @@
 // = TODO
 // add warp
 // fix 'edge of the world'
+// controls for touchscreen
 // a Timer object that we can use everywhere rather than 'startedAt' checks
 // can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
