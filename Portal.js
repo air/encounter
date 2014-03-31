@@ -8,7 +8,7 @@ Portal.PLAYER_ENTERED = 'playerEntered';
 Portal.CLOSING = 'closing';
 
 Portal.TIME_TO_ANIMATE_OPENING_MS = 6000;
-
+Portal.TIME_TO_ANIMATE_CLOSING_MS = 4000;
 Portal.spawnTimerStartedAt = null;
 Portal.spawnedAt = null;
 Portal.wasOpenedAt = null;
@@ -77,7 +77,7 @@ Portal.updateOpening = function(timeDeltaMillis)
 Portal.updateClosing = function(timeDeltaMillis)
 {
   // TODO animate
-  if ((clock.oldTime - Portal.closeStartedAt) > Portal.TIME_TO_ANIMATE_OPENING_MS)
+  if ((clock.oldTime - Portal.closeStartedAt) > Portal.TIME_TO_ANIMATE_CLOSING_MS)
   {
     log('portal closed');
     Portal.state = null;
@@ -104,6 +104,14 @@ Portal.updateWaitingForPlayer = function(timeDeltaMillis)
     log('player failed to enter portal, closing');
     Portal.state = Portal.CLOSING;
     Portal.closeStartedAt = clock.oldTime;
+
+    // let's animate!
+    var tween = new TWEEN.Tween(Portal.mesh.scale).to({ y: 0.01 }, Portal.TIME_TO_ANIMATE_CLOSING_MS);
+    //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
+    tween.onComplete(function() {
+      log('portal closing tween complete');
+    });
+    tween.start();
   }
 }
 
