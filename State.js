@@ -20,7 +20,7 @@ State.init = function()
 
 State.initWorld = function()
 {
-  document.body.style.background = C64.css.lightblue;
+  document.body.style.background = C64.css.lightblue; // TODO move somewhere sensible
   scene.add(new THREE.AxisHelper(800));
   Ground.init();
   Grid.init();
@@ -31,6 +31,7 @@ State.initWorld = function()
   Controls.init();
   Radar.init();
   Portal.init();
+  Warp.init();
 
   State.worldNumber = 1;
   State.resetEnemyCounter();
@@ -83,7 +84,8 @@ State.setupWarp = function()
 {
   State.current = State.WARP;
   log(State.current);
-  Warp.init();
+
+  Warp.setup();
 }
 
 State.enemyKilled = function()
