@@ -1,4 +1,4 @@
-var Obelisk = new Object();
+var Obelisk = {};
 
 Obelisk.HEIGHT = 100;
 Obelisk.RADIUS = 40;

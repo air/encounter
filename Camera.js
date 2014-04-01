@@ -1,5 +1,5 @@
 // FIXME Camera and camera is confusing
-var Camera = new Object();
+var Camera = {};
 
 Camera.MODE_FIRST_PERSON = 'first person';
 Camera.MODE_CHASE = 'chase';

@@ -15,13 +15,19 @@ Warp.enteredAt = null;
 Warp.init = function()
 {
   // TODO create asteroids
+
+  // method:
+  // Player is constantly moving.
+  // Asteroids get created every N frames on a perpendicular line a set distance ahead of the player.
+  // wait until end of warp then clean up all asteroids.
+  // Next step: implement movement/controls with obelisks in place.
 }
  
 Warp.setup = function()
 {
   Portal.removeFromScene();
   Ground.removeFromScene();
-  Grid.removeFromScene();
+  //Grid.removeFromScene();
   Radar.removeFromScene();
 
   Warp.enteredAt = clock.oldTime;

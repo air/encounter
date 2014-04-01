@@ -11,6 +11,10 @@
 // fix 'edge of the world'
 // add original super-cool exit from warp effect
 // controls for touchscreen
+// enemy types - model after original first
+// sound effects: player move, warp, enemy windup, enemy ticking
+// juice it!
+// better enemy model. Try more polys against FPS.
 // a Timer object that we can use everywhere rather than 'startedAt' checks
 // can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object

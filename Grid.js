@@ -1,4 +1,4 @@
-var Grid = new Object();
+var Grid = {};
 
 Grid.SIZE_X = 40;
 Grid.SIZE_Z = 40;
