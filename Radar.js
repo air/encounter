@@ -9,33 +9,46 @@ Radar.CENTER_Z = Math.floor(Radar.RESOLUTION_Z / 2);
 
 Radar.BLIP_RADIUS = 3;
 
-Radar.canvasContext = null;
+Radar.radarDiv = null; // for hide/show
+Radar.canvasContext = null; // for painting on
 
 var DIV = 'div';
 var CANVAS = 'canvas';
+var CSS_CENTRED_DIV = 'position:fixed; bottom:0px; width:100%';
+var CSS_RADAR_DIV = 'background-color:#000; opacity:0.6; margin-left:auto; margin-right:auto';
 
 Radar.init = function()
 {
   // for centring at the bottom we need two divs, hurray!
   var centredDiv = document.createElement(DIV);
   centredDiv.id = 'centredRadarDiv';
-  centredDiv.style.cssText = 'position:fixed; bottom:0px; width:100%';
+  centredDiv.style.cssText = CSS_CENTRED_DIV;
 
-  var radarDiv = document.createElement(DIV);
-  radarDiv.id = 'radarDiv';
-  radarDiv.style.cssText = 'background-color:#000; opacity:0.6; margin-left:auto; margin-right:auto';
-  radarDiv.style.width = Radar.RESOLUTION_X + 'px';
-  radarDiv.style.height = Radar.RESOLUTION_Z + 'px';
+  Radar.radarDiv = document.createElement(DIV);
+  Radar.radarDiv.id = 'radarDiv';
+  Radar.radarDiv.style.cssText = CSS_RADAR_DIV;
+  Radar.radarDiv.style.width = Radar.RESOLUTION_X + 'px';
+  Radar.radarDiv.style.height = Radar.RESOLUTION_Z + 'px';
 
   var radar = document.createElement(CANVAS);
   radar.width = Radar.RESOLUTION_X;
   radar.height = Radar.RESOLUTION_Z;
 
-  radarDiv.appendChild(radar);
-  centredDiv.appendChild(radarDiv);
+  Radar.radarDiv.appendChild(radar);
+  centredDiv.appendChild(Radar.radarDiv);
   document.body.appendChild(centredDiv);
 
   Radar.canvasContext = radar.getContext('2d');
+}
+
+Radar.addToScene = function()
+{
+  Radar.radarDiv.style.display = 'block';
+}
+
+Radar.removeFromScene = function()
+{
+  Radar.radarDiv.style.display = 'none';
 }
 
 Radar.blip = function(x, z)

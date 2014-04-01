@@ -12,17 +12,43 @@ Grid.rows = []; // each row is an X line of Grid.SIZE_X Obelisks
 
 Grid.init = function()
 {
-  for (var rowIndex=0; rowIndex<Grid.SIZE_Z; rowIndex++) {
+  // one-time loop to create objects
+  for (var rowIndex = 0; rowIndex < Grid.SIZE_Z; rowIndex++)
+  {
     var row = [];
-    for (var colIndex=0; colIndex<Grid.SIZE_X; colIndex++) {
+    for (var colIndex = 0; colIndex < Grid.SIZE_X; colIndex++)
+    {
       var xpos = colIndex * Grid.SPACING;
       var zpos = rowIndex * Grid.SPACING;
       var obelisk = Obelisk.newInstance();
       obelisk.position.set(xpos, Obelisk.HEIGHT / 2, zpos);
       row.push(obelisk);
-      scene.add(obelisk);
     }
     Grid.rows[rowIndex] = row;
+  }
+
+  Grid.addToScene();
+}
+
+Grid.addToScene = function()
+{
+  for (var rowIndex = 0; rowIndex < Grid.SIZE_Z; rowIndex++)
+  {
+    for (var colIndex = 0; colIndex < Grid.SIZE_X; colIndex++)
+    {
+      scene.add(Grid.rows[rowIndex][colIndex]);
+    }
+  } 
+}
+
+Grid.removeFromScene = function()
+{
+  for (var rowIndex = 0; rowIndex < Grid.SIZE_Z; rowIndex++)
+  {
+    for (var colIndex = 0; colIndex < Grid.SIZE_X; colIndex++)
+    {
+      scene.remove(Grid.rows[rowIndex][colIndex]);
+    }
   }
 }
 

@@ -64,6 +64,15 @@ Portal.spawn = function()
   tween.start();
 }
 
+Portal.removeFromScene = function()
+{
+  scene.remove(Portal.mesh);
+  var index = actors.indexOf(Portal.mesh);
+  if (index !== -1) {
+    actors.splice(index, 1);
+  }
+}
+
 Portal.updateOpening = function(timeDeltaMillis)
 {
   if ((clock.oldTime - Portal.spawnedAt) > Portal.TIME_TO_ANIMATE_OPENING_MS)
@@ -81,13 +90,8 @@ Portal.updateClosing = function(timeDeltaMillis)
   {
     log('portal closed');
     Portal.state = null;
-    // FIXME temporary
-    scene.remove(Portal.mesh);
-    var index = actors.indexOf(Portal.mesh);
-    if (index !== -1) {
-      actors.splice(index, 1);
-    }
-    // END FIXME
+    Portal.removeFromScene();
+    
     State.resetEnemyCounter();
     State.setupWaitForEnemy();
   }
@@ -98,6 +102,7 @@ Portal.updateWaitingForPlayer = function(timeDeltaMillis)
   if (Player.position.distanceTo(Portal.mesh.position) < 70)
   {
     Portal.state = Portal.PLAYER_ENTERED;
+    // Portal cleanup is done in Warp
   }
   else if ((clock.oldTime - Portal.wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS)
   {
