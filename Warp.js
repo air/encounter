@@ -1,7 +1,7 @@
 var Warp = {};
 
 Warp.TIME_ACCELERATING_MS = 9000; // measured
-Warp.TIME_AT_FULL_SPEED_MS = 11000; // measured
+Warp.TIME_CRUISING_MS = 11000; // measured
 Warp.TIME_DECELERATING_MS = 9000; // measured
 
 Warp.state = null;
@@ -32,6 +32,7 @@ Warp.setup = function()
   // TODO tween the acceleration
 
   Warp.state = Warp.STATE_ACCELERATE;
+  log('warp: accelerating');
 }
 
 Warp.removeFromScene = function()
@@ -43,26 +44,35 @@ Warp.update = function(timeDeltaMillis)
   switch (Warp.state)
   {
     case Warp.STATE_ACCELERATE:
+      if ((clock.oldTime - Warp.enteredAt) > Warp.TIME_ACCELERATING_MS)
+      {
+        Warp.state = Warp.STATE_CRUISE;
+        log('warp: cruising');
+      }
       break;
     case Warp.STATE_CRUISE:
+      if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS) > Warp.TIME_CRUISING_MS)
+      {
+        Warp.state = Warp.STATE_DECELERATE;
+        log('warp: decelerating');
+      }
       break;
     case Warp.STATE_DECELERATE:
+      if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS - Warp.TIME_CRUISING_MS) > Warp.TIME_DECELERATING_MS)
+      {
+        Warp.state = Warp.STATE_WAIT_TO_EXIT;
+        log('warp: waiting to exit');
+      }
       break;
     case Warp.STATE_WAIT_TO_EXIT:
+      // FIXME
+      log('warp ended');
+      Warp.state = null;
+      Warp.removeFromScene();
+      Warp.restoreWorld();
       break;
     default:
       error('unknown Warp state: ' + Warp.state);
-  }
-
-  // FIXME put into a state block
-  // FIXME use timings
-  if ((clock.oldTime - Warp.enteredAt) > 6000)
-  {
-    log('warp ended');
-    Warp.state = null;
-
-    Warp.removeFromScene();
-    Warp.restoreWorld();
   }
 }
 
