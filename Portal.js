@@ -1,11 +1,11 @@
 var Portal = {};
 
 Portal.state = null;
-Portal.WAITING_TO_SPAWN = 'waitingToSpawn';
-Portal.OPENING = 'opening';
-Portal.WAITING_FOR_PLAYER = 'waitingForPlayer';
-Portal.PLAYER_ENTERED = 'playerEntered';
-Portal.CLOSING = 'closing';
+Portal.STATE_WAITING_TO_SPAWN = 'waitingToSpawn';
+Portal.STATE_OPENING = 'opening';
+Portal.STATE_WAITING_FOR_PLAYER = 'waitingForPlayer';
+Portal.STATE_PLAYER_ENTERED = 'playerEntered';
+Portal.STATE_CLOSING = 'closing';
 
 Portal.TIME_TO_ANIMATE_OPENING_MS = 6000;
 Portal.TIME_TO_ANIMATE_CLOSING_MS = 4000;
@@ -27,7 +27,7 @@ Portal.startSpawnTimer = function()
 {
   log('started portal spawn timer');
   Portal.spawnTimerStartedAt = clock.oldTime;
-  Portal.state = Portal.WAITING_TO_SPAWN;
+  Portal.state = Portal.STATE_WAITING_TO_SPAWN;
 }
 
 Portal.spawnIfReady = function()
@@ -35,7 +35,7 @@ Portal.spawnIfReady = function()
   if ((clock.oldTime - Portal.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
   {
     Portal.spawn();
-    Portal.state = Portal.OPENING;
+    Portal.state = Portal.STATE_OPENING;
   }
 }
 
@@ -79,7 +79,7 @@ Portal.updateOpening = function(timeDeltaMillis)
   {
     log('portal open');
     Portal.wasOpenedAt = clock.oldTime;
-    Portal.state = Portal.WAITING_FOR_PLAYER;
+    Portal.state = Portal.STATE_WAITING_FOR_PLAYER;
   }
 }
 
@@ -101,13 +101,13 @@ Portal.updateWaitingForPlayer = function(timeDeltaMillis)
 {
   if (Player.position.distanceTo(Portal.mesh.position) < 70)
   {
-    Portal.state = Portal.PLAYER_ENTERED;
+    Portal.state = Portal.STATE_PLAYER_ENTERED;
     // Portal cleanup is done in Warp
   }
   else if ((clock.oldTime - Portal.wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS)
   {
     log('player failed to enter portal, closing');
-    Portal.state = Portal.CLOSING;
+    Portal.state = Portal.STATE_CLOSING;
     Portal.closeStartedAt = clock.oldTime;
 
     // let's animate!
@@ -124,20 +124,20 @@ Portal.update = function(timeDeltaMillis)
 {
   switch (Portal.state)
   {
-    case Portal.WAITING_TO_SPAWN:
+    case Portal.STATE_WAITING_TO_SPAWN:
       Portal.spawnIfReady();
       break;
-    case Portal.OPENING:
+    case Portal.STATE_OPENING:
       Portal.updateOpening(timeDeltaMillis);
       break;
-    case Portal.WAITING_FOR_PLAYER:
+    case Portal.STATE_WAITING_FOR_PLAYER:
       Portal.updateWaitingForPlayer(timeDeltaMillis);
       break;
-    case Portal.PLAYER_ENTERED:
+    case Portal.STATE_PLAYER_ENTERED:
       Portal.state = null;
       State.setupWarp();
       break;
-    case Portal.CLOSING:
+    case Portal.STATE_CLOSING:
       Portal.updateClosing(timeDeltaMillis);
       break;
     default:
