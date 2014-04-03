@@ -22,8 +22,8 @@ SimpleControls = function (object, domElement) {
 
   // config: does left/right rotate, or strafe?
   this.canStrafe = false;
-  // config: is forward/back disabled?
-  this.steeringOnly = false;
+  // config: is forward/back acceleration out of the player's control?
+  this.accelerationFixed = false;
 
   // FIXME dumb copy/paste from THREE
   if (this.domElement !== document)
@@ -37,7 +37,10 @@ SimpleControls = function (object, domElement) {
     {
       case 38: // up
       case 87: // w
-        this.moveForward = true;
+        if (!this.accelerationFixed)
+        {
+          this.moveForward = true;
+        }
         break;
 
       case 37: // left
@@ -54,7 +57,10 @@ SimpleControls = function (object, domElement) {
 
       case 40: // down
       case 83: // s
-        this.moveBackward = true;
+        if (!this.accelerationFixed)
+        {
+          this.moveBackward = true;
+        }
         break;
 
       case 39: // right

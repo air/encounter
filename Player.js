@@ -18,7 +18,15 @@ Player.init = function()
   // player can move in pause mode 
   //actors.push(playerMesh);
 
+  Player.resetPosition();
+}
+
+Player.resetPosition = function()
+{
   Player.position.set(Grid.MAX_X / 2, Encounter.CAMERA_HEIGHT, Grid.MAX_Z / 2);
+  Player.rotation.x = 0;
+  Player.rotation.y = 0;
+  Player.rotation.z = 0;
 }
 
 Player.update = function()

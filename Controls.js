@@ -1,6 +1,7 @@
 Controls = {};
 
 Controls.current = null;
+Controls.shootingAllowed = true;
 
 Controls.init = function()
 {
@@ -9,6 +10,7 @@ Controls.init = function()
 
 Controls.useFlyControls = function()
 {
+  Controls.shootingAllowed = true;
   Controls.current = new THREE.FirstPersonControls(Player);
   Controls.current.movementSpeed = 2.0;
   Controls.current.lookSpeed = 0.0001;
@@ -19,17 +21,28 @@ Controls.useFlyControls = function()
 
 Controls.useEncounterControls = function()
 {
+  Controls.shootingAllowed = true;
   Controls.current = new SimpleControls(Player);
   Controls.current.movementSpeed = Encounter.MOVEMENT_SPEED;
   Controls.current.turnSpeed = Encounter.TURN_SPEED;
+  Controls.current.accelerationFixed = false;
   Player.position.y = Encounter.CAMERA_HEIGHT;
   Player.rotation.x = 0;
   Player.rotation.z = 0;
 }
 
+Controls.useWarpControls = function()
+{
+  Controls.shootingAllowed = false;
+  Controls.current = new SimpleControls(Player);
+  Controls.current.movementSpeed = 0;
+  Controls.current.turnSpeed = Encounter.TURN_SPEED;
+  Controls.current.accelerationFixed = true; 
+}
+
 Controls.interpretKeys = function(timeDeltaMillis)
 {
-  if (keys.shooting)
+  if (keys.shooting && Controls.shootingAllowed)
   {
     Player.shoot();
   }

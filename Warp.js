@@ -30,6 +30,9 @@ Warp.setup = function()
   //Grid.removeFromScene();
   Radar.removeFromScene();
 
+  Player.resetPosition();
+  Controls.useWarpControls();
+
   Warp.enteredAt = clock.oldTime;
 
   document.body.style.background = C64.css.black;
@@ -47,6 +50,18 @@ Warp.removeFromScene = function()
 
 Warp.update = function(timeDeltaMillis)
 {
+  // the update loop is the same for all states
+  Controls.current.update(timeDeltaMillis);
+  Player.update(timeDeltaMillis);
+  Camera.update(timeDeltaMillis);
+
+  // update non-Player game actors
+  if (!State.isPaused)
+  {
+    State.updateActors(timeDeltaMillis);
+    Controls.interpretKeys(timeDeltaMillis);
+  }
+
   switch (Warp.state)
   {
     case Warp.STATE_ACCELERATE:
@@ -87,6 +102,8 @@ Warp.restoreWorld = function()
   Ground.addToScene();
   Grid.addToScene();
   Radar.addToScene();
+  Player.resetPosition();
+  Controls.useEncounterControls();
   document.body.style.background = C64.css.lightblue;
 
   State.resetEnemyCounter();
