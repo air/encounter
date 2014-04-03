@@ -7,7 +7,6 @@
 // = Principles
 // The file is the unit of organization, not the class
 // = TODO
-// add warp
 // fix 'edge of the world'
 // add original super-cool exit from warp effect
 // controls for touchscreen

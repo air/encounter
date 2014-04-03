@@ -35,7 +35,7 @@ Warp.setup = function()
   Portal.removeFromScene();
   Ground.removeFromScene();
   Grid.removeFromScene();
-  //Radar.removeFromScene();
+  Radar.removeFromScene();
 
   Player.resetPosition();
   Controls.useWarpControls();
@@ -74,6 +74,13 @@ Warp.removeFromScene = function()
   });
 }
 
+Warp.checkCollisions = function()
+{
+  Warp.asteroids.forEach(function(asteroid) {
+    Asteroid.collideWithPlayer(asteroid.position);
+  });
+}
+
 Warp.update = function(timeDeltaMillis)
 {
   // the update loop is the same for all states
@@ -83,8 +90,9 @@ Warp.update = function(timeDeltaMillis)
   Camera.update(timeDeltaMillis);
   State.updateActors(timeDeltaMillis);
   Controls.interpretKeys(timeDeltaMillis);
-  // FIXME DEBUG ONLY
-  Radar.update();
+  Warp.checkCollisions();
+  // DEBUG ONLY
+  //Radar.update();
 
   switch (Warp.state)
   {
