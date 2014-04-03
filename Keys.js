@@ -32,6 +32,10 @@ Keys = function()
       case 80: // p
         State.isPaused = !State.isPaused;
         break;
+      case 8: // backspace
+        Enemy.destroyed();
+        error('cheater!');
+        break;
     }
   };
 
