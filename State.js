@@ -27,11 +27,11 @@ State.initWorld = function()
   Player.init();
   Enemy.init();
   Camera.init();
-  GUI.init();
   Controls.init();
   Radar.init();
   Portal.init();
   Warp.init();
+  GUI.init(); // depends on Controls.init
 
   State.worldNumber = 1;
   State.resetEnemyCounter();

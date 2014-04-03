@@ -48,7 +48,8 @@ Warp.setup = function()
   // set up acceleration phase
   var tween = new TWEEN.Tween(Controls.current).to({ movementSpeed: Warp.MAX_SPEED }, Warp.TIME_ACCELERATING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
-  tween.onComplete(function() {
+  tween.onComplete(function()
+  {
     log('acceleration tween complete');
   });
   tween.start();
@@ -82,6 +83,14 @@ Warp.update = function(timeDeltaMillis)
       {
         Warp.state = Warp.STATE_DECELERATE;
         log('warp: decelerating');
+
+        var tween = new TWEEN.Tween(Controls.current).to({ movementSpeed: 0 }, Warp.TIME_DECELERATING_MS);
+        //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
+        tween.onComplete(function()
+        {
+          log('acceleration tween complete');
+        });
+        tween.start();
       }
       break;
     case Warp.STATE_DECELERATE:

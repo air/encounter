@@ -58,7 +58,8 @@ Portal.spawn = function()
   // let's animate!
   var tween = new TWEEN.Tween(Portal.mesh.scale).to({ y: 1.0 }, Portal.TIME_TO_ANIMATE_OPENING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
-  tween.onComplete(function() {
+  tween.onComplete(function()
+  {
     log('portal opening tween complete');
   });
   tween.start();
