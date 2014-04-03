@@ -1,3 +1,4 @@
+// SimpleControls.js handles movement only. For other functions see Keys.js
 // Adapted from THREE.FirstPersonControls
 
 // TODO crosshairs, translucent
@@ -6,21 +7,25 @@ SimpleControls = function (object, domElement) {
   this.object = object;
   this.domElement = (domElement !== undefined) ? domElement : document;
 
+  // for affecting Player state
   this.movementSpeed = 1.0;
   this.turnSpeed = 0.005;
 
+  // binary states of the controls
   this.moveForward = false;
   this.moveBackward = false;
   this.moveLeft = false;
   this.moveRight = false;
-
   this.turnLeft = false;
   this.turnRight = false;
 
+  // config: does left/right rotate, or strafe?
   this.canStrafe = false;
+  // config: is forward/back disabled?
+  this.steeringOnly = false;
 
   if (this.domElement !== document) {
-    this.domElement.setAttribute('tabindex', -1);
+    this.domElement.setAttribute('tabindex', -1)
   }
 
   this.onKeyDown = function (event) {

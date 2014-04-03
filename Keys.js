@@ -1,5 +1,7 @@
 // TODO might need to re-add the domElement stuff from SimpleControls.js
 
+// Keys.js covers the keys that are NOT associated with movement (which can change).
+
 Keys = function()
 {
   this.shooting = false;
