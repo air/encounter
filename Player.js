@@ -32,7 +32,7 @@ Player.resetPosition = function()
 Player.update = function()
 {
   // if an obelisk is close (fast check), do a detailed collision check
-  if (physics.isCloseToAnObelisk(Player.position, Player.RADIUS))
+  if (Grid.isActive && physics.isCloseToAnObelisk(Player.position, Player.RADIUS))
   {
     // check for precise collision
     var obelisk = physics.getCollidingObelisk(Player.position, Player.RADIUS);

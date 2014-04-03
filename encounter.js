@@ -25,6 +25,7 @@
 // replace direct use of rotation.n.set with rotateOnAxis()
 // Try http://www.createjs.com/#!/SoundJS
 // refactor util.js and decide if it's a separate repo or not
+// refactor Physics.js 3D stuff into MY3 utils
 // = FIXME
 // shot pointers are incorrect in fly mode. Seem ok in normal mode
 // Y rotation breaks when the camera flips from Simple to FirstPerson.

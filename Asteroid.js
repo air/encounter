@@ -1,12 +1,17 @@
 var Asteroid = {};
 
 Asteroid.RADIUS = 40;
-Asteroid.GEOMETRY = new THREE.SphereGeometry(Shot.RADIUS, 16, 16);
+Asteroid.GEOMETRY = new THREE.SphereGeometry(Asteroid.RADIUS, 16, 16);
 //Asteroid.MATERIAL = MATS.normal;
 
 Asteroid.newInstance = function()
 {
-  return new THREE.Mesh(Asteroid.GEOMETRY, Asteroid.MATERIAL);
+  var newAsteroid = new THREE.Mesh(Asteroid.GEOMETRY, Asteroid.MATERIAL);
+  newAsteroid.update = function()
+  {
+    // no op
+  };
+  return newAsteroid;
 }
 
 Asteroid.collideWithPlayer = function(position)

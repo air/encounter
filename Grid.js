@@ -10,6 +10,9 @@ Grid.MAX_Z = (Grid.SIZE_Z - 1) * Grid.SPACING;
 // state
 Grid.rows = []; // each row is an X line of Grid.SIZE_X Obelisks
 
+// the grid is not active during warp
+Grid.isActive = true;
+
 Grid.init = function()
 {
   // one-time loop to create objects
@@ -38,7 +41,9 @@ Grid.addToScene = function()
     {
       scene.add(Grid.rows[rowIndex][colIndex]);
     }
-  } 
+  }
+  
+  Grid.isActive = true;
 }
 
 Grid.removeFromScene = function()
@@ -50,6 +55,8 @@ Grid.removeFromScene = function()
       scene.remove(Grid.rows[rowIndex][colIndex]);
     }
   }
+
+  Grid.isActive = false;
 }
 
 // returns a Vector3

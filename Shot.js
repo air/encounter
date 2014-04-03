@@ -32,6 +32,7 @@ function Shot(firingObject) {
   this.RADIUS = Shot.RADIUS;
 
   this.hasTravelled = 0;
+  // for debug only
   this.closeObeliskIndex = new THREE.Vector2(0,0); // not actually true at init time
 }
 

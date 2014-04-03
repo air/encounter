@@ -14,23 +14,28 @@ Warp.STATE_WAIT_TO_EXIT = 'waitToExit';
 
 Warp.enteredAt = null;
 
+// asteroid references for cleanup
+Warp.asteroids = [];
+
 Warp.init = function()
 {
-  // TODO create asteroids
-
-  // method:
-  // Player is constantly moving.
-  // Asteroids get created every N frames on a perpendicular line a set distance ahead of the player.
-  // wait until end of warp then clean up all asteroids.
-  // Next step: implement movement/controls with obelisks in place.
+  // TODO try different methods
+  for (var i=0; i<500; i++)
+  {
+    var asteroid = Asteroid.newInstance();
+    var location = Grid.randomLocationCloseToPlayer(100000);
+    location.y = Encounter.CAMERA_HEIGHT;
+    asteroid.position.copy(location);
+    Warp.asteroids.push(asteroid);
+  }
 }
  
 Warp.setup = function()
 {
   Portal.removeFromScene();
   Ground.removeFromScene();
-  //Grid.removeFromScene();
-  Radar.removeFromScene();
+  Grid.removeFromScene();
+  //Radar.removeFromScene();
 
   Player.resetPosition();
   Controls.useWarpControls();
@@ -38,9 +43,12 @@ Warp.setup = function()
   Warp.enteredAt = clock.oldTime;
 
   document.body.style.background = C64.css.black;
-  // TODO add to scene
-  // TODO remove up/down controls
-  // TODO tween the acceleration
+
+  // FIXME tidy up
+  Warp.asteroids.forEach(function(asteroid) {
+    scene.add(asteroid);
+    actors.push(asteroid);
+  });
 
   Warp.state = Warp.STATE_ACCELERATE;
   log('warp: accelerating');
@@ -57,6 +65,13 @@ Warp.setup = function()
 
 Warp.removeFromScene = function()
 {
+  Warp.asteroids.forEach(function(asteroid) {
+    scene.remove(asteroid);
+    var index = actors.indexOf(asteroid);
+    if (index !== -1) {
+      actors.splice(index, 1);
+    }
+  });
 }
 
 Warp.update = function(timeDeltaMillis)
@@ -68,6 +83,8 @@ Warp.update = function(timeDeltaMillis)
   Camera.update(timeDeltaMillis);
   State.updateActors(timeDeltaMillis);
   Controls.interpretKeys(timeDeltaMillis);
+  // FIXME DEBUG ONLY
+  Radar.update();
 
   switch (Warp.state)
   {
