@@ -38,6 +38,13 @@ Camera.init = function()
   Camera.orthoCamera.rotateOnAxis(X_AXIS, -90 * TO_RADIANS);
 }
 
+Camera.useOrbitMode = function()
+{
+  // external camera so let's render the player
+  scene.add(Player);
+  Camera.mode = Camera.MODE_ORBIT;
+}
+
 Camera.update = function(timeDeltaMillis)
 {
   if (Camera.mode == Camera.MODE_TOP_DOWN)

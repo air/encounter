@@ -77,7 +77,7 @@ State.setupGameOver = function()
 {
   State.current = State.GAME_OVER;
   log(State.current);
-  Camera.mode = Camera.MODE_ORBIT;
+  Camera.useOrbitMode();
 }
 
 State.setupWarp = function()

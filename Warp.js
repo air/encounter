@@ -20,10 +20,10 @@ Warp.asteroids = [];
 Warp.init = function()
 {
   // TODO try different methods
-  for (var i=0; i<500; i++)
+  for (var i=0; i<800; i++)
   {
     var asteroid = Asteroid.newInstance();
-    var location = Grid.randomLocationCloseToPlayer(100000);
+    var location = Grid.randomLocationCloseToPlayer(200000);
     location.y = Encounter.CAMERA_HEIGHT;
     asteroid.position.copy(location);
     Warp.asteroids.push(asteroid);
