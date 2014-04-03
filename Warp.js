@@ -4,6 +4,8 @@ Warp.TIME_ACCELERATING_MS = 9000; // measured
 Warp.TIME_CRUISING_MS = 11000; // measured
 Warp.TIME_DECELERATING_MS = 9000; // measured
 
+Warp.MAX_SPEED = 3.5;
+
 Warp.state = null;
 Warp.STATE_ACCELERATE = 'accelerate';
 Warp.STATE_CRUISE = 'cruise';
@@ -42,6 +44,14 @@ Warp.setup = function()
 
   Warp.state = Warp.STATE_ACCELERATE;
   log('warp: accelerating');
+
+  // set up acceleration phase
+  var tween = new TWEEN.Tween(Controls.current).to({ movementSpeed: Warp.MAX_SPEED }, Warp.TIME_ACCELERATING_MS);
+  //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
+  tween.onComplete(function() {
+    log('acceleration tween complete');
+  });
+  tween.start();
 }
 
 Warp.removeFromScene = function()
@@ -51,16 +61,12 @@ Warp.removeFromScene = function()
 Warp.update = function(timeDeltaMillis)
 {
   // the update loop is the same for all states
+  TWEEN.update();
   Controls.current.update(timeDeltaMillis);
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
-
-  // update non-Player game actors
-  if (!State.isPaused)
-  {
-    State.updateActors(timeDeltaMillis);
-    Controls.interpretKeys(timeDeltaMillis);
-  }
+  State.updateActors(timeDeltaMillis);
+  Controls.interpretKeys(timeDeltaMillis);
 
   switch (Warp.state)
   {
@@ -86,7 +92,7 @@ Warp.update = function(timeDeltaMillis)
       }
       break;
     case Warp.STATE_WAIT_TO_EXIT:
-      // FIXME
+      // TODO proper warp exit
       log('warp ended');
       Warp.state = null;
       Warp.removeFromScene();

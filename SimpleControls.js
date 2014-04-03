@@ -105,21 +105,26 @@ SimpleControls = function (object, domElement) {
     }
   };
 
-  this.update = function(delta)
+  this.update = function(timeDeltaMillis)
   {
     // move the player
-    var actualMoveSpeed = delta * this.movementSpeed;
+    var actualMoveSpeed = timeDeltaMillis * this.movementSpeed;
 
-    if (this.moveForward) this.object.translateZ(- actualMoveSpeed);
+    if (this.moveForward || this.accelerationFixed)
+    {
+      this.object.translateZ(- actualMoveSpeed);
+    }
+    
     if (this.moveBackward) this.object.translateZ(actualMoveSpeed);
 
+    // these will only be true if this.canStrafe
     if (this.moveLeft) this.object.translateX(- actualMoveSpeed);
     if (this.moveRight) this.object.translateX(actualMoveSpeed);
 
     // rotate player
     if (!this.canStrafe)
     {
-      var actualTurnSpeed = delta * this.turnSpeed;
+      var actualTurnSpeed = timeDeltaMillis * this.turnSpeed;
       if (this.turnRight)
       {
         this.object.rotation.y -= actualTurnSpeed;
