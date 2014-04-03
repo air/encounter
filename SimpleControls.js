@@ -5,6 +5,7 @@
 
 SimpleControls = function (object, domElement) {
   this.object = object;
+  // FIXME dumb copy/paste from THREE
   this.domElement = (domElement !== undefined) ? domElement : document;
 
   // for affecting Player state
@@ -24,12 +25,16 @@ SimpleControls = function (object, domElement) {
   // config: is forward/back disabled?
   this.steeringOnly = false;
 
-  if (this.domElement !== document) {
+  // FIXME dumb copy/paste from THREE
+  if (this.domElement !== document)
+  {
     this.domElement.setAttribute('tabindex', -1)
   }
 
-  this.onKeyDown = function (event) {
-    switch (event.keyCode) {
+  function keyDown(event)
+  {
+    switch (event.keyCode)
+    {
       case 38: // up
       case 87: // w
         this.moveForward = true;
@@ -37,9 +42,12 @@ SimpleControls = function (object, domElement) {
 
       case 37: // left
       case 65: // a
-        if (this.canStrafe) {
+        if (this.canStrafe)
+        {
           this.moveLeft = true;
-        } else {
+        }
+        else
+        {
           this.turnLeft = true;
         }
         break;
@@ -51,17 +59,22 @@ SimpleControls = function (object, domElement) {
 
       case 39: // right
       case 68: // d
-        if (this.canStrafe) {
+        if (this.canStrafe)
+        {
           this.moveRight = true;
-        } else {
+        }
+        else
+        {
           this.turnRight = true;
         }
         break;
     }
   };
 
-  this.onKeyUp = function (event) {
-    switch(event.keyCode) {
+  function keyUp(event)
+  {
+    switch(event.keyCode)
+    {
       case 38: // up
       case 87: // w
         this.moveForward = false;
@@ -86,8 +99,9 @@ SimpleControls = function (object, domElement) {
     }
   };
 
-  this.update = function(delta) {
-    // move
+  this.update = function(delta)
+  {
+    // move the player
     var actualMoveSpeed = delta * this.movementSpeed;
 
     if (this.moveForward) this.object.translateZ(- actualMoveSpeed);
@@ -96,25 +110,21 @@ SimpleControls = function (object, domElement) {
     if (this.moveLeft) this.object.translateX(- actualMoveSpeed);
     if (this.moveRight) this.object.translateX(actualMoveSpeed);
 
-    // rotate
-    if (!this.canStrafe) {
+    // rotate player
+    if (!this.canStrafe)
+    {
       var actualTurnSpeed = delta * this.turnSpeed;
-      if (this.turnRight) {
+      if (this.turnRight)
+      {
         this.object.rotation.y -= actualTurnSpeed;
       }
-      else if (this.turnLeft) {
+      else if (this.turnLeft)
+      {
         this.object.rotation.y += actualTurnSpeed;
       }
     }
   };
 
-  this.domElement.addEventListener('keydown', bind(this, this.onKeyDown), false);
-  this.domElement.addEventListener('keyup', bind(this, this.onKeyUp), false);
-
-  function bind(scope, fn) {
-    return function () {
-      fn.apply(scope, arguments);
-    };
-  };
-
+  document.addEventListener('keydown', keyDown.bind(this), false);
+  document.addEventListener('keyup', keyUp.bind(this), false);
 };
