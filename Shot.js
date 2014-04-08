@@ -25,8 +25,7 @@ function Shot(firingObject) {
 
   this.position.copy(firingObject.position);
   this.rotation.copy(firingObject.rotation);
-  this.updateMatrix(); // push the position/rotation changes into the underlying matrix
-  this.translateZ(-Shot.OFFSET_FROM_SHOOTER); // this depends on the matrix being up to date
+  this.translateZ(-Shot.OFFSET_FROM_SHOOTER);
 
   // FIXME what a piece of shit object model
   this.RADIUS = Shot.RADIUS;

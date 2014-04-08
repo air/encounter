@@ -94,6 +94,13 @@ Warp.update = function(timeDeltaMillis)
   // DEBUG ONLY
   //Radar.update();
 
+  var asteroid = Asteroid.newInstance();
+  asteroid.position.copy(Player.position);
+  asteroid.rotation.copy(Player.rotation);
+  asteroid.translateZ(-10000);
+  scene.add(asteroid);
+  Warp.asteroids.push(asteroid);
+
   switch (Warp.state)
   {
     case Warp.STATE_ACCELERATE:
