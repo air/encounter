@@ -36,12 +36,6 @@ Warp.setup = function()
 
   document.body.style.background = C64.css.black;
 
-  // FIXME tidy up
-  Warp.asteroids.forEach(function(asteroid) {
-    scene.add(asteroid);
-    actors.push(asteroid);
-  });
-
   Warp.state = Warp.STATE_ACCELERATE;
   log('warp: accelerating');
 
@@ -58,13 +52,7 @@ Warp.setup = function()
 Warp.removeFromScene = function()
 {
   Warp.asteroids.forEach(function(asteroid) {
-    // remove from THREE
     scene.remove(asteroid);
-    // FIXME - if asteroids aren't on radar they don't need to be in update loop 
-    var index = actors.indexOf(asteroid);
-    if (index !== -1) {
-      actors.splice(index, 1);
-    }
   });
   // forget this round's asteroids
   Warp.asteroids = [];
@@ -73,13 +61,19 @@ Warp.removeFromScene = function()
 Warp.createAsteroidsInFrontOfPlayer = function(timeDeltaMillis)
 {
   // TODO set ASTEROIDS_CREATED_PER_SECOND and tween it according to phase
+  // otherwise we are 1. more dense when going slow and 2. FPS will affect difficulty 
   var asteroid = Asteroid.newInstance();
   asteroid.position.copy(Player.position);
   asteroid.rotation.copy(Player.rotation);
-  asteroid.translateZ(-15000);
-  asteroid.translateX(random(-15000, 15000));
+  asteroid.translateZ(-15000); // FIXME adjust this
+  asteroid.translateX(random(-15000, 15000)); // FIXME adjust this
   scene.add(asteroid);
   Warp.asteroids.push(asteroid);
+}
+
+Warp.removeAsteroidsBehindPlayer = function(timeDeltaMillis)
+{
+  // TODO
 }
 
 Warp.checkCollisions = function()
@@ -96,11 +90,9 @@ Warp.update = function(timeDeltaMillis)
   Controls.current.update(timeDeltaMillis);
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
-  State.updateActors(timeDeltaMillis);
   Controls.interpretKeys(timeDeltaMillis);
   Warp.checkCollisions();
-  // DEBUG ONLY
-  //Radar.update();
+  // no need to update State.actors, we're just Player and Asteroids
 
   switch (Warp.state)
   {
