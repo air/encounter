@@ -1,6 +1,9 @@
 # Encounter #
 
 One man's mission to remake this 80s gem in WebGL.
+
+**NEW:** Follow the devlog at http://aaronbell.com
+
 * [Video of the original](http://www.youtube.com/watch?v=_7eCFOpI0SU)
 * [Lemon64 entry](http://www.lemon64.com/games/details.php?ID=832)
 * [Downloadable D64 image from c64.com](http://www.c64.com/games/351)
