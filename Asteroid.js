@@ -1,6 +1,6 @@
 var Asteroid = {};
 
-Asteroid.RADIUS = 40;
+Asteroid.RADIUS = 50;
 Asteroid.GEOMETRY = new THREE.SphereGeometry(Asteroid.RADIUS, 16, 16);
 // leave material undefined to get random colours
 //Asteroid.MATERIAL = MATS.normal;

@@ -4,7 +4,7 @@ Warp.TIME_ACCELERATING_MS = 9000; // measured
 Warp.TIME_CRUISING_MS = 11000; // measured
 Warp.TIME_DECELERATING_MS = 9000; // measured
 
-Warp.MAX_SPEED = 3.5;
+Warp.MAX_SPEED = 5.0;
 
 Warp.state = null;
 Warp.STATE_ACCELERATE = 'accelerate';
@@ -19,15 +19,7 @@ Warp.asteroids = [];
 
 Warp.init = function()
 {
-  // TODO try different methods
-  for (var i=0; i<800; i++)
-  {
-    var asteroid = Asteroid.newInstance();
-    var location = Grid.randomLocationCloseToPlayer(200000);
-    location.y = Encounter.CAMERA_HEIGHT;
-    asteroid.position.copy(location);
-    Warp.asteroids.push(asteroid);
-  }
+  // no op since asteroids are created at runtime now
 }
  
 Warp.setup = function()
@@ -66,12 +58,28 @@ Warp.setup = function()
 Warp.removeFromScene = function()
 {
   Warp.asteroids.forEach(function(asteroid) {
+    // remove from THREE
     scene.remove(asteroid);
+    // FIXME - if asteroids aren't on radar they don't need to be in update loop 
     var index = actors.indexOf(asteroid);
     if (index !== -1) {
       actors.splice(index, 1);
     }
   });
+  // forget this round's asteroids
+  Warp.asteroids = [];
+}
+
+Warp.createAsteroidsInFrontOfPlayer = function(timeDeltaMillis)
+{
+  // TODO set ASTEROIDS_CREATED_PER_SECOND and tween it according to phase
+  var asteroid = Asteroid.newInstance();
+  asteroid.position.copy(Player.position);
+  asteroid.rotation.copy(Player.rotation);
+  asteroid.translateZ(-15000);
+  asteroid.translateX(random(-15000, 15000));
+  scene.add(asteroid);
+  Warp.asteroids.push(asteroid);
 }
 
 Warp.checkCollisions = function()
@@ -94,16 +102,11 @@ Warp.update = function(timeDeltaMillis)
   // DEBUG ONLY
   //Radar.update();
 
-  var asteroid = Asteroid.newInstance();
-  asteroid.position.copy(Player.position);
-  asteroid.rotation.copy(Player.rotation);
-  asteroid.translateZ(-10000);
-  scene.add(asteroid);
-  Warp.asteroids.push(asteroid);
-
   switch (Warp.state)
   {
     case Warp.STATE_ACCELERATE:
+      // keep things interesting
+      Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
       if ((clock.oldTime - Warp.enteredAt) > Warp.TIME_ACCELERATING_MS)
       {
         Warp.state = Warp.STATE_CRUISE;
@@ -111,6 +114,8 @@ Warp.update = function(timeDeltaMillis)
       }
       break;
     case Warp.STATE_CRUISE:
+      // keep things interesting
+      Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
       if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS) > Warp.TIME_CRUISING_MS)
       {
         Warp.state = Warp.STATE_DECELERATE;
@@ -126,6 +131,7 @@ Warp.update = function(timeDeltaMillis)
       }
       break;
     case Warp.STATE_DECELERATE:
+      // don't create new asteroids in deceleration phase
       if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS - Warp.TIME_CRUISING_MS) > Warp.TIME_DECELERATING_MS)
       {
         Warp.state = Warp.STATE_WAIT_TO_EXIT;
