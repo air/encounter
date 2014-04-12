@@ -17,13 +17,14 @@ Low sun, sunset world
 Skyboxes with suns
 
 Check Amiga version http://hol.abime.net/3262/screenshot
+
 # Effects
 
-Things that wobble and shake feel organic and/or scary
-Particles like: smoke. Fireflies. Wind in a direction. Snow. Rain. Or one general effect for depth and texture. SPARKS.js
-Ease down the clock multiplier for a very cool slow-mo effect. This will break clock-elapsed timers.
-Camera move: use ease in/out for move/rotate cinematic sweeps - tween js does this.
-Very slow rotate/pan is cool for a 'static' but live menu screen
+- Things that wobble and shake feel organic and/or scary
+- Particles like: smoke. Fireflies. Wind in a direction. Snow. Rain. Or one general effect for depth and texture. SPARKS.js
+- Ease down the clock multiplier for a very cool slow-mo effect. This will break clock-elapsed timers.
+- Camera move: use ease in/out for move/rotate cinematic sweeps - tween js does this.
+- Very slow rotate/pan is cool for a 'static' but live menu screen
 
 # Sound
 
