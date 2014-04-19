@@ -53,11 +53,11 @@ var actors = new Array();
 var physics = new Physics();
 physics.debug = false;
 
-MY3.setupRStats();
-
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 Overlay.init();
 State.init();
+
+MY3.setupRStats(); // requires three renderer to be ready
 
 document.body.appendChild(renderer.domElement);
 
