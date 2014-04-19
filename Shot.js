@@ -121,5 +121,10 @@ Shot.cleanUpDeadShot = function(shot)
     Physics.unHighlightObelisk(shot.closeObeliskIndex.x, shot.closeObeliskIndex.y);
   }
 
+  if (shot.shooter === Player)
+  {
+    Player.shotsInFlight -= 1;
+  }
+
   State.actorIsDead(shot);
 }

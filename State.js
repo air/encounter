@@ -214,6 +214,5 @@ State.actorIsDead = function(actor)
     State.actors.splice(index, 1);
   }
 
-  Player.shotsInFlight -= 1; // FIXME not general case
   scene.remove(actor);
 }
