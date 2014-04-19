@@ -9,15 +9,13 @@ Shot.GEOMETRY = new THREE.SphereGeometry(Shot.RADIUS, 16, 16);
 Shot.MATERIAL = MATS.normal;
 
 // returns a new shot fired by the firingObject
-// a firingObject has a position and a rotation from which the shot emerges
-// FIXME assumptions about input = bad
-Shot.newInstance = function(firingObject)
+Shot.newInstance = function(firingObject, shooterPosition, shooterRotation)
 {
   var newShot = new THREE.Mesh(Shot.GEOMETRY, Shot.MATERIAL);
   newShot.shooter = firingObject;
 
-  newShot.position.copy(firingObject.position);
-  newShot.rotation.copy(firingObject.rotation);
+  newShot.position.copy(shooterPosition);
+  newShot.rotation.copy(shooterRotation);
   newShot.translateZ(-Shot.OFFSET_FROM_SHOOTER);
 
   newShot.hasTravelled = 0;

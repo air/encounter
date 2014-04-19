@@ -137,7 +137,7 @@ Enemy.update = function(timeDeltaMillis)
 Enemy.shoot = function()
 {
   Sound.enemyShoot();
-  var shot = Shot.newInstance(Enemy);
+  var shot = Shot.newInstance(Enemy, Enemy.position, Enemy.rotation);
   State.actors.push(shot);
   scene.add(shot);
 }

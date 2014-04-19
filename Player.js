@@ -63,7 +63,7 @@ Player.shoot = function()
     if (timeSinceLastShot > Encounter.SHOT_INTERVAL_MS)
     {
       Sound.playerShoot();
-      var shot = Shot.newInstance(Player);
+      var shot = Shot.newInstance(Player, Player.position, Player.rotation);
       Player.shotsInFlight += 1;
       Player.lastTimeFired = now;
       State.actors.push(shot);
