@@ -17,7 +17,7 @@
 // work on Timer.js to use everywhere rather than 'startedAt' checks
 // can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
-// rationalise the notion of actors (affected by pause) and pause-immune actors
+// rationalise the notion of State.actors (affected by pause) and pause-immune State.actors
 // fade sound based on proximity
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
@@ -44,9 +44,6 @@ Encounter.TIME_TO_SPAWN_ENEMY_MS = 3000; // TODO not measured on original
 Encounter.TIME_TO_ENTER_PORTAL_MS = 12000; // TODO not measured
 Encounter.ENEMY_SPAWN_DISTANCE_MAX = 10000; // not measured
 Encounter.PORTAL_SPAWN_DISTANCE_MAX = 10000; // not measured
-
-// FIXME move to State?
-var actors = new Array();
 
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 Sound.init();

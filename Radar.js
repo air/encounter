@@ -96,9 +96,9 @@ Radar.update = function()
   Radar.canvasContext.fillStyle = "#FFFFFF";
   Radar.render(Player.position.x, Player.position.z);
 
-  for (var i = 0; i < actors.length; i++)
+  for (var i = 0; i < State.actors.length; i++)
   {
-    if (actors[i].isAlive)
+    if (State.actors[i].isAlive)
     {
       Radar.canvasContext.fillStyle = "#FF0000";
     }
@@ -106,6 +106,6 @@ Radar.update = function()
     {
       Radar.canvasContext.fillStyle = "#666666";
     }
-    Radar.render(actors[i].position.x, actors[i].position.z);
+    Radar.render(State.actors[i].position.x, State.actors[i].position.z);
   }
 }

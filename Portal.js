@@ -52,7 +52,7 @@ Portal.spawn = function()
   Portal.mesh.scale.y = 0.01;
 
   scene.add(Portal.mesh);
-  actors.push(Portal.mesh);
+  State.actors.push(Portal.mesh);
   log('portal spawned');
   
   // let's animate!
@@ -68,9 +68,9 @@ Portal.spawn = function()
 Portal.removeFromScene = function()
 {
   scene.remove(Portal.mesh);
-  var index = actors.indexOf(Portal.mesh);
+  var index = State.actors.indexOf(Portal.mesh);
   if (index !== -1) {
-    actors.splice(index, 1);
+    State.actors.splice(index, 1);
   }
 }
 

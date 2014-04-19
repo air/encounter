@@ -8,6 +8,8 @@ State.WARP = 'warp';
 State.GAME_OVER = 'gameOver';
 State.current = null;
 
+State.actors = [];
+
 State.worldNumber = null;
 State.enemiesRemaining = null;
 
@@ -118,7 +120,7 @@ State.updateWaitForEnemy = function(timeDeltaMillis)
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
 
-  // update non-Player game actors
+  // update non-Player game State.actors
   if (!State.isPaused)
   {
     State.updateActors(timeDeltaMillis);
@@ -135,7 +137,7 @@ State.updateWaitForPortal = function(timeDeltaMillis)
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
 
-  // update non-Player game actors
+  // update non-Player game State.actors
   if (!State.isPaused)
   {
     State.updateActors(timeDeltaMillis);
@@ -144,7 +146,7 @@ State.updateWaitForPortal = function(timeDeltaMillis)
 
   Portal.update(timeDeltaMillis);
   Radar.update();
-  TWEEN.update(); // FIXME probably needed elsewhere
+  TWEEN.update();
 }
 
 State.updateCombat = function(timeDeltaMillis)
@@ -153,7 +155,7 @@ State.updateCombat = function(timeDeltaMillis)
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
 
-  // update non-Player game actors
+  // update non-Player game State.actors
   if (!State.isPaused)
   {
     State.updateActors(timeDeltaMillis);
@@ -167,11 +169,11 @@ State.updateGameOver = function(timeDeltaMillis)
   Camera.update(timeDeltaMillis);  
 }
 
-// ask all actors to update their state based on the last time delta
+// ask all State.actors to update their state based on the last time delta
 State.updateActors = function(timeDeltaMillis)
 {
-  for (var i = 0; i < actors.length; i++) {
-    actors[i].update(timeDeltaMillis);
+  for (var i = 0; i < State.actors.length; i++) {
+    State.actors[i].update(timeDeltaMillis);
   };
 }
 
@@ -208,9 +210,9 @@ State.actorIsDead = function(actor)
 {
   if (typeof actor === "undefined") throw('actor undefined');
 
-  var index = actors.indexOf(actor);
+  var index = State.actors.indexOf(actor);
   if (index !== -1) {
-    actors.splice(index, 1);
+    State.actors.splice(index, 1);
   }
 
   Player.shotsInFlight -= 1; // FIXME not general case

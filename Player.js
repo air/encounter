@@ -16,7 +16,7 @@ Player.init = function()
   //scene.add(Player);
 
   // player can move in pause mode 
-  //actors.push(playerMesh);
+  //State.actors.push(playerMesh);
 
   Player.resetPosition();
 }
@@ -67,7 +67,7 @@ Player.shoot = function()
       shot.callbackWhenDead(State.actorIsDead); // FIXME make this sane
       Player.shotsInFlight += 1;
       Player.lastTimeFired = now;
-      actors.push(shot);
+      State.actors.push(shot);
       scene.add(shot);    
     }
   }

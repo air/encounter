@@ -55,7 +55,7 @@ Enemy.spawn = function()
   Enemy.position.copy(spawnPoint);
 
   scene.add(Enemy);
-  actors.push(Enemy);
+  State.actors.push(Enemy);
 }
 
 Enemy.setupWaiting = function()
@@ -139,7 +139,7 @@ Enemy.shoot = function()
   Sound.enemyShoot();
   var shot = new Shot(Enemy);
   shot.callbackWhenDead(State.actorIsDead); // FIXME make this sane
-  actors.push(shot);
+  State.actors.push(shot);
   scene.add(shot);
 }
 
@@ -149,9 +149,9 @@ Enemy.destroyed = function()
   scene.remove(Enemy);
   Enemy.isAlive = false;
 
-  var index = actors.indexOf(Enemy);
+  var index = State.actors.indexOf(Enemy);
   if (index !== -1) {
-    actors.splice(index, 1);
+    State.actors.splice(index, 1);
   }
 
   State.enemyKilled();
