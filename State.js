@@ -13,6 +13,7 @@ State.enemiesRemaining = null;
 
 State.isPaused = false;
 
+// called once at startup. Go into our first state
 State.init = function()
 {
   State.setupAttract();

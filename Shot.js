@@ -47,7 +47,7 @@ Shot.prototype.collideWithObelisks = function()
     {
       // we have a collision, bounce
       Physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.RADIUS, this);
-      sound.shotBounce();
+      Sound.shotBounce();
       
       if (Physics.debug)
       {

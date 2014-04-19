@@ -41,14 +41,14 @@ Player.update = function()
     {
       // we have a collision, move the player out but don't change the rotation
       Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Player.position, Player.RADIUS);
-      sound.playerCollideObelisk();
+      Sound.playerCollideObelisk();
     }
   }
 }
 
 Player.wasHit = function()
 {
-  sound.playerKilled();
+  Sound.playerKilled();
   Player.isAlive = false;
   State.setupGameOver();
 }
@@ -62,7 +62,7 @@ Player.shoot = function()
     var timeSinceLastShot = now - Player.lastTimeFired;
     if (timeSinceLastShot > Encounter.SHOT_INTERVAL_MS)
     {
-      sound.playerShoot();
+      Sound.playerShoot();
       var shot = new Shot(Player);
       shot.callbackWhenDead(State.actorIsDead); // FIXME make this sane
       Player.shotsInFlight += 1;

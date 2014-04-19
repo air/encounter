@@ -109,7 +109,7 @@ Enemy.updateMoving = function(timeDeltaMillis)
       {
         // we have a collision, move the Enemy out but don't change the rotation
         Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Enemy.position, Enemy.RADIUS);
-        sound.playerCollideObelisk();
+        Sound.playerCollideObelisk();
       }
     }
   }
@@ -136,7 +136,7 @@ Enemy.update = function(timeDeltaMillis)
 
 Enemy.shoot = function()
 {
-  sound.enemyShoot();
+  Sound.enemyShoot();
   var shot = new Shot(Enemy);
   shot.callbackWhenDead(State.actorIsDead); // FIXME make this sane
   actors.push(shot);
@@ -145,7 +145,7 @@ Enemy.shoot = function()
 
 Enemy.destroyed = function()
 {
-  sound.playerKilled();
+  Sound.playerKilled();
   scene.remove(Enemy);
   Enemy.isAlive = false;
 
