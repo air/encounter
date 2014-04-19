@@ -6,11 +6,6 @@ Overlay.text = null;
 
 Overlay.init = function()
 {
-  // move the default Stats overlay
-  STATS.domElement.style.top = '';
-  STATS.domElement.style.bottom = '0px';
-  STATS.domElement.style.opacity = '0.5';
-  
   // just set width or height if we can and trap mouseclicks
   var container = document.createElement(DIV);
   container.id = 'overlay';

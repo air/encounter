@@ -54,6 +54,13 @@ var actors = new Array();
 var physics = new Physics();
 physics.debug = false;
 
+// MY3.setupThreeStats();
+// MY3.setupRStats();
+// move the Stats overlay
+//STATS.domElement.style.top = '';
+//STATS.domElement.style.bottom = '0px';
+//STATS.domElement.style.opacity = '0.5';
+
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 Overlay.init();
 State.init();
