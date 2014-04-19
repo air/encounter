@@ -15,12 +15,11 @@
 // sound effects: player move, warp, enemy windup, enemy ticking
 // juice it!
 // better enemy model. Try more polys against FPS.
-// a Timer object that we can use everywhere rather than 'startedAt' checks
+// work on Timer.js to use everywhere rather than 'startedAt' checks
 // can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
 // rationalise the notion of actors (affected by pause) and pause-immune actors
 // fade sound based on proximity
-// rstats.js instead of STATS
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
 // Try http://www.createjs.com/#!/SoundJS
@@ -54,12 +53,7 @@ var actors = new Array();
 var physics = new Physics();
 physics.debug = false;
 
-// MY3.setupThreeStats();
-// MY3.setupRStats();
-// move the Stats overlay
-//STATS.domElement.style.top = '';
-//STATS.domElement.style.bottom = '0px';
-//STATS.domElement.style.opacity = '0.5';
+MY3.setupRStats();
 
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 Overlay.init();
