@@ -32,15 +32,15 @@ Player.resetPosition = function()
 Player.update = function()
 {
   // if an obelisk is close (fast check), do a detailed collision check
-  if (Grid.isActive && physics.isCloseToAnObelisk(Player.position, Player.RADIUS))
+  if (Grid.isActive && Physics.isCloseToAnObelisk(Player.position, Player.RADIUS))
   {
     // check for precise collision
-    var obelisk = physics.getCollidingObelisk(Player.position, Player.RADIUS);
+    var obelisk = Physics.getCollidingObelisk(Player.position, Player.RADIUS);
     // if we get a return there is work to do
     if (typeof obelisk !== "undefined")
     {
       // we have a collision, move the player out but don't change the rotation
-      physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Player.position, Player.RADIUS);
+      Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Player.position, Player.RADIUS);
       sound.playerCollideObelisk();
     }
   }

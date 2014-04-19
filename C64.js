@@ -4,7 +4,7 @@
 
 var C64 = {};
 
-C64.palette = new Array(
+C64.palette = [
   0x000000,
   0xFFFFFF,
   0x68372B,
@@ -21,9 +21,9 @@ C64.palette = new Array(
   0x9AD284,
   0x6C5EB5,
   0x959595
-);
+];
 
-C64.cssPalette = new Array(
+C64.cssPalette = [
   '#000000',
   '#FFFFFF',
   '#68372B',
@@ -40,7 +40,7 @@ C64.cssPalette = new Array(
   '#9AD284',
   '#6C5EB5',
   '#959595'
-);
+];
 
 C64.black = C64.palette[0];
 C64.white = C64.palette[1];

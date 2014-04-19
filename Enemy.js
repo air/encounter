@@ -76,7 +76,7 @@ Enemy.updateWaiting = function(timeDeltaMillis)
   {
     if (random(50) == 42)
     {
-      physics.rotateObjectToLookAt(Enemy, Player.position);
+      Physics.rotateObjectToLookAt(Enemy, Player.position);
       Enemy.shoot();
       Enemy.setupMoving();
     }
@@ -86,7 +86,7 @@ Enemy.updateWaiting = function(timeDeltaMillis)
 Enemy.setupMoving = function()
 {
   Enemy.movingCountdown = random(Enemy.MOVE_TIME_MIN_MS, Enemy.MOVE_TIME_MAX_MS);
-  Enemy.rotation.y = physics.randomDirection();
+  Enemy.rotation.y = Physics.randomDirection();
   log('enemy moving for ' + Enemy.movingCountdown + 'ms in direction ' + Enemy.rotation.y);
   Enemy.state = Enemy.STATE_MOVING;
 }
@@ -100,15 +100,15 @@ Enemy.updateMoving = function(timeDeltaMillis)
     Enemy.translateZ(-actualMoveSpeed);
 
     // if an obelisk is close (fast check), do a detailed collision check
-    if (physics.isCloseToAnObelisk(Enemy.position, Enemy.RADIUS))
+    if (Physics.isCloseToAnObelisk(Enemy.position, Enemy.RADIUS))
     {
       // check for precise collision
-      var obelisk = physics.getCollidingObelisk(Enemy.position, Enemy.RADIUS);
+      var obelisk = Physics.getCollidingObelisk(Enemy.position, Enemy.RADIUS);
       // if we get a return there is work to do
       if (typeof obelisk !== "undefined")
       {
         // we have a collision, move the Enemy out but don't change the rotation
-        physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Enemy.position, Enemy.RADIUS);
+        Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Enemy.position, Enemy.RADIUS);
         sound.playerCollideObelisk();
       }
     }

@@ -38,34 +38,34 @@ function Shot(firingObject) {
 Shot.prototype.collideWithObelisks = function()
 {
   // if an obelisk is close (fast check), do a detailed collision check
-  if (physics.isCloseToAnObelisk(this.position, Shot.RADIUS))
+  if (Physics.isCloseToAnObelisk(this.position, Shot.RADIUS))
   {
     // check for precise collision
-    var obelisk = physics.getCollidingObelisk(this.position, Shot.RADIUS);
+    var obelisk = Physics.getCollidingObelisk(this.position, Shot.RADIUS);
     // if we get a return value we have work to do
     if (typeof obelisk !== "undefined")
     {
       // we have a collision, bounce
-      physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.RADIUS, this);
+      Physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.RADIUS, this);
       sound.shotBounce();
       
-      if (physics.debug)
+      if (Physics.debug)
       {
-        physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
+        Physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 6);
       }
     }
-    else if (physics.debug)
+    else if (Physics.debug)
     {
       // otherwise a near miss, highlight for debug purposes
-      physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);
+      Physics.highlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y, 2);
     }
   }
 
   // draw some informational lines if we're in debug mode
-  if (physics.debug)
+  if (Physics.debug)
   {
     // always need to know the closest for drawing the debug line
-    this.closeObeliskIndex = physics.getClosestObelisk(this.position);
+    this.closeObeliskIndex = Physics.getClosestObelisk(this.position);
 
     // kill old line and add a new one
     scene.remove(this.line);
@@ -75,7 +75,7 @@ Shot.prototype.collideWithObelisks = function()
     var obelisk = Grid.rows[this.closeObeliskIndex.y][this.closeObeliskIndex.x];
     this.line = new MY3.Line(this.position, obelisk.position);
     
-    this.pointer = new MY3.Pointer(this.position, physics.objectRotationAsUnitVector(this), 200);
+    this.pointer = new MY3.Pointer(this.position, Physics.objectRotationAsUnitVector(this), 200);
     scene.add(this.line);
     scene.add(this.pointer);
   }
@@ -84,12 +84,12 @@ Shot.prototype.collideWithObelisks = function()
 Shot.prototype.collideWithShips = function()
 {
   // kill the player
-  if (physics.doCirclesCollide(this.position, Shot.RADIUS, Player.position, Player.RADIUS))
+  if (Physics.doCirclesCollide(this.position, Shot.RADIUS, Player.position, Player.RADIUS))
   {
     Player.wasHit();
   }
   // kill the enemy
-  if (Enemy.isAlive && physics.doCirclesCollide(this.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
+  if (Enemy.isAlive && Physics.doCirclesCollide(this.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
   {
     Enemy.destroyed();
     // remove the shot
@@ -100,11 +100,11 @@ Shot.prototype.collideWithShips = function()
 Shot.prototype.cleanUpDeadShot = function()
 {
   // clean up debug lines
-  if (physics.debug)
+  if (Physics.debug)
   {
     scene.remove(this.line);
     scene.remove(this.pointer);
-    physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
+    Physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
   }
 
   this.deadCallback.apply(undefined, [this]); // just pass reference to this actor
@@ -116,10 +116,10 @@ Shot.prototype.update = function(timeDeltaMillis) {
   this.translateZ(-actualMoveSpeed);
   this.hasTravelled += actualMoveSpeed;
 
-  if (physics.debug)
+  if (Physics.debug)
   {
     // unhighlight the old closest obelisk
-    physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
+    Physics.unHighlightObelisk(this.closeObeliskIndex.x, this.closeObeliskIndex.y);
   }
 
   // expire an aging shot based on distance travelled

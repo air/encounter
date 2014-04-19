@@ -50,8 +50,6 @@ Encounter.PORTAL_SPAWN_DISTANCE_MAX = 10000; // not measured
 var keys = new Keys();
 var sound = new Sound();
 var actors = new Array();
-var physics = new Physics();
-physics.debug = false;
 
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 Overlay.init();

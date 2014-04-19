@@ -13,7 +13,7 @@ Asteroid.newInstance = function()
 
 Asteroid.collideWithPlayer = function(asteroidPosition)
 {
-  if (physics.doCirclesCollide(asteroidPosition, Asteroid.RADIUS, Player.position, Player.RADIUS))
+  if (Physics.doCirclesCollide(asteroidPosition, Asteroid.RADIUS, Player.position, Player.RADIUS))
   {
     Player.wasHit();
   }
