@@ -1,3 +1,5 @@
+juice it! http://www.youtube.com/watch?v=Fy0aCDmgnxg
+
 Enemy with spotlight looking for you. Level is darker, close pillars. When light sweeps over the enemy freaks out and starts shooting wildly.
 
 Attract mode showing enemy types.

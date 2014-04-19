@@ -42,7 +42,7 @@ Controls.useWarpControls = function()
 
 Controls.interpretKeys = function(timeDeltaMillis)
 {
-  if (keys.shooting && Controls.shootingAllowed)
+  if (Keys.shooting && Controls.shootingAllowed)
   {
     Player.shoot();
   }

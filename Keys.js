@@ -1,56 +1,52 @@
-// TODO might need to re-add the domElement stuff from SimpleControls.js
-
 // Keys.js covers the keys that are NOT associated with movement (which can change).
 
-Keys = function()
+var Keys = {};
+
+Keys.shooting = false;
+
+Keys.switchControls = function()
 {
-  this.shooting = false;
-
-  Keys.prototype.switchControls = function()
+  if (Controls.current instanceof SimpleControls)
   {
-    if (Controls.current instanceof SimpleControls)
-    {
-      Controls.useFlyControls();
-    }
-    else
-    {
-      Controls.useEncounterControls();
-    }
+    Controls.useFlyControls();
   }
-
-  function keyUp(event)
+  else
   {
-    switch(event.keyCode)
-    {
-      case 67: // c
-        this.switchControls();
-        break;
-      case 32: // space
-      case 90: // z
-        this.shooting = false;
-        break;
-      case 80: // p
-        State.isPaused = !State.isPaused;
-        break;
-      case 75: // k
-        Enemy.destroyed();
-        error('cheater!');
-        break;
-    }
-  };
+    Controls.useEncounterControls();
+  }
+}
 
-  function keyDown(event)
+Keys.keyUp = function(event)
+{
+  switch(event.keyCode)
   {
-    switch(event.keyCode)
-    {
-      case 32: // space
-      case 90: // z
-        this.shooting = true;
-        break;
-    }
-  };
+    case 67: // c
+      Keys.switchControls();
+      break;
+    case 32: // space
+    case 90: // z
+      Keys.shooting = false;
+      break;
+    case 80: // p
+      State.isPaused = !State.isPaused;
+      break;
+    case 75: // k
+      Enemy.destroyed();
+      error('cheater!');
+      break;
+  }
+}
 
-  document.addEventListener('keydown', keyDown.bind(this), false);
-  document.addEventListener('keyup', keyUp.bind(this), false);
+Keys.keyDown = function(event)
+{
+  switch(event.keyCode)
+  {
+    case 32: // space
+    case 90: // z
+      Keys.shooting = true;
+      break;
+  }
+}
 
-};
+document.addEventListener('keydown', Keys.keyDown.bind(this), false);
+document.addEventListener('keyup', Keys.keyUp.bind(this), false);

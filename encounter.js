@@ -13,7 +13,6 @@
 // controls for touchscreen
 // enemy types - model after original first
 // sound effects: player move, warp, enemy windup, enemy ticking
-// juice it!
 // better enemy model. Try more polys against FPS.
 // work on Timer.js to use everywhere rather than 'startedAt' checks
 // can event.preventDefault() help with the dropdown menu stealing focus?
@@ -47,7 +46,6 @@ Encounter.ENEMY_SPAWN_DISTANCE_MAX = 10000; // not measured
 Encounter.PORTAL_SPAWN_DISTANCE_MAX = 10000; // not measured
 
 // TODO move to non-OO style
-var keys = new Keys();
 var sound = new Sound();
 var actors = new Array();
 

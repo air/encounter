@@ -10,7 +10,7 @@ Overlay.init = function()
   var container = document.createElement(DIV);
   container.id = 'overlay';
   // trap mouse clicks (also lets phone users start the game)
-  container.addEventListener('mousedown', function (event) { event.preventDefault(); keys.shooting = true; }, false);
+  container.addEventListener('mousedown', function (event) { event.preventDefault(); Keys.shooting = true; }, false);
   
   container.style.cssText = '/* width:100px; */ /* height:50px; */ opacity:0.5; cursor:pointer';
 

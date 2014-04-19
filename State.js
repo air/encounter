@@ -104,7 +104,7 @@ State.enemyKilled = function()
 
 State.updateAttractMode = function(timeDeltaMillis)
 {
-  if (keys.shooting)
+  if (Keys.shooting)
   {
     State.initWorld();
     State.setupWaitForEnemy();
