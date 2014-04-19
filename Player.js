@@ -63,8 +63,7 @@ Player.shoot = function()
     if (timeSinceLastShot > Encounter.SHOT_INTERVAL_MS)
     {
       Sound.playerShoot();
-      var shot = new Shot(Player);
-      shot.callbackWhenDead(State.actorIsDead); // FIXME make this sane
+      var shot = Shot.newInstance(Player);
       Player.shotsInFlight += 1;
       Player.lastTimeFired = now;
       State.actors.push(shot);

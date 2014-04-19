@@ -205,7 +205,6 @@ function update(timeDeltaMillis)
   }
 }
 
-// invoked as a callback
 State.actorIsDead = function(actor)
 {
   if (typeof actor === "undefined") throw('actor undefined');

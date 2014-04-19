@@ -92,13 +92,10 @@ Physics.doCirclesCollide = function(position1, radius1, position2, radius2)
 }
 
 // Collide a moving Object3D with a static point and radius. The object position and rotation will be modified.
-// object must have a .RADIUS
-Physics.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object)
+Physics.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object, objectRadius)
 {
-  if (typeof object.RADIUS === "undefined") throw('object must have RADIUS');
-
   // move collider out of the obelisk, get the movement that was executed
-  var movement = Physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, object.position, object.RADIUS);
+  var movement = Physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, object.position, objectRadius);
 
   // the movement that was executed is the surface normal of the obelisk as the object hits it
   movement.normalize();

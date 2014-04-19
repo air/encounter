@@ -7,6 +7,7 @@
 // = Principles
 // The file is the unit of organization, not the class
 // = TODO
+// fix count of player shots in flight
 // shots in play show up in warp
 // fix 'edge of the world'
 // add original super-cool exit from warp effect
