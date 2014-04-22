@@ -3,10 +3,9 @@
 
 // TODO crosshairs, translucent
 
-SimpleControls = function (object, domElement) {
+SimpleControls = function (object)
+{
   this.object = object;
-  // FIXME dumb copy/paste from THREE
-  this.domElement = (domElement !== undefined) ? domElement : document;
 
   // for affecting Player state
   this.movementSpeed = 1.0;
@@ -24,12 +23,6 @@ SimpleControls = function (object, domElement) {
   this.canStrafe = false;
   // config: is forward/back acceleration out of the player's control?
   this.accelerationFixed = false;
-
-  // FIXME dumb copy/paste from THREE
-  if (this.domElement !== document)
-  {
-    this.domElement.setAttribute('tabindex', -1)
-  }
 
   function keyDown(event)
   {
