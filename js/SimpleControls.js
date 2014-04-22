@@ -3,9 +3,9 @@
 
 // TODO crosshairs, translucent
 
-SimpleControls = function (object)
+SimpleControls = function(controlledObject)
 {
-  this.object = object;
+  this.object = controlledObject;
 
   // for affecting Player state
   this.movementSpeed = 1.0;
@@ -132,3 +132,4 @@ SimpleControls = function (object)
   document.addEventListener('keydown', keyDown.bind(this), false);
   document.addEventListener('keyup', keyUp.bind(this), false);
 };
+
