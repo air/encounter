@@ -223,7 +223,7 @@ var threestats;
 MY3.setupRStats = function()
 {
   // three.js plugin
-  threestats = new threeStats(renderer);
+  //threestats = new threeStats(renderer); // don't forget plugins: below
   // FIXME I hacked rStats.extras.js to remove the alarm at 1000 renderer.info.render.faces  
 
   // base rstats
@@ -235,7 +235,7 @@ MY3.setupRStats = function()
       engine: { caption: 'Engine time (ms)', over: 5 }
     },
     groups: [ { caption: 'Performance', values: [ 'engine', 'frame', 'fps' ] } ],
-    plugins: [threestats]
+    //plugins: [threestats]
   };
   rstats = new rStats(settings);
 }
