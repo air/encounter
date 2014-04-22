@@ -1,21 +1,23 @@
 var Overlay = {};
 
-var DIV = 'div';
-
-Overlay.text = null;
+Overlay.text = null; // current text in readout
 
 Overlay.init = function()
 {
-  // just set width or height if we can and trap mouseclicks
-  var container = document.createElement(DIV);
+  Overlay.initDivs();
+  Overlay.initTouch();
+}
+
+Overlay.initDivs = function()
+{
+  // just set width or height if we can
+  var container = document.createElement('div');
   container.id = 'overlay';
-  // trap mouse clicks (also lets phone users start the game)
-  container.addEventListener('mousedown', function (event) { event.preventDefault(); Keys.shooting = true; }, false);
-  
+    
   container.style.cssText = '/* width:100px; */ /* height:50px; */ opacity:0.5; cursor:pointer';
 
   // textBox adds padding, alignment, background
-  var textBox = document.createElement(DIV);
+  var textBox = document.createElement('div');
   textBox.id = 'textBox';
   // padding order: top right bottom left
   // TODO gradient needs multiple declarations to work in all browsers, as per stats.js/examples/theming.html
@@ -23,7 +25,7 @@ Overlay.init = function()
   container.appendChild(textBox);
 
   // text is the content
-  Overlay.text = document.createElement(DIV);
+  Overlay.text = document.createElement('div');
   Overlay.text.id = 'text';
   Overlay.text.style.cssText = 'color:#0ff; font-family:Helvetica,Arial,sans-serif; font-size:36px; font-weight:bold; /* line-height:18px */';
   textBox.appendChild(Overlay.text);
@@ -32,6 +34,19 @@ Overlay.init = function()
   container.style.position = 'absolute';
   container.style.top = '0px';
   document.body.appendChild(container);
+}
+
+Overlay.initTouch = function()
+{
+  // let phone users start the game
+  document.addEventListener('touchstart', function (event) {
+    event.preventDefault();
+    Keys.shooting = true;
+  }, false);
+  document.addEventListener('touchend', function (event) {
+    event.preventDefault();
+    Keys.shooting = false;
+  }, false);
 }
 
 Overlay.update = function()
