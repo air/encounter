@@ -10,7 +10,6 @@
 // shots in play show up in warp
 // fix 'edge of the world'
 // add original super-cool exit from warp effect
-// controls for touchscreen
 // enemy types - model after original first
 // sound effects: player move, warp, enemy windup, enemy ticking
 // better enemy model. Try more polys against FPS.
@@ -22,8 +21,8 @@
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
 // Try http://www.createjs.com/#!/SoundJS
-// refactor util.js and decide if it's a separate repo or not
-// refactor Physics.js 3D stuff into MY3 utils
+// refactor util.js into MY.js and MY3.js
+// refactor Physics.js 3D stuff into MY3.js
 // = FIXME
 // shot pointers are incorrect in fly mode. Seem ok in normal mode
 // Y rotation breaks when the camera flips from Simple to FirstPerson.

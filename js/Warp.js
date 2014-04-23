@@ -4,7 +4,7 @@ Warp.TIME_ACCELERATING_MS = 9000; // measured
 Warp.TIME_CRUISING_MS = 11000; // measured
 Warp.TIME_DECELERATING_MS = 9000; // measured
 
-Warp.MAX_SPEED = 5.0;
+Warp.MAX_SPEED = 6.0;
 
 Warp.state = null;
 Warp.STATE_ACCELERATE = 'accelerate';

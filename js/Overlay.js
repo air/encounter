@@ -43,10 +43,19 @@ Overlay.addHandlerForTouchEndAndLeave = function(div, handler)
 {
   div.addEventListener('touchend', handler);
   div.addEventListener('touchleave', handler);
+  div.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+  });
 }
 
 Overlay.initTouch = function()
 {
+  // disable dragging
+  // FIXME this shouldn't be needed but we go a few px off bottom of screen, which enables drag
+  document.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+  });
+
   // touch fire button
   var fireButton = document.createElement('div');
   fireButton.id = 'fireButton';
