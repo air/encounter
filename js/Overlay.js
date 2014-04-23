@@ -36,56 +36,55 @@ Overlay.initDivs = function()
   document.body.appendChild(container);
 }
 
+Overlay.addHandlerForTouchEndAndLeave = function(div, handler)
+{
+  div.addEventListener('touchend', handler);
+  div.addEventListener('touchleave', handler);
+}
+
 Overlay.initTouch = function()
 {
-  // let phone users start the game
-  document.addEventListener('touchstart', function (event) {
-    event.preventDefault();
-    Keys.shooting = true;
-  }, false);
-  document.addEventListener('touchend', function (event) {
-    event.preventDefault();
-    Keys.shooting = false;
-  }, false);
-
   var TOUCH_CONTROLS_CSS = 'opacity:0.2; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';
 
   // touch fire button
   var fireButton = document.createElement('div');
   fireButton.id = 'fireButton';
-    
+
   fireButton.style.cssText = TOUCH_CONTROLS_CSS;
   fireButton.style.width = '40%';
   fireButton.style.height = '60%';
   fireButton.style.position = 'absolute';
   fireButton.style.bottom = '0px';
   fireButton.style.right = '0px';
-  // FIXME mouse to touch
-  fireButton.addEventListener('mousedown', function(event) {
+  fireButton.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Keys.shooting = true;
   });
-  fireButton.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(fireButton, function(event) {
+    event.preventDefault();
     Keys.shooting = false;
   });
   document.body.appendChild(fireButton);
 
-  var dPadUpleft = document.createElement('div');
-  dPadUpleft.id = 'dPadUpLeft';
-  dPadUpleft.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadUpleft.style.width = '12%';
-  dPadUpleft.style.height = '20%';
-  dPadUpleft.style.position = 'absolute';
-  dPadUpleft.style.bottom = '40%';
-  dPadUpleft.style.left = '0px';
-  dPadUpleft.addEventListener('mousedown', function(event) {
+  var dPadUpLeft = document.createElement('div');
+  dPadUpLeft.id = 'dPadUpLeft';
+  dPadUpLeft.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadUpLeft.style.width = '12%';
+  dPadUpLeft.style.height = '20%';
+  dPadUpLeft.style.position = 'absolute';
+  dPadUpLeft.style.bottom = '40%';
+  dPadUpLeft.style.left = '0px';
+  dPadUpLeft.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Controls.current.moveForward = true;
     Controls.current.turnLeft = true;
   });
-  dPadUpleft.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(dPadUpLeft, function(event) {
+    event.preventDefault();
     Controls.current.moveForward = false;
     Controls.current.turnLeft = false;
   });
-  document.body.appendChild(dPadUpleft);
+  document.body.appendChild(dPadUpLeft);
 
   var dPadUp = document.createElement('div');
   dPadUp.id = 'dPadUp';
@@ -95,10 +94,12 @@ Overlay.initTouch = function()
   dPadUp.style.position = 'absolute';
   dPadUp.style.bottom = '40%';
   dPadUp.style.left = '12%';
-  dPadUp.addEventListener('mousedown', function(event) {
+  dPadUp.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Controls.current.moveForward = true;
   });
-  dPadUp.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(dPadUp, function(event) {
+    event.preventDefault();
     Controls.current.moveForward = false;
   });
   document.body.appendChild(dPadUp);
@@ -111,11 +112,13 @@ Overlay.initTouch = function()
   dPadUpRight.style.position = 'absolute';
   dPadUpRight.style.bottom = '40%';
   dPadUpRight.style.left = '24%';
-  dPadUpRight.addEventListener('mousedown', function(event) {
+  dPadUpRight.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Controls.current.moveForward = true;
     Controls.current.turnRight = true;
   });
-  dPadUpRight.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(dPadUpRight, function(event) {
+    event.preventDefault();
     Controls.current.moveForward = false;
     Controls.current.turnRight = false;
   });
@@ -129,10 +132,12 @@ Overlay.initTouch = function()
   dPadLeft.style.position = 'absolute';
   dPadLeft.style.bottom = '20%';
   dPadLeft.style.left = '0px';
-  dPadLeft.addEventListener('mousedown', function(event) {
+  dPadLeft.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Controls.current.turnLeft = true;
   });
-  dPadLeft.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(dPadLeft, function(event) {
+    event.preventDefault();
     Controls.current.turnLeft = false;
   });
   document.body.appendChild(dPadLeft);
@@ -145,10 +150,12 @@ Overlay.initTouch = function()
   dPadRight.style.position = 'absolute';
   dPadRight.style.bottom = '20%';
   dPadRight.style.left = '24%';
-  dPadRight.addEventListener('mousedown', function(event) {
+  dPadRight.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Controls.current.turnRight = true;
   });
-  dPadRight.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(dPadRight, function(event) {
+    event.preventDefault();
     Controls.current.turnRight = false;
   });
   document.body.appendChild(dPadRight);
@@ -161,11 +168,13 @@ Overlay.initTouch = function()
   dPadDownLeft.style.position = 'absolute';
   dPadDownLeft.style.bottom = '0px';
   dPadDownLeft.style.left = '0px';
-  dPadDownLeft.addEventListener('mousedown', function(event) {
+  dPadDownLeft.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Controls.current.moveBackward = true;
     Controls.current.turnLeft = true;
   });
-  dPadDownLeft.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(dPadDownLeft, function(event) {
+    event.preventDefault();
     Controls.current.moveBackward = false;
     Controls.current.turnLeft = false;
   });
@@ -179,10 +188,12 @@ Overlay.initTouch = function()
   dPadDown.style.position = 'absolute';
   dPadDown.style.bottom = '0px';
   dPadDown.style.left = '12%';
-  dPadDown.addEventListener('mousedown', function(event) {
+  dPadDown.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Controls.current.moveBackward = true;
   });
-  dPadDown.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(dPadDown, function(event) {
+    event.preventDefault();
     Controls.current.moveBackward = false;
   });
   document.body.appendChild(dPadDown);
@@ -195,11 +206,13 @@ Overlay.initTouch = function()
   dPadDownRight.style.position = 'absolute';
   dPadDownRight.style.bottom = '0px';
   dPadDownRight.style.left = '24%';
-  dPadDownRight.addEventListener('mousedown', function(event) {
+  dPadDownRight.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Controls.current.moveBackward = true;
     Controls.current.turnRight = true;
   });
-  dPadDownRight.addEventListener('mouseup', function(event) {
+  Overlay.addHandlerForTouchEndAndLeave(dPadDownRight, function(event) {
+    event.preventDefault();
     Controls.current.moveBackward = false;
     Controls.current.turnRight = false;
   });
@@ -211,7 +224,7 @@ Overlay.update = function()
   switch (State.current)
   {
     case State.ATTRACT:
-      Overlay.text.innerHTML = 'PRESS SPACE TO BEGIN';
+      Overlay.text.innerHTML = 'PRESS FIRE TO BEGIN';
       break;
     case State.COMBAT:
     case State.WAIT_FOR_ENEMY:
