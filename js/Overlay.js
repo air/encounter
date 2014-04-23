@@ -45,6 +45,9 @@ Overlay.addHandlerForTouchEndAndLeave = function(div, handler)
   div.addEventListener('touchleave', handler);
   div.addEventListener('touchmove', function(event) {
     event.preventDefault();
+    var touch = event.changedTouches[0];
+    log('touch at ' + touch.clientX + ', ' + touch.clientY);
+    log('element is ' + document.elementFromPoint(touch.clientX, touch.clientY).id);
   });
 }
 
