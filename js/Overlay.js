@@ -10,7 +10,7 @@ Overlay.init = function()
 
 Overlay.initDivs = function()
 {
-  // just set width or height if we can
+  // the overlay div will contain a line of text, containing world number and enemy count
   var container = document.createElement('div');
   container.id = 'overlay';
     
@@ -47,6 +47,45 @@ Overlay.initTouch = function()
     event.preventDefault();
     Keys.shooting = false;
   }, false);
+
+  var TOUCH_CONTROLS_CSS = 'opacity:0.2; background-color: red; z-index: 11000; border-style: dashed; border-width: 2px';
+
+  // touch fire button
+  var fireButton = document.createElement('div');
+  fireButton.id = 'fireButton';
+    
+  fireButton.style.cssText = TOUCH_CONTROLS_CSS;
+  fireButton.style.width = '40%';
+  fireButton.style.height = '60%';
+  fireButton.style.position = 'absolute';
+  fireButton.style.bottom = '0px';
+  fireButton.style.right = '0px';
+  // FIXME mouse to touch
+  fireButton.addEventListener('mousedown', function(event) {
+    Keys.shooting = true;
+  });
+  fireButton.addEventListener('mouseup', function(event) {
+    Keys.shooting = false;
+  });
+  document.body.appendChild(fireButton);
+
+  var dPadUpleft = document.createElement('div');
+  dPadUpleft.id = 'dPadUpLeft';
+  dPadUpleft.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadUpleft.style.width = '12%';
+  dPadUpleft.style.height = '20%';
+  dPadUpleft.style.position = 'absolute';
+  dPadUpleft.style.bottom = '40%';
+  dPadUpleft.style.left = '0px';
+  dPadUpleft.addEventListener('mousedown', function(event) {
+    Controls.current.moveForward = true;
+    Controls.current.turnLeft = true;
+  });
+  dPadUpleft.addEventListener('mouseup', function(event) {
+    Controls.current.moveForward = false;
+    Controls.current.turnLeft = false;
+  });
+  document.body.appendChild(dPadUpleft);
 }
 
 Overlay.update = function()
