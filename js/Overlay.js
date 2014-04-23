@@ -2,7 +2,7 @@ var Overlay = {};
 
 Overlay.text = null; // current text in readout
 
-Overlay.TOUCH_CONTROLS_CSS = 'opacity:0.2; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';
+Overlay.TOUCH_CONTROLS_CSS = 'opacity:0.1; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';
 Overlay.DPAD_BUTTON_WIDTH_PERCENT = 12;
 Overlay.DPAD_BUTTON_HEIGHT_PERCENT = 12;
 
