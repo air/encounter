@@ -7,9 +7,8 @@
     line-height: 1.2em;
     width: 350px;
     font-family: 'Roboto Condensed', tahoma, sans-serif;
-    left: 0;
-    /*top: 0;*/
-    bottom: 0px;
+    right: 0px;
+    top: 0px;
     overflow: hidden;
     /*opacity: 0.9;*/
 }

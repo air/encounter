@@ -2,6 +2,10 @@ var Overlay = {};
 
 Overlay.text = null; // current text in readout
 
+Overlay.TOUCH_CONTROLS_CSS = 'opacity:0.2; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';
+Overlay.DPAD_BUTTON_WIDTH_PERCENT = 12;
+Overlay.DPAD_BUTTON_HEIGHT_PERCENT = 12;
+
 Overlay.init = function()
 {
   Overlay.initDivs();
@@ -13,8 +17,7 @@ Overlay.initDivs = function()
   // the overlay div will contain a line of text, containing world number and enemy count
   var container = document.createElement('div');
   container.id = 'overlay';
-    
-  container.style.cssText = '/* width:100px; */ /* height:50px; */ opacity:0.5; cursor:pointer';
+  container.style.cssText = 'opacity:0.5';
 
   // textBox adds padding, alignment, background
   var textBox = document.createElement('div');
@@ -44,15 +47,13 @@ Overlay.addHandlerForTouchEndAndLeave = function(div, handler)
 
 Overlay.initTouch = function()
 {
-  var TOUCH_CONTROLS_CSS = 'opacity:0.2; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';
-
   // touch fire button
   var fireButton = document.createElement('div');
   fireButton.id = 'fireButton';
 
-  fireButton.style.cssText = TOUCH_CONTROLS_CSS;
+  fireButton.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
   fireButton.style.width = '40%';
-  fireButton.style.height = '60%';
+  fireButton.style.height = (Overlay.DPAD_BUTTON_HEIGHT_PERCENT * 3) + '%';
   fireButton.style.position = 'absolute';
   fireButton.style.bottom = '0px';
   fireButton.style.right = '0px';
@@ -68,11 +69,11 @@ Overlay.initTouch = function()
 
   var dPadUpLeft = document.createElement('div');
   dPadUpLeft.id = 'dPadUpLeft';
-  dPadUpLeft.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadUpLeft.style.width = '12%';
-  dPadUpLeft.style.height = '20%';
+  dPadUpLeft.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
+  dPadUpLeft.style.width = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  dPadUpLeft.style.height = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadUpLeft.style.position = 'absolute';
-  dPadUpLeft.style.bottom = '40%';
+  dPadUpLeft.style.bottom = (Overlay.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
   dPadUpLeft.style.left = '0px';
   dPadUpLeft.addEventListener('touchstart', function(event) {
     event.preventDefault();
@@ -88,12 +89,12 @@ Overlay.initTouch = function()
 
   var dPadUp = document.createElement('div');
   dPadUp.id = 'dPadUp';
-  dPadUp.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadUp.style.width = '12%';
-  dPadUp.style.height = '20%';
+  dPadUp.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
+  dPadUp.style.width = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  dPadUp.style.height = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadUp.style.position = 'absolute';
-  dPadUp.style.bottom = '40%';
-  dPadUp.style.left = '12%';
+  dPadUp.style.bottom = (Overlay.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
+  dPadUp.style.left = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
   dPadUp.addEventListener('touchstart', function(event) {
     event.preventDefault();
     Controls.current.moveForward = true;
@@ -106,12 +107,12 @@ Overlay.initTouch = function()
 
   var dPadUpRight = document.createElement('div');
   dPadUpRight.id = 'dPadUpRight';
-  dPadUpRight.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadUpRight.style.width = '12%';
-  dPadUpRight.style.height = '20%';
+  dPadUpRight.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
+  dPadUpRight.style.width = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  dPadUpRight.style.height = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadUpRight.style.position = 'absolute';
-  dPadUpRight.style.bottom = '40%';
-  dPadUpRight.style.left = '24%';
+  dPadUpRight.style.bottom = (Overlay.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
+  dPadUpRight.style.left = (Overlay.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
   dPadUpRight.addEventListener('touchstart', function(event) {
     event.preventDefault();
     Controls.current.moveForward = true;
@@ -126,11 +127,11 @@ Overlay.initTouch = function()
 
   var dPadLeft = document.createElement('div');
   dPadLeft.id = 'dPadLeft';
-  dPadLeft.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadLeft.style.width = '12%';
-  dPadLeft.style.height = '20%';
+  dPadLeft.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
+  dPadLeft.style.width = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  dPadLeft.style.height = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadLeft.style.position = 'absolute';
-  dPadLeft.style.bottom = '20%';
+  dPadLeft.style.bottom = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadLeft.style.left = '0px';
   dPadLeft.addEventListener('touchstart', function(event) {
     event.preventDefault();
@@ -144,12 +145,12 @@ Overlay.initTouch = function()
 
   var dPadRight = document.createElement('div');
   dPadRight.id = 'dPadRight';
-  dPadRight.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadRight.style.width = '12%';
-  dPadRight.style.height = '20%';
+  dPadRight.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
+  dPadRight.style.width = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  dPadRight.style.height = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadRight.style.position = 'absolute';
-  dPadRight.style.bottom = '20%';
-  dPadRight.style.left = '24%';
+  dPadRight.style.bottom = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
+  dPadRight.style.left = (Overlay.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
   dPadRight.addEventListener('touchstart', function(event) {
     event.preventDefault();
     Controls.current.turnRight = true;
@@ -162,9 +163,9 @@ Overlay.initTouch = function()
 
   var dPadDownLeft = document.createElement('div');
   dPadDownLeft.id = 'dPadDownLeft';
-  dPadDownLeft.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadDownLeft.style.width = '12%';
-  dPadDownLeft.style.height = '20%';
+  dPadDownLeft.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
+  dPadDownLeft.style.width = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  dPadDownLeft.style.height = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadDownLeft.style.position = 'absolute';
   dPadDownLeft.style.bottom = '0px';
   dPadDownLeft.style.left = '0px';
@@ -182,12 +183,12 @@ Overlay.initTouch = function()
 
   var dPadDown = document.createElement('div');
   dPadDown.id = 'dPadDown';
-  dPadDown.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadDown.style.width = '12%';
-  dPadDown.style.height = '20%';
+  dPadDown.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
+  dPadDown.style.width = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  dPadDown.style.height = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadDown.style.position = 'absolute';
   dPadDown.style.bottom = '0px';
-  dPadDown.style.left = '12%';
+  dPadDown.style.left = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
   dPadDown.addEventListener('touchstart', function(event) {
     event.preventDefault();
     Controls.current.moveBackward = true;
@@ -200,12 +201,12 @@ Overlay.initTouch = function()
 
   var dPadDownRight = document.createElement('div');
   dPadDownRight.id = 'dPadDownRight';
-  dPadDownRight.style.cssText = TOUCH_CONTROLS_CSS;
-  dPadDownRight.style.width = '12%';
-  dPadDownRight.style.height = '20%';
+  dPadDownRight.style.cssText = Overlay.TOUCH_CONTROLS_CSS;
+  dPadDownRight.style.width = Overlay.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  dPadDownRight.style.height = Overlay.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dPadDownRight.style.position = 'absolute';
   dPadDownRight.style.bottom = '0px';
-  dPadDownRight.style.left = '24%';
+  dPadDownRight.style.left = (Overlay.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
   dPadDownRight.addEventListener('touchstart', function(event) {
     event.preventDefault();
     Controls.current.moveBackward = true;
