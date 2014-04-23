@@ -47,6 +47,8 @@ State.resetEnemyCounter = function()
 
 State.setupAttract = function()
 {
+  Touch.init(); // FIXME depends on Controls.init
+  
   State.current = State.ATTRACT;
   log(State.current);
   Overlay.update();

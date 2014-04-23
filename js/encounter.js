@@ -47,7 +47,6 @@ Encounter.PORTAL_SPAWN_DISTANCE_MAX = 10000; // not measured
 init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 Sound.init();
 Overlay.init();
-Touch.init();
 State.init();
 
 MY3.setupRStats(); // requires three renderer to be ready

@@ -17,18 +17,17 @@ Touch.init = function()
 
   Touch.initFireButton();
 
-  Touch.dpad['upleft'] = Touch.createDPadButton('upleft');
-  Touch.dpad['upleft'].style.bottom = (Touch.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
-  Touch.dpad['upleft'].press = function() {
+  // pass our id, along with our press() and unpress() functions.
+  Touch.dpad['upleft'] = Touch.createDPadButton('upleft', function() {
     event.preventDefault();
     Controls.current.moveForward = true;
     Controls.current.turnLeft = true;
-  };
-  Touch.dpad['upleft'].unpress = function() {
+  }, function() {
     event.preventDefault();
     Controls.current.moveForward = false;
     Controls.current.turnLeft = false;
-  };
+  });
+  Touch.dpad['upleft'].style.bottom = (Touch.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
 
   Touch.dpad['up'] = Touch.createDPadButton('up');
   Touch.dpad['up'].style.bottom = (Touch.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
@@ -118,8 +117,7 @@ Touch.init = function()
 
 // DPad buttons are divs with explicit press/unpress functions.
 // This function assumes you live at bottom-left of the screen.
-// This function provides dummy press() and unpress() function which must be replaced.
-Touch.createDPadButton = function(id)
+Touch.createDPadButton = function(id, pressFunction, unpressFunction)
 {
   var button = document.createElement('div');
   button.id = id;
@@ -130,12 +128,8 @@ Touch.createDPadButton = function(id)
   button.style.bottom = '0px';
   button.style.left = '0px';
 
-  button.press = function() {
-    error('a dummy button press function wasn\'t replaced!');
-  };
-  button.unpress = function() {
-    error('a dummy button unpress function wasn\'t replaced!');
-  };
+  button.press = pressFunction;
+  button.unpress = unpressFunction;
 
   // press handler for basic touchstart case
   button.addEventListener('touchstart', button.press);
