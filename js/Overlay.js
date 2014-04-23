@@ -48,7 +48,7 @@ Overlay.initTouch = function()
     Keys.shooting = false;
   }, false);
 
-  var TOUCH_CONTROLS_CSS = 'opacity:0.2; background-color: red; z-index: 11000; border-style: dashed; border-width: 2px';
+  var TOUCH_CONTROLS_CSS = 'opacity:0.2; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';
 
   // touch fire button
   var fireButton = document.createElement('div');
@@ -86,6 +86,124 @@ Overlay.initTouch = function()
     Controls.current.turnLeft = false;
   });
   document.body.appendChild(dPadUpleft);
+
+  var dPadUp = document.createElement('div');
+  dPadUp.id = 'dPadUp';
+  dPadUp.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadUp.style.width = '12%';
+  dPadUp.style.height = '20%';
+  dPadUp.style.position = 'absolute';
+  dPadUp.style.bottom = '40%';
+  dPadUp.style.left = '12%';
+  dPadUp.addEventListener('mousedown', function(event) {
+    Controls.current.moveForward = true;
+  });
+  dPadUp.addEventListener('mouseup', function(event) {
+    Controls.current.moveForward = false;
+  });
+  document.body.appendChild(dPadUp);
+
+  var dPadUpRight = document.createElement('div');
+  dPadUpRight.id = 'dPadUpRight';
+  dPadUpRight.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadUpRight.style.width = '12%';
+  dPadUpRight.style.height = '20%';
+  dPadUpRight.style.position = 'absolute';
+  dPadUpRight.style.bottom = '40%';
+  dPadUpRight.style.left = '24%';
+  dPadUpRight.addEventListener('mousedown', function(event) {
+    Controls.current.moveForward = true;
+    Controls.current.turnRight = true;
+  });
+  dPadUpRight.addEventListener('mouseup', function(event) {
+    Controls.current.moveForward = false;
+    Controls.current.turnRight = false;
+  });
+  document.body.appendChild(dPadUpRight);
+
+  var dPadLeft = document.createElement('div');
+  dPadLeft.id = 'dPadLeft';
+  dPadLeft.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadLeft.style.width = '12%';
+  dPadLeft.style.height = '20%';
+  dPadLeft.style.position = 'absolute';
+  dPadLeft.style.bottom = '20%';
+  dPadLeft.style.left = '0px';
+  dPadLeft.addEventListener('mousedown', function(event) {
+    Controls.current.turnLeft = true;
+  });
+  dPadLeft.addEventListener('mouseup', function(event) {
+    Controls.current.turnLeft = false;
+  });
+  document.body.appendChild(dPadLeft);
+
+  var dPadRight = document.createElement('div');
+  dPadRight.id = 'dPadRight';
+  dPadRight.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadRight.style.width = '12%';
+  dPadRight.style.height = '20%';
+  dPadRight.style.position = 'absolute';
+  dPadRight.style.bottom = '20%';
+  dPadRight.style.left = '24%';
+  dPadRight.addEventListener('mousedown', function(event) {
+    Controls.current.turnRight = true;
+  });
+  dPadRight.addEventListener('mouseup', function(event) {
+    Controls.current.turnRight = false;
+  });
+  document.body.appendChild(dPadRight);
+
+  var dPadDownLeft = document.createElement('div');
+  dPadDownLeft.id = 'dPadDownLeft';
+  dPadDownLeft.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadDownLeft.style.width = '12%';
+  dPadDownLeft.style.height = '20%';
+  dPadDownLeft.style.position = 'absolute';
+  dPadDownLeft.style.bottom = '0px';
+  dPadDownLeft.style.left = '0px';
+  dPadDownLeft.addEventListener('mousedown', function(event) {
+    Controls.current.moveBackward = true;
+    Controls.current.turnLeft = true;
+  });
+  dPadDownLeft.addEventListener('mouseup', function(event) {
+    Controls.current.moveBackward = false;
+    Controls.current.turnLeft = false;
+  });
+  document.body.appendChild(dPadDownLeft);
+
+  var dPadDown = document.createElement('div');
+  dPadDown.id = 'dPadDown';
+  dPadDown.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadDown.style.width = '12%';
+  dPadDown.style.height = '20%';
+  dPadDown.style.position = 'absolute';
+  dPadDown.style.bottom = '0px';
+  dPadDown.style.left = '12%';
+  dPadDown.addEventListener('mousedown', function(event) {
+    Controls.current.moveBackward = true;
+  });
+  dPadDown.addEventListener('mouseup', function(event) {
+    Controls.current.moveBackward = false;
+  });
+  document.body.appendChild(dPadDown);
+
+  var dPadDownRight = document.createElement('div');
+  dPadDownRight.id = 'dPadDownRight';
+  dPadDownRight.style.cssText = TOUCH_CONTROLS_CSS;
+  dPadDownRight.style.width = '12%';
+  dPadDownRight.style.height = '20%';
+  dPadDownRight.style.position = 'absolute';
+  dPadDownRight.style.bottom = '0px';
+  dPadDownRight.style.left = '24%';
+  dPadDownRight.addEventListener('mousedown', function(event) {
+    Controls.current.moveBackward = true;
+    Controls.current.turnRight = true;
+  });
+  dPadDownRight.addEventListener('mouseup', function(event) {
+    Controls.current.moveBackward = false;
+    Controls.current.turnRight = false;
+  });
+  document.body.appendChild(dPadDownRight);
 }
 
 Overlay.update = function()
