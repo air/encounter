@@ -18,6 +18,7 @@ Touch.init = function()
   Touch.initFireButton();
 
   // pass our id, along with our press() and unpress() functions.
+  // we need to do this eight times in all.
   Touch.dpad['upleft'] = Touch.createDPadButton('upleft', function() {
     event.preventDefault();
     Controls.current.moveForward = true;
@@ -29,90 +30,77 @@ Touch.init = function()
   });
   Touch.dpad['upleft'].style.bottom = (Touch.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
 
-  Touch.dpad['up'] = Touch.createDPadButton('up');
+  Touch.dpad['up'] = Touch.createDPadButton('up', function() {
+    event.preventDefault();
+    Controls.current.moveForward = true;
+  },
+  function() {
+    event.preventDefault();
+    Controls.current.moveForward = false;
+  });
   Touch.dpad['up'].style.bottom = (Touch.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
   Touch.dpad['up'].style.left = Touch.DPAD_BUTTON_WIDTH_PERCENT + '%';
-  Touch.dpad['up'].press = function() {
+
+  Touch.dpad['upright'] = Touch.createDPadButton('upright', function() {
     event.preventDefault();
     Controls.current.moveForward = true;
-  };
-  Touch.dpad['up'].unpress = function() {
+    Controls.current.turnRight = true;
+  }, function() {
     event.preventDefault();
     Controls.current.moveForward = false;
-  };
-
-  Touch.dpad['upright'] = Touch.createDPadButton('upright');
+    Controls.current.turnRight = false;
+  });
   Touch.dpad['upright'].style.bottom = (Touch.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
   Touch.dpad['upright'].style.left = (Touch.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
-  Touch.dpad['upright'].press = function() {
-    event.preventDefault();
-    Controls.current.moveForward = true;
-    Controls.current.turnRight = true;
-  };
-  Touch.dpad['upright'].unpress = function() {
-    event.preventDefault();
-    Controls.current.moveForward = false;
-    Controls.current.turnRight = false;
-  };
 
-  Touch.dpad['left'] = Touch.createDPadButton('left');
-  Touch.dpad['left'].style.bottom = Touch.DPAD_BUTTON_HEIGHT_PERCENT + '%';
-  Touch.dpad['left'].press = function() {
+  Touch.dpad['left'] = Touch.createDPadButton('left', function() {
     event.preventDefault();
     Controls.current.turnLeft = true;
-  };
-  Touch.dpad['left'].unpress = function() {
+  }, function() {
     event.preventDefault();
     Controls.current.turnLeft = false;
-  };
+  });
+  Touch.dpad['left'].style.bottom = Touch.DPAD_BUTTON_HEIGHT_PERCENT + '%';
 
-  Touch.dpad['right'] = Touch.createDPadButton('right');
+  Touch.dpad['right'] = Touch.createDPadButton('right', function() {
+    event.preventDefault();
+    Controls.current.turnRight = true;
+  }, function() {
+    event.preventDefault();
+    Controls.current.turnRight = false;
+  });
   Touch.dpad['right'].style.bottom = Touch.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   Touch.dpad['right'].style.left = (Touch.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
-  Touch.dpad['right'].press = function() {
-    event.preventDefault();
-    Controls.current.turnRight = true;
-  };
-  Touch.dpad['right'].unpress = function() {
-    event.preventDefault();
-    Controls.current.turnRight = false;
-  };
 
-  Touch.dpad['downleft'] = Touch.createDPadButton('downleft');
-  Touch.dpad['downleft'].press = function() {
+  Touch.dpad['downleft'] = Touch.createDPadButton('downleft', function() {
     event.preventDefault();
     Controls.current.moveBackward = true;
     Controls.current.turnLeft = true;
-  };
-  Touch.dpad['downleft'].unpress = function() {
+  }, function() {
     event.preventDefault();
     Controls.current.moveBackward = false;
     Controls.current.turnLeft = false;
-  };
+  });
 
-  Touch.dpad['down'] = Touch.createDPadButton('down');
-  Touch.dpad['down'].style.left= Touch.DPAD_BUTTON_WIDTH_PERCENT + '%';
-  Touch.dpad['down'].press = function() {
+  Touch.dpad['down'] = Touch.createDPadButton('down', function() {
     event.preventDefault();
     Controls.current.moveBackward = true;
-  };
-  Touch.dpad['down'].unpress = function() {
+  }, function() {
     event.preventDefault();
     Controls.current.moveBackward = false;
-  };
+  });
+  Touch.dpad['down'].style.left= Touch.DPAD_BUTTON_WIDTH_PERCENT + '%';
 
-  Touch.dpad['downright'] = Touch.createDPadButton('downright');
-  Touch.dpad['downright'].style.left = (Touch.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
-  Touch.dpad['downright'].press = function() {
+  Touch.dpad['downright'] = Touch.createDPadButton('downright', function() {
     event.preventDefault();
     Controls.current.moveBackward = true;
     Controls.current.turnRight = true;
-  };
-  Touch.dpad['downright'].unpress = function() {
+  }, function() {
     event.preventDefault();
     Controls.current.moveBackward = false;
     Controls.current.turnRight = false;
-  };
+  });
+  Touch.dpad['downright'].style.left = (Touch.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
 }
 
 // DPad buttons are divs with explicit press/unpress functions.
