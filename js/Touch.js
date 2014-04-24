@@ -1,7 +1,7 @@
 var Touch = {};
 
 Touch.CONTROLS_CSS = 'opacity:0.1; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';
-Touch.DPAD_BUTTON_WIDTH_PERCENT = 12;
+Touch.DPAD_BUTTON_WIDTH_PERCENT = 18;
 Touch.DPAD_BUTTON_HEIGHT_PERCENT = 12;
 
 Touch.dpad = {}; // map of dpad control objects
@@ -140,24 +140,24 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction)
     Touch.dpad[elementBeingTouched].unpress();
   });
 
-  // if a touch slides into another button, unpress this and press the other one
+  // if a touch has moved onto another button, unpress this and press the other one
   button.addEventListener('touchmove', function(event) {
     event.preventDefault();
     var touch = event.changedTouches[0];
     var elementBeingTouched = document.elementFromPoint(touch.clientX, touch.clientY).id;
     if (elementBeingTouched === Touch.lastDPadPressed)
     {
-      log('no change in button, ignoring touchmove');
+      // log('no change in button, ignoring touchmove');
     }
     else
     {
-      log('button changed to ' + elementBeingTouched);
+      // log('button changed to ' + elementBeingTouched);
 
       Touch.dpad[Touch.lastDPadPressed].unpress();
-      log('unpressed ' + Touch.lastDPadPressed);
+      // log('unpressed ' + Touch.lastDPadPressed);
 
       Touch.dpad[elementBeingTouched].press();
-      log('pressed ' + elementBeingTouched);
+      // log('pressed ' + elementBeingTouched);
 
       Touch.lastDPadPressed = elementBeingTouched;
     }

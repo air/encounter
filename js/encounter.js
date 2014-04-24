@@ -7,6 +7,8 @@
 // = Principles
 // The file is the unit of organization, not the class
 // = TODO
+// Touch: handle sliding off the dpad
+// Touch: touchstart in the deadzone middle and slide out from there
 // shots in play show up in warp
 // fix 'edge of the world'
 // add original super-cool exit from warp effect
