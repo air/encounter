@@ -7,6 +7,8 @@ Touch.DPAD_BUTTON_HEIGHT_PERCENT = 12;
 Touch.dpad = {}; // map of dpad control objects
 Touch.fireButton = null;
 
+Touch.lastDPadPressed = null;
+
 Touch.init = function()
 {
   // disable dragging
@@ -104,7 +106,7 @@ Touch.init = function()
 }
 
 // DPad buttons are divs with explicit press/unpress functions.
-// This function assumes you live at bottom-left of the screen.
+// This factory assumes you live at bottom-left of the screen.
 Touch.createDPadButton = function(id, pressFunction, unpressFunction)
 {
   var button = document.createElement('div');
@@ -120,17 +122,46 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction)
   button.unpress = unpressFunction;
 
   // press handler for basic touchstart case
-  button.addEventListener('touchstart', button.press);
-  // unpress handlers
-  button.addEventListener('touchend', button.unpress);
-  button.addEventListener('touchleave', button.unpress);
+  button.addEventListener('touchstart', function(event) {
+    Touch.lastDPadPressed = button.id;
+    button.press();
+  });
+  // touch left the canvas, seems rarely called
+  button.addEventListener('touchleave', function(event) {
+    log('touchleave called');
+    button.unpress();
+  });
+  // touch ended. The touch may have moved to another button, so handle that
+  button.addEventListener('touchend', function(event) {
+    event.preventDefault();
+    var touch = event.changedTouches[0];
+    var elementBeingTouched = document.elementFromPoint(touch.clientX, touch.clientY).id;
+    log('touchend, unpressed current button ' + elementBeingTouched);
+    Touch.dpad[elementBeingTouched].unpress();
+  });
 
-  // FIXME add touchmove handler
-  //div.addEventListener('touchmove', function(event) {
-  //  event.preventDefault();
-  //  var touch = event.changedTouches[0];
-  //  log('touch at ' + touch.clientX + ', ' + touch.clientY);
-  //  log('element is ' + document.elementFromPoint(touch.clientX, touch.clientY).id);
+  // if a touch slides into another button, unpress this and press the other one
+  button.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    var touch = event.changedTouches[0];
+    var elementBeingTouched = document.elementFromPoint(touch.clientX, touch.clientY).id;
+    if (elementBeingTouched === Touch.lastDPadPressed)
+    {
+      log('no change in button, ignoring touchmove');
+    }
+    else
+    {
+      log('button changed to ' + elementBeingTouched);
+
+      Touch.dpad[Touch.lastDPadPressed].unpress();
+      log('unpressed ' + Touch.lastDPadPressed);
+
+      Touch.dpad[elementBeingTouched].press();
+      log('pressed ' + elementBeingTouched);
+
+      Touch.lastDPadPressed = elementBeingTouched;
+    }
+  });
 
   document.body.appendChild(button);
 
