@@ -142,8 +142,6 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction)
   button.addEventListener('touchend', function(event) {
     event.preventDefault();
     var elementBeingTouched = Touch.getIdOfTouchedElement(event);
-    // log('touchend, unpressed current button: ' + elementBeingTouched);
-    // check in case we moved off the dpad completely
     if (elementBeingTouched in Touch.dpad)
     {
       Touch.dpad[elementBeingTouched].unpress();
@@ -156,38 +154,31 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction)
     var elementBeingTouched = Touch.getIdOfTouchedElement(event);
     if (elementBeingTouched === Touch.lastDPadPressed)
     {
-      // log('no change in button, ignoring touchmove');
+      // no change, no op
     }
     else if (elementBeingTouched in Touch.dpad) // verify we moved onto a dpad button
     {
-      // log('button changed to: ' + elementBeingTouched);
-
-      if (Touch.lastDPadPressed in Touch.dpad) // could be null if we moved in from off-pad
+      // unpress the last button if that's appropriate
+      if (Touch.lastDPadPressed in Touch.dpad)
       {
         Touch.dpad[Touch.lastDPadPressed].unpress();
-        // log('unpressed ' + Touch.lastDPadPressed);
       }
-
+      // press the new button
       Touch.dpad[elementBeingTouched].press();
-      // log('pressed ' + elementBeingTouched);
-
       Touch.lastDPadPressed = elementBeingTouched;
     }
-    else // we moved off
+    else // we moved off the dpad
     {
-      // log('moved off the dpad');
-
-      if (Touch.lastDPadPressed in Touch.dpad) // could be null if we're sliding around off-pad
+      // unpress the last button if that's appropriate
+      if (Touch.lastDPadPressed in Touch.dpad)
       {
         Touch.dpad[Touch.lastDPadPressed].unpress();
-        // log('unpressed last button: ' + Touch.lastDPadPressed);
       }
       Touch.lastDPadPressed = null;
     }
   });
 
   document.body.appendChild(button);
-
   return button;
 }
 
