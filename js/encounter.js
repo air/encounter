@@ -1,38 +1,30 @@
 "use strict";
 
-// Encounter: reverse engineering facts
-// time for complete rotation: 9s
-// time to pass 10 obelisks: 8s
-
-// = Principles
-// The file is the unit of organization, not the class
-// = TODO
-// Touch: handle sliding off the dpad
-// Touch: touchstart in the deadzone middle and slide out from there
-// shots in play show up in warp
+// # TODO
 // fix 'edge of the world'
 // add original super-cool exit from warp effect
-// enemy types - model after original first
+// missile enemy
+// further original UFO types
 // sound effects: player move, warp, enemy windup, enemy ticking
+// improve mobile FPS. e.g. merge geometry; shorter draw distance; fog
 // better enemy model. Try more polys against FPS.
 // work on Timer.js to use everywhere rather than 'startedAt' checks
-// can event.preventDefault() help with the dropdown menu stealing focus?
 // Use a THREE.ArrowHelper for the Pointer class together with a child object
 // rationalise the notion of State.actors (affected by pause) and pause-immune State.actors
 // fade sound based on proximity
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
 // Try http://www.createjs.com/#!/SoundJS
-// refactor util.js into MY.js and MY3.js
+// refactor util.js into UTIL.js and MY3.js
 // refactor Physics.js 3D stuff into MY3.js
-// = FIXME
+// # FIXME
+// shots in play show up in warp
 // shot pointers are incorrect in fly mode. Seem ok in normal mode
 // Y rotation breaks when the camera flips from Simple to FirstPerson.
-// = Effects
-// ease down the clock multiplier for a very cool slow-mo effect. This will break clock-elapsed timers.
-// very slow rotate/pan is cool for a 'static' but live menu screen
 
-// constants modelling the original game
+// constants modelling the original game.
+// time for complete rotation: 9s
+// time to pass 10 obelisks: 8s
 var Encounter = {};
 Encounter.DRAW_DISTANCE = 3000; // use with init3D() for the real C64 draw distance
 Encounter.CAMERA_HEIGHT = Obelisk.HEIGHT / 2;
