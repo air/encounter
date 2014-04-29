@@ -9,8 +9,15 @@ Touch.fireButton = null;
 
 Touch.lastDPadPressed = null;
 
+
 Touch.init = function()
 {
+  // don't init touch on desktops
+  if (!UTIL.platformSupportsTouch())
+  {
+    return;
+  }
+  
   // disable dragging
   // FIXME this shouldn't be needed but we go a few px off bottom of screen, which enables drag
   document.addEventListener('touchmove', function(event) {

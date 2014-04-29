@@ -57,6 +57,11 @@ function onDocumentMouseMove(event)
   MOUSE.y = event.clientY;
 }
 
+UTIL.platformSupportsTouch = function()
+{
+  return 'ontouchstart' in window;
+}
+
 //=============================================================================
 // three.js
 //=============================================================================
