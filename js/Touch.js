@@ -135,44 +135,75 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction)
   });
   // touch left the canvas, seems rarely called
   button.addEventListener('touchleave', function(event) {
-    log('touchleave called');
+    log('touchleave received, how novel');
     button.unpress();
   });
   // touch ended. The touch may have moved to another button, so handle that
   button.addEventListener('touchend', function(event) {
     event.preventDefault();
-    var touch = event.changedTouches[0];
-    var elementBeingTouched = document.elementFromPoint(touch.clientX, touch.clientY).id;
-    log('touchend, unpressed current button ' + elementBeingTouched);
-    Touch.dpad[elementBeingTouched].unpress();
+    var elementBeingTouched = Touch.getIdOfTouchedElement(event);
+    // log('touchend, unpressed current button: ' + elementBeingTouched);
+    // check in case we moved off the dpad completely
+    if (elementBeingTouched in Touch.dpad)
+    {
+      Touch.dpad[elementBeingTouched].unpress();
+    }
   });
 
   // if a touch has moved onto another button, unpress this and press the other one
   button.addEventListener('touchmove', function(event) {
     event.preventDefault();
-    var touch = event.changedTouches[0];
-    var elementBeingTouched = document.elementFromPoint(touch.clientX, touch.clientY).id;
+    var elementBeingTouched = Touch.getIdOfTouchedElement(event);
     if (elementBeingTouched === Touch.lastDPadPressed)
     {
       // log('no change in button, ignoring touchmove');
     }
-    else
+    else if (elementBeingTouched in Touch.dpad) // verify we moved onto a dpad button
     {
-      // log('button changed to ' + elementBeingTouched);
+      // log('button changed to: ' + elementBeingTouched);
 
-      Touch.dpad[Touch.lastDPadPressed].unpress();
-      // log('unpressed ' + Touch.lastDPadPressed);
+      if (Touch.lastDPadPressed in Touch.dpad) // could be null if we moved in from off-pad
+      {
+        Touch.dpad[Touch.lastDPadPressed].unpress();
+        // log('unpressed ' + Touch.lastDPadPressed);
+      }
 
       Touch.dpad[elementBeingTouched].press();
       // log('pressed ' + elementBeingTouched);
 
       Touch.lastDPadPressed = elementBeingTouched;
     }
+    else // we moved off
+    {
+      // log('moved off the dpad');
+
+      if (Touch.lastDPadPressed in Touch.dpad) // could be null if we're sliding around off-pad
+      {
+        Touch.dpad[Touch.lastDPadPressed].unpress();
+        // log('unpressed last button: ' + Touch.lastDPadPressed);
+      }
+      Touch.lastDPadPressed = null;
+    }
   });
 
   document.body.appendChild(button);
 
   return button;
+}
+
+Touch.getIdOfTouchedElement = function(touchEvent)
+{
+  var touch = event.changedTouches[0];
+  var element = document.elementFromPoint(touch.clientX, touch.clientY);
+  // this can return null
+  if (element !== null && 'id' in element)
+  {
+    return element.id;
+  }
+  else
+  {
+    return null;
+  }
 }
 
 // fire button is a bit simpler, no need for any touchmove for sliding fingers
