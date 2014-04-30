@@ -124,7 +124,8 @@ MY3.startAnimationLoop = function()
 // maths
 //=============================================================================
 // true if the vector length is within a small delta of 1
-MY3.isNormalised = function(vector) {
+MY3.isVectorNormalised = function(vector)
+{
   var diff = Math.abs(1 - vector.length());
   return (diff < 0.01);
 }
@@ -134,7 +135,7 @@ MY3.isNormalised = function(vector) {
 //=============================================================================
 var MOUSE = {};
 
-// capture mouse moves into
+// capture mouse moves into MOUSE
 MY3.mousePositionHandler = function(event)
 {
   MOUSE.x = event.clientX;
@@ -154,6 +155,7 @@ MY3.initMouseHandler = function()
 // 3D objects
 //=============================================================================
 // a THREE.Line coloured with a gradient from red to blue
+// TODO remove OO nonsense
 MY3.Line = function(startPos, endPos)
 {
   var lineGeometry = new THREE.Geometry();
@@ -170,6 +172,7 @@ MY3.Line.prototype.setEnd = function(position)
 };
 
 // FIXME pointing at a normalized vector doesn't work?
+// TODO remove OO nonsense
 // 1. Point along a normalized vector, or
 // 2. Point at another arbitrary position if the pointAt arg is present
 // default length is 200
@@ -179,7 +182,7 @@ MY3.Pointer = function(position, direction, length, pointAt)
   if (typeof pointAt === "undefined")
   {
     // 1. use a normal vector
-    if (!MY3.isNormalised(direction)) throw ('direction must be a normal, length: ' + direction.length());
+    if (!MY3.isVectorNormalised(direction)) throw ('direction must be a normal, length: ' + direction.length());
     var endPoint = direction.clone().multiplyScalar(length);
     endPoint.add(position);
 
@@ -210,7 +213,8 @@ MY3.Pointer.prototype = Object.create(THREE.Line.prototype);
 
 // Create a marker sphere at a location with a material
 // mat is optional, default is wireframe
-function markerAt(x, y, z, mat) {
+MY3.markerAt = function(x, y, z, mat)
+{
   if (!mat) {
     mat = MATS.normal;
   }
@@ -223,7 +227,8 @@ function markerAt(x, y, z, mat) {
 
 // Display some text as a 2D quad
 // text will appear to top left of point, facing the camera
-function textAt(x, y, z, text) {
+MY3.textAt = function(x, y, z, text)
+{
   // make a canvas...
   var c = document.createElement('canvas');
   c.getContext('2d').font = '50px Arial';
