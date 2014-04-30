@@ -17,8 +17,8 @@ Controls.useFlyControls = function()
   Controls.current.movementSpeed = 2.0;
   Controls.current.lookSpeed = 0.0001;
   Controls.current.constrainVertical = false; // default false
-  Controls.current.verticalMin = 45 * TO_RADIANS;
-  Controls.current.verticalMax = 135 * TO_RADIANS;
+  Controls.current.verticalMin = 45 * UTIL.TO_RADIANS;
+  Controls.current.verticalMax = 135 * UTIL.TO_RADIANS;
 }
 
 Controls.useEncounterControls = function()

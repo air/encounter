@@ -7,8 +7,8 @@ if (UTIL == null || typeof(UTIL) != "object") { var UTIL = {}; } else { throw('c
 //=============================================================================
 // maths
 //=============================================================================
-var TO_RADIANS = Math.PI / 180;
-var TO_DEGREES = 180 / Math.PI;
+UTIL.TO_RADIANS = Math.PI / 180;
+UTIL.TO_DEGREES = 180 / Math.PI;
 
 function random(min, max)
 {

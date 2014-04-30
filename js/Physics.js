@@ -140,9 +140,9 @@ Physics.lineMidpoint = function(p1, p2)
 Physics.yRotationToDegrees = function(object)
 {
   if (typeof object.rotation === "undefined") {
-    return (object.y * TO_DEGREES) % 360;
+    return (object.y * UTIL.TO_DEGREES) % 360;
   } else {
-    return (object.rotation.y * TO_DEGREES) % 360;
+    return (object.rotation.y * UTIL.TO_DEGREES) % 360;
   }
 };
 

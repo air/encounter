@@ -16,7 +16,7 @@ Ground.init = function()
   THREE.Mesh.call(Ground, Ground.GEOMETRY, Ground.MATERIAL); 
   
   // plane inits as a wall on X axis facing the positive Z space, turn away to make a floor
-  Ground.rotation.x = -90 * TO_RADIANS;
+  Ground.rotation.x = -90 * UTIL.TO_RADIANS;
 
   // plane is anchored at its centre
   Ground.position.x = Grid.MAX_X / 2;

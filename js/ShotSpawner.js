@@ -17,7 +17,7 @@ function ShotSpawner(location)
 // negative number to go clockwise
 ShotSpawner.prototype.setRotationDegreesPerSecond = function(degreesPerSecond)
 {
-  this.ROTATE_RADIANS_PER_MS = (degreesPerSecond / 1000) * TO_RADIANS;
+  this.ROTATE_RADIANS_PER_MS = (degreesPerSecond / 1000) * UTIL.TO_RADIANS;
 }
 
 ShotSpawner.prototype.update = function(t)

@@ -11,7 +11,7 @@ Camera.mode = Camera.MODE_FIRST_PERSON;
 
 Camera.CHASE_DISTANCE = 220;
 Camera.CHASE_HEIGHT = 80;
-Camera.CHASE_ANGLE_DOWN = 10 * -TO_RADIANS;
+Camera.CHASE_ANGLE_DOWN = 10 * -UTIL.TO_RADIANS;
 
 Camera.ORBIT_DISTANCE = 600;
 Camera.ORBIT_HEIGHT = 200;
@@ -37,7 +37,7 @@ Camera.init = function()
   // put ortho camera in the centre
   Camera.orthoCamera.position.set(Grid.MAX_X / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.MAX_Z / 2);
   // look down
-  Camera.orthoCamera.rotateOnAxis(X_AXIS, -90 * TO_RADIANS);
+  Camera.orthoCamera.rotateOnAxis(X_AXIS, -90 * UTIL.TO_RADIANS);
 }
 
 Camera.useOrbitMode = function()
