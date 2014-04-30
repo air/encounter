@@ -1,4 +1,6 @@
-Controls = {};
+"use strict";
+
+var Controls = {};
 
 Controls.current = null;
 Controls.shootingAllowed = true;

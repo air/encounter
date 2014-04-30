@@ -1,3 +1,5 @@
+"use strict";
+
 var Overlay = {};
 
 Overlay.text = null; // current text in readout

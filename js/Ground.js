@@ -1,3 +1,5 @@
+"use strict";
+
 var Ground = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 
 // ground plane. Lots of segments will KILL your fps

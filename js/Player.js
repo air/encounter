@@ -1,3 +1,5 @@
+"use strict";
+
 var Player = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 
 Player.RADIUS = 40;

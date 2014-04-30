@@ -1,3 +1,5 @@
+"use strict";
+
 var Grid = {};
 
 Grid.SIZE_X = 40;

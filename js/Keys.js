@@ -1,3 +1,5 @@
+"use strict";
+
 // Keys.js covers the keys that are NOT associated with movement (which can change).
 
 var Keys = {};

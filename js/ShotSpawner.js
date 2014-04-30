@@ -1,3 +1,5 @@
+"use strict";
+
 // A ShotSpawner is a visible Mesh that generates a bunch of Shots
 
 ShotSpawner.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE

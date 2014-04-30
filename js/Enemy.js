@@ -1,3 +1,5 @@
+"use strict";
+
 var Enemy = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 
 Enemy.RADIUS = 40;

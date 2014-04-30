@@ -1,3 +1,5 @@
+"use strict";
+
 // See http://www.superflashbros.net/as3sfxr/
 // 16-sound mixer using multiple Audio instances
 

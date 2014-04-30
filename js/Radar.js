@@ -1,3 +1,5 @@
+"use strict";
+
 var Radar = {};
 
 Radar.RESOLUTION_X = 200;

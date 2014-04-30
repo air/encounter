@@ -1,3 +1,5 @@
+"use strict";
+
 // Player or enemy shot
 
 var Shot = {};

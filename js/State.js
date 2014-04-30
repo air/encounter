@@ -1,3 +1,5 @@
+"use strict";
+
 var State = {};
 
 State.ATTRACT = 'attract';

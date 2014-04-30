@@ -1,3 +1,5 @@
+"use strict";
+
 var Warp = {};
 
 Warp.TIME_ACCELERATING_MS = 9000; // measured

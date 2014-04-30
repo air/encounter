@@ -1,3 +1,5 @@
+"use strict";
+
 var GUI = {};
 
 var global = Function('return this')(); // nice hacky ref to global object

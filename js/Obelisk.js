@@ -1,3 +1,5 @@
+"use strict";
+
 var Obelisk = {};
 
 Obelisk.HEIGHT = 100;

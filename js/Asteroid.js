@@ -1,3 +1,5 @@
+"use strict";
+
 var Asteroid = {};
 
 Asteroid.RADIUS = 60;

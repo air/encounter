@@ -1,3 +1,5 @@
+"use strict";
+
 var Touch = {};
 
 Touch.CONTROLS_CSS = 'opacity:0.1; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';

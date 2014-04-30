@@ -1,9 +1,11 @@
+"use strict";
+
 // SimpleControls.js handles movement only. For other functions see Keys.js
 // Adapted from THREE.FirstPersonControls
 
 // TODO crosshairs, translucent
 
-SimpleControls = function(controlledObject)
+var SimpleControls = function(controlledObject)
 {
   this.object = controlledObject;
 
