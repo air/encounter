@@ -68,7 +68,7 @@ Warp.createAsteroidsInFrontOfPlayer = function(timeDeltaMillis)
   asteroid.position.copy(Player.position);
   asteroid.rotation.copy(Player.rotation);
   asteroid.translateZ(-15000); // FIXME adjust this
-  asteroid.translateX(random(-15000, 15000)); // FIXME adjust this
+  asteroid.translateX(UTIL.random(-15000, 15000)); // FIXME adjust this
   scene.add(asteroid);
   Warp.asteroids.push(asteroid);
 }

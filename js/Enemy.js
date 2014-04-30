@@ -62,7 +62,7 @@ Enemy.spawn = function()
 
 Enemy.setupWaiting = function()
 {
-  Enemy.waitingCountdown = random(Enemy.WAIT_TIME_MIN_MS, Enemy.WAIT_TIME_MAX_MS);
+  Enemy.waitingCountdown = UTIL.random(Enemy.WAIT_TIME_MIN_MS, Enemy.WAIT_TIME_MAX_MS);
   log('enemy waiting for ' + Enemy.waitingCountdown + 'ms');
   Enemy.state = Enemy.STATE_WAITING;
 }
@@ -76,7 +76,7 @@ Enemy.updateWaiting = function(timeDeltaMillis)
   }
   else
   {
-    if (random(50) == 42)
+    if (UTIL.random(50) == 42)
     {
       Physics.rotateObjectToLookAt(Enemy, Player.position);
       Enemy.shoot();
@@ -87,7 +87,7 @@ Enemy.updateWaiting = function(timeDeltaMillis)
 
 Enemy.setupMoving = function()
 {
-  Enemy.movingCountdown = random(Enemy.MOVE_TIME_MIN_MS, Enemy.MOVE_TIME_MAX_MS);
+  Enemy.movingCountdown = UTIL.random(Enemy.MOVE_TIME_MIN_MS, Enemy.MOVE_TIME_MAX_MS);
   Enemy.rotation.y = Physics.randomDirection();
   log('enemy moving for ' + Enemy.movingCountdown + 'ms in direction ' + Enemy.rotation.y);
   Enemy.state = Enemy.STATE_MOVING;

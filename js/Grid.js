@@ -64,7 +64,7 @@ Grid.removeFromScene = function()
 // returns a Vector3
 Grid.randomLocation = function()
 {
-  return new THREE.Vector3(random(0, Grid.MAX_X), 0, random(0, Grid.MAX_Z));
+  return new THREE.Vector3(UTIL.random(0, Grid.MAX_X), 0, UTIL.random(0, Grid.MAX_Z));
 }
 
 // returns a Vector3

@@ -10,7 +10,7 @@ if (UTIL == null || typeof(UTIL) != "object") { var UTIL = {}; } else { throw('c
 UTIL.TO_RADIANS = Math.PI / 180;
 UTIL.TO_DEGREES = 180 / Math.PI;
 
-function random(min, max)
+UTIL.random = function(min, max)
 {
   // handle a single arg to mean 'between 0 and arg'
   if (typeof max === "undefined")
