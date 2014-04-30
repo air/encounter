@@ -15,7 +15,6 @@
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
 // Try http://www.createjs.com/#!/SoundJS
-// refactor util.js into UTIL.js and MY3.js
 // refactor Physics.js 3D stuff into MY3.js
 // # FIXME
 // shots in play show up in warp
