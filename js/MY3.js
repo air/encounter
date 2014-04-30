@@ -135,18 +135,17 @@ MY3.isNormalised = function(vector) {
 var MOUSE = {};
 
 // capture mouse moves into
-function mousePositionHandler(event)
+MY3.mousePositionHandler = function(event)
 {
   MOUSE.x = event.clientX;
   MOUSE.y = event.clientY;
 }
 
 // Add mouse listener, init mouse to the center
-// TODO rename this
-function initListeners()
+MY3.initMouseHandler = function()
 {
   // capture mouse moves
-  document.addEventListener('mousemove', mousePositionHandler, false);
+  document.addEventListener('mousemove', MY3.mousePositionHandler, false);
   MOUSE.x = HALFWIDTH;
   MOUSE.y = HALFHEIGHT;
 }

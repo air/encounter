@@ -38,13 +38,11 @@ Encounter.ENEMY_SPAWN_DISTANCE_MAX = 10000; // not measured
 Encounter.PORTAL_SPAWN_DISTANCE_MAX = 10000; // not measured
 
 MY3.init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
+document.body.appendChild(renderer.domElement);
+
 Sound.init();
 Overlay.init();
 State.init();
 
 MY3.setupRStats(); // requires three renderer to be ready
-
-document.body.appendChild(renderer.domElement);
-
-initListeners();
 MY3.startAnimationLoop();
