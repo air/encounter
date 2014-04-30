@@ -37,7 +37,7 @@ var threestats;
 // init functions
 //=============================================================================
 // optional argument: far - draw distance, defaults to 10,000
-function init3d(far)
+MY3.init3d = function(far)
 {
   var VIEW_ANGLE = 45; // degrees not radians
   var ASPECT = WIDTH / HEIGHT;

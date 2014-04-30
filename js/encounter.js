@@ -37,7 +37,7 @@ Encounter.TIME_TO_ENTER_PORTAL_MS = 12000; // TODO not measured
 Encounter.ENEMY_SPAWN_DISTANCE_MAX = 10000; // not measured
 Encounter.PORTAL_SPAWN_DISTANCE_MAX = 10000; // not measured
 
-init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
+MY3.init3d(Grid.MAX_X * 1.4); // draw distance to see mostly the whole grid, whatever size that is
 Sound.init();
 Overlay.init();
 State.init();
