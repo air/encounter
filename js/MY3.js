@@ -52,7 +52,7 @@ MY3.init3d = function(far)
   renderer.shadowMapEnabled = true;
 }
 
-function addHelpers()
+MY3.addHelpers = function()
 {
   var axis = new THREE.AxisHelper(300);
   scene.add(axis);
@@ -96,7 +96,7 @@ MY3.setupRStats = function()
 //=============================================================================
 // core animation loop
 //=============================================================================
-function render()
+MY3.render = function()
 {
   rstats('frame').start();
   rstats('FPS').frame();
@@ -107,16 +107,17 @@ function render()
   rstats().update(); // redraw the widget
 }
 
-// you need to implement update(t)
-function animate()
+// You need to implement the global function update(timeDeltaMillis).
+// This function calls MY3.render().
+MY3.startAnimationLoop = function()
 {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(MY3.startAnimationLoop);
 
   rstats('engine').start();
   update(clock.getDelta() * clock.multiplier);
   rstats('engine').end();
 
-  render();
+  MY3.render();
 }
 
 //=============================================================================

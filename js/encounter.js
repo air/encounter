@@ -47,4 +47,4 @@ MY3.setupRStats(); // requires three renderer to be ready
 document.body.appendChild(renderer.domElement);
 
 initListeners();
-animate();
+MY3.startAnimationLoop();
