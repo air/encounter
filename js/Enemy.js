@@ -78,7 +78,7 @@ Enemy.updateWaiting = function(timeDeltaMillis)
   {
     if (UTIL.random(50) == 42)
     {
-      Physics.rotateObjectToLookAt(Enemy, Player.position);
+      MY3.rotateObjectToLookAt(Enemy, Player.position);
       Enemy.shoot();
       Enemy.setupMoving();
     }
@@ -88,7 +88,7 @@ Enemy.updateWaiting = function(timeDeltaMillis)
 Enemy.setupMoving = function()
 {
   Enemy.movingCountdown = UTIL.random(Enemy.MOVE_TIME_MIN_MS, Enemy.MOVE_TIME_MAX_MS);
-  Enemy.rotation.y = Physics.randomDirection();
+  Enemy.rotation.y = MY3.randomDirection();
   log('enemy moving for ' + Enemy.movingCountdown + 'ms in direction ' + Enemy.rotation.y);
   Enemy.state = Enemy.STATE_MOVING;
 }

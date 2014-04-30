@@ -83,16 +83,6 @@ Physics.getCollidingObelisk = function(position, radius)
   }
 };
 
-// pass in two Vector3s and their radii. Y axis is ignored.
-Physics.doCirclesCollide = function(position1, radius1, position2, radius2)
-{
-  // collision overlap must exceed a small epsilon so we don't count rounding errors
-  var COLLISION_EPSILON = 0.01;
-  var collisionThreshold = radius1 + radius2 - COLLISION_EPSILON; // centres must be this close together to touch
-  var distance = new THREE.Vector2(position1.x, position1.z).distanceTo(new THREE.Vector2(position2.x, position2.z));    
-  return (distance < collisionThreshold);
-}
-
 // Collide a moving Object3D with a static point and radius. The object position and rotation will be modified.
 Physics.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius, object, objectRadius)
 {
@@ -108,7 +98,7 @@ Physics.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius
   // or V + 2N((-V).N)
 
   var N = movement;
-  var V = Physics.objectRotationAsUnitVector(object);
+  var V = MY3.objectRotationAsUnitVector(object);
   // get the scalar values
   var NdotV = N.dot(V);
   var twoNdotV = 2 * NdotV;
@@ -119,70 +109,9 @@ Physics.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius
   result.subVectors(V, NbyTwoNdotV);
 
   // apply the result to the object: convert the unit vector back to rotation
-  var newRotation = Physics.vectorToRotation(result);
+  var newRotation = MY3.vectorToRotation(result);
   object.rotation.y = newRotation;
 };
-
-// pass in two Vector2s, returns a Vector2
-Physics.lineMidpoint = function(p1, p2)
-{
-  var  x, y, dx, dy;
-  x = Math.min(p1.x, p2.x) + Math.abs( (p1.x - p2.x) / 2 );
-  y = Math.min(p1.y, p2.y) + Math.abs( (p1.y - p2.y) / 2 );
-  return new THREE.Vector2(x, y);
-};
-
-// Pass an object with a .rotation, or a Vector3. Will mod 360.
-// Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
-// 90 along negative X axis
-// 180 along positive Z axis
-// -90 along positive X axis
-Physics.yRotationToDegrees = function(object)
-{
-  if (typeof object.rotation === "undefined") {
-    return (object.y * UTIL.TO_DEGREES) % 360;
-  } else {
-    return (object.rotation.y * UTIL.TO_DEGREES) % 360;
-  }
-};
-
-// pass in an object3D, get the .rotation as the unit vector of X and Z
-Physics.objectRotationAsUnitVector = function(object)
-{
-  // 1. sin expects radians
-  // 2. have to adjust the signs to match three.js orientation
-  var xComponent = -Math.sin(object.rotation.y);
-  var zComponent = -Math.cos(object.rotation.y);
-  var vector = new THREE.Vector3(xComponent, 0, zComponent);
-  return vector.normalize();
-}
-
-// returns rotation in radians, suitable for object.rotation
-Physics.randomDirection = function()
-{
-  return Math.random() * 2 * Math.PI;
-}
-
-// pass in a Vector3 with X and Z values, get the rotation in radians, suitable for object.rotation.y
-// Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
-// 90 along negative X axis
-// 180 along positive Z axis
-// -90 along positive X axis
-Physics.vectorToRotation = function(vector)
-{
-  // we need atan2 to get all quadrants
-  // atan2 rotates to the X axis (+Z for us) - so invert the values to get a rotation to -Z axis
-  return Math.atan2(-vector.x, -vector.z);
-}
-
-// TODO if lookAt were fully understood we wouldn't need this?
-Physics.rotateObjectToLookAt = function(object, point)
-{
-  var vectorDelta = new THREE.Vector3();
-  vectorDelta.subVectors(point, object.position);
-  var rotation = this.vectorToRotation(vectorDelta);
-  object.rotation.y = rotation;
-}
 
 // Pass in two Vector3 positions, which intersect in the X-Z plane given a radius for each.
 // This function will move the second position out of the first by the shortest path (again on the X-Z plane).

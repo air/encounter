@@ -91,7 +91,7 @@ Shot.collideWithObelisks = function(shot)
     var obelisk = Grid.rows[shot.closeObeliskIndex.y][shot.closeObeliskIndex.x];
     shot.line = new MY3.Line(shot.position, obelisk.position);
     
-    shot.pointer = new MY3.Pointer(shot.position, Physics.objectRotationAsUnitVector(shot), 200);
+    shot.pointer = new MY3.Pointer(shot.position, MY3.objectRotationAsUnitVector(shot), 200);
     scene.add(shot.line);
     scene.add(shot.pointer);
   }
@@ -100,12 +100,12 @@ Shot.collideWithObelisks = function(shot)
 Shot.collideWithShips = function(shot)
 {
   // kill the player
-  if (Physics.doCirclesCollide(shot.position, Shot.RADIUS, Player.position, Player.RADIUS))
+  if (MY3.doCirclesCollide(shot.position, Shot.RADIUS, Player.position, Player.RADIUS))
   {
     Player.wasHit();
   }
   // kill the enemy
-  if (Enemy.isAlive && Physics.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
+  if (Enemy.isAlive && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
   {
     Enemy.destroyed();
     // remove the shot

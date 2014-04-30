@@ -1,7 +1,5 @@
 "use strict";
 
-// Requires UTIL.js
-
 if (MY3 == null || typeof(MY3) != "object") { var MY3 = {}; } else { throw('can\'t reserve namespace MY3'); }
 
 //=============================================================================
@@ -128,6 +126,77 @@ MY3.isVectorNormalised = function(vector)
 {
   var diff = Math.abs(1 - vector.length());
   return (diff < 0.01);
+}
+
+// pass in two Vector3s and their radii. Y axis is ignored.
+MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
+{
+  // collision overlap must exceed a small epsilon so we don't count rounding errors
+  var COLLISION_EPSILON = 0.01;
+  var collisionThreshold = radius1 + radius2 - COLLISION_EPSILON; // centres must be this close together to touch
+  var distance = new THREE.Vector2(position1.x, position1.z).distanceTo(new THREE.Vector2(position2.x, position2.z));    
+  return (distance < collisionThreshold);
+}
+
+// pass in two Vector2s, returns a Vector2
+MY3.lineMidpoint = function(p1, p2)
+{
+  var  x, y, dx, dy;
+  x = Math.min(p1.x, p2.x) + Math.abs( (p1.x - p2.x) / 2 );
+  y = Math.min(p1.y, p2.y) + Math.abs( (p1.y - p2.y) / 2 );
+  return new THREE.Vector2(x, y);
+};
+
+// Pass an object with a .rotation, or a Vector3. Will mod 360.
+// Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
+// 90 along negative X axis
+// 180 along positive Z axis
+// -90 along positive X axis
+MY3.yRotationToDegrees = function(object)
+{
+  if (typeof object.rotation === "undefined") {
+    return (object.y * UTIL.TO_DEGREES) % 360;
+  } else {
+    return (object.rotation.y * UTIL.TO_DEGREES) % 360;
+  }
+};
+
+// pass in an object3D, get the .rotation as the unit vector of X and Z
+MY3.objectRotationAsUnitVector = function(object)
+{
+  // 1. sin expects radians
+  // 2. have to adjust the signs to match three.js orientation
+  var xComponent = -Math.sin(object.rotation.y);
+  var zComponent = -Math.cos(object.rotation.y);
+  var vector = new THREE.Vector3(xComponent, 0, zComponent);
+  return vector.normalize();
+}
+
+// returns rotation in radians, suitable for object.rotation
+MY3.randomDirection = function()
+{
+  return Math.random() * 2 * Math.PI;
+}
+
+// pass in a Vector3 with X and Z values, get the rotation in radians, suitable for object.rotation.y
+// Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
+// 90 along negative X axis
+// 180 along positive Z axis
+// -90 along positive X axis
+MY3.vectorToRotation = function(vector)
+{
+  // we need atan2 to get all quadrants
+  // atan2 rotates to the X axis (+Z for us) - so invert the values to get a rotation to -Z axis
+  return Math.atan2(-vector.x, -vector.z);
+}
+
+// TODO if lookAt were fully understood we wouldn't need this?
+MY3.rotateObjectToLookAt = function(object, point)
+{
+  var vectorDelta = new THREE.Vector3();
+  vectorDelta.subVectors(point, object.position);
+  var rotation = this.vectorToRotation(vectorDelta);
+  object.rotation.y = rotation;
 }
 
 //=============================================================================
