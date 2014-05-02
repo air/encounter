@@ -69,4 +69,10 @@ Enemy.destroyed = function()
 
   State.actorIsDead(Enemy.current);
   State.enemyKilled();
+
+  // if this enemy has a destroyed() decorator, invoke it
+  if (typeof(Enemy.current.destroyed) === 'function')
+  {
+    Enemy.current.destroyed.call(); 
+  }
 }

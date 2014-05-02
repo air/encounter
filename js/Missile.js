@@ -12,13 +12,21 @@ Missile.MESH_SCALE_X = 0.6; // TODO improve shape
 Missile.radarType = Radar.TYPE_ENEMY;
 
 // Player speed is Encounter.MOVEMENT_SPEED
-Missile.MOVEMENT_SPEED = 2;
+Missile.MOVEMENT_SPEED = 1.8;
+
+Missile.STRAFE_MAX_OFFSET = 40; // how far the missile will strafe away from a direct line to the player
+Missile.STRAFE_TIME_MILLIS = 1000; // time to sweep from one side to the other
+
+Missile.strafeOffset = null; // current offset
+Missile.strafeTweenLoop = null; // keep a reference so we can start/stop on demand
 
 Missile.init = function()
 {
   // actually set up this Mesh using our materials
   THREE.Mesh.call(Missile, Missile.GEOMETRY, Missile.MATERIAL);
   Missile.scale.x = Missile.MESH_SCALE_X;
+
+  Missile.setupStrafeTweens();
 }
 
 Missile.spawn = function()
@@ -28,11 +36,30 @@ Missile.spawn = function()
   log('spawning missile at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z);
   Missile.position.copy(spawnPoint);
 
+  Missile.strafeOffset = -Missile.STRAFE_MAX_OFFSET; // start at one side for simplicity
+  Missile.strafeTweenLoop.start();
+
   return this;
+}
+
+// set up an infinitely looping tween going back and forth between offsets
+Missile.setupStrafeTweens = function()
+{
+  var leftToRight = new TWEEN.Tween(Missile).to({ strafeOffset: Missile.STRAFE_MAX_OFFSET }, Missile.STRAFE_TIME_MILLIS);
+  var rightToLeft = new TWEEN.Tween(Missile).to({ strafeOffset: -Missile.STRAFE_MAX_OFFSET }, Missile.STRAFE_TIME_MILLIS);
+
+  leftToRight.chain(rightToLeft);
+  rightToLeft.chain(leftToRight);
+  
+  Missile.strafeTweenLoop = leftToRight;
 }
 
 Missile.update = function(timeDeltaMillis)
 {
+  TWEEN.update();
+
+  Missile.translateX(Missile.strafeOffset);
+
   MY3.rotateObjectToLookAt(Missile, Player.position);
   
   var actualMoveSpeed = timeDeltaMillis * Missile.MOVEMENT_SPEED;
@@ -57,5 +84,10 @@ Missile.update = function(timeDeltaMillis)
   if (MY3.doCirclesCollide(Missile.position, Missile.RADIUS, Player.position, Player.RADIUS))
   {
     Player.wasHit();
-  } 
+  }
+}
+
+Missile.destroyed = function()
+{
+  Missile.strafeTweenLoop.stop();
 }

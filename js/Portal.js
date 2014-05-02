@@ -51,6 +51,7 @@ Portal.spawn = function()
   var spawnPosition = Grid.randomLocationCloseToPlayer(Encounter.PORTAL_SPAWN_DISTANCE_MAX);
   
   // FIXME this is temporary
+  // TODO use tween chaining for the left/right then up/down opening phases!
   Portal.mesh.position.set(spawnPosition.x, Obelisk.HEIGHT / 2, spawnPosition.z);
   Portal.mesh.update = function(){};
   Portal.mesh.scale.y = 0.01;
