@@ -16,6 +16,8 @@ Shot.newInstance = function(firingObject, shooterPosition, shooterRotation)
   var newShot = new THREE.Mesh(Shot.GEOMETRY, Shot.MATERIAL);
   newShot.shooter = firingObject;
 
+  newShot.radarType = Radar.TYPE_SHOT;
+
   newShot.position.copy(shooterPosition);
   newShot.rotation.copy(shooterRotation);
   newShot.translateZ(-Shot.OFFSET_FROM_SHOOTER);
@@ -105,7 +107,7 @@ Shot.collideWithShips = function(shot)
     Player.wasHit();
   }
   // kill the enemy
-  if (Enemy.isAlive && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.position, Enemy.RADIUS))
+  if (Enemy.isAlive && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.current.position, Enemy.current.RADIUS))
   {
     Enemy.destroyed();
     // remove the shot

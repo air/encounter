@@ -15,7 +15,9 @@ Player.init = function()
 {
   // actually set up this Mesh using our materials
   THREE.Mesh.call(Player, Player.GEOMETRY, Player.MATERIAL); 
-  //scene.add(Player);
+  //scene.add(Player); // uncomment this to 'look out' from inside the wireframe in first-person mode.
+
+  Player.radarType = Radar.TYPE_PLAYER;
 
   // player can move in pause mode 
   //State.actors.push(playerMesh);

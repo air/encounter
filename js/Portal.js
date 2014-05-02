@@ -23,6 +23,8 @@ Portal.init = function()
 {
   Portal.GEOMETRY = new THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
   Portal.mesh = new THREE.Mesh(Portal.GEOMETRY, new THREE.MeshLambertMaterial({ color : C64.black }));
+  
+  Portal.mesh.radarType = Radar.TYPE_PORTAL;
 }
 
 Portal.startSpawnTimer = function()
