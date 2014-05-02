@@ -98,7 +98,9 @@ Radar.render = function(worldx, worldz)
 Radar.update = function()
 {
   Radar.canvasContext.clearRect(0, 0, Radar.RESOLUTION_X, Radar.RESOLUTION_Z);
-  Radar.canvasContext.fillStyle = "#00FF33";
+
+  // TODO currently Player is special-cased as they're not in State.actors
+  Radar.canvasContext.fillStyle = "#FFFFFF";
   Radar.render(Player.position.x, Player.position.z);
 
   // render all actors as blips
@@ -106,26 +108,27 @@ Radar.update = function()
   {
     // set the colour by actor type
     var type = State.actors[i].radarType;
-    /*
+
     switch (type)
     {
-      Radar.TYPE_ENEMY:
+      case Radar.TYPE_ENEMY:
         Radar.canvasContext.fillStyle = "#FF0000";
         break;
-      Radar.TYPE_PLAYER:
+      case Radar.TYPE_PLAYER:
+        // TODO currently unused as above
         Radar.canvasContext.fillStyle = "#FFFFFF";
         break;
-      Radar.TYPE_SHOT:
+      case Radar.TYPE_SHOT:
         Radar.canvasContext.fillStyle = "#FFFF00";
         break;
-      Radar.TYPE_PORTAL:
+      case Radar.TYPE_PORTAL:
         Radar.canvasContext.fillStyle = C64.randomCssColour();
         break;
       default:
         error('unknown .radarType ' + type + ' for actor ' + State.actors[i]);
-        Radar.canvasContext.fillStyle = "#0000FF";
+        Radar.canvasContext.fillStyle = "#00FF33";
     }
-    */
+
     Radar.render(State.actors[i].position.x, State.actors[i].position.z);
   }
 }
