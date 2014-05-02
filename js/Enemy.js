@@ -25,6 +25,16 @@ Enemy.MOVE_TIME_MIN_MS = 1000;
 Enemy.WAIT_TIME_MAX_MS = 2000;
 Enemy.WAIT_TIME_MIN_MS = 1000;
 
+Enemy.TYPE_UFO = 'ufo';
+Enemy.TYPE_MISSILE = 'missile';
+Enemy.SPAWN_TABLE = [
+  //Enemy.TYPE_MISSILE,
+  //Enemy.TYPE_MISSILE,
+  Enemy.TYPE_UFO,
+  Enemy.TYPE_UFO,
+  Enemy.TYPE_UFO
+];
+
 Enemy.init = function()
 {
   // actually set up this Mesh using our materials
@@ -49,6 +59,24 @@ Enemy.spawnIfReady = function()
 }
 
 Enemy.spawn = function()
+{
+  var diceRoll = UTIL.random(1, Enemy.SPAWN_TABLE.length) - 1; // adjust to be array index
+  log('dice roll ' + diceRoll + ' gives enemy: ' + Enemy.SPAWN_TABLE[diceRoll]);
+  if (Enemy.SPAWN_TABLE[diceRoll] === Enemy.TYPE_UFO)
+  {
+    Enemy.spawnUfo();
+  }
+  else if (Enemy.SPAWN_TABLE[diceRoll] === Enemy.TYPE_MISSILE)
+  {
+    log('no missile implemented yet');
+  }
+  else
+  {
+    error ('unknown enemy type: ' + Enemy.SPAWN_TABLE[diceRoll]);
+  }
+}
+
+Enemy.spawnUfo = function()
 {
   var spawnPoint = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
   spawnPoint.y = Encounter.CAMERA_HEIGHT;

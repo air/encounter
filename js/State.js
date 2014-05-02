@@ -44,7 +44,7 @@ State.initWorld = function()
 
 State.resetEnemyCounter = function()
 {
-  State.enemiesRemaining = 1;
+  State.enemiesRemaining = 3;
 }
 
 State.setupAttract = function()

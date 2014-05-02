@@ -15,6 +15,8 @@
 // see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
 // replace direct use of rotation.n.set with rotateOnAxis()
 // Try http://www.createjs.com/#!/SoundJS
+// shader for the 'snow' effect once destroyed
+// shader for scanlines
 // # FIXME
 // shots in play show up in warp
 // shot pointers are incorrect in fly mode. Seem ok in normal mode
