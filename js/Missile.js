@@ -5,7 +5,7 @@
 var Missile = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 
 Missile.RADIUS = 40; // FIXME collides at this radius but doesn't appear it
-Missile.GEOMETRY = new THREE.SphereGeometry(Missile.RADIUS, 8, 4);
+Missile.GEOMETRY = new THREE.SphereGeometry(Missile.RADIUS, 4, 4);
 Missile.MATERIAL = MATS.normal; // see also MATS.wireframe.clone();
 Missile.MESH_SCALE_X = 0.6; // TODO improve shape
 
@@ -53,5 +53,9 @@ Missile.update = function(timeDeltaMillis)
     }
 
   // offset to the side
-  // collide with player   
+  // collide and kill the player
+  if (MY3.doCirclesCollide(Missile.position, Missile.RADIUS, Player.position, Player.RADIUS))
+  {
+    Player.wasHit();
+  } 
 }
