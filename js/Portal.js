@@ -70,10 +70,7 @@ Portal.spawn = function()
 Portal.removeFromScene = function()
 {
   scene.remove(Portal.mesh);
-  var index = State.actors.indexOf(Portal.mesh);
-  if (index !== -1) {
-    State.actors.splice(index, 1);
-  }
+  State.actorIsDead(Portal.mesh);
 }
 
 Portal.updateOpening = function(timeDeltaMillis)

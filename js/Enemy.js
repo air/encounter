@@ -43,7 +43,6 @@ Enemy.spawnIfReady = function()
   if ((clock.oldTime - Enemy.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
   {
     Enemy.spawn();
-    Enemy.isAlive = true;
     Enemy.setupMoving();
     State.setupCombat();
   }
@@ -58,6 +57,7 @@ Enemy.spawn = function()
 
   scene.add(Enemy);
   State.actors.push(Enemy);
+  Enemy.isAlive = true;
 }
 
 Enemy.setupWaiting = function()
@@ -150,10 +150,6 @@ Enemy.destroyed = function()
   scene.remove(Enemy);
   Enemy.isAlive = false;
 
-  var index = State.actors.indexOf(Enemy);
-  if (index !== -1) {
-    State.actors.splice(index, 1);
-  }
-
+  State.actorIsDead(Enemy);
   State.enemyKilled();
 }
