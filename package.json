@@ -1,0 +1,24 @@
+{
+  "name": "encounter",
+  "version": "1.0.0",
+  "author": "Aaron Bell (http://www.aaronbell.com)",
+  "description": "Recreating the 80s C64 classic in WebGL.",
+  "scripts": {
+    "test": "gulp test",
+    "publish": "echo This will update the gh-pages branch and push"
+   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/air/encounter.git"
+  },
+  "keywords": [
+    "encounter", "c64", "webgl", "threejs"
+  ],
+  "devDependencies": {
+    "jasmine-node"    :  "1.14.3"
+  },  
+  "license": "CC-BY-NC-SA-3.0",
+  "engines": {
+    "node": ">=0.6"
+  }
+}
