@@ -31,11 +31,11 @@ gulp.task('publish', ['test'], function() {
 
   return gulp.src('.')
     .pipe(git.checkout('gh-pages'))
-    //.pipe(git.merge('master'))
-    //.pipe(git.commit('merged master ' + version + ' to gh-pages'))
-    //.pipe(git.push('origin', 'gh-pages'))
+    .pipe(git.merge('master'))
+    .pipe(git.commit('merged master ' + version + ' to gh-pages'))
+    .pipe(git.push('origin', 'gh-pages'))
     .pipe(git.checkout('master'))
-    //.end();
+    .end();
 });
 
 // a minimal gulp plugin at https://github.com/sindresorhus/gulp-size/blob/master/index.js
