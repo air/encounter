@@ -34,6 +34,7 @@ gulp.task('publish', ['test'], function() {
     //.pipe(git.merge('master'))
     //.pipe(git.commit('merged master ' + version + ' to gh-pages'))
     //.pipe(git.push('origin', 'gh-pages'))
+    .pipe(git.checkout('master'))
     //.end();
 });
 
