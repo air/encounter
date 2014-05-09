@@ -1,6 +1,6 @@
 {
   "name": "encounter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Aaron Bell (http://www.aaronbell.com)",
   "description": "Recreating the 80s C64 classic in WebGL.",
   "scripts": {
