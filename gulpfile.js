@@ -15,7 +15,8 @@ gulp.task('bump-version', ['test'], function() {
 });
 
 // commit package.json and push it
-gulp.task('release', ['bump-version'], function() {
+//gulp.task('release', ['bump-version'], function() {
+gulp.task('release', function() {
   var version = require('./package.json').version;
 
   return gulp.src('.')
@@ -25,7 +26,7 @@ gulp.task('release', ['bump-version'], function() {
 });
 
 // merge master into gh-pages and push it
-gulp.task('publish', ['release'], function() {
+gulp.task('publish', ['test'], function() {
   var version = require('./package.json').version;
 
   return gulp.src('.')
