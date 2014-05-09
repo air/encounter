@@ -5,7 +5,9 @@
   "description": "Recreating the 80s C64 classic in WebGL.",
   "scripts": {
     "test": "gulp test",
-    "release": "gulp release"
+    "bump": "gulp bump-version",
+    "release": "gulp release",
+    "publish": "gulp publish"
   },
   "repository": {
     "type": "git",
@@ -20,7 +22,8 @@
   "devDependencies": {
     "gulp": "3.6.2",
     "jasmine-node": "1.14.3",
-    "gulp-bump": "0.1.8"
+    "gulp-bump": "0.1.8",
+    "gulp-git": "0.4.2"
   },
   "license": "CC-BY-NC-SA-3.0",
   "engines": {
