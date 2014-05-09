@@ -24,9 +24,9 @@
     "gulp": "^3.6.2",
     "gulp-bump": "^0.1.8",
     "gulp-git": "^0.4.2",
-    "gulp-jasmine": "^0.2.0",
     "gulp-jshint": "^1.5.5",
-    "gulp-concat": "^2.2.0"
+    "gulp-concat": "^2.2.0",
+    "gulp-jasmine2-phantomjs": "0.0.3"
   },
   "license": "CC-BY-NC-SA-3.0",
   "engines": {

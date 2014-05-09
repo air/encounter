@@ -3,11 +3,10 @@ var gulp = require('gulp');
 var bump = require('gulp-bump');
 var git = require('gulp-git');
 var jshint = require('gulp-jshint');
-var jasmine = require('gulp-jasmine');
 var concat = require('gulp-concat');
 
 gulp.task('test', function() {
-  return gulp.src('./test/*.js').pipe(jasmine());
+  // TODO
 });
 
 gulp.task('lint', function() {
