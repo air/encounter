@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // # TODO
 // fix 'edge of the world'

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // Top-level class for Enemy-related stuff.
 

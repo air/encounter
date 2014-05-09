@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // SimpleControls.js handles movement only. For other functions see Keys.js
 // Adapted from THREE.FirstPersonControls

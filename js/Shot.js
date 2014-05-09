@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // Player or enemy shot
 

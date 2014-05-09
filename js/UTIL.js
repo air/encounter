@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // TODO currently relies on MY3.js for clock
 

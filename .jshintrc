@@ -11,6 +11,7 @@
   "trailing": true,
   "boss": true,
   "eqnull": true,
+  "globalstrict": true,
   "strict": true,
   "immed": true,
   "expr": true,

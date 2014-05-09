@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // FIXME Camera and camera is confusing
 var Camera = {};

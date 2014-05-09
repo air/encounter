@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // Gamma-corrected RGB values from http://www.pepto.de/projects/colorvic/
 

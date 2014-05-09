@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 if (MY3 == null || typeof(MY3) != "object") { var MY3 = {}; } else { throw('can\'t reserve namespace MY3'); }
 

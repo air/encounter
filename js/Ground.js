@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var Ground = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 

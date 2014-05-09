@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // A ShotSpawner is a visible Mesh that generates a bunch of Shots
 
