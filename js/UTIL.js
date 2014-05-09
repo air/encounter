@@ -2,7 +2,7 @@
 
 // TODO currently relies on MY3.js for clock
 
-if (UTIL == null || typeof(UTIL) != "object") { var UTIL = {}; } else { throw('can\'t reserve namespace UTIL'); }
+if (UTIL === null || typeof(UTIL) !== 'object') { var UTIL = {}; } else { throw('can\'t reserve namespace UTIL'); }
 
 //=============================================================================
 // maths
@@ -13,7 +13,7 @@ UTIL.TO_DEGREES = 180 / Math.PI;
 UTIL.random = function(min, max)
 {
   // handle a single arg to mean 'between 0 and arg'
-  if (typeof max === "undefined")
+  if (typeof max === 'undefined')
   {
     max = min;
     min = 0;

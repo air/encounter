@@ -49,7 +49,7 @@ Camera.useOrbitMode = function()
 
 Camera.update = function(timeDeltaMillis)
 {
-  if (Camera.mode == Camera.MODE_TOP_DOWN)
+  if (Camera.mode === Camera.MODE_TOP_DOWN)
   {
     camera = Camera.orthoCamera;
     camera.position.x = Player.position.x;
@@ -60,12 +60,12 @@ Camera.update = function(timeDeltaMillis)
     camera = Camera.perspectiveCamera;
   }
 
-  if (Camera.mode == Camera.MODE_FIRST_PERSON)
+  if (Camera.mode === Camera.MODE_FIRST_PERSON)
   {
     camera.position.copy(Player.position);
     camera.rotation.copy(Player.rotation);
   }
-  else if (Camera.mode == Camera.MODE_CHASE)
+  else if (Camera.mode === Camera.MODE_CHASE)
   {
     camera.position.copy(Player.position);
     camera.rotation.copy(Player.rotation);
@@ -77,7 +77,7 @@ Camera.update = function(timeDeltaMillis)
 
     camera.rotateOnAxis(X_AXIS, Camera.CHASE_ANGLE_DOWN);
   }
-  else if (Camera.mode == Camera.MODE_ORBIT)
+  else if (Camera.mode === Camera.MODE_ORBIT)
   {
     camera.position.copy(Player.position);
     camera.rotation.copy(Player.rotation);

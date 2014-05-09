@@ -1,6 +1,6 @@
 'use strict';
 
-if (MY3 == null || typeof(MY3) != "object") { var MY3 = {}; } else { throw('can\'t reserve namespace MY3'); }
+if (MY3 === null || typeof(MY3) !== 'object') { var MY3 = {}; } else { throw('can\'t reserve namespace MY3'); }
 
 //=============================================================================
 // runtime environment
@@ -40,7 +40,7 @@ MY3.init3d = function(far)
   var VIEW_ANGLE = 45; // degrees not radians
   var ASPECT = WIDTH / HEIGHT;
   var NEAR = 0.1; // objects closer than this won't render
-  var FAR = (typeof far === "undefined") ? 10000 : far;
+  var FAR = (typeof far === 'undefined') ? 10000 : far;
 
   renderer = new THREE.WebGLRenderer();
   camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
@@ -154,7 +154,7 @@ MY3.lineMidpoint = function(p1, p2)
 // -90 along positive X axis
 MY3.yRotationToDegrees = function(object)
 {
-  if (typeof object.rotation === "undefined") {
+  if (typeof object.rotation === 'undefined') {
     return (object.y * UTIL.TO_DEGREES) % 360;
   } else {
     return (object.rotation.y * UTIL.TO_DEGREES) % 360;
@@ -247,8 +247,8 @@ MY3.Line.prototype.setEnd = function(position)
 // default length is 200
 MY3.Pointer = function(position, direction, length, pointAt)
 {
-  var length = (typeof length === "undefined") ? 200 : length;
-  if (typeof pointAt === "undefined")
+  var length = (typeof length === 'undefined') ? 200 : length;
+  if (typeof pointAt === 'undefined')
   {
     // 1. use a normal vector
     if (!MY3.isVectorNormalised(direction)) throw ('direction must be a normal, length: ' + direction.length());
