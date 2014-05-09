@@ -15,8 +15,8 @@ gulp.task('bump-version', ['test'], function() {
 });
 
 // commit package.json and push it
-//gulp.task('release', ['bump-version'], function() {
-gulp.task('release', function() {
+// FIXME push is broken
+gulp.task('release', ['bump-version'], function() {
   var version = require('./package.json').version;
 
   return gulp.src('.')
@@ -31,10 +31,10 @@ gulp.task('publish', ['test'], function() {
 
   return gulp.src('.')
     .pipe(git.checkout('gh-pages'))
-    .pipe(git.merge('master'))
-    .pipe(git.commit('merged master ' + version + ' to gh-pages'))
-    .pipe(git.push('origin', 'gh-pages'))
-    .end();
+    //.pipe(git.merge('master'))
+    //.pipe(git.commit('merged master ' + version + ' to gh-pages'))
+    //.pipe(git.push('origin', 'gh-pages'))
+    //.end();
 });
 
 // a minimal gulp plugin at https://github.com/sindresorhus/gulp-size/blob/master/index.js
