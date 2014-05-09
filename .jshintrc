@@ -1,0 +1,21 @@
+{
+  "undef": true,
+  "unused": true,
+  "curly": true,
+  "eqeqeq": true,
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "sub": true,
+  "trailing": true,
+  "boss": true,
+  "eqnull": true,
+  "strict": true,
+  "immed": true,
+  "expr": true,
+  "latedef": "nofunc",
+  "quotmark": "single",
+  "indent": 2,
+  "predef": [ "TODO_MY_GLOBAL" ]
+}

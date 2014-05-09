@@ -2,9 +2,21 @@ var gulp = require('gulp');
 // optionals
 var bump = require('gulp-bump');
 var git = require('gulp-git');
+var jshint = require('gulp-jshint');
+var jasmine = require('gulp-jasmine');
+var concat = require('gulp-concat');
 
 gulp.task('test', function() {
+  return gulp.src('./test/*.js').pipe(jasmine());
+});
+
+gulp.task('lint', function() {
   return gulp.src('./js/*.js')
+    .pipe(concat('linted.js'))
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(gulp.dest('.'));
 });
 
 // update package.json version
@@ -26,6 +38,7 @@ gulp.task('release', ['bump-version'], function() {
 });
 
 // merge master into gh-pages and push it
+// FIXME merge fails, seems to happen before checkout is complete
 gulp.task('publish', ['test'], function() {
   var version = require('./package.json').version;
 
