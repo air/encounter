@@ -1,3 +1,8 @@
+var three = require('../lib/three.min.js');
+var my = require('../js/MY3.js');
+var util = require('../js/UTIL.js');
+var physics = require('../js/Physics.js');
+
 describe("Physics.moveCircleOutOfStaticCircle", function() {
   var staticPoint = new THREE.Vector3(1, 0, 1);
   var staticRadius = 1;

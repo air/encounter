@@ -25,7 +25,8 @@
     "gulp-bump": "^0.1.8",
     "gulp-git": "^0.4.2",
     "gulp-jshint": "^1.5.5",
-    "gulp-concat": "^2.2.0"
+    "gulp-concat": "^2.2.0",
+    "mocha": "^1.18.2"
   },
   "license": "CC-BY-NC-SA-3.0",
   "engines": {
