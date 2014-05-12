@@ -49,5 +49,14 @@ function error(msg)
 //=============================================================================
 UTIL.platformSupportsTouch = function()
 {
+  // FIXME returns false positive on Windows 8
   return 'ontouchstart' in window;
+}
+
+//=============================================================================
+// make available in nodejs
+//=============================================================================
+if (typeof exports !== 'undefined')
+{
+  module.exports.UTIL = UTIL;
 }

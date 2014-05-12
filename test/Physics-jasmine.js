@@ -1,7 +1,7 @@
 var THREE = require('three');
-var my = require('../js/MY3.js');
-var util = require('../js/UTIL.js');
-var physics = require('../js/Physics.js');
+var MY3 = require('../js/MY3.js');
+var Physics = require('../js/Physics.js');
+var expect = require('chai').expect;
 
 describe("Physics.moveCircleOutOfStaticCircle", function() {
   var staticPoint = new THREE.Vector3(1, 0, 1);
@@ -12,24 +12,24 @@ describe("Physics.moveCircleOutOfStaticCircle", function() {
   it("throws when circles are not colliding", function() {
     movingPoint = new THREE.Vector3(3, 0, 3);
     movingRadius = 1;
-    expect(function() {Physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoint, movingRadius)}).toThrow();
+    expect(function() {Physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoint, movingRadius)}).to.throw();
   });
 
   it("separates 1,1 from 2,2 correctly when both have radius 1", function() {
     movingPoint = new THREE.Vector3(2, 0, 2);
     movingRadius = 1;
     var movement = Physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoint, movingRadius);
-    expect(movingPoint.x).toBeCloseTo(2.41);
-    expect(movingPoint.z).toBeCloseTo(2.41);
-    expect(movement.x).toBeCloseTo(0.41);
-    expect(movement.z).toBeCloseTo(0.41);
+    expect(movingPoint.x).to.be.closeTo(2.41, 0.01);
+    expect(movingPoint.z).to.be.closeTo(2.41, 0.01);
+    expect(movement.x).to.be.closeTo(0.41, 0.01);
+    expect(movement.z).to.be.closeTo(0.41, 0.01);
   });
 
   it("throws due to non-collision if you try to separate again after you've just separated", function() {
     movingPoint = new THREE.Vector3(2, 0, 2);
     movingRadius = 1;
     var movement = Physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoint, movingRadius);
-    expect(function() {Physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoint, movingRadius)}).toThrow();
+    expect(function() {Physics.moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoint, movingRadius)}).to.throw();
   });
 });
 
@@ -46,7 +46,7 @@ describe("Physics.bounceObjectOutOfIntersectingCircle", function() {
     object.radius=1;
     object.rotation.y = Math.PI/4; // +45 degrees anticlockwise from negative Z is -1,-1
     Physics.bounceObjectOutOfIntersectingCircle(staticPoint, staticRadius, object, object.radius);
-    expect(object.rotation.y).toBeCloseTo((Math.PI / 4) * -3);
+    expect(object.rotation.y).to.be.closeTo((Math.PI / 4) * -3, 0.01);
   });
 
   it("rotates correctly to -1,-1 when heading 1,1 and colliding square on from SW", function() {
@@ -55,7 +55,7 @@ describe("Physics.bounceObjectOutOfIntersectingCircle", function() {
     object.radius=1;
     object.rotation.y = (Math.PI/4) * -3; // -135 degrees anticlockwise from negative Z is 1,1
     Physics.bounceObjectOutOfIntersectingCircle(staticPoint, staticRadius, object, object.radius);
-    expect(object.rotation.y).toBeCloseTo(Math.PI / 4);
+    expect(object.rotation.y).to.be.closeTo(Math.PI / 4, 0.01);
   });
 });
 
@@ -63,38 +63,38 @@ describe("MY3.vectorToRotation", function() {
   // these would be true if the three.js coord system had zero pointing up X axis, but it doesn't.
   /*
   it("knows that vector 1,0,0 is due north or zero radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, 0))).toEqual(0);
+    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, 0))).to.equal(0);
   });
   it("knows that vector -1,0,0 is due south or PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(-1, 0, 0))).toEqual(Math.PI);
+    expect(MY3.vectorToRotation(new THREE.Vector3(-1, 0, 0))).to.equal(Math.PI);
   });
   it("knows that vector 1,0,1 (normalized) is NE or quarter PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, 1).normalize())).toBeCloseTo(Math.PI/4);
+    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, 1).normalize())).to.be.closeTo(Math.PI/4);
   });
   */
   // as it is, zero points down Z axis and goes anti clockwise. So:
   it("knows that vector N 1,0,0 in three.js is -90 degrees or -2 quarter PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, 0))).toBeCloseTo(Math.PI / -2);
+    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, 0))).to.be.closeTo(Math.PI / -2, 0.01);
   });
   it("knows that vector S -1,0,0 in three.js is 90 degrees or 2 quarter PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(-1, 0, 0))).toBeCloseTo(Math.PI / 2);
+    expect(MY3.vectorToRotation(new THREE.Vector3(-1, 0, 0))).to.be.closeTo(Math.PI / 2, 0.01);
   });
   it("knows that vector W 0,0,-1 in three.js is zero radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(0, 0, -1))).toEqual(0);
+    expect(MY3.vectorToRotation(new THREE.Vector3(0, 0, -1))).to.equal(0);
   });
   it("knows that vector E 0,0,1 in three.js is 180 degrees or PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(0, 0, 1))).toEqual(-Math.PI);
+    expect(MY3.vectorToRotation(new THREE.Vector3(0, 0, 1))).to.equal(-Math.PI);
   });
   it("knows that vector SW -1,0,-1 (normalized) is 45 or quarter PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(-1, 0, -1).normalize())).toBeCloseTo(Math.PI / 4);
+    expect(MY3.vectorToRotation(new THREE.Vector3(-1, 0, -1).normalize())).to.be.closeTo(Math.PI / 4, 0.01);
   });
   it("knows that vector SE -1,0,1 (normalized) is 135 degrees or 3 quarter PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(-1, 0, 1).normalize())).toBeCloseTo((Math.PI / 4) * 3);
+    expect(MY3.vectorToRotation(new THREE.Vector3(-1, 0, 1).normalize())).to.be.closeTo((Math.PI / 4) * 3, 0.01);
   });
   it("knows that vector NE 1,0,1 (normalized) is -135 degrees or -3 quarter PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, 1).normalize())).toBeCloseTo((Math.PI / 4) * -3);
+    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, 1).normalize())).to.be.closeTo((Math.PI / 4) * -3, 0.01);
   });
   it("knows that vector NW 1,0,-1 (normalized) is -45 degrees or -quarter PI radians", function() {
-    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, -1).normalize())).toBeCloseTo(-(Math.PI / 4));
+    expect(MY3.vectorToRotation(new THREE.Vector3(1, 0, -1).normalize())).to.be.closeTo(-(Math.PI / 4), 0.01);
   });
 });

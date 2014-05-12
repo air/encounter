@@ -1,19 +1,18 @@
 'use strict';
 
 var MY3 = {};
-var window;
 
 //=============================================================================
 // setup for server-side testing
 //=============================================================================
-if (typeof require === 'function')
+if (typeof require === 'function') // test for nodejs environment
 {
   var THREE = require('three');
 }
 
 if (typeof window === 'undefined')
 {
-  window = {};
+  var window = {};
   window.innerWidth = '480';
   window.innerHeight = '640';
 }
@@ -345,3 +344,11 @@ MATS.normal = new THREE.MeshNormalMaterial();
 MATS.wireframe = new THREE.MeshBasicMaterial({color : 0xFFFFFF, wireframe: true, transparent: true});
 // TODO linewidth is broken https://github.com/mrdoob/three.js/issues/269
 MATS.lineVertex = new THREE.LineBasicMaterial( { vertexColors: THREE.VertexColors, linewidth: 1 } );
+
+//=============================================================================
+// make available in nodejs
+//=============================================================================
+if (typeof exports !== 'undefined')
+{
+  module.exports = MY3;
+}

@@ -4,6 +4,15 @@
 
 var Physics = {};
 
+//=============================================================================
+// setup for server-side testing
+//=============================================================================
+if (typeof require === 'function') // test for nodejs environment
+{
+  var THREE = require('three');
+  var MY3 = require('./MY3.js');
+}
+
 // Pass a Vector3 and the radius of the object - does this sphere approach a collision with an Obelisk?
 // Uses a 2D rectangular bounding box check using modulus.
 Physics.isCloseToAnObelisk = function(position, radius)
@@ -160,3 +169,11 @@ Physics.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, moving
 
   return movement;
 };
+
+//=============================================================================
+// make available in nodejs
+//=============================================================================
+if (typeof exports !== 'undefined')
+{
+  module.exports = Physics;
+}
