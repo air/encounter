@@ -1,4 +1,4 @@
-var three = require('../lib/three.min.js');
+var THREE = require('three');
 var my = require('../js/MY3.js');
 var util = require('../js/UTIL.js');
 var physics = require('../js/Physics.js');

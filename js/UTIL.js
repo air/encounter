@@ -2,7 +2,7 @@
 
 // TODO currently relies on MY3.js for clock
 
-if (UTIL === null || typeof(UTIL) !== 'object') { var UTIL = {}; } else { throw('can\'t reserve namespace UTIL'); }
+var UTIL = {};
 
 //=============================================================================
 // maths

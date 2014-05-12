@@ -1,7 +1,22 @@
 'use strict';
 
-if (MY3 === null || typeof(MY3) !== 'object') { var MY3 = {}; } else { throw('can\'t reserve namespace MY3'); }
+var MY3 = {};
+var window;
 
+//=============================================================================
+// setup for server-side testing
+//=============================================================================
+if (typeof require === 'function')
+{
+  var THREE = require('three');
+}
+
+if (typeof window === 'undefined')
+{
+  window = {};
+  window.innerWidth = '480';
+  window.innerHeight = '640';
+}
 //=============================================================================
 // runtime environment
 //=============================================================================
