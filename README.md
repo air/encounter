@@ -2,6 +2,8 @@
 
 One man's mission to remake this 80s gem in WebGL.
 
+Current build status: [![Build Status](https://travis-ci.org/air/encounter.svg)](https://travis-ci.org/air/encounter)
+
 Follow the devlog at http://aaronbell.com
 
 * [Video of the original](http://www.youtube.com/watch?v=_7eCFOpI0SU)
