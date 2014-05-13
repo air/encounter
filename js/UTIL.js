@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO currently relies on MY3.js for clock
-
 var UTIL = {};
 
 //=============================================================================
@@ -36,12 +34,12 @@ UTIL.random = function(min, max)
 //=============================================================================
 function log(msg)
 {
-  console.log(Math.floor(clock.oldTime) + ' ' + msg);
+  console.log(Math.floor(window.performance.now()) + ' ' + msg);
 }
 
 function error(msg)
 {
-  console.error(Math.floor(clock.oldTime) + ' ' + msg);
+  console.error(Math.floor(window.performance.now()) + ' ' + msg);
 }
 
 //=============================================================================
@@ -58,5 +56,5 @@ UTIL.platformSupportsTouch = function()
 //=============================================================================
 if (typeof exports !== 'undefined')
 {
-  module.exports.UTIL = UTIL;
+  module.exports = UTIL;
 }
