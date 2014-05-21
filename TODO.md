@@ -3,7 +3,7 @@
   - grid in a single draw() as per
   
     ```
-    var geo = new THREE.Geometry();
+    var geo = new THREE.Geometry(); // look at BufferGeometry!
     for (var i=0; i<objects.length; i++) {
       addObjectToGeometry(geo, objects[i]);
     }
