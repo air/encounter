@@ -346,6 +346,34 @@ MATS.wireframe = new THREE.MeshBasicMaterial({color : 0xFFFFFF, wireframe: true,
 MATS.lineVertex = new THREE.LineBasicMaterial( { vertexColors: THREE.VertexColors, linewidth: 1 } );
 
 //=============================================================================
+// colors
+//=============================================================================
+// colorMaps for THREE.Lut, example use
+//   var colorTable = new THREE.Lut('rainbow', 16);
+//   colorTable.addColorMap('base16', map);
+//   colorTable = colorTable.changeColorMap('base16'); // Lut is pretty broken - this.mapname will be wrong
+
+// From http://chriskempson.github.io/base16/
+MY3.COLORMAP_BASE16 = [
+  [0.00, '0x151515'],
+  [0.07, '0x202020'],
+  [0.13, '0x303030'],
+  [0.20, '0x505050'],
+  [0.27, '0xb0b0b0'],
+  [0.33, '0xd0d0d0'],
+  [0.40, '0xe0e0e0'],
+  [0.47, '0xf5f5f5'],
+  [0.53, '0xac4142'],
+  [0.60, '0xd28445'],
+  [0.67, '0xf4bf75'],
+  [0.73, '0x90a959'],
+  [0.80, '0x75b5aa'],
+  [0.87, '0x6a9fb5'],
+  [0.93, '0xaa759f'],
+  [1.00, '0x8f5536']
+];
+
+//=============================================================================
 // make available in nodejs
 //=============================================================================
 if (typeof exports !== 'undefined')
