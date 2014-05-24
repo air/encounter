@@ -5,10 +5,7 @@
   "description": "Recreating the 80s C64 classic in WebGL.",
   "scripts": {
     "test": "mocha",
-    "lint": "gulp lint",
-    "bump-version": "gulp bump-version",
-    "release": "gulp release",
-    "publish": "gulp publish"
+    "lint": "gulp lint"
   },
   "repository": {
     "type": "git",
@@ -22,8 +19,6 @@
   ],
   "devDependencies": {
     "gulp": "^3.6.2",
-    "gulp-bump": "^0.1.8",
-    "gulp-git": "^0.4.2",
     "gulp-jshint": "^1.5.5",
     "gulp-concat": "^2.2.0",
     "mocha": "^1.18.2",
