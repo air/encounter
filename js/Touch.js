@@ -2,7 +2,8 @@
 
 var Touch = {};
 
-Touch.CONTROLS_CSS = 'opacity:0.1; background-color: red; z-index: 11000; border-style: dashed; border-width: 1px';
+Touch.CONTROLS_CSS_NOFILL = 'opacity:0.1; z-index: 11000; border-style: dashed; border-width: 1px';
+Touch.CONTROLS_CSS =  'background-color: red; ' + Touch.CONTROLS_CSS_NOFILL;
 Touch.DPAD_BUTTON_WIDTH_PERCENT = 18;
 Touch.DPAD_BUTTON_HEIGHT_PERCENT = 12;
 
@@ -112,15 +113,31 @@ Touch.init = function()
     Controls.current.turnRight = false;
   });
   Touch.dpad['downright'].style.left = (Touch.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
-}
+
+  // create a dummy button in the middle to accept touchstarts. Override the default CSS for no red colour.
+  Touch.dpad['deadzone'] = Touch.createDPadButton('deadzone', function() {
+    event.preventDefault();
+  }, function() {
+    event.preventDefault();
+  }, Touch.CONTROLS_CSS_NOFILL);
+  Touch.dpad['deadzone'].style.left= Touch.DPAD_BUTTON_WIDTH_PERCENT + '%';
+  Touch.dpad['deadzone'].style.bottom = Touch.DPAD_BUTTON_HEIGHT_PERCENT + '%';
+};
 
 // DPad buttons are divs with explicit press/unpress functions.
 // This factory assumes you live at bottom-left of the screen.
-Touch.createDPadButton = function(id, pressFunction, unpressFunction)
+Touch.createDPadButton = function(id, pressFunction, unpressFunction, cssOverride)
 {
   var button = document.createElement('div');
   button.id = id;
-  button.style.cssText = Touch.CONTROLS_CSS;
+  if (typeof cssOverride !== 'undefined')
+  {
+    button.style.cssText = cssOverride;
+  }
+  else
+  {
+    button.style.cssText = Touch.CONTROLS_CSS;
+  }
   button.style.width = Touch.DPAD_BUTTON_WIDTH_PERCENT + '%';
   button.style.height = Touch.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   button.style.position = 'absolute';
@@ -182,7 +199,7 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction)
 
   document.body.appendChild(button);
   return button;
-}
+};
 
 Touch.getIdOfTouchedElement = function(touchEvent)
 {
@@ -197,7 +214,7 @@ Touch.getIdOfTouchedElement = function(touchEvent)
   {
     return null;
   }
-}
+};
 
 // fire button is a bit simpler, no need for any touchmove for sliding fingers
 Touch.initFireButton = function()
@@ -231,4 +248,4 @@ Touch.initFireButton = function()
   });
 
   document.body.appendChild(Touch.fireButton);
-}
+};
