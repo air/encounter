@@ -6,7 +6,7 @@ var Missile = new THREE.Mesh(); // initially a default mesh, we'll define this i
 
 Missile.RADIUS = 40; // FIXME collides at this radius but doesn't appear it
 Missile.GEOMETRY = new THREE.SphereGeometry(Missile.RADIUS, 4, 4);
-Missile.MATERIAL = MATS.normal; // see also MATS.wireframe.clone();
+Missile.MATERIAL =  new THREE.MeshBasicMaterial({ color: C64.lightred });
 Missile.MESH_SCALE_X = 0.6; // TODO improve shape
 
 Missile.radarType = Radar.TYPE_ENEMY;

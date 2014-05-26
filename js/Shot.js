@@ -8,7 +8,7 @@ Shot.RADIUS = 40;
 Shot.OFFSET_FROM_SHOOTER = 120; // created this far in front of you
 Shot.CAN_TRAVEL = 16000; // TODO confirm
 Shot.GEOMETRY = new THREE.SphereGeometry(Shot.RADIUS, 16, 16);
-Shot.MATERIAL = MATS.normal;
+Shot.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 
 // returns a new shot fired by the firingObject
 Shot.newInstance = function(firingObject, shooterPosition, shooterRotation)

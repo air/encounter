@@ -3,12 +3,11 @@
 var Ground = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 
 // ground plane. Lots of segments will KILL your fps
-Ground.X_SEGMENTS = 16;
-Ground.Z_SEGMENTS = 16;
+Ground.X_SEGMENTS = 1;
+Ground.Z_SEGMENTS = 1;
 Ground.GEOMETRY = new THREE.PlaneGeometry(Grid.MAX_X, Grid.MAX_Z, Ground.X_SEGMENTS, Ground.Z_SEGMENTS);
 
-// TODO Ground.MATERIAL = new THREE.MeshLambertMaterial({ color : C64.green });
-Ground.MATERIAL = MATS.normal;
+Ground.MATERIAL = new THREE.MeshBasicMaterial({ color : C64.green });
 
 Ground.init = function()
 {
@@ -24,7 +23,6 @@ Ground.init = function()
 
   // zero Y is ground
   Ground.position.y = 0;
-  Ground.receiveShadow = true;
 
   Ground.addToScene();
 }
