@@ -20,6 +20,7 @@ Grid.isActive = true;
 Grid.init = function()
 {
   Grid.geometry = new THREE.Geometry();
+  var obeliskMesh = Obelisk.newMeshInstance(); // just need one of these as a cookie cutter
 
   // one-time loop to create objects
   for (var rowIndex = 0; rowIndex < Grid.SIZE_Z; rowIndex++)
@@ -31,9 +32,11 @@ Grid.init = function()
       var zpos = rowIndex * Grid.SPACING;
       var obelisk = Obelisk.newInstance();
       obelisk.position.set(xpos, Obelisk.HEIGHT / 2, zpos);
-
       row.push(obelisk);
-      THREE.GeometryUtils.merge(Grid.geometry, obelisk);
+
+      // update the template mesh and merge it into Grid
+      obeliskMesh.position.copy(obelisk.position);
+      THREE.GeometryUtils.merge(Grid.geometry, obeliskMesh);
     }
     Grid.rows[rowIndex] = row;
   }

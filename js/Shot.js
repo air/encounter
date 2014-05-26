@@ -32,12 +32,6 @@ Shot.newInstance = function(firingObject, shooterPosition, shooterRotation)
     this.translateZ(-actualMoveSpeed);
     this.hasTravelled += actualMoveSpeed;
 
-    if (Physics.debug)
-    {
-      // unhighlight the old closest obelisk
-      Physics.unHighlightObelisk(shot.closeObeliskIndex.x, shot.closeObeliskIndex.y);
-    }
-
     // expire an aging shot based on distance travelled
     if (this.hasTravelled > Shot.CAN_TRAVEL)
     {
@@ -66,16 +60,6 @@ Shot.collideWithObelisks = function(shot)
       // we have a collision, bounce
       Physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.RADIUS, shot, Shot.RADIUS);
       Sound.shotBounce();
-      
-      if (Physics.debug)
-      {
-        Physics.highlightObelisk(shot.closeObeliskIndex.x, shot.closeObeliskIndex.y, 6);
-      }
-    }
-    else if (Physics.debug)
-    {
-      // otherwise a near miss, highlight for debug purposes
-      Physics.highlightObelisk(shot.closeObeliskIndex.x, shot.closeObeliskIndex.y, 2);
     }
   }
 
@@ -122,7 +106,6 @@ Shot.cleanUpDeadShot = function(shot)
   {
     scene.remove(shot.line);
     scene.remove(shot.pointer);
-    Physics.unHighlightObelisk(shot.closeObeliskIndex.x, shot.closeObeliskIndex.y);
   }
 
   if (shot.shooter === Player)

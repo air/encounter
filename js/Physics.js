@@ -51,18 +51,6 @@ Physics.getClosestObelisk = function(position)
   return new THREE.Vector2(xPos, zPos);
 };
 
-Physics.highlightObelisk = function(x, z, scale)
-{
-  //Grid.rows[z][x].material = MATS.red;
-  Grid.rows[z][x].scale.set(1, scale, 1);
-};
-
-Physics.unHighlightObelisk = function(x, z)
-{
-  //Grid.rows[z][x].material = MATS.normal;
-  Grid.rows[z][x].scale.set(1, 1, 1);
-};
-
 // pass in a Vector3 and radius that might be colliding with an Obelisk.
 // Y axis is ignored.
 // Performs 2D circle intersection check. Returns the colliding Obelisk object, or undefined if not colliding.
