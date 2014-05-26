@@ -26,7 +26,7 @@ State.init = function()
 State.initWorld = function()
 {
   document.body.style.background = C64.css.lightblue; // TODO move somewhere sensible
-  scene.add(new THREE.AxisHelper(800));
+  // scene.add(new THREE.AxisHelper(800));
   Ground.init();
   Grid.init();
   Player.init();

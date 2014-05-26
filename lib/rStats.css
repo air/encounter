@@ -11,7 +11,7 @@
     top: 0px;
     overflow: hidden;
     /*opacity: 0.9;*/
-    display: none; /* FIXME hidden for now */
+    /*display: none; */
 }
 
 .rs-base h1{
