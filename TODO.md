@@ -1,14 +1,5 @@
 # TODO
 
-  - grid in a single draw() as per
-  
-    ```
-    var geo = new THREE.Geometry(); // look at BufferGeometry!
-    for (var i=0; i<objects.length; i++) {
-      addObjectToGeometry(geo, objects[i]);
-    }
-    scene.add(new THREE.Mesh(geo, material));
-    ```
   - fix 'edge of the world'
   - add original super-cool exit from warp effect
   - further original UFO types
