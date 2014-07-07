@@ -7,6 +7,7 @@ var Saucer = new THREE.Mesh(); // initially a default mesh, we'll define this in
 Saucer.RADIUS = 40;
 Saucer.GEOMETRY = new THREE.SphereGeometry(Saucer.RADIUS, 8, 4);
 Saucer.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.yellow });
+Saucer.MATERIAL_SHOT = new THREE.MeshBasicMaterial({ color: C64.yellow });
 Saucer.MESH_SCALE_Y = 0.4; // TODO improve UFO shape
 
 Saucer.radarType = Radar.TYPE_ENEMY;

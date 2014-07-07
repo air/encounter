@@ -8,13 +8,21 @@ Shot.RADIUS = 40;
 Shot.OFFSET_FROM_SHOOTER = 120; // created this far in front of you
 Shot.CAN_TRAVEL = 16000; // TODO confirm
 Shot.GEOMETRY = new THREE.SphereGeometry(Shot.RADIUS, 16, 16);
-Shot.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 
-// returns a new shot fired by the firingObject
-Shot.newInstance = function(firingObject, shooterPosition, shooterRotation)
+// returns a new shot fired by the firingObject.
+// material is required.
+// alternatingMaterial is optional for shots that flip material per frame.
+// TODO would be cool to delegate material behaviour to a Material type rather than assuming here
+Shot.newInstance = function(firingObject, shooterPosition, shooterRotation, material, alternatingMaterial)
 {
-  var newShot = new THREE.Mesh(Shot.GEOMETRY, Shot.MATERIAL);
+  var newShot = new THREE.Mesh(Shot.GEOMETRY, material);
   newShot.shooter = firingObject;
+
+  if (typeof alternatingMaterial !== 'undefined')
+  {
+    newShot.originalMaterial = material;
+    newShot.alternatingMaterial = alternatingMaterial;
+  }
 
   newShot.radarType = Radar.TYPE_SHOT;
 
@@ -27,6 +35,11 @@ Shot.newInstance = function(firingObject, shooterPosition, shooterRotation)
   newShot.closeObeliskIndex = new THREE.Vector2(0,0); // not actually true at init time
 
   newShot.update = function(timeDeltaMillis) {
+    // update alternating materials
+    if (typeof this.alternatingMaterial !== 'undefined')
+    {
+      this.material = (this.material === this.originalMaterial ? this.alternatingMaterial : this.originalMaterial);
+    }
     // move the shot
     var actualMoveSpeed = timeDeltaMillis * Encounter.SHOT_SPEED;
     this.translateZ(-actualMoveSpeed);
