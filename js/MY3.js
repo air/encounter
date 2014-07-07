@@ -145,6 +145,14 @@ MY3.isVectorNormalised = function(vector)
 // pass in two Vector3s and their radii. Y axis is ignored.
 MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
 {
+  if (typeof position2 === 'undefined')
+  {
+    error('doCirclesCollide: undefined position2');
+  }
+  if (typeof radius2 === 'undefined')
+  {
+    error('doCirclesCollide: undefined radius2');
+  }
   // collision overlap must exceed a small epsilon so we don't count rounding errors
   var COLLISION_EPSILON = 0.01;
   var collisionThreshold = radius1 + radius2 - COLLISION_EPSILON; // centres must be this close together to touch

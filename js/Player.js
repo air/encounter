@@ -5,7 +5,7 @@ var Player = new THREE.Mesh(); // initially a default mesh, we'll define this in
 Player.RADIUS = 40;
 Player.GEOMETRY = new THREE.SphereGeometry(Player.RADIUS, 8, 4);
 Player.MATERIAL = MATS.wireframe.clone();
-Player.MATERIAL_SHOT = new THREE.MeshBasicMaterial({ color: C64.white });
+Player.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 
 // state
 Player.lastTimeFired = 0;
@@ -68,7 +68,7 @@ Player.shoot = function()
     if (timeSinceLastShot > Encounter.SHOT_INTERVAL_MS)
     {
       Sound.playerShoot();
-      var shot = Shot.newInstance(Player, Player.position, Player.rotation, Player.MATERIAL_SHOT);
+      var shot = Shot.newInstance(Player, Player.position, Player.rotation, Player.SHOT_MATERIAL);
       Player.shotsInFlight += 1;
       Player.lastTimeFired = now;
       State.actors.push(shot);

@@ -32,7 +32,8 @@ State.initWorld = function()
   Player.init();
   Enemy.init();
   Missile.init();
-  Saucer.init();
+  YellowSaucer.init();
+  BlueSaucer.init();
   Camera.init();
   Controls.init();
   Radar.init();
