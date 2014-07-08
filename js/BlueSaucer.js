@@ -3,8 +3,8 @@
 // Used by Enemy.js.
 
 // FIXME
-var proto = Saucer.newInstance();
-var BlueSaucer = Object.create(proto);
+// var proto = Saucer.newInstance();
+var BlueSaucer = Object.create(Saucer);
 
 // FIXME Mesh -> Saucer -> BlueSaucer
 // BlueSaucer.RADIUS = Saucer.RADIUS; // need a copy for Shot.collideWithShips
