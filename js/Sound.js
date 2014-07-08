@@ -13,6 +13,7 @@ Sound.ENEMY_SHOOT = jsfxr('2,,0.2489,0.2494,0.3225,0.7231,0.2,-0.2332,,,,,,0.626
 Sound.THUD = jsfxr('3,,0.2257,0.7679,0.201,0.0653,,,,,,,,,,0.7916,0.1249,-0.1609,1,,,,,0.5');
 Sound.BOUNCE = jsfxr('3,,0.1806,0.4688,0.23,0.4086,,-0.2499,0.0292,0.0255,,-0.0127,,,,0.7522,,0.0393,1,0.0321,,,,0.5');
 Sound.PLAYER_KILLED = jsfxr('3,,0.78,0.5468,0.93,0.2478,,0.1714,,0.59,0.35,,,,,0.4695,,,1,,,,,0.5');
+Sound.SHOT_WINDUP = jsfxr('1,,0.45,,0.269,0.11,,0.2506,-0.16,,,,,0.4236,,,,,1,,,,,0.5');
 
 Sound.init = function()
 {
@@ -65,4 +66,9 @@ Sound.shotBounce = function()
 Sound.playerKilled = function()
 {
   Sound.play(Sound.PLAYER_KILLED);
+}
+
+Sound.shotWindup = function()
+{
+  Sound.play(Sound.SHOT_WINDUP);
 }

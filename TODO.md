@@ -1,8 +1,6 @@
 # TODO
 
   - darkblue line on horizon
-  - yellow UFO with 1x yellow shots in L1
-  - cyan/lightgrey UFO with same 3x shots in L1
   - lightgrey crosshairs
   - gibs from saucers. They start white and fade through warm colours to dark
   - saucers enter from white portal
@@ -15,7 +13,7 @@
   - further original UFO types
   - clouds
   - dashboard is midgrey, white text overlay, black highlights
-  - sound effects: player move, warp, enemy windup, enemy ticking, missile
+  - record/synth sound effects: player move, warp, enemy windup, enemy ticking, missile
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
   - better saucer model. Original is simplified to a diamond from afar.
   - better missile model.
@@ -38,4 +36,4 @@
 # Interesting things
 
   - How I measured the Encounter constants
-  - How we figured out the colour cycle per frame. Holding up a palette image against the paused emulator.
+  - How we figured out the colour cycle per frame. Holding up a palette image against the paused emulator. From the old review of Dragon Breed, 'that colour doesn't exist on the C64, swapping at 60 fps'. Sort of mentioned in http://www.c64.com/interviews/routledge.html. Looking at youtube they achieved a six-segment dragon tail by showing alternating segments on odd frames. Much flickering.

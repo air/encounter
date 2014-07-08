@@ -17,6 +17,7 @@ YellowSaucer.init = function()
 
 YellowSaucer.shoot = function()
 {
+  MY3.rotateObjectToLookAt(this, Player.position);
   Sound.enemyShoot();
   var shot = Shot.newInstance(YellowSaucer, YellowSaucer.position, YellowSaucer.rotation, YellowSaucer.SHOT_MATERIAL);
   State.actors.push(shot);

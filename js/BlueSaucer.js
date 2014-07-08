@@ -2,13 +2,17 @@
 
 // Used by Enemy.js.
 
-var BlueSaucer = Saucer.newInstance();
+var proto = Saucer.newInstance();
+var BlueSaucer = Object.create(proto);
 
 BlueSaucer.RADIUS = Saucer.RADIUS; // need a copy for Shot.collideWithShips
 BlueSaucer.MATERIAL1 = new THREE.MeshBasicMaterial({ color: C64.cyan });
 BlueSaucer.MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
 BlueSaucer.SHOT_MATERIAL1 = new THREE.MeshBasicMaterial({ color: C64.cyan });
 BlueSaucer.SHOT_MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
+
+// override
+BlueSaucer.SHOTS_TO_FIRE = 3;
 
 BlueSaucer.init = function()
 {
@@ -19,26 +23,18 @@ BlueSaucer.init = function()
 
 BlueSaucer.shoot = function()
 {
+  MY3.rotateObjectToLookAt(this, Player.position);
   Sound.enemyShoot();
   var shot = Shot.newInstance(BlueSaucer, BlueSaucer.position, BlueSaucer.rotation, BlueSaucer.SHOT_MATERIAL1, BlueSaucer.SHOT_MATERIAL2);
   State.actors.push(shot);
   scene.add(shot);
 }
 
-// override Saucer
+// decorate default update() to add an alternating mesh material
 BlueSaucer.update = function(timeDeltaMillis)
 {
-  BlueSaucer.material = (BlueSaucer.material === BlueSaucer.MATERIAL1 ? BlueSaucer.MATERIAL2 : BlueSaucer.MATERIAL1);
+  BlueSaucer.material = (BlueSaucer.material === BlueSaucer.MATERIAL1 ? BlueSaucer.MATERIAL2 : BlueSaucer.MATERIAL1); 
 
-  switch(this.state)
-  {
-    case Saucer.STATE_WAITING:
-      BlueSaucer.updateWaiting(timeDeltaMillis);
-      break;
-    case Saucer.STATE_MOVING:
-      BlueSaucer.updateMoving(timeDeltaMillis);
-      break;
-    default:
-      error('unknown Saucer state: ' + this.state);
-  } 
+  var proto = Object.getPrototypeOf(BlueSaucer);
+  proto.update.call(BlueSaucer, timeDeltaMillis);
 }

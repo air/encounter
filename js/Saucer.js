@@ -1,6 +1,7 @@
 'use strict';
 
-// Abstract class for all saucer enemies.
+// Abstract class for all saucer enemies:
+//   - shoot() is undefined.
 
 var Saucer = {};
 
@@ -13,11 +14,17 @@ Saucer.MOVEMENT_SPEED = 0.8;
 
 Saucer.STATE_MOVING = 'moving';
 Saucer.STATE_WAITING = 'waiting';
+Saucer.STATE_SHOT_WINDUP = 'shotWindup';
+Saucer.STATE_SHOOTING = 'shooting';
 
 Saucer.MOVE_TIME_MAX_MS = 5000;
 Saucer.MOVE_TIME_MIN_MS = 1000;
 Saucer.WAIT_TIME_MAX_MS = 2000;
 Saucer.WAIT_TIME_MIN_MS = 1000;
+
+Saucer.SHOT_WINDUP_TIME_MS = 600;
+Saucer.SHOTS_TO_FIRE = 1;
+Saucer.SHOT_INTERVAL_MS = 800; // only relevant if SHOTS_TO_FIRE > 1 
 
 Saucer.newInstance = function()
 {
@@ -25,9 +32,13 @@ Saucer.newInstance = function()
 
   newSaucer.radarType = Radar.TYPE_ENEMY;
 
+  // not strictly necessary to init these but it gives an indication of what state we need
   newSaucer.state = null;
   newSaucer.movingCountdown = null;
   newSaucer.waitingCountdown = null;
+  newSaucer.shotWindupCountdown = null;
+  newSaucer.shotIntervalCountdown = null;
+  newSaucer.shotsLeftToFire = null;
 
   newSaucer.spawn = function()
   {
@@ -57,12 +68,37 @@ Saucer.newInstance = function()
     }
     else
     {
+      // FIXME delegate AI to subclass
       if (UTIL.random(50) == 42)
       {
-        MY3.rotateObjectToLookAt(this, Player.position);
-        this.shoot();
-        this.setupMoving();
+        this.setupShotWindup();
       }
+    }
+  }
+
+  newSaucer.setupShotWindup = function()
+  {
+    this.shotWindupCountdown = Saucer.SHOT_WINDUP_TIME_MS;
+    Sound.shotWindup();
+    log('enemy winding up shot for ' + Saucer.SHOT_WINDUP_TIME_MS + 'ms');
+    this.state = Saucer.STATE_SHOT_WINDUP;
+  }
+
+  newSaucer.setupShooting = function()
+  {
+    log('enemy shooting');
+    // we will always shoot immediately after the windup, so might as well do it here
+    this.shoot();
+
+    if (this.SHOTS_TO_FIRE > 1)
+    {
+      this.shotsLeftToFire = this.SHOTS_TO_FIRE - 1;  // read from 'this' not Saucer so we can override in subclass
+      this.shotIntervalCountdown = Saucer.SHOT_INTERVAL_MS;
+      this.state = Saucer.STATE_SHOOTING;
+    }
+    else
+    {
+      this.setupMoving();
     }
   }
 
@@ -72,6 +108,32 @@ Saucer.newInstance = function()
     this.rotation.y = MY3.randomDirection();
     log('enemy moving for ' + this.movingCountdown + 'ms in direction ' + this.rotation.y);
     this.state = Saucer.STATE_MOVING;
+  }
+
+  newSaucer.updateShotWindup = function(timeDeltaMillis)
+  {
+    this.shotWindupCountdown -= timeDeltaMillis;
+    if (this.shotWindupCountdown <= 0)
+    {
+      this.setupShooting();
+    }
+  }
+
+  newSaucer.updateShooting = function(timeDeltaMillis)
+  {
+    this.shotIntervalCountdown -= timeDeltaMillis;
+
+    if (this.shotIntervalCountdown <= 0)
+    {
+      this.shoot();
+      this.shotsLeftToFire -= 1;
+      this.shotIntervalCountdown = Saucer.SHOT_INTERVAL_MS;
+    }
+
+    if (this.shotsLeftToFire <= 0)
+    {
+      this.setupMoving();
+    }
   }
 
   newSaucer.updateMoving = function(timeDeltaMillis)
@@ -111,6 +173,12 @@ Saucer.newInstance = function()
         break;
       case Saucer.STATE_MOVING:
         this.updateMoving(timeDeltaMillis);
+        break;
+      case Saucer.STATE_SHOT_WINDUP:
+        this.updateShotWindup(timeDeltaMillis);
+        break;
+      case Saucer.STATE_SHOOTING:
+        this.updateShooting(timeDeltaMillis);
         break;
       default:
         error('unknown Saucer state: ' + this.state);
