@@ -9,11 +9,12 @@
   - Saucer shots that don't depend on FPS
   - add indicators: red missile, yellow entry portal/active saucer, blue shots flying (does warp portal light up?)
   - fix 'edge of the world'
+  - replace newInstance with Object.create
   - add original super-cool exit from warp effect
   - further original UFO types
   - clouds
   - dashboard is midgrey, white text overlay, black highlights
-  - record/synth sound effects: player move, warp, enemy windup, enemy ticking, missile
+  - record/synth sound effects: player move, warp, enemy ticking, missile
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
   - better saucer model. Original is simplified to a diamond from afar.
   - better missile model.

@@ -1,6 +1,6 @@
 'use strict';
 
-// Abstract class for all saucer enemies:
+// Abstract prototype for all saucer enemies:
 //   - shoot() is undefined.
 
 var Saucer = {};
