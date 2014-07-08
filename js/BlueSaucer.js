@@ -2,12 +2,8 @@
 
 // Used by Enemy.js.
 
-// FIXME
-// var proto = Saucer.newInstance();
 var BlueSaucer = Object.create(Saucer);
 
-// FIXME Mesh -> Saucer -> BlueSaucer
-// BlueSaucer.RADIUS = Saucer.RADIUS; // need a copy for Shot.collideWithShips
 BlueSaucer.MATERIAL1 = new THREE.MeshBasicMaterial({ color: C64.cyan });
 BlueSaucer.MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
 BlueSaucer.SHOT_MATERIAL1 = new THREE.MeshBasicMaterial({ color: C64.cyan });
