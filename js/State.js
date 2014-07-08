@@ -41,6 +41,7 @@ State.initWorld = function()
   Portal.init();
   Warp.init();
   GUI.init(); // depends on Controls.init
+  Indicators.init();
 
   State.worldNumber = 1;
   State.resetEnemyCounter();

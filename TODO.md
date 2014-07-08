@@ -1,20 +1,36 @@
 # TODO
 
-  - darkblue line on horizon
+  - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
   - gibs from saucers. They start white and fade through warm colours to dark
   - saucers enter from white portal
   - players shots don't kill player
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
-  - add indicators: red missile, yellow entry portal/active saucer, blue shots flying (does warp portal light up?)
+  - add indicators: red missile, yellow entry portal/active saucer, blue shots flying. No lights for warp portal.
   - fix 'edge of the world'
   - replace newInstance with Object.create
   - add original super-cool exit from warp effect
   - further original UFO types
   - clouds
+  - Radar colours, use C64 palette
+  - L1 10 enemies on NOVICE. Seems to vary weirdly.
+  - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
+  - L2 saucer: yellow alternating with lightgrey, same as shots. NO WINDUP. Chaingun of 10 shots.
+  - L2 saucer: lightgreen. NO WINDUP. Shotgun spray of 3 shots.
+  - L2 also spawns YellowSaucer, BlueSaucer, CyanMissile
+  - L3 same sky as L1, pink land. 19 enemies.
+  - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
+  - L3 saucer: pure lightgrey. NO WINDUP. Auto-shotgun, sprays 3 as per L2 but rapid fire. 
+  - Saucers despawn after a couple of minutes!
+  - If Saucer is killed with shots in flight, the shots are coloured as gibs burning out. Not sure if they kill.
+  - "world" is actually "level"
+  - 'Sticky' obelisks for extra missile terror
+  - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears. 
+  - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 
+  - S overlay for spare Ships (you can play with S=0, last life)
   - dashboard is midgrey, white text overlay, black highlights
-  - record/synth sound effects: player move, warp, enemy ticking, missile
+  - record/synth sound effects: player move, warp, enemy ticking, missile, enemy move, enemy wait
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
   - better saucer model. Original is simplified to a diamond from afar.
   - better missile model.

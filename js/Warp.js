@@ -30,6 +30,7 @@ Warp.setup = function()
   Ground.removeFromScene();
   Grid.removeFromScene();
   Radar.removeFromScene();
+  Indicators.removeFromScene();
 
   Player.resetPosition();
   Controls.useWarpControls();
@@ -149,6 +150,7 @@ Warp.restoreWorld = function()
   Ground.addToScene();
   Grid.addToScene();
   Radar.addToScene();
+  Indicators.addToScene();
   Player.resetPosition();
   Controls.useEncounterControls();
   document.body.style.background = C64.css.lightblue;

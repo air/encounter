@@ -11,27 +11,27 @@ Radar.CENTER_Z = Math.floor(Radar.RESOLUTION_Z / 2);
 
 Radar.BLIP_RADIUS = 3;
 
-Radar.radarDiv = null; // for hide/show
-Radar.canvasContext = null; // for painting on
-
 Radar.TYPE_PLAYER = 'player';
 Radar.TYPE_ENEMY = 'enemy';
 Radar.TYPE_SHOT = 'shot';
 Radar.TYPE_PORTAL = 'portal';
 
-var CSS_CENTRED_DIV = 'position:fixed; bottom:0px; width:100%';
-var CSS_RADAR_DIV = 'background-color:#000; opacity:0.6; margin-left:auto; margin-right:auto';
+Radar.CSS_CENTRED_DIV = 'position:fixed; bottom:10px; width:100%';
+Radar.CSS_RADAR_DIV = 'background-color:#000; opacity:0.6; margin-left:auto; margin-right:auto';
+
+Radar.radarDiv = null; // for hide/show
+Radar.canvasContext = null; // for painting on
 
 Radar.init = function()
 {
   // for centring at the bottom we need two divs, hurray!
   var centredDiv = document.createElement('div');
   centredDiv.id = 'centredRadarDiv';
-  centredDiv.style.cssText = CSS_CENTRED_DIV;
+  centredDiv.style.cssText = Radar.CSS_CENTRED_DIV;
 
   Radar.radarDiv = document.createElement('div');
   Radar.radarDiv.id = 'radarDiv';
-  Radar.radarDiv.style.cssText = CSS_RADAR_DIV;
+  Radar.radarDiv.style.cssText = Radar.CSS_RADAR_DIV;
   Radar.radarDiv.style.width = Radar.RESOLUTION_X + 'px';
   Radar.radarDiv.style.height = Radar.RESOLUTION_Z + 'px';
 
@@ -100,7 +100,7 @@ Radar.update = function()
   Radar.canvasContext.clearRect(0, 0, Radar.RESOLUTION_X, Radar.RESOLUTION_Z);
 
   // TODO currently Player is special-cased as they're not in State.actors
-  Radar.canvasContext.fillStyle = "#FFFFFF";
+  Radar.canvasContext.fillStyle = '#FFFFFF';
   Radar.render(Player.position.x, Player.position.z);
 
   // render all actors as blips
@@ -112,21 +112,21 @@ Radar.update = function()
     switch (type)
     {
       case Radar.TYPE_ENEMY:
-        Radar.canvasContext.fillStyle = "#FF0000";
+        Radar.canvasContext.fillStyle = '#FF0000';
         break;
       case Radar.TYPE_PLAYER:
         // TODO currently unused as above
-        Radar.canvasContext.fillStyle = "#FFFFFF";
+        Radar.canvasContext.fillStyle = '#FFFFFF';
         break;
       case Radar.TYPE_SHOT:
-        Radar.canvasContext.fillStyle = "#FFFF00";
+        Radar.canvasContext.fillStyle = '#FFFF00';
         break;
       case Radar.TYPE_PORTAL:
         Radar.canvasContext.fillStyle = C64.randomCssColour();
         break;
       default:
         error('unknown .radarType ' + type + ' for actor ' + State.actors[i]);
-        Radar.canvasContext.fillStyle = "#00FF33";
+        Radar.canvasContext.fillStyle = '#00FF33';
     }
 
     Radar.render(State.actors[i].position.x, State.actors[i].position.z);
