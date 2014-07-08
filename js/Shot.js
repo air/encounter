@@ -9,14 +9,24 @@ Shot.OFFSET_FROM_SHOOTER = 120; // created this far in front of you
 Shot.CAN_TRAVEL = 16000; // TODO confirm
 Shot.GEOMETRY = new THREE.SphereGeometry(Shot.RADIUS, 16, 16);
 
-// returns a new shot fired by the firingObject.
+Shot.TYPE_PLAYER = 'playerShot';
+Shot.TYPE_ENEMY = 'enemyShot';
+
+// returns a new shot fired by the shooterObject.
 // material is required.
 // alternatingMaterial is optional for shots that flip material per frame.
 // TODO would be cool to delegate material behaviour to a Material type rather than assuming here
-Shot.newInstance = function(firingObject, shooterPosition, shooterRotation, material, alternatingMaterial)
+Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, material, alternatingMaterial)
 {
   var newShot = new THREE.Mesh(Shot.GEOMETRY, material);
-  newShot.shooter = firingObject;
+  if (shooterObject === Player)
+  {
+    newShot.shotType = Shot.TYPE_PLAYER;
+  }
+  else
+  {
+    newShot.shotType = Shot.TYPE_ENEMY;
+  }
 
   if (typeof alternatingMaterial !== 'undefined')
   {
@@ -125,6 +135,24 @@ Shot.cleanUpDeadShot = function(shot)
   {
     Player.shotsInFlight -= 1;
   }
+  else // check if this was the last enemy shot cleaned up
+  {
+    var allEnemyShotsGone = true;
+    for (var actor in State.actors)
+    {
+      log(actor['shotType']);
+      if (actor['shotType'] === Shot.TYPE_ENEMY)
+      {
+        allEnemyShotsGone = false;
+      }
+    }
 
-  State.actorIsDead(shot);
+    if (allEnemyShotsGone)
+    {
+      Indicators.setBlue(false);
+    }
+  }
+
+
+ State.actorIsDead(shot);
 }

@@ -41,6 +41,8 @@ Saucer.init = function()
 
 Saucer.spawn = function()
 {
+  Indicators.setYellow(true);
+
   var spawnPoint = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
   spawnPoint.y = Encounter.CAMERA_HEIGHT;
   log('spawning saucer at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z);
@@ -88,6 +90,7 @@ Saucer.setupShooting = function()
   log('enemy shooting');
   // we will always shoot immediately after the windup, so might as well do it here
   this.shoot();
+  Indicators.setBlue(true);
 
   if (this.SHOTS_TO_FIRE > 1)
   {
@@ -161,6 +164,11 @@ Saucer.updateMoving = function(timeDeltaMillis)
   {
     this.setupWaiting();
   }
+}
+
+Saucer.destroyed = function()
+{
+  Indicators.setYellow(false);
 }
 
 Saucer.update = function(timeDeltaMillis)

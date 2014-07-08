@@ -56,6 +56,24 @@ Indicators.removeFromScene = function()
   Indicators.lightsDiv.style.display = 'none';
 }
 
+Indicators.setYellow = function(state)
+{
+  Indicators.yellow = state;
+  Indicators.paint();
+}
+
+Indicators.setRed = function(state)
+{
+  Indicators.red = state;
+  Indicators.paint();
+}
+
+Indicators.setBlue = function(state)
+{
+  Indicators.blue = state;
+  Indicators.paint();
+}
+
 Indicators.paint = function()
 {
   Indicators.canvasContext.fillStyle = Indicators.red ? C64.css.lightred : C64.css.red;

@@ -31,6 +31,8 @@ Missile.init = function()
 
 Missile.spawn = function()
 {
+  Indicators.setRed(true);
+
   var spawnPoint = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
   spawnPoint.y = Encounter.CAMERA_HEIGHT;
   log('spawning missile at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z);
@@ -89,5 +91,6 @@ Missile.update = function(timeDeltaMillis)
 
 Missile.destroyed = function()
 {
+  Indicators.setRed(false);
   Missile.strafeTweenLoop.stop();
 }

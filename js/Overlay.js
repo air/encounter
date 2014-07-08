@@ -47,7 +47,7 @@ Overlay.update = function()
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
       // TODO Player.livesLeft
-      Overlay.text.innerHTML = 'W' + State.worldNumber + ' E' + State.enemiesRemaining;
+      Overlay.text.innerHTML = 'L' + State.worldNumber + ' E' + State.enemiesRemaining;
       break;
     default:
       console.error('unknown state: ', State.current);

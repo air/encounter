@@ -1,15 +1,15 @@
 # TODO
 
+- players shots don't kill player. Enemy shots don't kill enemy.
+- add indicators: red missile, yellow entry portal/active saucer, blue shots flying. No lights for warp portal.
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
   - gibs from saucers. They start white and fade through warm colours to dark
   - saucers enter from white portal
-  - players shots don't kill player
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
-  - add indicators: red missile, yellow entry portal/active saucer, blue shots flying. No lights for warp portal.
   - fix 'edge of the world'
-  - replace newInstance with Object.create
+  - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - add original super-cool exit from warp effect
   - further original UFO types
   - clouds
