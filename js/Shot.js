@@ -109,12 +109,12 @@ Shot.collideWithObelisks = function(shot)
 Shot.collideWithShips = function(shot)
 {
   // kill the player
-  if (MY3.doCirclesCollide(shot.position, Shot.RADIUS, Player.position, Player.RADIUS))
+  if (shot.shotType === Shot.TYPE_ENEMY && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Player.position, Player.RADIUS))
   {
     Player.wasHit();
   }
   // kill the enemy
-  if (Enemy.isAlive && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.current.position, Enemy.current.RADIUS))
+  if (shot.shotType === Shot.TYPE_PLAYER && Enemy.isAlive && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.current.position, Enemy.current.RADIUS))
   {
     Enemy.destroyed();
     // remove the shot
@@ -122,7 +122,8 @@ Shot.collideWithShips = function(shot)
   }
 }
 
-function isNotEnemyShot(element, index, array)
+// for use with Array.every()
+Shot.isNotEnemyShot = function(element, index, array)
 {
   return element.shotType !== Shot.TYPE_ENEMY;
 }
@@ -144,7 +145,7 @@ Shot.cleanUpDeadShot = function(shot)
   }
   else // check if this was the last enemy shot cleaned up
   {
-    if (State.actors.every(isNotEnemyShot))
+    if (State.actors.every(Shot.isNotEnemyShot))
     {
       Indicators.setBlue(false);
     }
