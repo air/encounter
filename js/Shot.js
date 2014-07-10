@@ -122,6 +122,11 @@ Shot.collideWithShips = function(shot)
   }
 }
 
+function isNotEnemyShot(element, index, array)
+{
+  return element.shotType !== Shot.TYPE_ENEMY;
+}
+
 Shot.cleanUpDeadShot = function(shot)
 {
   // clean up debug lines
@@ -131,28 +136,17 @@ Shot.cleanUpDeadShot = function(shot)
     scene.remove(shot.pointer);
   }
 
-  if (shot.shooter === Player)
+  State.actorIsDead(shot);
+
+  if (shot.shotType === Shot.TYPE_PLAYER)
   {
     Player.shotsInFlight -= 1;
   }
   else // check if this was the last enemy shot cleaned up
   {
-    var allEnemyShotsGone = true;
-    for (var actor in State.actors)
-    {
-      log(actor['shotType']);
-      if (actor['shotType'] === Shot.TYPE_ENEMY)
-      {
-        allEnemyShotsGone = false;
-      }
-    }
-
-    if (allEnemyShotsGone)
+    if (State.actors.every(isNotEnemyShot))
     {
       Indicators.setBlue(false);
     }
   }
-
-
- State.actorIsDead(shot);
 }

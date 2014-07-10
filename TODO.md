@@ -2,6 +2,8 @@
 
 - players shots don't kill player. Enemy shots don't kill enemy.
 - add indicators: red missile, yellow entry portal/active saucer, blue shots flying. No lights for warp portal.
+- slower colour flicker
+- blue saucer aiming wrong?
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
   - gibs from saucers. They start white and fade through warm colours to dark
