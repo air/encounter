@@ -170,7 +170,9 @@ State.updateCombat = function(timeDeltaMillis)
     State.updateActors(timeDeltaMillis);
     Controls.interpretKeys(timeDeltaMillis);
   }
+
   Radar.update();
+  Indicators.update(); // needed for flickering effects only
 }
 
 State.updateGameOver = function(timeDeltaMillis)

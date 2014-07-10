@@ -10,6 +10,10 @@ Indicators.Y_SEPARATION = 25;
 Indicators.CSS_CENTRED_DIV = 'position:fixed; bottom:10px; width:100%';
 Indicators.CSS_LIGHTS_DIV = 'margin-left:auto; margin-right:auto';
 
+Indicators.FLICKER_FRAMES = 2; // when flickering, show each colour for this many frames
+Indicators.frameCounter = null; // current flicker timer
+Indicators.isRedOn = true;  // current flicker state
+
 Indicators.lightsDiv = null; // for hide/show
 Indicators.canvasContext = null; // for painting on
 
@@ -74,11 +78,30 @@ Indicators.setBlue = function(state)
   Indicators.paint();
 }
 
-Indicators.paint = function()
+Indicators.paintRed = function()
 {
-  Indicators.canvasContext.fillStyle = Indicators.red ? C64.css.lightred : C64.css.red;
+  if (Indicators.red)
+  {
+    Indicators.canvasContext.fillStyle = Indicators.isRedOn ? C64.css.lightred : C64.css.red;
+    Indicators.frameCounter += 1;
+    if (Indicators.frameCounter === Indicators.FLICKER_FRAMES)
+    {
+      Indicators.isRedOn = !Indicators.isRedOn;
+      Indicators.frameCounter = 0;
+    }
+  }
+  else
+  {
+    Indicators.canvasContext.fillStyle = C64.css.red;
+  }
+
   Indicators.canvasContext.fillRect(0, 0, Indicators.WIDTH, Indicators.HEIGHT);
   Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, 0, Indicators.WIDTH, Indicators.HEIGHT);
+}
+
+Indicators.paint = function()
+{
+  Indicators.paintRed();
 
   Indicators.canvasContext.fillStyle = Indicators.yellow ? C64.css.yellow : C64.css.orange;
   Indicators.canvasContext.fillRect(0, Indicators.HEIGHT + Indicators.Y_SEPARATION, Indicators.WIDTH, Indicators.HEIGHT);
@@ -89,10 +112,10 @@ Indicators.paint = function()
   Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, Indicators.HEIGHT*2 + Indicators.Y_SEPARATION*2, Indicators.WIDTH, Indicators.HEIGHT);
 }
 
-Indicators.update = function(timeDeltaMillis)
+Indicators.update = function()
 {
-  if (Indicators.red)
+  if (Indicators.red) // don't repaint unless there's some flickering work to do
   {
-
+    Indicators.paintRed();
   }
 }
