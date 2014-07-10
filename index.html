@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <style>
-body {
-  background-color: #AAAAAA;
-  margin: 0px;
-  overflow: hidden;
+html { 
+  background: #000 url(img/attract.png) no-repeat center center fixed; 
+  background-size: contain;
 }
 
-a {
-  color: #0078ff;
+body {
+  margin: 0px; /* needed to completely fill the window */
+  overflow: hidden; /* needed to prevent scroll bars */
 }
 </style>
 </head>
@@ -24,6 +24,7 @@ a {
   <script src="lib/jsfxr.js"></script>
   <script src="lib/dat.gui.js"></script>
   <script src="lib/tween.min.js"></script>
+  <script src="js/Attract.js"></script>
   <script src="js/SimpleControls.js"></script>
   <script src="js/Keys.js"></script>
   <script src="js/Sound.js"></script>

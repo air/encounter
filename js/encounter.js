@@ -17,10 +17,7 @@ Encounter.ENEMY_SPAWN_DISTANCE_MAX = 10000; // not measured
 Encounter.PORTAL_SPAWN_DISTANCE_MAX = 10000; // not measured
 
 MY3.init3d(Encounter.DRAW_DISTANCE * 3);
-document.body.appendChild(renderer.domElement);
 
-Sound.init();
-Overlay.init();
 State.init();
 
 MY3.setupRStats(); // requires three renderer to be ready

@@ -20,13 +20,15 @@ State.isPaused = false;
 // called once at startup. Go into our first state
 State.init = function()
 {
+  Sound.init();
+  Attract.init();
   State.setupAttract();
 }
 
 State.initWorld = function()
 {
   document.body.style.background = C64.css.lightblue; // TODO move somewhere sensible
-  // scene.add(new THREE.AxisHelper(800));
+  Overlay.init();
   Ground.init();
   Grid.init();
   Player.init();
@@ -58,7 +60,7 @@ State.setupAttract = function()
   
   State.current = State.ATTRACT;
   log(State.current);
-  Overlay.update();
+  Attract.show();
 }
 
 State.setupWaitForEnemy = function()
@@ -118,6 +120,8 @@ State.updateAttractMode = function(timeDeltaMillis)
 {
   if (Keys.shooting)
   {
+    Attract.hide();
+    document.body.appendChild(renderer.domElement);
     State.initWorld();
     State.setupWaitForEnemy();
   }

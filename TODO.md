@@ -4,7 +4,6 @@
   - adjust radar/light size on touchscreen
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
-  - use screenshot for attract mode
   - press fire to restart
   - saucers enter from white portal
   - don't spawn missiles too close to player
