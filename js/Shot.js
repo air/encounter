@@ -12,6 +12,8 @@ Shot.GEOMETRY = new THREE.SphereGeometry(Shot.RADIUS, 16, 16);
 Shot.TYPE_PLAYER = 'playerShot';
 Shot.TYPE_ENEMY = 'enemyShot';
 
+Shot.FLICKER_FRAMES = 3;  // when flickering, show each colour for this many frames
+
 // returns a new shot fired by the shooterObject.
 // material is required.
 // alternatingMaterial is optional for shots that flip material per frame.
@@ -28,10 +30,13 @@ Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, mat
     newShot.shotType = Shot.TYPE_ENEMY;
   }
 
+  // set up a flickering shot
   if (typeof alternatingMaterial !== 'undefined')
   {
     newShot.originalMaterial = material;
     newShot.alternatingMaterial = alternatingMaterial;
+    newShot.frameCounter = null; // current flicker timer
+    newShot.isFirstMaterial = true;  // current flicker state
   }
 
   newShot.radarType = Radar.TYPE_SHOT;
@@ -48,8 +53,15 @@ Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, mat
     // update alternating materials
     if (typeof this.alternatingMaterial !== 'undefined')
     {
-      this.material = (this.material === this.originalMaterial ? this.alternatingMaterial : this.originalMaterial);
+      this.material = (this.isFirstMaterial ? this.originalMaterial : this.alternatingMaterial);
+      this.frameCounter += 1;
+      if (this.frameCounter === Shot.FLICKER_FRAMES)
+      {
+        this.isFirstMaterial = !this.isFirstMaterial;
+        this.frameCounter = 0;
+      }
     }
+
     // move the shot
     var actualMoveSpeed = timeDeltaMillis * Encounter.SHOT_SPEED;
     this.translateZ(-actualMoveSpeed);

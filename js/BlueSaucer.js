@@ -12,7 +12,7 @@ BlueSaucer.SHOT_MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey }
 // override
 BlueSaucer.SHOTS_TO_FIRE = 3;
 
-BlueSaucer.FLICKER_FRAMES = 2; // when flickering, show each colour for this many frames
+BlueSaucer.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
 BlueSaucer.frameCounter = null; // current flicker timer
 BlueSaucer.isCyan = true;  // current cyan/grey flicker state
 

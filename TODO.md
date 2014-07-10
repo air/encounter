@@ -1,11 +1,11 @@
 # TODO
 
-  - slower colour flicker
-  - blue saucer aiming wrong?
+  - gibs from saucers. They start white and fade through warm colours to dark
   - adjust radar/light size on touchscreen
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
-  - gibs from saucers. They start white and fade through warm colours to dark
+  - use screenshot for attract mode
+  - press fire to restart
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
