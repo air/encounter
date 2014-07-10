@@ -1,6 +1,5 @@
 # TODO
 
-  - flicker red light
   - slower colour flicker
   - blue saucer aiming wrong?
   - darkblue line on horizon for L1, L3.
