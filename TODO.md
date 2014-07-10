@@ -2,6 +2,7 @@
 
   - slower colour flicker
   - blue saucer aiming wrong?
+  - adjust radar/light size on touchscreen
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
   - gibs from saucers. They start white and fade through warm colours to dark

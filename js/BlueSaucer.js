@@ -12,6 +12,10 @@ BlueSaucer.SHOT_MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey }
 // override
 BlueSaucer.SHOTS_TO_FIRE = 3;
 
+BlueSaucer.FLICKER_FRAMES = 2; // when flickering, show each colour for this many frames
+BlueSaucer.frameCounter = null; // current flicker timer
+BlueSaucer.isCyan = true;  // current cyan/grey flicker state
+
 BlueSaucer.init = function()
 {
   // actually set up this Mesh using our materials
@@ -31,7 +35,14 @@ BlueSaucer.shoot = function()
 // decorate default update() to add an alternating mesh material
 BlueSaucer.update = function(timeDeltaMillis)
 {
-  BlueSaucer.material = (BlueSaucer.material === BlueSaucer.MATERIAL1 ? BlueSaucer.MATERIAL2 : BlueSaucer.MATERIAL1); 
+  BlueSaucer.material = (BlueSaucer.isCyan ? BlueSaucer.MATERIAL1 : BlueSaucer.MATERIAL2);
+
+  BlueSaucer.frameCounter += 1;
+  if (BlueSaucer.frameCounter === BlueSaucer.FLICKER_FRAMES)
+  {
+    BlueSaucer.isCyan = !BlueSaucer.isCyan;
+    BlueSaucer.frameCounter = 0;
+  } 
 
   var proto = Object.getPrototypeOf(BlueSaucer);
   proto.update.call(BlueSaucer, timeDeltaMillis);
