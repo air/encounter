@@ -80,11 +80,19 @@ Indicators.paint = function()
   Indicators.canvasContext.fillRect(0, 0, Indicators.WIDTH, Indicators.HEIGHT);
   Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, 0, Indicators.WIDTH, Indicators.HEIGHT);
 
-  Indicators.canvasContext.fillStyle = Indicators.yellow ? C64.css.yellow : C64.css.brown;
+  Indicators.canvasContext.fillStyle = Indicators.yellow ? C64.css.yellow : C64.css.orange;
   Indicators.canvasContext.fillRect(0, Indicators.HEIGHT + Indicators.Y_SEPARATION, Indicators.WIDTH, Indicators.HEIGHT);
   Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, Indicators.HEIGHT + Indicators.Y_SEPARATION, Indicators.WIDTH, Indicators.HEIGHT);
 
   Indicators.canvasContext.fillStyle = Indicators.blue ? C64.css.lightblue : C64.css.blue;
   Indicators.canvasContext.fillRect(0, Indicators.HEIGHT*2 + Indicators.Y_SEPARATION*2, Indicators.WIDTH, Indicators.HEIGHT);
   Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, Indicators.HEIGHT*2 + Indicators.Y_SEPARATION*2, Indicators.WIDTH, Indicators.HEIGHT);
+}
+
+Indicators.update = function(timeDeltaMillis)
+{
+  if (Indicators.red)
+  {
+
+  }
 }

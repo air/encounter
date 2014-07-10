@@ -10,7 +10,7 @@ Saucer.GEOMETRY = new THREE.SphereGeometry(Saucer.RADIUS, 8, 4);
 Saucer.MESH_SCALE_Y = 0.4;
 
 // Player speed is Encounter.MOVEMENT_SPEED
-Saucer.MOVEMENT_SPEED = 0.8;
+Saucer.MOVEMENT_SPEED = 1.0;
 
 Saucer.STATE_MOVING = 'moving';
 Saucer.STATE_WAITING = 'waiting';
