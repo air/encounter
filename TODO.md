@@ -4,7 +4,8 @@
   - adjust radar/light size on touchscreen
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
-  - press fire to restart
+  - player lives
+  - press fire to return to attract
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
