@@ -13,8 +13,8 @@ Gib.SCALE_X = 0.2;
 Gib.SCALE_Y = 0.4;
 // Gib.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white }); // initial colour only
 Gib.MATERIAL = MATS.wireframe.clone();
-Gib.SPEED = 0.4;
-Gib.LIFETIME_MS = 3000;
+Gib.SPEED = 0.5;
+Gib.LIFETIME_MS = 2800;
 Gib.OFFSET_FROM_CENTER = 40;
 
 Gib.radarType = Radar.TYPE_PORTAL;
@@ -50,11 +50,27 @@ Gib.newInstance = function()
   newGib.scale.x = Gib.SCALE_X;
   newGib.scale.y = Gib.SCALE_Y;
   newGib.radarType = Radar.TYPE_PORTAL;
+  newGib.ageMillis = 0;
 
-  newGib.update = function()
+  newGib.update = function(timeDeltaMillis)
   {
-
+    this.ageMillis += timeDeltaMillis;
+    if (this.ageMillis > Gib.LIFETIME_MS)
+    {
+      Gib.cleanUpDeadGib(this);
+    }
+    else
+    {
+      // move
+      var actualMoveSpeed = timeDeltaMillis * Gib.SPEED;
+      this.translateZ(-actualMoveSpeed);
+    }
   };
 
   return newGib;
 };
+
+Gib.cleanUpDeadGib = function(gib)
+{
+  State.actorIsDead(gib);
+}
