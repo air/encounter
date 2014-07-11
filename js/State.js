@@ -44,6 +44,7 @@ State.initWorld = function()
   Warp.init();
   GUI.init(); // depends on Controls.init
   Indicators.init();
+  Explode.init();
 
   State.worldNumber = 1;
   State.resetEnemyCounter();

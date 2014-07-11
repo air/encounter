@@ -1,10 +1,11 @@
 # TODO
 
-  - gibs from saucers. They start white and fade through warm colours to dark
+  - gibs from saucers. 8 compass points. Long distance. Collide with objects. Have width.
+    - pure white, yellow/white, red/yellow, brown/red, black/brown. Every gib rotates anticlockwise about 3rps. 
   - adjust radar/light size on touchscreen
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
-  - player lives
+  - player lives. S overlay for spare Ships (you can play with S=0, last life)
   - press fire to return to attract
   - saucers enter from white portal
   - don't spawn missiles too close to player
@@ -29,7 +30,6 @@
   - 'Sticky' obelisks for extra missile terror
   - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears. 
   - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 
-  - S overlay for spare Ships (you can play with S=0, last life)
   - dashboard is midgrey, white text overlay, black highlights
   - record/synth sound effects: player move, warp, enemy ticking, missile, enemy move, enemy wait
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.

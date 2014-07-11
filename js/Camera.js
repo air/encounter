@@ -37,7 +37,7 @@ Camera.init = function()
   // put ortho camera in the centre
   Camera.orthoCamera.position.set(Grid.MAX_X / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.MAX_Z / 2);
   // look down
-  Camera.orthoCamera.rotateOnAxis(X_AXIS, -90 * UTIL.TO_RADIANS);
+  Camera.orthoCamera.rotateOnAxis(MY3.X_AXIS, -90 * UTIL.TO_RADIANS);
 }
 
 Camera.useOrbitMode = function()
@@ -75,7 +75,7 @@ Camera.update = function(timeDeltaMillis)
     camera.position.z += Camera.CHASE_DISTANCE * Math.cos(Player.rotation.y);
     camera.position.x += Camera.CHASE_DISTANCE * Math.sin(Player.rotation.y);
 
-    camera.rotateOnAxis(X_AXIS, Camera.CHASE_ANGLE_DOWN);
+    camera.rotateOnAxis(MY3.X_AXIS, Camera.CHASE_ANGLE_DOWN);
   }
   else if (Camera.mode === Camera.MODE_ORBIT)
   {

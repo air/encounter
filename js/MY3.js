@@ -27,9 +27,9 @@ var HALFHEIGHT = window.innerHeight / 2;
 //=============================================================================
 // constants
 //=============================================================================
-var X_AXIS = new THREE.Vector3(1,0,0);
-var Y_AXIS = new THREE.Vector3(0,1,0);
-var Z_AXIS = new THREE.Vector3(0,0,1);
+MY3.X_AXIS = new THREE.Vector3(1,0,0);
+MY3.Y_AXIS = new THREE.Vector3(0,1,0);
+MY3.Z_AXIS = new THREE.Vector3(0,0,1);
 
 //=============================================================================
 // global objects
