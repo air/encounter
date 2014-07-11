@@ -1,7 +1,9 @@
 # TODO
 
   - gibs from saucers. 8 compass points. Long distance. Collide with objects. Have width.
-    - pure white, yellow/white, red/yellow, brown/red, black/brown. Every gib rotates anticlockwise about 3rps. 
+    - pure white, yellow/white, red/yellow, brown/red, black/brown.
+  - first spawn must be yellow saucer
+  - edit title screen
   - adjust radar/light size on touchscreen
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
