@@ -75,8 +75,12 @@ Gib.newInstance = function()
       // move the parent
       var actualMoveSpeed = timeDeltaMillis * Gib.SPEED;
       this.translateZ(-actualMoveSpeed);
+
       // rotate the child
       this.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
+
+      Gib.collideWithObelisks(this);
+      Gib.collideWithPlayer(this);
     }
   };
 
@@ -92,5 +96,31 @@ Gib.cleanUpDeadGib = function(gib)
   if (Explode.gibsActive === 0)
   {
     Enemy.cleared();
+  }
+}
+
+Gib.collideWithObelisks = function(gib)
+{
+  // if an obelisk is close (fast check), do a detailed collision check
+  if (Physics.isCloseToAnObelisk(gib.position, Gib.RADIUS))
+  {
+    // check for precise collision
+    var obelisk = Physics.getCollidingObelisk(gib.position, Gib.RADIUS);
+    // if we get a return value we have work to do
+    if (typeof obelisk !== "undefined")
+    {
+      // we have a collision, move the gib out
+      Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, gib.position, Gib.RADIUS);
+    }
+  }
+}
+
+Gib.collideWithPlayer = function(gib)
+{
+  if (MY3.doCirclesCollide(gib.position, Gib.RADIUS, Player.position, Player.RADIUS))
+  {
+    // move the gib out of the player
+    Physics.moveCircleOutOfStaticCircle(Player.position, Player.RADIUS, gib.position, Gib.RADIUS);
+    Sound.playerCollideObelisk();
   }
 }
