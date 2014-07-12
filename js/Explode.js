@@ -12,14 +12,28 @@ Gib.RADIUS = 80;
 Gib.GEOMETRY = new THREE.SphereGeometry(Gib.RADIUS, 2, 2); // a diamond shape
 Gib.SCALE_X = 0.1;
 Gib.SCALE_Y = 0.4;
-// Gib.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white }); // initial colour only
-Gib.MATERIAL = MATS.wireframe.clone();
+Gib.LIFETIME_MS = 3000;
+Gib.MATERIAL_PHASES = [
+  { untilAgeMillis: 800,
+    material1: new THREE.MeshBasicMaterial({ color: C64.white }),
+    material2: new THREE.MeshBasicMaterial({ color: C64.white }) },
+  { untilAgeMillis: 1400,
+    material1: new THREE.MeshBasicMaterial({ color: C64.yellow }),
+    material2: new THREE.MeshBasicMaterial({ color: C64.white }) },
+  { untilAgeMillis: 2200,
+    material1: new THREE.MeshBasicMaterial({ color: C64.red }),
+    material2: new THREE.MeshBasicMaterial({ color: C64.yellow }) },
+  { untilAgeMillis: 2600,
+    material1: new THREE.MeshBasicMaterial({ color: C64.brown }),
+    material2: new THREE.MeshBasicMaterial({ color: C64.red }) },
+  { untilAgeMillis: Gib.LIFETIME_MS,
+    material1: new THREE.MeshBasicMaterial({ color: C64.black }),
+    material2: new THREE.MeshBasicMaterial({ color: C64.brown }) }
+];
 Gib.SPEED = 0.3;
 Gib.ROTATE_SPEED = -0.02;
-Gib.LIFETIME_MS = 3000;
 Gib.OFFSET_FROM_CENTER = 0;
-
-// TODO in Enemy.destroyed(), don't call State.enemyKilled() until explosion is done.
+Gib.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
 
 // there will only ever be eight Gibs, so we can reuse them
 Explode.init = function()
@@ -63,6 +77,9 @@ Gib.newInstance = function()
   newGib.add(gibMesh);
   newGib.mesh = gibMesh;  // provide an explicit ref to first and only child
 
+  gibMesh.frameCounter = 0; // current flicker timer
+  gibMesh.isFirstMaterial = true;  // current flicker state
+
   newGib.update = function(timeDeltaMillis)
   {
     this.ageMillis += timeDeltaMillis;
@@ -78,6 +95,8 @@ Gib.newInstance = function()
 
       // rotate the child
       this.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
+
+      Gib.animateMaterial(this);
 
       Gib.collideWithObelisks(this);
       Gib.collideWithPlayer(this);
@@ -97,7 +116,28 @@ Gib.cleanUpDeadGib = function(gib)
   {
     Enemy.cleared();
   }
-}
+};
+
+Gib.animateMaterial = function(gib)
+{
+  var phase = null;
+  for (phase = 0; phase < Gib.MATERIAL_PHASES.length; phase++)
+  {
+    if (gib.ageMillis < Gib.MATERIAL_PHASES[phase].untilAgeMillis)
+    {
+      break;
+    }
+  }
+
+  gib.mesh.material = gib.mesh.isFirstMaterial ? Gib.MATERIAL_PHASES[phase].material1 : Gib.MATERIAL_PHASES[phase].material2;
+
+  gib.mesh.frameCounter += 1;
+  if (gib.mesh.frameCounter === Gib.FLICKER_FRAMES)
+  {
+    gib.mesh.isFirstMaterial = !gib.mesh.isFirstMaterial;
+    gib.mesh.frameCounter = 0;
+  }
+};
 
 Gib.collideWithObelisks = function(gib)
 {
@@ -113,7 +153,7 @@ Gib.collideWithObelisks = function(gib)
       Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, gib.position, Gib.RADIUS);
     }
   }
-}
+};
 
 Gib.collideWithPlayer = function(gib)
 {
@@ -123,4 +163,4 @@ Gib.collideWithPlayer = function(gib)
     Physics.moveCircleOutOfStaticCircle(Player.position, Player.RADIUS, gib.position, Gib.RADIUS);
     Sound.playerCollideObelisk();
   }
-}
+};

@@ -1,7 +1,6 @@
 # TODO
 
-  - gibs from saucers. 8 compass points. Long distance. Collide with objects. Have width.
-    - pure white, yellow/white, red/yellow, brown/red, black/brown.
+  - is third gib stage really red/yellow?
   - first spawn must be yellow saucer
   - edit title screen
   - adjust radar/light size on touchscreen
