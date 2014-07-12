@@ -134,11 +134,10 @@ State.updateAttractMode = function(timeDeltaMillis)
 {
   if (Keys.shooting)
   {
-    Attract.hide();
-    document.body.appendChild(renderer.domElement);
     State.initWorld();
-    State.setupWaitForEnemy();
+    Attract.hide();
     Keys.shooting = false;
+    State.setupWaitForEnemy();
   }
 }
 

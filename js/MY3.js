@@ -62,6 +62,7 @@ MY3.init3d = function(far)
   scene.add(camera);
   renderer.setSize(WIDTH, HEIGHT);
   renderer.shadowMapEnabled = true;
+  document.body.appendChild(renderer.domElement);
 }
 
 MY3.addHelpers = function()
