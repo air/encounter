@@ -7,6 +7,8 @@ Player.GEOMETRY = new THREE.SphereGeometry(Player.RADIUS, 8, 4);
 Player.MATERIAL = MATS.wireframe.clone();
 Player.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 
+Player.radarType = Radar.TYPE_PLAYER;
+
 // state
 Player.lastTimeFired = 0;
 Player.shotsInFlight = 0;
@@ -18,12 +20,8 @@ Player.init = function()
   THREE.Mesh.call(Player, Player.GEOMETRY, Player.MATERIAL); 
   //scene.add(Player); // uncomment this to 'look out' from inside the wireframe in first-person mode.
 
-  Player.radarType = Radar.TYPE_PLAYER;
-
   // player can move in pause mode 
   //State.actors.push(playerMesh);
-
-  Player.resetPosition();
 }
 
 Player.resetPosition = function()

@@ -22,12 +22,6 @@ State.init = function()
 {
   Sound.init();
   Attract.init();
-  State.setupAttract();
-}
-
-State.initWorld = function()
-{
-  document.body.style.background = C64.css.lightblue; // TODO move somewhere sensible
   Overlay.init();
   Ground.init();
   Grid.init();
@@ -39,6 +33,7 @@ State.initWorld = function()
   BlueSaucer.init();
   Camera.init();
   Controls.init();
+  Touch.init(); // FIXME depends on Controls.init
   Radar.init();
   Portal.init();
   Warp.init();
@@ -46,8 +41,28 @@ State.initWorld = function()
   Indicators.init();
   Explode.init();
 
+  State.setupAttract();
+}
+
+State.initWorld = function()
+{
+  document.body.style.background = C64.css.lightblue; // TODO move somewhere sensible
+
+  Camera.useFirstPersonMode();
+  Player.resetPosition();
+  State.resetActors();
+
   State.worldNumber = 1;
   State.resetEnemyCounter();
+}
+
+State.resetActors = function()
+{
+  while (State.actors.length > 0)
+  {
+    var actor = State.actors.pop();
+    scene.remove(actor);
+  }
 }
 
 State.resetEnemyCounter = function()
@@ -57,8 +72,6 @@ State.resetEnemyCounter = function()
 
 State.setupAttract = function()
 {
-  Touch.init(); // FIXME depends on Controls.init
-  
   State.current = State.ATTRACT;
   log(State.current);
   Attract.show();
@@ -125,6 +138,7 @@ State.updateAttractMode = function(timeDeltaMillis)
     document.body.appendChild(renderer.domElement);
     State.initWorld();
     State.setupWaitForEnemy();
+    Keys.shooting = false;
   }
 }
 
@@ -182,7 +196,12 @@ State.updateCombat = function(timeDeltaMillis)
 
 State.updateGameOver = function(timeDeltaMillis)
 {
-  Camera.update(timeDeltaMillis);  
+  Camera.update(timeDeltaMillis);
+  if (Keys.shooting)
+  {
+    Keys.shooting = false;
+    State.setupAttract();
+  }
 }
 
 // ask all State.actors to update their state based on the last time delta

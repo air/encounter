@@ -47,6 +47,12 @@ Camera.useOrbitMode = function()
   Camera.mode = Camera.MODE_ORBIT;
 }
 
+Camera.useFirstPersonMode = function()
+{
+  scene.remove(Player);
+  Camera.mode = Camera.MODE_FIRST_PERSON;
+}
+
 Camera.update = function(timeDeltaMillis)
 {
   if (Camera.mode === Camera.MODE_TOP_DOWN)

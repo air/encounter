@@ -2,19 +2,22 @@
 
 var Overlay = {};
 
+Overlay.containerDiv = null;
+
 Overlay.text = null; // current text in readout
 
 Overlay.init = function()
 {
   Overlay.initDivs();
-}
+};
 
 Overlay.initDivs = function()
 {
   // the overlay div will contain a line of text, containing world number and enemy count
-  var container = document.createElement('div');
-  container.id = 'overlay';
-  container.style.cssText = 'opacity:0.5';
+  Overlay.containerDiv = document.createElement('div');
+  Overlay.containerDiv.id = 'overlay';
+  Overlay.containerDiv.style.cssText = 'opacity:0.5';
+  Overlay.containerDiv.style.display = 'none'; // off by default until shown
 
   // textBox adds padding, alignment, background
   var textBox = document.createElement('div');
@@ -22,7 +25,7 @@ Overlay.initDivs = function()
   // padding order: top right bottom left
   // TODO gradient needs multiple declarations to work in all browsers, as per stats.js/examples/theming.html
   textBox.style.cssText = 'padding:0px 5px 0px 5px; text-align:left; background-color:#000; background-image:-webkit-linear-gradient(top, rgba(255,255,255,.4) 0%, rgba(0,0,0,.35) 100%)';
-  container.appendChild(textBox);
+  Overlay.containerDiv.appendChild(textBox);
 
   // text is the content
   Overlay.text = document.createElement('div');
@@ -31,10 +34,10 @@ Overlay.initDivs = function()
   textBox.appendChild(Overlay.text);
 
   // place the overlay in the page
-  container.style.position = 'absolute';
-  container.style.top = '0px';
-  document.body.appendChild(container);
-}
+  Overlay.containerDiv.style.position = 'absolute';
+  Overlay.containerDiv.style.top = '0px';
+  document.body.appendChild(Overlay.containerDiv);
+};
 
 Overlay.update = function()
 {
@@ -52,4 +55,14 @@ Overlay.update = function()
     default:
       console.error('unknown state: ', State.current);
   }
-}
+};
+
+Overlay.removeFromScene = function()
+{
+  Overlay.containerDiv.style.display = 'none';
+};
+
+Overlay.addToScene = function()
+{
+  Overlay.containerDiv.style.display = 'block';
+};

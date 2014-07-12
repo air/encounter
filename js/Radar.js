@@ -34,6 +34,7 @@ Radar.init = function()
   Radar.radarDiv.style.cssText = Radar.CSS_RADAR_DIV;
   Radar.radarDiv.style.width = Radar.RESOLUTION_X + 'px';
   Radar.radarDiv.style.height = Radar.RESOLUTION_Z + 'px';
+  Radar.radarDiv.style.display = 'none'; // off by default until shown
 
   var radar = document.createElement('canvas');
   radar.width = Radar.RESOLUTION_X;

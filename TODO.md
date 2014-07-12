@@ -2,10 +2,9 @@
 
   - first spawn must be yellow saucer
   - edit title screen
-  - darkblue line on horizon for L1, L3.
+  - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
   - player lives. S overlay for spare Ships (you can play with S=0, last life)
-  - press fire to return to attract
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
@@ -26,6 +25,7 @@
   - Saucers despawn after a couple of minutes!
   - If Saucer is killed with shots in flight, the shots are coloured as gibs burning out. Not sure if they kill.
   - "world" is actually "level"
+  - darkblue line on horizon for L1, L3.
   - 'Sticky' obelisks for extra missile terror
   - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears. 
   - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 

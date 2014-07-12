@@ -41,6 +41,7 @@ Indicators.init = function()
   Indicators.lightsDiv.style.cssText = Indicators.CSS_LIGHTS_DIV;
   Indicators.lightsDiv.style.width = width + 'px'; 
   Indicators.lightsDiv.style.height = height + 'px';
+  Indicators.lightsDiv.style.display = 'none';  // off by default until shown
 
   var canvas = document.createElement('canvas');
   canvas.width = width;
