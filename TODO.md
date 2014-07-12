@@ -1,6 +1,5 @@
 # TODO
 
-  - is third gib stage really red/yellow?
   - first spawn must be yellow saucer
   - edit title screen
   - adjust radar/light size on touchscreen
