@@ -2,7 +2,6 @@
 
   - first spawn must be yellow saucer
   - edit title screen
-  - adjust radar/light size on touchscreen
   - darkblue line on horizon for L1, L3.
   - lightgrey crosshairs
   - player lives. S overlay for spare Ships (you can play with S=0, last life)

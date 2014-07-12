@@ -12,7 +12,6 @@ Touch.fireButton = null;
 
 Touch.lastDPadPressed = null;
 
-
 Touch.init = function()
 {
   // don't init touch on desktops

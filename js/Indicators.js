@@ -23,6 +23,11 @@ Indicators.blue = false;
 
 Indicators.init = function()
 {
+  if (UTIL.platformSupportsTouch())
+  {
+    Indicators.adjustForTouch();
+  }
+
   var centredDiv = document.createElement('div');
   centredDiv.id = 'centredLightsDiv';
   centredDiv.style.cssText = Indicators.CSS_CENTRED_DIV;
@@ -48,6 +53,12 @@ Indicators.init = function()
   Indicators.canvasContext = canvas.getContext('2d');
 
   Indicators.paint();
+}
+
+Indicators.adjustForTouch = function()
+{
+  Indicators.WIDTH = 50;
+  Indicators.X_SEPARATION = 230;
 }
 
 Indicators.addToScene = function()
