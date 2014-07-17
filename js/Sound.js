@@ -23,6 +23,7 @@ Sound.SAUCER_WAIT_INTERVAL_MS = 21;
 Sound.SAUCER_MOVE_FREQS = [976, 848, 720, 592, 464, 592, 720, 848];
 Sound.SAUCER_MOVE_INTERVAL_MS = 22;
 Sound.audio = null;
+Sound.activeOscillators = null;
 
 Sound.init = function()
 {
@@ -61,6 +62,7 @@ Sound.playerShoot = function()
 
 Sound.enemyShoot = function()
 {
+  Sound.muteOscillators();
   Sound.play(Sound.ENEMY_SHOOT);
 };
 
@@ -76,31 +78,34 @@ Sound.shotBounce = function()
 
 Sound.playerKilled = function()
 {
+  Sound.muteOscillators();
   Sound.play(Sound.PLAYER_KILLED);
 };
 
 Sound.shotWindup = function()
 {
+  Sound.muteOscillators();
   Sound.play(Sound.SHOT_WINDUP);
 };
 
 Sound.initWebAudio = function()
 {
   Sound.audio = new webkitAudioContext();
+  Sound.activeOscillators = [];
 };
 
 Sound.saucerMove = function(durationMillis)
 {
-  Sound.generateFrequency(Sound.SAUCER_MOVE_FREQS, Sound.SAUCER_MOVE_INTERVAL_MS, durationMillis);
+  Sound.generateFrequencyLoop(Sound.SAUCER_MOVE_FREQS, Sound.SAUCER_MOVE_INTERVAL_MS, durationMillis);
 };
 
 Sound.saucerWait = function(durationMillis)
 {
-  Sound.generateFrequency(Sound.SAUCER_WAIT_FREQS, Sound.SAUCER_WAIT_INTERVAL_MS, durationMillis);
+  Sound.generateFrequencyLoop(Sound.SAUCER_WAIT_FREQS, Sound.SAUCER_WAIT_INTERVAL_MS, durationMillis);
 };
 
 // frequencies is an array
-Sound.generateFrequency = function(frequencies, intervalMillis, durationMillis)
+Sound.generateFrequencyLoop = function(frequencies, intervalMillis, durationMillis)
 {
   var oscillator = Sound.audio.createOscillator();
   oscillator.type = oscillator.SINE;
@@ -121,8 +126,26 @@ Sound.generateFrequency = function(frequencies, intervalMillis, durationMillis)
   oscillator.start(startTime);
   oscillator.stop(startTime + (durationMillis / 1000));
 
+  Sound.activeOscillators.push(oscillator);
+
+  // cleanup
   oscillator.onended = function()
   {
     this.disconnect();
+    var index = Sound.activeOscillators.indexOf(this);
+    if (index > -1)
+    {
+      Sound.activeOscillators.splice(index, 1);
+    }
+  }
+};
+
+Sound.muteOscillators = function()
+{
+  var oscillator = Sound.activeOscillators.pop();
+  while(oscillator !== undefined)
+  {
+    oscillator.disconnect();
+    oscillator = Sound.activeOscillators.pop();
   }
 };
