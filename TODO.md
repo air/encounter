@@ -30,7 +30,7 @@
   - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears. 
   - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 
   - dashboard is midgrey, white text overlay, black highlights
-  - record/synth sound effects: player move, warp, enemy ticking, missile, enemy move, enemy wait
+  - record/synth sound effects: player move, warp, enemy ticking, missile
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
   - better saucer model. Original is simplified to a diamond from afar.
   - better missile model.
