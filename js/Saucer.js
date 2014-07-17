@@ -57,6 +57,7 @@ Saucer.setupWaiting = function()
 {
   this.waitingCountdown = UTIL.random(Saucer.WAIT_TIME_MIN_MS, Saucer.WAIT_TIME_MAX_MS);
   log('enemy waiting for ' + this.waitingCountdown + 'ms');
+  Sound.saucerWait(this.waitingCountdown);
   this.state = Saucer.STATE_WAITING;
 }
 
@@ -109,6 +110,7 @@ Saucer.setupMoving = function()
   this.movingCountdown = UTIL.random(Saucer.MOVE_TIME_MIN_MS, Saucer.MOVE_TIME_MAX_MS);
   this.rotation.y = MY3.randomDirection();
   log('enemy moving for ' + this.movingCountdown + 'ms in direction ' + this.rotation.y);
+  Sound.saucerMove(this.movingCountdown);
   this.state = Saucer.STATE_MOVING;
 }
 
