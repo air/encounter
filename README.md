@@ -22,18 +22,18 @@ Follow the devlog at http://aaronbell.com
 
 # Status #
 
-- [x] Obelisks on a ground plane
-- [x] Controls
-- [x] Sound
-- [x] Shots
-- [x] Basic collisions
-- [x] Basic enemies and AI
-- [x] Radar
-- [x] Warp level
-- [x] Missile enemies
-- [ ] Worlds 2-6
-- [ ] Additional enemy AI
-- [ ] Lighting and colours
-- [ ] Accurate sound
-- [ ] Accurate UI overlay
-- [ ] Perfect collisions
+- ![Progress](http://progressed.io/bar/80) Obelisks on a ground plane
+- ![Progress](http://progressed.io/bar/100) Controls
+- ![Progress](http://progressed.io/bar/100) Sound
+- ![Progress](http://progressed.io/bar/60) Accurate sound
+- ![Progress](http://progressed.io/bar/100) Shots
+- ![Progress](http://progressed.io/bar/100) Basic collisions
+- ![Progress](http://progressed.io/bar/50) Perfect collisions
+- ![Progress](http://progressed.io/bar/100) Basic enemies and AI
+- ![Progress](http://progressed.io/bar/100) Radar
+- ![Progress](http://progressed.io/bar/80) Warp level
+- ![Progress](http://progressed.io/bar/90) Missile enemies
+- ![Progress](http://progressed.io/bar/20) Worlds 2-6
+- ![Progress](http://progressed.io/bar/50) Additional enemy AI
+- ![Progress](http://progressed.io/bar/80) Lighting and colours
+- ![Progress](http://progressed.io/bar/20) Accurate UI overlay
