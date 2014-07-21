@@ -14,11 +14,9 @@ Follow the devlog at http://aaronbell.com
 
 [Play the current build on github](http://air.github.io/encounter).
 
-# Controls #
-
-* WSAD or arrows or mobile d-pad to move
-* Space or Z or touch to shoot
-* P to pause
+- WSAD or arrows or mobile d-pad to move
+- Space or Z or touch to shoot
+- P to pause
 
 # Status #
 
