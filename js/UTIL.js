@@ -29,6 +29,12 @@ UTIL.random = function(min, max)
   }
 }
 
+UTIL.randomFromArray = function(array)
+{
+  var diceRoll = UTIL.random(1, array.length) - 1; // adjust to be array index
+  return array[diceRoll];
+}
+
 //=============================================================================
 // logging
 //=============================================================================

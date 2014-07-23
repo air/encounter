@@ -3,6 +3,7 @@
   - edit title screen
   - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
+  - C64Materials.js - then clone() all materials from the set
   - make saucers bigger
   - player lives. S overlay for spare Ships (you can play with S=0, last life)
   - saucers enter from white portal
@@ -12,7 +13,7 @@
   - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - add original super-cool exit from warp effect
   - further original UFO types
-  - clouds
+  - clouds. Stars. Use CSS background image and scroll?
   - Radar colours, use C64 palette
   - L1 10 enemies on NOVICE. Seems to vary weirdly.
   - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!

@@ -46,9 +46,8 @@ Enemy.spawn = function()
   }
   else
   {
-    var diceRoll = UTIL.random(1, Level.current.spawnTable.length) - 1; // adjust to be array index
-    type = Level.current.spawnTable[diceRoll];
-    log('dice roll ' + diceRoll + ' gives enemy: ' + type);
+    type = UTIL.randomFromArray(Level.current.spawnTable);
+    log('spawn table generated enemy: ' + type);
   }
 
   switch (type)
