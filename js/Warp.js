@@ -137,24 +137,24 @@ Warp.update = function(timeDeltaMillis)
       // TODO proper warp exit
       log('warp ended');
       Warp.state = null;
-      Warp.removeFromScene();
-      Warp.restoreWorld();
+      Warp.restoreLevel();
       break;
     default:
       error('unknown Warp state: ' + Warp.state);
   }
 }
 
-Warp.restoreWorld = function()
+Warp.restoreLevel = function()
 {
+  Warp.removeFromScene();
+
+  Level.nextLevel();
+  State.initLevel();
+
   Ground.addToScene();
   Grid.addToScene();
   Radar.addToScene();
   Indicators.addToScene();
-  Player.resetPosition();
-  Controls.useEncounterControls();
-  document.body.style.background = C64.css.lightblue;
 
-  State.resetEnemyCounter();
   State.setupWaitForEnemy();
 }

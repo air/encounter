@@ -43,12 +43,14 @@ State.init = function()
   State.setupAttract();
 }
 
+// init a new combat level, either on game start or moving out of warp
 State.initLevel = function()
 {
-  Level.reset();
+  log('initialising level ' + Level.number);
   document.body.style.background = Level.current.backgroundColor;
 
   Camera.useFirstPersonMode();
+  Controls.useEncounterControls();
   Player.resetPosition();
   Enemy.reset();
   Indicators.reset();
@@ -68,7 +70,7 @@ State.resetActors = function()
 
 State.resetEnemyCounter = function()
 {
-  State.enemiesRemaining = 6;
+  State.enemiesRemaining = Level.current.enemyCount;
 }
 
 State.setupAttract = function()
@@ -200,6 +202,7 @@ State.updateGameOver = function(timeDeltaMillis)
   if (Keys.shooting)
   {
     Keys.shooting = false;
+    Level.reset();
     State.setupAttract();
   }
 }

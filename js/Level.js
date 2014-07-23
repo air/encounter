@@ -10,6 +10,7 @@ Level.data = [
   {
     backgroundColor : C64.css.lightblue,
     firstEnemy : Enemy.TYPE_SAUCER_YELLOW,
+    enemyCount : 1,
     spawnTable : [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_YELLOW,
@@ -20,6 +21,7 @@ Level.data = [
   {
     backgroundColor : C64.css.black,
     firstEnemy : Enemy.TYPE_SAUCER_BLUE,
+    enemyCount : 6,
     spawnTable : [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_YELLOW,
