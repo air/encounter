@@ -47,6 +47,8 @@ Explode.init = function()
 
 Explode.at = function(location)
 {
+  Explode.gibsActive = 0;
+  
   log('sploding at location ' + location.x + ', ' + location.z);
   for (var i = 0; i < Explode.NUMBER_OF_GIBS; i++)
   {
