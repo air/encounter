@@ -10,7 +10,7 @@ Level.data = [
   {
     backgroundColor : C64.css.lightblue,
     firstEnemy : Enemy.TYPE_SAUCER_YELLOW,
-    enemyCount : 1,
+    enemyCount : 4,
     spawnTable : [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_YELLOW,
