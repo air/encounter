@@ -9,27 +9,29 @@ Player.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 
 Player.radarType = Radar.TYPE_PLAYER;
 
-// state
-Player.lastTimeFired = 0;
-Player.shotsInFlight = 0;
-Player.isAlive = true;
+Player.lastTimeFired = null;
+Player.shotsInFlight = null;
+Player.isAlive = false;
 
 Player.init = function()
 {
   // actually set up this Mesh using our materials
   THREE.Mesh.call(Player, Player.GEOMETRY, Player.MATERIAL); 
-  //scene.add(Player); // uncomment this to 'look out' from inside the wireframe in first-person mode.
 
-  // player can move in pause mode 
+  // FIXME for debug purposes player can move in pause mode - uncomment to fix this.
   //State.actors.push(playerMesh);
 }
 
-Player.resetPosition = function()
+Player.reset = function()
 {
   Player.position.set(Grid.MAX_X / 2, Encounter.CAMERA_HEIGHT, Grid.MAX_Z / 2);
   Player.rotation.x = 0;
   Player.rotation.y = Encounter.PLAYER_INITIAL_ROTATION;
   Player.rotation.z = 0;
+
+  Player.shotsInFlight = 0;
+  Player.lastTimeFired = 0;
+  Player.isAlive = true;
 }
 
 Player.update = function()

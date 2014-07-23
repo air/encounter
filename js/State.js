@@ -51,7 +51,7 @@ State.initLevel = function()
 
   Camera.useFirstPersonMode();
   Controls.useEncounterControls();
-  Player.resetPosition();
+  Player.reset();
   Enemy.reset();
   Indicators.reset();
   State.resetActors();

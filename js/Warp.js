@@ -32,7 +32,7 @@ Warp.setup = function()
   Radar.removeFromScene();
   Indicators.removeFromScene();
 
-  Player.resetPosition();
+  Player.reset();
   Controls.useWarpControls();
 
   Warp.enteredAt = clock.oldTime;
