@@ -1,9 +1,9 @@
 # TODO
 
-  - first spawn must be yellow saucer
   - edit title screen
   - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
+  - make saucers bigger
   - player lives. S overlay for spare Ships (you can play with S=0, last life)
   - saucers enter from white portal
   - don't spawn missiles too close to player
@@ -24,7 +24,6 @@
   - L3 saucer: pure lightgrey. NO WINDUP. Auto-shotgun, sprays 3 as per L2 but rapid fire. 
   - Saucers despawn after a couple of minutes!
   - If Saucer is killed with shots in flight, the shots are coloured as gibs burning out. Not sure if they kill.
-  - "world" is actually "level"
   - darkblue line on horizon for L1, L3.
   - 'Sticky' obelisks for extra missile terror
   - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears. 

@@ -12,7 +12,6 @@ State.current = null;
 
 State.actors = [];
 
-State.worldNumber = null;
 State.enemiesRemaining = null;
 
 State.isPaused = false;
@@ -26,7 +25,6 @@ State.init = function()
   Ground.init();
   Grid.init();
   Player.init();
-  Enemy.init();
   Missile.init();
   Saucer.init();
   YellowSaucer.init();
@@ -40,19 +38,22 @@ State.init = function()
   GUI.init(); // depends on Controls.init
   Indicators.init();
   Explode.init();
+  Level.init();
 
   State.setupAttract();
 }
 
-State.initWorld = function()
+State.initLevel = function()
 {
-  document.body.style.background = C64.css.lightblue; // TODO move somewhere sensible
+  Level.reset();
+  document.body.style.background = Level.current.backgroundColor;
 
   Camera.useFirstPersonMode();
   Player.resetPosition();
+  Enemy.reset();
+  Indicators.reset();
   State.resetActors();
 
-  State.worldNumber = 1;
   State.resetEnemyCounter();
 }
 
@@ -134,7 +135,7 @@ State.updateAttractMode = function(timeDeltaMillis)
 {
   if (Keys.shooting)
   {
-    State.initWorld();
+    State.initLevel();
     Attract.hide();
     Keys.shooting = false;
     State.setupWaitForEnemy();

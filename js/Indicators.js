@@ -131,3 +131,10 @@ Indicators.update = function()
     Indicators.paintRed();
   }
 }
+
+Indicators.reset = function()
+{
+  Indicators.setRed(false);
+  Indicators.setYellow(false);
+  Indicators.setBlue(false);
+}

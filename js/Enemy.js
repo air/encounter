@@ -6,21 +6,17 @@ var Enemy = {};
 
 Enemy.current = null; // reference to current enemy object, whatever that is
 Enemy.isAlive = false;
+Enemy.isFirstOnLevel = null; // is this the first enemy on the level? If so it's not random
 
 Enemy.spawnTimerStartedAt = null;
 
 Enemy.TYPE_SAUCER_YELLOW = 'yellowsaucer';
 Enemy.TYPE_SAUCER_BLUE = 'bluesaucer';
 Enemy.TYPE_MISSILE = 'missile';
-Enemy.SPAWN_TABLE = [
-  Enemy.TYPE_MISSILE,
-  Enemy.TYPE_SAUCER_YELLOW,
-  Enemy.TYPE_SAUCER_BLUE,
-];
 
-Enemy.init = function()
+Enemy.reset = function()
 {
-  // no op
+  Enemy.isFirstOnLevel = true;
 }
 
 Enemy.startSpawnTimer = function()
@@ -40,9 +36,22 @@ Enemy.spawnIfReady = function()
 
 Enemy.spawn = function()
 {
-  var diceRoll = UTIL.random(1, Enemy.SPAWN_TABLE.length) - 1; // adjust to be array index
-  log('dice roll ' + diceRoll + ' gives enemy: ' + Enemy.SPAWN_TABLE[diceRoll]);
-  switch (Enemy.SPAWN_TABLE[diceRoll])
+  var type = null;
+
+  if (Enemy.isFirstOnLevel)
+  {
+    type = Level.current.firstEnemy;
+    Enemy.isFirstOnLevel = false;
+    log('using first enemy for level ' + Level.number + ': ' + type);
+  }
+  else
+  {
+    var diceRoll = UTIL.random(1, Level.current.spawnTable.length) - 1; // adjust to be array index
+    type = Level.current.spawnTable[diceRoll];
+    log('dice roll ' + diceRoll + ' gives enemy: ' + type);
+  }
+
+  switch (type)
   {
     case Enemy.TYPE_SAUCER_YELLOW:
       Enemy.current = YellowSaucer.spawn();
@@ -54,7 +63,7 @@ Enemy.spawn = function()
       Enemy.current = Missile.spawn();
       break;
     default:
-      error ('unknown enemy type: ' + Enemy.SPAWN_TABLE[diceRoll]);
+      error ('unknown enemy type: ' + type);
   }
 
   scene.add(Enemy.current);
