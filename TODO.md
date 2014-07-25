@@ -1,5 +1,10 @@
 # TODO
 
+  - reverse encounter memory
+    - look for writing to the SID locations
+    - look for reads from the sound data locations
+  - sound: oscillator doesn't have SINE, must be sawtooth or triangle
+  - see https://github.com/pstoica/web-audio-synth/blob/master/js/sid.js and http://www.igorski.nl/experiment/websid
   - edit title screen
   - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
