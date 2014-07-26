@@ -23,8 +23,10 @@
 65 rem set control bits 0 (start cycle) and 4 (triangle wave)
 70 poke sid + 4, 1 + 16
 75 rem unset control bit 0 (start release) and keep set bit 4 (triangle wave)
-76 rem immediately starts releasing from our sustain volume, so zero A/D/S.
 80 poke sid + 4, 16
+82 rem immediately starts releasing from our sustain volume, so zero A/D/S.
+84 rem remove line 80 for a constant tone.
+
 
 
 00 rem my first demo. changing volume gives a click
