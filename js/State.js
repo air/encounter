@@ -23,7 +23,7 @@ State.init = function()
   Attract.init();
   Overlay.init();
   Ground.init();
-  Grid.init();
+  Grid.init();  // depends on Ground.init
   Player.init();
   Missile.init();
   Saucer.init();

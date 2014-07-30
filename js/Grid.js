@@ -43,6 +43,9 @@ Grid.init = function()
 
   Grid.mesh = new THREE.Mesh(Grid.geometry, Obelisk.MATERIAL);
 
+  // attach the Ground to the Grid as a child; translations will be inherited
+  Grid.mesh.add(Ground);
+
   Grid.addToScene();
 };
 
@@ -85,8 +88,9 @@ Grid.randomLocationCloseToPoint = function(point, maxDistance)
   return location;
 };
 
-// when the player moves close to the edge of the grid, translate it seamlessly.
-// reminder, the Grid.mesh has a .position which is bottom left (0,0) in X,Z terms. 
+// When the player moves close to the edge of the grid, translate it seamlessly.
+// Child objects (Ground plane) will inherit translations.
+// Reminder, the Grid.mesh is anchored at its bottom left (0,0) in X,Z terms. 
 Grid.update = function()
 {
   // TODO rework MAX_X? What does it mean now?

@@ -1,5 +1,7 @@
 # TODO
 
+  - fix 'edge of the world'. Don't mess with objective coords. Just reposition cosmetic obelisks when needed.
+    - check debug lines in Shot
   - ground and obelisk colors
     - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
   - reverse encounter memory
@@ -16,7 +18,6 @@
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
-  - fix 'edge of the world'. Don't mess with objective coords. Just reposition cosmetic obelisks when needed.
   - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - add original super-cool exit from warp effect
   - further original UFO types
@@ -60,3 +61,7 @@
 
   - How I measured the Encounter constants
   - How we figured out the colour cycle per frame. Holding up a palette image against the paused emulator. From the old review of Dragon Breed, 'that colour doesn't exist on the C64, swapping at 60 fps'. Sort of mentioned in http://www.c64.com/interviews/routledge.html. Looking at youtube they achieved a six-segment dragon tail by showing alternating segments on odd frames. Much flickering.
+  - Edge of world
+    - Translate must just be SPACING. Grid is perfectly translatable by those intervals.
+    - Attach Ground to Grid!
+    - Now grid is mobile and vars defining 'edge of world' must be refactored.

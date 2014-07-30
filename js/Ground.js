@@ -24,7 +24,7 @@ Ground.init = function()
   // zero Y is ground
   Ground.position.y = 0;
 
-  Ground.addToScene();
+  // we do NOT add the Ground to the scene; it's a child Object3D of the Grid, which will manage translations.
 };
 
 Ground.addToScene = function()
