@@ -62,6 +62,7 @@
   - How I measured the Encounter constants
   - How we figured out the colour cycle per frame. Holding up a palette image against the paused emulator. From the old review of Dragon Breed, 'that colour doesn't exist on the C64, swapping at 60 fps'. Sort of mentioned in http://www.c64.com/interviews/routledge.html. Looking at youtube they achieved a six-segment dragon tail by showing alternating segments on odd frames. Much flickering.
   - Edge of world
+    - Remove all obelisk state as objects. They are just modulo points in an infinite grid. They must be identical and they must be in an identically-spaced grid for this approach to work.
     - Translate must just be SPACING. Grid is perfectly translatable by those intervals.
     - Attach Ground to Grid!
     - Now grid is mobile and vars defining 'edge of world' must be refactored.
