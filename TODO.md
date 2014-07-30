@@ -1,12 +1,11 @@
 # TODO
 
-  - bug in grid after warp reset
   - automatically set grid size based on FAR draw distance
   - Radar: option to show obelisks (can all be done locally)
-  - horizon is no longer a flat line
-  - ground and obelisk colors
+  - bug: horizon is no longer a flat line
+  - alternative ground and obelisk colors
     - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
-  - reverse encounter memory
+  - reverse-engineer encounter memory
     - look for writing to the SID locations
     - look for reads from the sound data locations
   - sound: C64 oscillator doesn't have SINE, must be sawtooth or triangle
