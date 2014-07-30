@@ -3,15 +3,15 @@
 var Grid = {};
 
 // the Grid is:
+// - sized depending on camera.far (set in Encounter.js, see Encounter.DRAW_DISTANCE)
 // - a single mesh of NxN obelisks
+// - always a square, big enough to contain a circle of radius camera.far
 // - parent to the Ground plane
 // - a viewport of fixed size on an infinite grid, snapped to Grid.SPACING
 
-Grid.SIZE_X = 4;
-Grid.SIZE_Z = 4;
 Grid.SPACING = 1000;
-Grid.SIDE_X = (Grid.SIZE_X - 1) * Grid.SPACING;
-Grid.SIDE_Z = (Grid.SIZE_Z - 1) * Grid.SPACING;
+Grid.SIZE_SQUARE = null;        // need camera draw distance before we can calculate this
+Grid.OBELISKS_PER_SIDE = null;  // need camera draw distance before we can calculate this
 
 // state
 Grid.viewport = null;
@@ -23,15 +23,24 @@ Grid.isActive = true;
 
 Grid.init = function()
 {
-  Grid.viewport = new THREE.Box2(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIDE_X, Grid.SIDE_Z));
+  Grid.SIZE_SQUARE = 3000;        // need camera draw distance before we can calculate this
+  Grid.OBELISKS_PER_SIDE = 4;  // need camera draw distance before we can calculate this
+
+  // see how many intervals we need to cover 2x draw distance, round that up, multiply back to absolute size
+  // Grid.SIZE_SQUARE = Math.ceil((camera.far * 2) / Grid.SPACING) * Grid.SPACING;
+  log('draw distance is ' + camera.far + 'so the grid viewport is a square of side ' + Grid.SIZE_SQUARE);
+
+  // Grid.OBELISKS_PER_SIDE = (Grid.SIZE_SQUARE / Grid.SPACING) + 1;
+
+  Grid.viewport = new THREE.Box2(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIZE_SQUARE, Grid.SIZE_SQUARE));
 
   Grid.geometry = new THREE.Geometry();
   var obeliskMesh = Obelisk.newMeshInstance(); // just need one of these as a cookie cutter
 
   // one-time loop to set up geometry
-  for (var rowIndex = 0; rowIndex < Grid.SIZE_Z; rowIndex++)
+  for (var rowIndex = 0; rowIndex < Grid.OBELISKS_PER_SIDE; rowIndex++)
   {
-    for (var colIndex = 0; colIndex < Grid.SIZE_X; colIndex++)
+    for (var colIndex = 0; colIndex < Grid.OBELISKS_PER_SIDE; colIndex++)
     {
       var xPos = colIndex * Grid.SPACING;
       var zPos = rowIndex * Grid.SPACING;
@@ -43,10 +52,7 @@ Grid.init = function()
 
   Grid.mesh = new THREE.Mesh(Grid.geometry, Obelisk.MATERIAL);
 
-  // attach the Ground to the Grid as a child; translations will be inherited
-  Grid.mesh.add(Ground);
-
-  Grid.addToScene();
+  // the final bit of setup for parent/child is delegated to Ground.init(), some unlovely coupling
 };
 
 Grid.addToScene = function()
@@ -92,7 +98,7 @@ Grid.randomLocationCloseToPoint = function(point, maxDistance)
 
 Grid.reset = function()
 {
-  Grid.viewport.set(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIDE_X, Grid.SIDE_Z));
+  Grid.viewport.set(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIZE_SQUARE, Grid.SIZE_SQUARE));
   Grid.mesh.position.x = Grid.viewport.min.x;
   Grid.mesh.position.z = Grid.viewport.min.y; // note that Y in the Vector2 represents Z
 };

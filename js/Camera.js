@@ -38,7 +38,7 @@ Camera.init = function()
   //State.actors.push(Camera);
 
   // put ortho camera in the centre
-  Camera.orthoCamera.position.set(Grid.SIDE_X / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.SIDE_Z / 2);
+  Camera.orthoCamera.position.set(Grid.SIZE_SQUARE / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.SIZE_SQUARE / 2);
   // look down
   Camera.orthoCamera.rotateOnAxis(MY3.X_AXIS, -90 * UTIL.TO_RADIANS);
 }

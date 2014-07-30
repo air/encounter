@@ -24,10 +24,13 @@ Player.init = function()
 
 Player.reset = function()
 {
-  Player.position.set(Grid.SIDE_X / 2, Encounter.CAMERA_HEIGHT, Grid.SIDE_Z / 2); // slight hack to use SIDE for initial centring
+  Player.position.set(Grid.SIZE_SQUARE / 2, Encounter.CAMERA_HEIGHT, Grid.SIZE_SQUARE / 2);
+
   Player.rotation.x = 0;
   Player.rotation.y = Encounter.PLAYER_INITIAL_ROTATION;
   Player.rotation.z = 0;
+
+  log('reset player: position ' + Player.position.x + ', ' + Player.position.y + ', ' + Player.position.z + ' and rotation.y ' + Player.rotation.y);
 
   Player.shotsInFlight = 0;
   Player.lastTimeFired = 0;

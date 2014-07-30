@@ -1,6 +1,5 @@
 # TODO
 
-  - automatically set grid size based on FAR draw distance
   - Radar: option to show obelisks (can all be done locally)
   - bug: horizon is no longer a flat line
   - alternative ground and obelisk colors

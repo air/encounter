@@ -5,12 +5,14 @@ var Ground = new THREE.Mesh(); // initially a default mesh, we'll define this in
 // ground plane. Lots of segments will KILL your fps
 Ground.X_SEGMENTS = 1;
 Ground.Z_SEGMENTS = 1;
-Ground.GEOMETRY = new THREE.PlaneGeometry(Grid.SIDE_X, Grid.SIDE_Z, Ground.X_SEGMENTS, Ground.Z_SEGMENTS);
+Ground.GEOMETRY = null; // can't create until we know the Grid size, which is based on draw distance
 
 Ground.MATERIAL = new THREE.MeshBasicMaterial({ color : C64.green });
 
 Ground.init = function()
 {
+  Ground.GEOMETRY = new THREE.PlaneGeometry(Grid.SIZE_SQUARE, Grid.SIZE_SQUARE, Ground.X_SEGMENTS, Ground.Z_SEGMENTS);
+
   // actually set up this Mesh using our materials
   THREE.Mesh.call(Ground, Ground.GEOMETRY, Ground.MATERIAL); 
   
@@ -18,11 +20,13 @@ Ground.init = function()
   Ground.rotation.x = -90 * UTIL.TO_RADIANS;
 
   // plane is anchored at its centre
-  Ground.position.x = Grid.SIDE_X / 2;
-  Ground.position.z = Grid.SIDE_Z / 2;
+  Ground.position.x = Grid.SIZE_SQUARE / 2;
+  Ground.position.z = Grid.SIZE_SQUARE / 2;
 
   // zero Y is ground
   Ground.position.y = 0;
 
-  // we do NOT add the Ground to the scene; it's a child Object3D of the Grid, which will manage translations.
+  // Ground is a child Object3D of the Grid. All movement and on/off are handled in the Grid API.
+  Grid.mesh.add(Ground);
+  Grid.addToScene();
 };

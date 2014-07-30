@@ -19,11 +19,11 @@ State.isPaused = false;
 // called once at startup. Go into our first state
 State.init = function()
 {
-  Sound.init();
   Attract.init();
-  Overlay.init();
+  Grid.init();  // reads the camera draw distance and sizes the Grid.viewport
   Ground.init();
-  Grid.init();  // depends on Ground.init
+  Sound.init();
+  Overlay.init();
   Player.init();
   Missile.init();
   Saucer.init();
