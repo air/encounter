@@ -1,5 +1,6 @@
 # TODO
 
+  - what's the right threshold to translate grid? Do we need more space in the grid to avoid popin?
   - Radar: option to show obelisks (can all be done locally)
   - bug: horizon is no longer a flat line
   - alternative ground and obelisk colors

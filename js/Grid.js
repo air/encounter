@@ -23,12 +23,12 @@ Grid.isActive = true;
 
 Grid.init = function()
 {
-  Grid.SIZE_SQUARE = 3000;        // need camera draw distance before we can calculate this
-  Grid.OBELISKS_PER_SIDE = 4;  // need camera draw distance before we can calculate this
+  Grid.SIZE_SQUARE = 18000;        // need camera draw distance before we can calculate this
+  Grid.OBELISKS_PER_SIDE = 19;  // need camera draw distance before we can calculate this
 
   // see how many intervals we need to cover 2x draw distance, round that up, multiply back to absolute size
   // Grid.SIZE_SQUARE = Math.ceil((camera.far * 2) / Grid.SPACING) * Grid.SPACING;
-  log('draw distance is ' + camera.far + 'so the grid viewport is a square of side ' + Grid.SIZE_SQUARE);
+  log('draw distance is ' + camera.far + ' so the grid viewport is a square of side ' + Grid.SIZE_SQUARE);
 
   // Grid.OBELISKS_PER_SIDE = (Grid.SIZE_SQUARE / Grid.SPACING) + 1;
 
@@ -65,6 +65,18 @@ Grid.removeFromScene = function()
 {
   scene.remove(Grid.mesh);
   Grid.isActive = false;
+};
+
+// start in the viewport centre or offset to avoid a collision if OBELISKS_PER_SIDE is even
+Grid.playerStartLocation = function()
+{
+  var position = new THREE.Vector3(Grid.SIZE_SQUARE / 2, Encounter.CAMERA_HEIGHT, Grid.SIZE_SQUARE / 2);
+  if (Physics.isCloseToAnObelisk(position, Player.RADIUS))
+  {
+    position.x += Grid.SPACING / 2;
+    position.z += Grid.SPACING / 2; 
+  }
+  return position;
 };
 
 // returns a Vector3 with X,Z *somewhere in the viewport* and Y=0

@@ -24,7 +24,7 @@ Player.init = function()
 
 Player.reset = function()
 {
-  Player.position.set(Grid.SIZE_SQUARE / 2, Encounter.CAMERA_HEIGHT, Grid.SIZE_SQUARE / 2);
+  Player.position.copy(Grid.playerStartLocation());
 
   Player.rotation.x = 0;
   Player.rotation.y = Encounter.PLAYER_INITIAL_ROTATION;
