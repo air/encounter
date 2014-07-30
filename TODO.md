@@ -1,6 +1,5 @@
 # TODO
 
-  - what's the right threshold to translate grid? Do we need more space in the grid to avoid popin?
   - Radar: option to show obelisks (can all be done locally)
   - bug: horizon is no longer a flat line
   - alternative ground and obelisk colors
@@ -66,3 +65,6 @@
     - Translate must just be SPACING. Grid is perfectly translatable by those intervals.
     - Attach Ground to Grid!
     - Now grid is mobile and vars defining 'edge of world' must be refactored.
+    - define the size of our grid based on view distance
+    - what threshold do we use? as soon as we cross the first line
+    - does this change the grid size needed?

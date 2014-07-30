@@ -10,8 +10,10 @@ var Grid = {};
 // - a viewport of fixed size on an infinite grid, snapped to Grid.SPACING
 
 Grid.SPACING = 1000;
-Grid.SIZE_SQUARE = null;        // need camera draw distance before we can calculate this
-Grid.OBELISKS_PER_SIDE = null;  // need camera draw distance before we can calculate this
+// need camera draw distance before we can calculate these:
+Grid.SIZE_SQUARE = null;  // how big the viewport is
+Grid.OBELISKS_PER_SIDE = null;
+Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE = null; // get this close to the viewport edge and we move the grid
 
 // state
 Grid.viewport = null;
@@ -23,14 +25,7 @@ Grid.isActive = true;
 
 Grid.init = function()
 {
-  Grid.SIZE_SQUARE = 18000;        // need camera draw distance before we can calculate this
-  Grid.OBELISKS_PER_SIDE = 19;  // need camera draw distance before we can calculate this
-
-  // see how many intervals we need to cover 2x draw distance, round that up, multiply back to absolute size
-  // Grid.SIZE_SQUARE = Math.ceil((camera.far * 2) / Grid.SPACING) * Grid.SPACING;
-  log('draw distance is ' + camera.far + ' so the grid viewport is a square of side ' + Grid.SIZE_SQUARE);
-
-  // Grid.OBELISKS_PER_SIDE = (Grid.SIZE_SQUARE / Grid.SPACING) + 1;
+  Grid.calculateConstants();
 
   Grid.viewport = new THREE.Box2(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIZE_SQUARE, Grid.SIZE_SQUARE));
 
@@ -53,6 +48,33 @@ Grid.init = function()
   Grid.mesh = new THREE.Mesh(Grid.geometry, Obelisk.MATERIAL);
 
   // the final bit of setup for parent/child is delegated to Ground.init(), some unlovely coupling
+};
+
+Grid.calculateConstants = function()
+{
+  // 1. Size the grid.
+  // see how many SPACING intervals we need to cover 2x the draw distance, round that up, and multiply back to absolute size
+  Grid.SIZE_SQUARE = Math.ceil((camera.far * 2) / Grid.SPACING) * Grid.SPACING;
+  log('draw distance is ' + camera.far + ' so the grid viewport is a square of side ' + Grid.SIZE_SQUARE);
+
+  // 2. How many obelisks on a side?
+  Grid.OBELISKS_PER_SIDE = (Grid.SIZE_SQUARE / Grid.SPACING) + 1;
+
+  // 3. How close to the edge do we trigger a grid move?
+  var midPoint = Grid.SIZE_SQUARE / 2;
+  if ((Grid.OBELISKS_PER_SIDE % 2) === 0)
+  {
+    // For even-sized grids the midpoint will always be between two lines.
+    // Trigger on the first line between the midpoint and the edge
+    Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE = midPoint - (Grid.SPACING / 2);
+  }
+  else
+  {
+    // For odd-sized grids, the midpoint will be directly on a line of obelisks.
+    // Trigger on the next lines over on either side.
+    Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE = midPoint - Grid.SPACING;
+  }
+  log('trigger distance from viewport edge is ' + Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE);
 };
 
 Grid.addToScene = function()
@@ -121,10 +143,11 @@ Grid.reset = function()
 Grid.update = function()
 {
   // define a threshold that will trigger when the player crosses it
-  var maxThresholdX = Grid.viewport.max.x - Grid.SPACING;
-  var maxThresholdZ = Grid.viewport.max.y - Grid.SPACING;   // note that Y in the Vector2 represents Z
-  var minThresholdX = Grid.viewport.min.x + Grid.SPACING;
-  var minThresholdZ = Grid.viewport.min.y + Grid.SPACING;   // note that Y in the Vector2 represents Z
+  // TODO could use another bounding box with contains() to make this tidier 
+  var maxThresholdX = Grid.viewport.max.x - Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;
+  var maxThresholdZ = Grid.viewport.max.y - Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;
+  var minThresholdX = Grid.viewport.min.x + Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;
+  var minThresholdZ = Grid.viewport.min.y + Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;
 
   if (Player.position.x > maxThresholdX)
   {
