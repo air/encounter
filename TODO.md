@@ -1,9 +1,9 @@
 # TODO
 
-  - fix 'edge of the world'. Don't mess with objective coords. Just reposition cosmetic obelisks when needed.
-    - check debug lines in Shot
-    - eliminate Obelisk object state
+  - bug in grid after warp reset
+  - automatically set grid size based on FAR draw distance
   - Radar: option to show obelisks (can all be done locally)
+  - horizon is no longer a flat line
   - ground and obelisk colors
     - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
   - reverse encounter memory

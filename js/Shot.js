@@ -21,14 +21,8 @@ Shot.FLICKER_FRAMES = 3;  // when flickering, show each colour for this many fra
 Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, material, alternatingMaterial)
 {
   var newShot = new THREE.Mesh(Shot.GEOMETRY, material);
-  if (shooterObject === Player)
-  {
-    newShot.shotType = Shot.TYPE_PLAYER;
-  }
-  else
-  {
-    newShot.shotType = Shot.TYPE_ENEMY;
-  }
+
+  newShot.shotType = (shooterObject === Player ? Shot.TYPE_PLAYER : Shot.TYPE_ENEMY);
 
   // set up a flickering shot
   if (typeof alternatingMaterial !== 'undefined')
@@ -46,8 +40,6 @@ Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, mat
   newShot.translateZ(-Shot.OFFSET_FROM_SHOOTER);
 
   newShot.hasTravelled = 0;
-  // for debug only
-  newShot.closeObeliskIndex = new THREE.Vector2(0,0); // not actually true at init time
 
   newShot.update = function(timeDeltaMillis) {
     // update alternating materials
@@ -80,7 +72,7 @@ Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, mat
   };
 
   return newShot;
-}
+};
 
 Shot.collideWithObelisks = function(shot)
 {
@@ -97,26 +89,7 @@ Shot.collideWithObelisks = function(shot)
       Sound.shotBounce();
     }
   }
-
-  // draw some informational lines if we're in debug mode
-  if (Physics.debug)
-  {
-    // always need to know the closest for drawing the debug line
-    shot.closeObeliskIndex = Physics.getClosestObelisk(shot.position);
-
-    // kill old line and add a new one
-    scene.remove(shot.line);
-    scene.remove(shot.pointer);
-
-    // get the obelisk object itself to read its position
-    var obelisk = Grid.rows[shot.closeObeliskIndex.y][shot.closeObeliskIndex.x];
-    shot.line = new MY3.Line(shot.position, obelisk.position);
-    
-    shot.pointer = new MY3.Pointer(shot.position, MY3.objectRotationAsUnitVector(shot), 200);
-    scene.add(shot.line);
-    scene.add(shot.pointer);
-  }
-}
+};
 
 Shot.collideWithShips = function(shot)
 {
@@ -132,23 +105,16 @@ Shot.collideWithShips = function(shot)
     // remove the shot
     Shot.cleanUpDeadShot(shot);
   }
-}
+};
 
 // for use with Array.every()
 Shot.isNotEnemyShot = function(element, index, array)
 {
   return element.shotType !== Shot.TYPE_ENEMY;
-}
+};
 
 Shot.cleanUpDeadShot = function(shot)
 {
-  // clean up debug lines
-  if (Physics.debug)
-  {
-    scene.remove(shot.line);
-    scene.remove(shot.pointer);
-  }
-
   State.actorIsDead(shot);
 
   if (shot.shotType === Shot.TYPE_PLAYER)
@@ -162,4 +128,4 @@ Shot.cleanUpDeadShot = function(shot)
       Indicators.setBlue(false);
     }
   }
-}
+};
