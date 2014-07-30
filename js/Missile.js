@@ -71,12 +71,12 @@ Missile.update = function(timeDeltaMillis)
     if (Physics.isCloseToAnObelisk(Missile.position, Missile.RADIUS))
     {
       // check for precise collision
-      var obelisk = Physics.getCollidingObelisk(Missile.position, Missile.RADIUS);
+      var collidePosition = Physics.isCollidingWithObelisk(Missile.position, Missile.RADIUS);
       // if we get a return there is work to do
-      if (typeof obelisk !== "undefined")
+      if (typeof collidePosition !== "undefined")
       {
         // we have a collision, move the Enemy out but don't change the rotation
-        Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Missile.position, Missile.RADIUS);
+        Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, Missile.position, Missile.RADIUS);
         Sound.playerCollideObelisk();
       }
     }

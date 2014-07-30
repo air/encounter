@@ -2,15 +2,19 @@
 
 var Grid = {};
 
+// the Grid is:
+// - a single mesh of NxN obelisks
+// - parent to the Ground plane
+// - a viewport of fixed size on an infinite grid, snapped to Grid.SPACING
+
 Grid.SIZE_X = 4;
 Grid.SIZE_Z = 4;
 Grid.SPACING = 1000;
-// 'MAX' = the furthest extent in these directions
-Grid.MAX_X = (Grid.SIZE_X - 1) * Grid.SPACING;
-Grid.MAX_Z = (Grid.SIZE_Z - 1) * Grid.SPACING;
+Grid.SIDE_X = (Grid.SIZE_X - 1) * Grid.SPACING;
+Grid.SIDE_Z = (Grid.SIZE_Z - 1) * Grid.SPACING;
 
 // state
-Grid.rows = []; // each row is an X line of Grid.SIZE_X Obelisks
+Grid.viewport = null;
 Grid.geometry = null; // we're going to merge all objects into a single Geometry
 Grid.mesh = null;
 
@@ -19,26 +23,22 @@ Grid.isActive = true;
 
 Grid.init = function()
 {
+  Grid.viewport = new THREE.Box2(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIDE_X, Grid.SIDE_Z));
+
   Grid.geometry = new THREE.Geometry();
   var obeliskMesh = Obelisk.newMeshInstance(); // just need one of these as a cookie cutter
 
-  // one-time loop to create objects
+  // one-time loop to set up geometry
   for (var rowIndex = 0; rowIndex < Grid.SIZE_Z; rowIndex++)
   {
-    var row = [];
     for (var colIndex = 0; colIndex < Grid.SIZE_X; colIndex++)
     {
-      var xpos = colIndex * Grid.SPACING;
-      var zpos = rowIndex * Grid.SPACING;
-      var obelisk = Obelisk.newInstance();
-      obelisk.position.set(xpos, Obelisk.HEIGHT / 2, zpos);
-      row.push(obelisk);
-
+      var xPos = colIndex * Grid.SPACING;
+      var zPos = rowIndex * Grid.SPACING;
       // update the template mesh and merge it into Grid
-      obeliskMesh.position.copy(obelisk.position);
+      obeliskMesh.position = new THREE.Vector3(xPos, Obelisk.HEIGHT / 2, zPos);
       THREE.GeometryUtils.merge(Grid.geometry, obeliskMesh);
     }
-    Grid.rows[rowIndex] = row;
   }
 
   Grid.mesh = new THREE.Mesh(Grid.geometry, Obelisk.MATERIAL);
@@ -61,10 +61,12 @@ Grid.removeFromScene = function()
   Grid.isActive = false;
 };
 
-// returns a Vector3
+// returns a Vector3 with X,Z *somewhere in the viewport* and Y=0
 Grid.randomLocation = function()
 {
-  return new THREE.Vector3(UTIL.random(0, Grid.MAX_X), 0, UTIL.random(0, Grid.MAX_Z));
+  var x = UTIL.random(Grid.viewport.min.x, Grid.viewport.max.x);
+  var z = UTIL.random(Grid.viewport.min.y, Grid.viewport.max.y);
+  return new THREE.Vector3(x, 0, z);
 };
 
 // returns a Vector3
@@ -88,35 +90,41 @@ Grid.randomLocationCloseToPoint = function(point, maxDistance)
   return location;
 };
 
+Grid.reset = function()
+{
+  // TODO
+};
+
 // When the player moves close to the edge of the grid, translate it seamlessly.
 // Child objects (Ground plane) will inherit translations.
 // Reminder, the Grid.mesh is anchored at its bottom left (0,0) in X,Z terms. 
 Grid.update = function()
 {
-  // TODO rework MAX_X? What does it mean now?
-  var furthestGridExtentX = Grid.mesh.position.x + ((Grid.SIZE_X - 1) * Grid.SPACING);
-  var furthestGridExtentZ = Grid.mesh.position.z + ((Grid.SIZE_Z - 1) * Grid.SPACING);
   // define a threshold that will trigger when the player crosses it
-  var maxThresholdX = furthestGridExtentX - Grid.SPACING;
-  var maxThresholdZ = furthestGridExtentZ - Grid.SPACING;
-  var minThresholdX = Grid.mesh.position.x + Grid.SPACING;
-  var minThresholdZ = Grid.mesh.position.z + Grid.SPACING;
+  var maxThresholdX = Grid.viewport.max.x - Grid.SPACING;
+  var maxThresholdZ = Grid.viewport.max.y - Grid.SPACING;   // note that Y in the Vector2 represents Z
+  var minThresholdX = Grid.viewport.min.x + Grid.SPACING;
+  var minThresholdZ = Grid.viewport.min.y + Grid.SPACING;   // note that Y in the Vector2 represents Z
 
   if (Player.position.x > maxThresholdX)
   {
-    Grid.mesh.translateX(Grid.SPACING);
+    Grid.viewport.translate(new THREE.Vector2(Grid.SPACING, 0));
   }
   else if (Player.position.x < minThresholdX)
   {
-    Grid.mesh.translateX(-Grid.SPACING);
+    Grid.viewport.translate(new THREE.Vector2(-Grid.SPACING, 0));
   }
+  // move the mesh to match the viewport
+  Grid.mesh.position.x = Grid.viewport.min.x;
 
   if (Player.position.z > maxThresholdZ)
   {
-    Grid.mesh.translateZ(Grid.SPACING);
+    Grid.viewport.translate(new THREE.Vector2(0, Grid.SPACING));
   }
   else if (Player.position.z < minThresholdZ)
   {
-    Grid.mesh.translateZ(-Grid.SPACING);
+    Grid.viewport.translate(new THREE.Vector2(0, -Grid.SPACING));
   }
+  // move the mesh to match the viewport
+  Grid.mesh.position.z = Grid.viewport.min.y; // note that Y in the Vector2 represents Z
 };

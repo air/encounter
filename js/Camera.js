@@ -1,6 +1,9 @@
 'use strict';
 
 // FIXME Camera and camera is confusing
+
+// TODO TOP_DOWN is untested after we went to an infinite playfield, likely broken
+
 var Camera = {};
 
 Camera.MODE_FIRST_PERSON = 'first person';
@@ -35,7 +38,7 @@ Camera.init = function()
   //State.actors.push(Camera);
 
   // put ortho camera in the centre
-  Camera.orthoCamera.position.set(Grid.MAX_X / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.MAX_Z / 2);
+  Camera.orthoCamera.position.set(Grid.SIDE_X / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.SIDE_Z / 2);
   // look down
   Camera.orthoCamera.rotateOnAxis(MY3.X_AXIS, -90 * UTIL.TO_RADIANS);
 }

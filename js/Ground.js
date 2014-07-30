@@ -5,7 +5,7 @@ var Ground = new THREE.Mesh(); // initially a default mesh, we'll define this in
 // ground plane. Lots of segments will KILL your fps
 Ground.X_SEGMENTS = 1;
 Ground.Z_SEGMENTS = 1;
-Ground.GEOMETRY = new THREE.PlaneGeometry(Grid.MAX_X, Grid.MAX_Z, Ground.X_SEGMENTS, Ground.Z_SEGMENTS);
+Ground.GEOMETRY = new THREE.PlaneGeometry(Grid.SIDE_X, Grid.SIDE_Z, Ground.X_SEGMENTS, Ground.Z_SEGMENTS);
 
 Ground.MATERIAL = new THREE.MeshBasicMaterial({ color : C64.green });
 
@@ -18,8 +18,8 @@ Ground.init = function()
   Ground.rotation.x = -90 * UTIL.TO_RADIANS;
 
   // plane is anchored at its centre
-  Ground.position.x = Grid.MAX_X / 2;
-  Ground.position.z = Grid.MAX_Z / 2;
+  Ground.position.x = Grid.SIDE_X / 2;
+  Ground.position.z = Grid.SIDE_Z / 2;
 
   // zero Y is ground
   Ground.position.y = 0;

@@ -152,12 +152,12 @@ Saucer.updateMoving = function(timeDeltaMillis)
     if (Physics.isCloseToAnObelisk(this.position, Saucer.RADIUS))
     {
       // check for precise collision
-      var obelisk = Physics.getCollidingObelisk(this.position, Saucer.RADIUS);
+      var collidePosition = Physics.isCollidingWithObelisk(this.position, Saucer.RADIUS);
       // if we get a return there is work to do
-      if (typeof obelisk !== "undefined")
+      if (typeof collidePosition !== "undefined")
       {
         // we have a collision, move the Saucer out but don't change the rotation
-        Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, this.position, Saucer.RADIUS);
+        Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, this.position, Saucer.RADIUS);
         Sound.playerCollideObelisk();
       }
     }

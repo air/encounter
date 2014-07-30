@@ -62,16 +62,7 @@ Radar.blip = function(x, z)
   Radar.canvasContext.fillRect(x - Radar.BLIP_RADIUS, z - Radar.BLIP_RADIUS, Radar.BLIP_RADIUS * 2, Radar.BLIP_RADIUS * 2);  
 }
 
-// TODO try THREE.Math.mapLinear?
-// This will scale the radar to show the entire Grid.
-Radar.translatePosition = function(worldx, worldz)
-{
-  var x = (worldx / Grid.MAX_X) * Radar.RESOLUTION_X;
-  var z = (worldz / Grid.MAX_Z) * Radar.RESOLUTION_Z;
-  return new THREE.Vector2(x, z);
-}
-
-// This limits the radar to only showing Radar.RANGE.
+// This limits the radar to only showing Radar.RANGE
 Radar.translatePositionByRange = function(xPos, zPos)
 {
   var x = (xPos / Radar.RANGE) * Radar.RESOLUTION_X;

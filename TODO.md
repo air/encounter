@@ -2,6 +2,8 @@
 
   - fix 'edge of the world'. Don't mess with objective coords. Just reposition cosmetic obelisks when needed.
     - check debug lines in Shot
+    - eliminate Obelisk object state
+  - Radar: option to show obelisks (can all be done locally)
   - ground and obelisk colors
     - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
   - reverse encounter memory

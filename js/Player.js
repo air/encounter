@@ -24,7 +24,7 @@ Player.init = function()
 
 Player.reset = function()
 {
-  Player.position.set(Grid.MAX_X / 2, Encounter.CAMERA_HEIGHT, Grid.MAX_Z / 2);
+  Player.position.set(Grid.SIDE_X / 2, Encounter.CAMERA_HEIGHT, Grid.SIDE_Z / 2); // slight hack to use SIDE for initial centring
   Player.rotation.x = 0;
   Player.rotation.y = Encounter.PLAYER_INITIAL_ROTATION;
   Player.rotation.z = 0;
@@ -40,12 +40,12 @@ Player.update = function()
   if (Grid.isActive && Physics.isCloseToAnObelisk(Player.position, Player.RADIUS))
   {
     // check for precise collision
-    var obelisk = Physics.getCollidingObelisk(Player.position, Player.RADIUS);
+    var collidePosition = Physics.isCollidingWithObelisk(Player.position, Player.RADIUS);
     // if we get a return there is work to do
-    if (typeof obelisk !== "undefined")
+    if (typeof collidePosition !== "undefined")
     {
       // we have a collision, move the player out but don't change the rotation
-      Physics.moveCircleOutOfStaticCircle(obelisk.position, Obelisk.RADIUS, Player.position, Player.RADIUS);
+      Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, Player.position, Player.RADIUS);
       Sound.playerCollideObelisk();
     }
   }

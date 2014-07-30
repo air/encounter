@@ -88,12 +88,12 @@ Shot.collideWithObelisks = function(shot)
   if (Physics.isCloseToAnObelisk(shot.position, Shot.RADIUS))
   {
     // check for precise collision
-    var obelisk = Physics.getCollidingObelisk(shot.position, Shot.RADIUS);
+    var collidePosition = Physics.isCollidingWithObelisk(shot.position, Shot.RADIUS);
     // if we get a return value we have work to do
-    if (typeof obelisk !== "undefined")
+    if (typeof collidePosition !== "undefined")
     {
       // we have a collision, bounce
-      Physics.bounceObjectOutOfIntersectingCircle(obelisk.position, Obelisk.RADIUS, shot, Shot.RADIUS);
+      Physics.bounceObjectOutOfIntersectingCircle(collidePosition, Obelisk.RADIUS, shot, Shot.RADIUS);
       Sound.shotBounce();
     }
   }

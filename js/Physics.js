@@ -18,9 +18,6 @@ if (typeof require === 'function') // test for nodejs environment
 Physics.isCloseToAnObelisk = function(position, radius)
 {
   if (typeof radius === "undefined") throw('required: radius');
-  // special case for out of bounds
-  if (position.x > Grid.MAX_X || position.x < 0) return false;
-  if (position.z > Grid.MAX_Z || position.z < 0) return false;
   // special case for too high (fly mode only)
   if (position.y > (Obelisk.HEIGHT + radius)) return false;
   // special case for too low (fly mode only)
@@ -39,40 +36,23 @@ Physics.isCloseToAnObelisk = function(position, radius)
   return true;
 }
 
-// pass a Vector3, return a Vector2
-Physics.getClosestObelisk = function(position)
-{
-  var xPos = Math.round(position.x / Grid.SPACING);
-  xPos = THREE.Math.clamp(xPos, 0, Grid.SIZE_X-1);
-
-  var zPos = Math.round(position.z / Grid.SPACING);
-  zPos = THREE.Math.clamp(zPos, 0, Grid.SIZE_Z-1);
-
-  return new THREE.Vector2(xPos, zPos);
-};
-
-// pass in a Vector3 and radius that might be colliding with an Obelisk.
-// Y axis is ignored.
-// Performs 2D circle intersection check. Returns the colliding Obelisk object, or undefined if not colliding.
-Physics.getCollidingObelisk = function(position, radius)
+// Pass in a Vector3 (Y is ignored!) and radius that might be colliding with an Obelisk. Performs 2D circle intersection check.
+// Returns a Vector3 position for a colliding Obelisk, or undefined if not colliding.
+Physics.isCollidingWithObelisk = function(position, radius)
 {
   // collision overlap must exceed a small epsilon so we don't count rounding errors
   var COLLISION_EPSILON = 0.01;
 
-  // ignore the Y position
-  var position2d = new THREE.Vector2(position.x, position.z);
-
-  // now the obelisk. First the grid index as a Vector2
-  var obPosition = this.getClosestObelisk(position, radius);
-  // then the object
-  var obeliskObject = Grid.rows[obPosition.y][obPosition.x];
-  // then the 2D component
-  var obelisk2d = new THREE.Vector2(obeliskObject.position.x, obeliskObject.position.z);
+  // Get the position of the closest obelisk: divide X into grid intervals, round, then multiply back to absolute position
+  var closestObeliskX = Math.round(position.x / Grid.SPACING) * Grid.SPACING;
+  var closestObeliskZ = Math.round(position.z / Grid.SPACING) * Grid.SPACING;
+  // assume obelisk is on the same Y plane as the given position, so we get a pure 2D distance
+  var obeliskPosition = new THREE.Vector3(closestObeliskX, position.y, closestObeliskZ);
 
   var collisionThreshold = Obelisk.RADIUS + radius - COLLISION_EPSILON; // centres must be this close together to touch
-  if (obelisk2d.distanceTo(position2d) < collisionThreshold)
+  if (obeliskPosition.distanceTo(position) < collisionThreshold)
   {
-    return obeliskObject;
+    return obeliskPosition;
   }
   else
   {
@@ -131,7 +111,7 @@ Physics.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, moving
   var distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
   // if intersecting, this should be negative
   if (distanceBetweenEdges >= 0) {
-    throw('no separation needed. Static ' + staticPoint + ' radius ' + staticRadius + ', moving ' + movingPoint + ' radius ' + movingRadius);
+    throw('no separation needed. Static ' + staticPoint.x + ',' + staticPoint.z + ' radius ' + staticRadius + ', moving ' + movingPoint.x + ',' + movingPoint.z + ' radius ' + movingRadius);
   }
 
   var moveDistance = -distanceBetweenEdges; // moving circle must go this far directly away from static

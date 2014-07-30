@@ -52,6 +52,7 @@ State.initLevel = function()
   Camera.useFirstPersonMode();
   Controls.useEncounterControls();
   Player.reset();
+  Grid.reset();
   Enemy.reset();
   Indicators.reset();
   State.resetActors();
