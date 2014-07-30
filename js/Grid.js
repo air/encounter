@@ -92,7 +92,9 @@ Grid.randomLocationCloseToPoint = function(point, maxDistance)
 
 Grid.reset = function()
 {
-  // TODO
+  Grid.viewport.set(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIDE_X, Grid.SIDE_Z));
+  Grid.mesh.position.x = Grid.viewport.min.x;
+  Grid.mesh.position.z = Grid.viewport.min.y; // note that Y in the Vector2 represents Z
 };
 
 // When the player moves close to the edge of the grid, translate it seamlessly.
@@ -114,8 +116,6 @@ Grid.update = function()
   {
     Grid.viewport.translate(new THREE.Vector2(-Grid.SPACING, 0));
   }
-  // move the mesh to match the viewport
-  Grid.mesh.position.x = Grid.viewport.min.x;
 
   if (Player.position.z > maxThresholdZ)
   {
@@ -125,6 +125,8 @@ Grid.update = function()
   {
     Grid.viewport.translate(new THREE.Vector2(0, -Grid.SPACING));
   }
+
   // move the mesh to match the viewport
+  Grid.mesh.position.x = Grid.viewport.min.x;
   Grid.mesh.position.z = Grid.viewport.min.y; // note that Y in the Vector2 represents Z
 };

@@ -26,13 +26,3 @@ Ground.init = function()
 
   // we do NOT add the Ground to the scene; it's a child Object3D of the Grid, which will manage translations.
 };
-
-Ground.addToScene = function()
-{
-  scene.add(Ground);
-};
-
-Ground.removeFromScene = function()
-{
-  scene.remove(Ground);
-};

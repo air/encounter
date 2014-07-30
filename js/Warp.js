@@ -27,7 +27,6 @@ Warp.init = function()
 Warp.setup = function()
 {
   Portal.removeFromScene();
-  Ground.removeFromScene();
   Grid.removeFromScene();
   Radar.removeFromScene();
   Indicators.removeFromScene();
@@ -151,7 +150,6 @@ Warp.restoreLevel = function()
   Level.nextLevel();
   State.initLevel();
 
-  Ground.addToScene();
   Grid.addToScene();
   Radar.addToScene();
   Indicators.addToScene();
