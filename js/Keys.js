@@ -33,8 +33,16 @@ Keys.keyUp = function(event)
       State.isPaused = !State.isPaused;
       break;
     case 75: // k
-      Enemy.destroyed();
-      error('cheater!');
+      if (State.current === State.COMBAT && Enemy.isAlive)
+      {
+        Enemy.destroyed();
+        error('cheat: killer!');
+      }
+      else if (State.current === State.WARP)
+      {
+        Warp.state = Warp.STATE_WAIT_TO_EXIT;
+        error('cheat: skipper!');
+      }
       break;
   }
 }
