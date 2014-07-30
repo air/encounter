@@ -20,7 +20,7 @@ Follow the devlog at http://aaronbell.com
 
 # Status #
 
-- ![Progress](http://progressed.io/bar/80) Obelisks on a ground plane
+- ![Progress](http://progressed.io/bar/100) Obelisks on an infinite ground plane
 - ![Progress](http://progressed.io/bar/100) Controls
 - ![Progress](http://progressed.io/bar/100) Sound
 - ![Progress](http://progressed.io/bar/60) Accurate sound
