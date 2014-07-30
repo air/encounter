@@ -149,6 +149,7 @@ State.updateWaitForEnemy = function(timeDeltaMillis)
   Controls.current.update(timeDeltaMillis);
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
+  Grid.update();
 
   // update non-Player game State.actors
   if (!State.isPaused)
@@ -166,6 +167,7 @@ State.updateWaitForPortal = function(timeDeltaMillis)
   Controls.current.update(timeDeltaMillis);
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
+  Grid.update();
 
   // update non-Player game State.actors
   if (!State.isPaused)
@@ -184,6 +186,7 @@ State.updateCombat = function(timeDeltaMillis)
   Controls.current.update(timeDeltaMillis);
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
+  Grid.update();
 
   // update non-Player game State.actors
   if (!State.isPaused)

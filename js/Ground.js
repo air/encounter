@@ -25,14 +25,14 @@ Ground.init = function()
   Ground.position.y = 0;
 
   Ground.addToScene();
-}
+};
 
 Ground.addToScene = function()
 {
   scene.add(Ground);
-}
+};
 
 Ground.removeFromScene = function()
 {
   scene.remove(Ground);
-}
+};

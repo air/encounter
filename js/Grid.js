@@ -2,8 +2,8 @@
 
 var Grid = {};
 
-Grid.SIZE_X = 40;
-Grid.SIZE_Z = 40;
+Grid.SIZE_X = 4;
+Grid.SIZE_Z = 4;
 Grid.SPACING = 1000;
 // 'MAX' = the furthest extent in these directions
 Grid.MAX_X = (Grid.SIZE_X - 1) * Grid.SPACING;
@@ -44,31 +44,31 @@ Grid.init = function()
   Grid.mesh = new THREE.Mesh(Grid.geometry, Obelisk.MATERIAL);
 
   Grid.addToScene();
-}
+};
 
 Grid.addToScene = function()
 {
   scene.add(Grid.mesh);
   Grid.isActive = true;
-}
+};
 
 Grid.removeFromScene = function()
 {
   scene.remove(Grid.mesh);
   Grid.isActive = false;
-}
+};
 
 // returns a Vector3
 Grid.randomLocation = function()
 {
   return new THREE.Vector3(UTIL.random(0, Grid.MAX_X), 0, UTIL.random(0, Grid.MAX_Z));
-}
+};
 
 // returns a Vector3
 Grid.randomLocationCloseToPlayer = function(maxDistance)
 {
   return Grid.randomLocationCloseToPoint(Player.position, maxDistance);
-}
+};
 
 // point: Vector3
 // returns a Vector3
@@ -83,4 +83,36 @@ Grid.randomLocationCloseToPoint = function(point, maxDistance)
     location = Grid.randomLocation();
   } while (point.distanceTo(location) > maxDistance);
   return location;
-}
+};
+
+// when the player moves close to the edge of the grid, translate it seamlessly.
+// reminder, the Grid.mesh has a .position which is bottom left (0,0) in X,Z terms. 
+Grid.update = function()
+{
+  // TODO rework MAX_X? What does it mean now?
+  var furthestGridExtentX = Grid.mesh.position.x + ((Grid.SIZE_X - 1) * Grid.SPACING);
+  var furthestGridExtentZ = Grid.mesh.position.z + ((Grid.SIZE_Z - 1) * Grid.SPACING);
+  // define a threshold that will trigger when the player crosses it
+  var maxThresholdX = furthestGridExtentX - Grid.SPACING;
+  var maxThresholdZ = furthestGridExtentZ - Grid.SPACING;
+  var minThresholdX = Grid.mesh.position.x + Grid.SPACING;
+  var minThresholdZ = Grid.mesh.position.z + Grid.SPACING;
+
+  if (Player.position.x > maxThresholdX)
+  {
+    Grid.mesh.translateX(Grid.SPACING);
+  }
+  else if (Player.position.x < minThresholdX)
+  {
+    Grid.mesh.translateX(-Grid.SPACING);
+  }
+
+  if (Player.position.z > maxThresholdZ)
+  {
+    Grid.mesh.translateZ(Grid.SPACING);
+  }
+  else if (Player.position.z < minThresholdZ)
+  {
+    Grid.mesh.translateZ(-Grid.SPACING);
+  }
+};

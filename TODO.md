@@ -1,27 +1,28 @@
 # TODO
 
+  - ground and obelisk colors
+    - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
   - reverse encounter memory
     - look for writing to the SID locations
     - look for reads from the sound data locations
-  - sound: oscillator doesn't have SINE, must be sawtooth or triangle
+  - sound: C64 oscillator doesn't have SINE, must be sawtooth or triangle
   - see https://github.com/pstoica/web-audio-synth/blob/master/js/sid.js and http://www.igorski.nl/experiment/websid
   - edit title screen
   - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
-  - C64Materials.js - then clone() all materials from the set
+  - MaterialsC64.js - then clone() all materials from the set
   - make saucers bigger
   - player lives. S overlay for spare Ships (you can play with S=0, last life)
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
-  - fix 'edge of the world'
+  - fix 'edge of the world'. Don't mess with objective coords. Just reposition cosmetic obelisks when needed.
   - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - add original super-cool exit from warp effect
   - further original UFO types
   - clouds. Stars. Use CSS background image and scroll?
   - Radar colours, use C64 palette
   - L1 10 enemies on NOVICE. Seems to vary weirdly.
-  - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
   - L2 saucer: yellow alternating with lightgrey, same as shots. NO WINDUP. Chaingun of 10 shots.
   - L2 saucer: lightgreen. NO WINDUP. Shotgun spray of 3 shots.
   - L2 also spawns YellowSaucer, BlueSaucer, CyanMissile
