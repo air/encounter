@@ -7,7 +7,7 @@ var Grid = {};
 // - a single mesh of NxN obelisks
 // - always a square, big enough to contain a circle of radius camera.far
 // - parent to the Ground plane
-// - a viewport of fixed size on an infinite grid, snapped to Grid.SPACING
+// - a 2D viewport of fixed size looking down on an infinite grid, snapped to Grid.SPACING
 
 Grid.SPACING = 1000;
 // need camera draw distance before we can calculate these:
@@ -16,7 +16,7 @@ Grid.OBELISKS_PER_SIDE = null;
 Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE = null; // get this close to the viewport edge and we move the grid
 
 // state
-Grid.viewport = null;
+Grid.viewport = null; // use a THREE.Box2D as our viewport
 Grid.geometry = null; // we're going to merge all objects into a single Geometry
 Grid.mesh = null;
 
