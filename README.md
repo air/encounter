@@ -64,17 +64,19 @@ Quit Game           Press F1
 
 * To begin at a previously achieved level, press appropriate NUMBER KEY first
 
-                        Forward
-     Turn Left       _    / \    _     Turn Right
-                    |\     |     /|
-                       \   |   /
-                         \ | /
-     Rotate Left <-------------------> Rotate Right
-                         / | \
-                       /   |   \
-                    |/     |     \|
-     Reverse Turn    -    \ /    -     Reverse Turn
-     Left               Reverse        Right
+```
+                  Forward
+Turn Left      _    / \    _    Turn Right
+              |\     |     /|
+                 \   |   /
+                   \ | /
+Rotate Left <-----------------> Rotate Right
+                   / | \
+                 /   |   \
+              |/     |     \|
+Reverse Turn   -    \ /    -    Reverse Turn
+Left              Reverse       Right
+```
 
 ## Helpful Hints
 
