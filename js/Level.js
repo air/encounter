@@ -39,13 +39,14 @@ Level.data = [
     backgroundColor : C64.css.lightblue,
     groundColor : C64.lightred,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_CHAINGUN,
+    firstEnemy : Enemy.TYPE_SAUCER_AUTOSHOTGUN,
     enemyCount : 6,
     spawnTable : [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_TRIPLE,
       Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN
+      Enemy.TYPE_SAUCER_SHOTGUN,
+      Enemy.TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // level 4
@@ -53,13 +54,14 @@ Level.data = [
     backgroundColor : C64.css.black,
     groundColor : C64.red,
     obeliskColor : C64.purple,
-    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
+    firstEnemy : Enemy.TYPE_SAUCER_CHAINGUN,
     enemyCount : 6,
     spawnTable : [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_TRIPLE,
       Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN
+      Enemy.TYPE_SAUCER_SHOTGUN,
+      Enemy.TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // TODO level 5
@@ -73,7 +75,8 @@ Level.data = [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_TRIPLE,
       Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN
+      Enemy.TYPE_SAUCER_SHOTGUN,
+      Enemy.TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // TODO level 6
@@ -87,7 +90,8 @@ Level.data = [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_TRIPLE,
       Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN
+      Enemy.TYPE_SAUCER_SHOTGUN,
+      Enemy.TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // level 7
@@ -101,7 +105,8 @@ Level.data = [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_TRIPLE,
       Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN
+      Enemy.TYPE_SAUCER_SHOTGUN,
+      Enemy.TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // level 8
@@ -115,7 +120,8 @@ Level.data = [
       Enemy.TYPE_MISSILE,
       Enemy.TYPE_SAUCER_TRIPLE,
       Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN
+      Enemy.TYPE_SAUCER_SHOTGUN,
+      Enemy.TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
 ];

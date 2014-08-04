@@ -1,6 +1,6 @@
 'use strict';
 
-// Yellow/grey enemy firing 10 consecutive shots with no warning.
+// Yellow/grey saucer firing 10 consecutive shots with no warning.
 
 var SaucerChaingun = Object.create(Saucer);
 
@@ -29,8 +29,8 @@ SaucerChaingun.init = function()
 
 SaucerChaingun.shoot = function()
 {
-  MY3.rotateObjectToLookAt(this, Player.position);
   Sound.enemyShoot();
+  MY3.rotateObjectToLookAt(this, Player.position);
   var shot = Shot.newInstance(SaucerChaingun, SaucerChaingun.position, SaucerChaingun.rotation, SaucerChaingun.SHOT_MATERIAL1, SaucerChaingun.SHOT_MATERIAL2);
   State.actors.push(shot);
   scene.add(shot);

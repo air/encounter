@@ -1,14 +1,14 @@
 # TODO
 
   - refactor Saucer types
+  - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
   - edit title screen
     - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
+  - dashboard is midgrey, white text overlay, black highlights
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
-  - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
-  - L3 saucer: pure lightgrey. NO WINDUP. Auto-shotgun, sprays 3 as per L2 but rapid fire.
   - L8 horizon effect?
   - allow jump to achieved level from title screen
   - end of game?
@@ -32,7 +32,6 @@
   - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears. 
   - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 
   - world wraparound. Head away from enemy and they appear in front.
-  - dashboard is midgrey, white text overlay, black highlights
   - record/synth sound effects: player move, warp, enemy ticking, missile
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
   - better saucer model, proper geometry. Original is simplified to a diamond from afar.

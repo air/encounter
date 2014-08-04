@@ -1,6 +1,6 @@
 'use strict';
 
-// A green saucer that fires a shotgun blast of 3 shots
+// Lightgreen saucer that fires a shotgun blast of 3 shots with no warning.
 
 var SaucerShotgun = Object.create(Saucer);
 
