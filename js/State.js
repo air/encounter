@@ -28,7 +28,8 @@ State.init = function()
   Player.init();
   Missile.init();
   Saucer.init();
-  YellowSaucer.init();
+  SaucerSingle.init();
+  // SaucerTriple.init();
   BlueSaucer.init();
   Camera.init();
   Controls.init();

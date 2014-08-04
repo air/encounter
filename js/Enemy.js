@@ -10,7 +10,7 @@ Enemy.isFirstOnLevel = null; // is this the first enemy on the level? If so it's
 
 Enemy.spawnTimerStartedAt = null;
 
-Enemy.TYPE_SAUCER_YELLOW = 'yellowsaucer';
+Enemy.TYPE_SAUCER_SINGLE = 'saucerSingle';
 Enemy.TYPE_SAUCER_BLUE = 'bluesaucer';
 Enemy.TYPE_MISSILE = 'missile';
 
@@ -52,8 +52,8 @@ Enemy.spawn = function()
 
   switch (type)
   {
-    case Enemy.TYPE_SAUCER_YELLOW:
-      Enemy.current = YellowSaucer.spawn();
+    case Enemy.TYPE_SAUCER_SINGLE:
+      Enemy.current = SaucerSingle.spawn();
       break;
     case Enemy.TYPE_SAUCER_BLUE:
       Enemy.current = BlueSaucer.spawn();

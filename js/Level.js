@@ -11,11 +11,11 @@ Level.data = [
     backgroundColor : C64.css.lightblue,
     groundColor : C64.green,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_YELLOW,
+    firstEnemy : Enemy.TYPE_SAUCER_SINGLE,
     enemyCount : 4,
     spawnTable : [
       Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_YELLOW,
+      Enemy.TYPE_SAUCER_SINGLE,
       Enemy.TYPE_SAUCER_BLUE,
     ]
   },
@@ -28,7 +28,7 @@ Level.data = [
     enemyCount : 6,
     spawnTable : [
       Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_YELLOW,
+      Enemy.TYPE_SAUCER_SINGLE,
       Enemy.TYPE_SAUCER_BLUE,
       Enemy.TYPE_SAUCER_BLUE
     ]
