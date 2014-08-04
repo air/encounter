@@ -6,6 +6,7 @@
 var Encounter = {};
 Encounter.DRAW_DISTANCE = 3000; // use with init3D() for the real C64 draw distance
 Encounter.CAMERA_HEIGHT = Obelisk.HEIGHT / 2;
+Encounter.PLAYER_LIVES = 4;
 Encounter.MOVEMENT_SPEED = 1.2;
 Encounter.TURN_SPEED = 0.0007;
 Encounter.SHOT_SPEED = 2.8;

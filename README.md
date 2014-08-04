@@ -52,8 +52,9 @@ The game can be progressed through eight levels. Each level displays a different
 
 You will be propelled at high speed through a hail of spheres, which you must avoid hitting, to attain the next level. When the gate appears, an extra shield is awarded (subject to a maximum of nine). If you fail to pass through the gate in time, or fail to negotiate the spheres, you are returned to the previous level and lose one shield. You may re-start at any level that you have completed in the play session, by pressing a number key corresponding to the level required. A buzzing sound acknowledges that this level is accessible to you. Then press the F1 (START) key to begin play at the level selected.
 
-Controls
+## Controls
 
+```
 Select skill level  Press F5
 Begin game (*)      Press F7
 Fire shots          Joystick fire button 
@@ -64,7 +65,6 @@ Quit Game           Press F1
 
 * To begin at a previously achieved level, press appropriate NUMBER KEY first
 
-```
                   Forward
 Turn Left      _    / \    _    Turn Right
               |\     |     /|

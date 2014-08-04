@@ -12,6 +12,7 @@ Player.radarType = Radar.TYPE_PLAYER;
 Player.lastTimeFired = null;
 Player.shotsInFlight = null;
 Player.isAlive = false;
+Player.shipsLeft = null;
 
 Player.init = function()
 {
@@ -22,6 +23,7 @@ Player.init = function()
   //State.actors.push(playerMesh);
 };
 
+// reset everything about the player except how many lives are left.
 Player.reset = function()
 {
   Player.position.copy(Grid.playerStartLocation());
@@ -35,6 +37,11 @@ Player.reset = function()
   Player.shotsInFlight = 0;
   Player.lastTimeFired = 0;
   Player.isAlive = true;
+};
+
+Player.resetShipsLeft = function()
+{
+  Player.shipsLeft = Encounter.PLAYER_LIVES;
 };
 
 Player.update = function()
@@ -58,7 +65,15 @@ Player.wasHit = function()
 {
   Sound.playerKilled();
   Player.isAlive = false;
-  State.setupGameOver();
+  if (Player.shipsLeft === 0)
+  {
+    State.setupGameOver();
+  }
+  else
+  {
+    Player.shipsLeft -= 1;
+    State.setupPlayerHit();
+  }
 };
 
 Player.shoot = function()

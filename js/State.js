@@ -7,6 +7,7 @@ State.WAIT_FOR_ENEMY = 'waitForEnemy';
 State.COMBAT = 'combat';
 State.WAIT_FOR_PORTAL = 'waitForPortal';
 State.WARP = 'warp';
+State.PLAYER_HIT = 'playerHit';
 State.GAME_OVER = 'gameOver';
 State.current = null;
 
@@ -43,7 +44,7 @@ State.init = function()
   State.setupAttract();
 };
 
-// init a new combat level, either on game start or moving out of warp
+// setup a new combat level, either on game start or moving out of warp
 State.initLevel = function()
 {
   log('initialising level ' + Level.number);
@@ -52,6 +53,7 @@ State.initLevel = function()
   Camera.useFirstPersonMode();
   Controls.useEncounterControls();
   Player.reset();
+  Player.resetShipsLeft();
   Grid.reset();
   Enemy.reset();
   Indicators.reset();
@@ -102,6 +104,12 @@ State.setupWaitForPortal = function()
 State.setupCombat = function()
 {
   State.current = State.COMBAT;
+  log(State.current);
+};
+
+State.setupPlayerHit = function()
+{
+  State.current = State.PLAYER_HIT;
   log(State.current);
 };
 
@@ -200,6 +208,20 @@ State.updateCombat = function(timeDeltaMillis)
   Indicators.update(); // needed for flickering effects only
 };
 
+State.updatePlayerHit = function(timeDeltaMillis)
+{
+  if (Keys.shooting)
+  {
+    Keys.shooting = false;
+    Player.reset();
+    Grid.reset();
+    Enemy.reset();
+    Indicators.reset();
+    State.resetActors();
+    State.setupWaitForEnemy();
+  } 
+};
+
 State.updateGameOver = function(timeDeltaMillis)
 {
   Camera.update(timeDeltaMillis);
@@ -238,6 +260,9 @@ function update(timeDeltaMillis)
       break;
     case State.WARP:
       Warp.update(timeDeltaMillis);
+      break;
+    case State.PLAYER_HIT:
+      State.updatePlayerHit(timeDeltaMillis);
       break;
     case State.GAME_OVER:
       State.updateGameOver(timeDeltaMillis);

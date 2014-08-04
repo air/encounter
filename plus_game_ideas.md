@@ -2,6 +2,8 @@ juice it! http://www.youtube.com/watch?v=Fy0aCDmgnxg
 
 Enemy with spotlight looking for you. Level is darker, close pillars. When light sweeps over the enemy freaks out and starts shooting wildly.
 
+Fade sound based on proximity
+
 Attract mode showing enemy types.
 
 Enemy codenames: wall-e, bomb-r, form-l, snip-r, foun-t, bria-n, spot-r, hose-r

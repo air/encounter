@@ -43,14 +43,10 @@ Overlay.update = function()
 {
   switch (State.current)
   {
-    case State.ATTRACT:
-      Overlay.text.innerHTML = 'PRESS FIRE TO BEGIN'; // FIXME no longer shown
-      break;
     case State.COMBAT:
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
-      // TODO Player.livesLeft
-      Overlay.text.innerHTML = 'L' + Level.number + ' E' + State.enemiesRemaining;
+      Overlay.text.innerHTML = 'L' + Level.number + ' E' + State.enemiesRemaining + ' S' + Player.shipsLeft;
       break;
     default:
       console.error('unknown state: ', State.current);
