@@ -47,9 +47,15 @@ State.init = function()
   State.setupAttract();
 };
 
-// setup a new combat level, either on game start or moving out of warp
-State.initLevel = function()
+// Setup a new combat level, either on game start or moving out of warp.
+// Level number is optional; by default rely on the state in Level.
+State.initLevel = function(levelNumber)
 {
+  if (typeof levelNumber !== 'undefined')
+  {
+    Level.set(levelNumber);
+  }
+
   log('initialising level ' + Level.number);
   document.body.style.background = Level.current.backgroundColor;
 
@@ -153,6 +159,14 @@ State.updateAttractMode = function(timeDeltaMillis)
     Attract.hide();
     Keys.shooting = false;
     State.setupWaitForEnemy();
+  }
+  else if (Keys.levelRequested > 0)
+  {
+    log('requested start on level ' + Keys.levelRequested);
+    State.initLevel(Keys.levelRequested);
+    Attract.hide();
+    Keys.levelRequested = null;
+    State.setupWaitForEnemy(); 
   }
 };
 

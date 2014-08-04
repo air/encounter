@@ -7,7 +7,7 @@ var SaucerShotgun = Object.create(Saucer);
 SaucerShotgun.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgreen });
 SaucerShotgun.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgreen });
 
-SaucerShotgun.SHOT_SPREAD = 0.04;
+SaucerShotgun.SHOT_SPREAD = 0.05;
 
 // override
 SaucerShotgun.performsShotWindup = false;

@@ -24,7 +24,7 @@ Level.data = [
     backgroundColor : C64.css.black,
     groundColor : C64.brown,
     obeliskColor : C64.green,
-    firstEnemy : Enemy.TYPE_SAUCER_SHOTGUN,
+    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
       Enemy.TYPE_MISSILE,
@@ -39,7 +39,7 @@ Level.data = [
     backgroundColor : C64.css.lightblue,
     groundColor : C64.lightred,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_AUTOSHOTGUN,
+    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
       Enemy.TYPE_MISSILE,
@@ -54,6 +54,21 @@ Level.data = [
     backgroundColor : C64.css.black,
     groundColor : C64.red,
     obeliskColor : C64.purple,
+    firstEnemy : Enemy.TYPE_SAUCER_AUTOSHOTGUN,
+    enemyCount : 6,
+    spawnTable : [
+      Enemy.TYPE_MISSILE,
+      Enemy.TYPE_SAUCER_TRIPLE,
+      Enemy.TYPE_SAUCER_CHAINGUN,
+      Enemy.TYPE_SAUCER_SHOTGUN,
+      Enemy.TYPE_SAUCER_AUTOSHOTGUN
+    ]
+  },
+  // level 5
+  {
+    backgroundColor : C64.css.lightblue,
+    groundColor : C64.grey,
+    obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_CHAINGUN,
     enemyCount : 6,
     spawnTable : [
@@ -64,26 +79,11 @@ Level.data = [
       Enemy.TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
-  // TODO level 5
+  // level 6
   {
-    backgroundColor : C64.css.white,
-    groundColor : C64.white,
-    obeliskColor : C64.white,
-    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
-    enemyCount : 6,
-    spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_TRIPLE,
-      Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN,
-      Enemy.TYPE_SAUCER_AUTOSHOTGUN
-    ]
-  },
-  // TODO level 6
-  {
-    backgroundColor : C64.css.white,
-    groundColor : C64.white,
-    obeliskColor : C64.white,
+    backgroundColor : C64.css.orange,
+    groundColor : C64.brown,
+    obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
@@ -97,8 +97,8 @@ Level.data = [
   // level 7
   {
     backgroundColor : C64.css.black,
-    groundColor : C64.red,
-    obeliskColor : C64.purple,
+    groundColor : C64.lightblue,
+    obeliskColor : C64.blue,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
@@ -111,9 +111,9 @@ Level.data = [
   },
   // level 8
   {
-    backgroundColor : C64.css.black,
-    groundColor : C64.lightblue,
-    obeliskColor : C64.blue,
+    backgroundColor : C64.css.orange,
+    groundColor : C64.brown,
+    obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
@@ -140,5 +140,15 @@ Level.nextLevel = function()
 Level.reset = function()
 {
   Level.number = 1;
+  Level.current = Level.data[Level.number - 1];
+};
+
+Level.set = function(number)
+{
+  if (number < 1 || number > 8)
+  {
+    throw('invalid level number: ' + number);
+  }
+  Level.number = number;
   Level.current = Level.data[Level.number - 1];
 };

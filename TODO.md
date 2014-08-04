@@ -1,17 +1,27 @@
 # TODO
 
+  - move attract loop to attract.update
   - refactor Saucer types
-  - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
+  - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
+  - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
+  - L6 saucer: yellow/lightgreen. 3 sets of mega shotgun containing 5 rounds with wide spread.
+  - L6 saucer: yellow/lightgrey. Sprays a hose of shots arriving on your right and dragging to the left.
+  - L6 saucer: cyan/lightgreen. Never moves. Shoots at a moderate rate.
+  - L8 saucer: cyan/lightgreen. Never stops moving, shoots chaingun at you, extremely aggressive.
+  - L8 saucer: yellow, shoots 7 alternating left and right of you, never dead on
   - edit title screen
     - title screen show readiness once all Inits() are called?
+  - saucer shoot noise is the SAME as obelisk rebound
   - lightgrey crosshairs
+  - extra ship for exiting warp
   - dashboard is midgrey, white text overlay, black highlights
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
-  - L8 horizon effect?
+  - L6 horizon effect, lightred between orange and brown
   - allow jump to achieved level from title screen
-  - end of game?
+  - end of game: reverts to L1, displays L9 when you exit, L8 once an enemy shows up.
+  - warps get harder as levels go on - L8 warp is nearly impossible
   - sounds: reverse-engineer encounter memory
     - look for writing to the SID locations
     - look for reads from the sound data locations

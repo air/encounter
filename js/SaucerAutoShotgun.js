@@ -7,7 +7,7 @@ var SaucerAutoShotgun = Object.create(Saucer);
 SaucerAutoShotgun.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
 SaucerAutoShotgun.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
 
-SaucerAutoShotgun.SHOT_SPREAD = 0.04;
+SaucerAutoShotgun.SHOT_SPREAD = 0.05;
 
 // override
 SaucerAutoShotgun.performsShotWindup = false;

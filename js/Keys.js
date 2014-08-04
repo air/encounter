@@ -4,8 +4,13 @@
 
 var Keys = {};
 
+// is the user pressing fire right now?
 Keys.shooting = false;
 
+// has the user requested a specific level?
+Keys.levelRequested = null;
+
+// toggle between normal and flying controls
 Keys.switchControls = function()
 {
   if (Controls.current instanceof SimpleControls)
@@ -18,8 +23,16 @@ Keys.switchControls = function()
   }
 };
 
+// handle non-repeating keypresses.
 Keys.keyUp = function(event)
 {
+  // number keys on the title screen
+  if (event.keyCode >=49 && event.keyCode <= 56 && State.current === State.ATTRACT)
+  {
+    Keys.levelRequested = (event.keyCode - 48);
+    return;
+  }
+
   switch(event.keyCode)
   {
     case 67: // c
@@ -47,6 +60,7 @@ Keys.keyUp = function(event)
   }
 };
 
+// handle constant-state keypresses.
 Keys.keyDown = function(event)
 {
   switch(event.keyCode)
