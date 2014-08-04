@@ -1,17 +1,16 @@
 # TODO
 
-  - refactor SaucerTriple and SaucerChaingun
+  - refactor Saucer types
   - edit title screen
-  - title screen show readiness once all Inits() are called?
+    - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
-  - L2 saucer: lightgreen. NO WINDUP. Shotgun spray of 3 shots.
-  - L2 also spawns YellowSaucer, BlueSaucer, CyanMissile
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
   - L3 saucer: pure lightgrey. NO WINDUP. Auto-shotgun, sprays 3 as per L2 but rapid fire.
   - L8 horizon effect?
+  - allow jump to achieved level from title screen
   - end of game?
   - sounds: reverse-engineer encounter memory
     - look for writing to the SID locations

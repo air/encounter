@@ -26,17 +26,17 @@ SaucerShotgun.shoot = function()
   // shot 1 directly at player
   MY3.rotateObjectToLookAt(SaucerShotgun, Player.position);
   var shotMiddle = Shot.newInstance(SaucerShotgun, SaucerShotgun.position, SaucerShotgun.rotation, SaucerShotgun.SHOT_MATERIAL);
-  // shot 2 to the right
-  // SaucerShotgun.rotateOnAxis(MY3.Y_AXIS, SaucerShotgun.SHOT_SPREAD);
-  // var shotRight = Shot.newInstance(SaucerShotgun, SaucerShotgun.position, SaucerShotgun.rotation, SaucerShotgun.SHOT_MATERIAL);
+  // shot 2 to the right of target
+  SaucerShotgun.rotation.y -= SaucerShotgun.SHOT_SPREAD;
+  var shotRight = Shot.newInstance(SaucerShotgun, SaucerShotgun.position, SaucerShotgun.rotation, SaucerShotgun.SHOT_MATERIAL);
   // shot 3 to the left
-  // SaucerShotgun.rotateOnAxis(MY3.Y_AXIS, SaucerShotgun.SHOT_SPREAD * -2)
-  // var shotLeft = Shot.newInstance(SaucerShotgun, SaucerShotgun.position, SaucerShotgun.rotation, SaucerShotgun.SHOT_MATERIAL);
+  SaucerShotgun.rotation.y += (SaucerShotgun.SHOT_SPREAD * 2);
+  var shotLeft = Shot.newInstance(SaucerShotgun, SaucerShotgun.position, SaucerShotgun.rotation, SaucerShotgun.SHOT_MATERIAL);
 
   State.actors.push(shotMiddle);
-  // State.actors.push(shotLeft);
-  // State.actors.push(shotRight);
+  State.actors.push(shotRight);
+  State.actors.push(shotLeft);
   scene.add(shotMiddle);
-  // scene.add(shotLeft);
-  // scene.add(shotRight);
+  scene.add(shotRight);
+  scene.add(shotLeft);
 };
