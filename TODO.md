@@ -1,30 +1,32 @@
 # TODO
 
-  - reverse-engineer encounter memory
-    - look for writing to the SID locations
-    - look for reads from the sound data locations
-  - sound: C64 oscillator doesn't have SINE, must be sawtooth or triangle
-  - see https://github.com/pstoica/web-audio-synth/blob/master/js/sid.js and http://www.igorski.nl/experiment/websid
   - edit title screen
   - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
-  - MaterialsC64.js - then clone() all materials from the set
   - player lives. S overlay for spare Ships (you can play with S=0, last life)
   - saucers enter from white portal
-  - bug: horizon is no longer a flat line
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
+  - L2 saucer: yellow alternating with lightgrey, same as shots. NO WINDUP. Chaingun of 10 shots.
+  - L2 saucer: lightgreen. NO WINDUP. Shotgun spray of 3 shots.
+  - L2 also spawns YellowSaucer, BlueSaucer, CyanMissile
+  - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
+  - L3 saucer: pure lightgrey. NO WINDUP. Auto-shotgun, sprays 3 as per L2 but rapid fire.
+  - L8 horizon effect?
+  - end of game?
+  - sounds: reverse-engineer encounter memory
+    - look for writing to the SID locations
+    - look for reads from the sound data locations
+  - sound: C64 oscillator doesn't have SINE, must be sawtooth or triangle
+    - see https://github.com/pstoica/web-audio-synth/blob/master/js/sid.js and http://www.igorski.nl/experiment/websid
+  - MaterialsC64.js - then clone() all materials from the set
+  - bug: horizon is no longer a flat line
   - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - add original super-cool exit from warp effect
   - further original UFO types
   - L1 clouds. L2 stars. Use CSS background image and scroll?
   - Radar colours, use C64 palette
-  - L1 10 enemies on NOVICE. Seems to vary weirdly.
-  - L2 saucer: yellow alternating with lightgrey, same as shots. NO WINDUP. Chaingun of 10 shots.
-  - L2 saucer: lightgreen. NO WINDUP. Shotgun spray of 3 shots.
-  - L2 also spawns YellowSaucer, BlueSaucer, CyanMissile
-  - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
-  - L3 saucer: pure lightgrey. NO WINDUP. Auto-shotgun, sprays 3 as per L2 but rapid fire. 
+  - L1 10 enemies on NOVICE. Seems to vary weirdly. 
   - Saucers despawn after a couple of minutes!
   - If Saucer is killed with shots in flight, the shots are coloured as gibs burning out. Not sure if they kill.
   - darkblue line on horizon for L1, L3.
