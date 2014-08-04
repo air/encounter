@@ -1,8 +1,5 @@
 # TODO
 
-  - bug: horizon is no longer a flat line
-  - alternative ground and obelisk colors
-    - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
   - reverse-engineer encounter memory
     - look for writing to the SID locations
     - look for reads from the sound data locations
@@ -12,21 +9,20 @@
   - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
   - MaterialsC64.js - then clone() all materials from the set
-  - make saucers bigger
   - player lives. S overlay for spare Ships (you can play with S=0, last life)
   - saucers enter from white portal
+  - bug: horizon is no longer a flat line
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
   - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - add original super-cool exit from warp effect
   - further original UFO types
-  - clouds. Stars. Use CSS background image and scroll?
+  - L1 clouds. L2 stars. Use CSS background image and scroll?
   - Radar colours, use C64 palette
   - L1 10 enemies on NOVICE. Seems to vary weirdly.
   - L2 saucer: yellow alternating with lightgrey, same as shots. NO WINDUP. Chaingun of 10 shots.
   - L2 saucer: lightgreen. NO WINDUP. Shotgun spray of 3 shots.
   - L2 also spawns YellowSaucer, BlueSaucer, CyanMissile
-  - L3 same sky as L1, pink land. 19 enemies.
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
   - L3 saucer: pure lightgrey. NO WINDUP. Auto-shotgun, sprays 3 as per L2 but rapid fire. 
   - Saucers despawn after a couple of minutes!
@@ -35,6 +31,7 @@
   - 'Sticky' obelisks for extra missile terror
   - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears. 
   - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 
+  - world wraparound. Head away from enemy and they appear in front.
   - dashboard is midgrey, white text overlay, black highlights
   - record/synth sound effects: player move, warp, enemy ticking, missile
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.

@@ -133,11 +133,15 @@ Grid.randomLocationCloseToPoint = function(point, maxDistance)
   return location;
 };
 
+// reset the position of the viewport, and use the correct colours for this level
 Grid.reset = function()
 {
   Grid.viewport.set(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIZE_SQUARE, Grid.SIZE_SQUARE));
   Grid.mesh.position.x = Grid.viewport.min.x;
   Grid.mesh.position.z = Grid.viewport.min.y; // note that Y in the Vector2 represents Z
+
+  Grid.mesh.material.color = new THREE.Color(Level.current.obeliskColor);
+  Ground.material.color = new THREE.Color(Level.current.groundColor);
 };
 
 // When the player moves close to the edge of the grid, translate it seamlessly.

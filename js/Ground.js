@@ -7,7 +7,8 @@ Ground.X_SEGMENTS = 1;
 Ground.Z_SEGMENTS = 1;
 Ground.GEOMETRY = null; // can't create until we know the Grid size, which is based on draw distance
 
-Ground.MATERIAL = new THREE.MeshBasicMaterial({ color : C64.green });
+// default to white in order to test that color is loaded from Level data
+Ground.MATERIAL = new THREE.MeshBasicMaterial({ color : C64.white });
 
 Ground.init = function()
 {
