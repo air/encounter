@@ -4,12 +4,14 @@ var Radar = {};
 
 Radar.RESOLUTION_X = 200;
 Radar.RESOLUTION_Z = 200;
-Radar.RANGE = 20000;
+Radar.RANGE = 20000; // world units from one side of the radar to the other (i.e. the diameter)
 
 Radar.CENTER_X = Math.floor(Radar.RESOLUTION_X / 2);
 Radar.CENTER_Z = Math.floor(Radar.RESOLUTION_Z / 2);
 
 Radar.BLIP_RADIUS = 3;
+Radar.OBELISK_BLIP_RADIUS = 1;
+
 Radar.showObelisks = true; // in Encounter, false
 Radar.showShots = true; // in Encounter, false
 
@@ -92,27 +94,38 @@ Radar.render = function(worldx, worldz, blipSize)
   Radar.blip(Radar.CENTER_X + radarPos.x, Radar.CENTER_Z + radarPos.y, blipSize);
 };
 
-Radar.renderObelisks = function()
+// Option 1: render all obelisks in a square of size Radar.RANGE
+Radar.renderRadarObelisks = function()
 {
   Radar.canvasContext.fillStyle = C64.css.darkgrey;
 
-  // find a row and column of obelisks at player position
-  var nearestXRowToOrigin = Math.floor(Player.position.x / Grid.SPACING) * Grid.SPACING;
-  var nearestZColumnToOrigin = Math.floor(Player.position.z / Grid.SPACING) * Grid.SPACING;
+  // start at player position and move to bottom right of radar range
+  var xStart = Player.position.x - (Radar.RANGE / 2);
+  var zStart = Player.position.z - (Radar.RANGE / 2);
 
-  // decide how many rows over will become 0,0 of our rendered grid
-  var offsetObelisks = Math.floor(Grid.OBELISKS_PER_SIDE / 2);
-  // what's this offset in absolute terms
-  var offset = offsetObelisks * Grid.SPACING;
+  // starting at that point, find the first line of obelisks that we have to render
+  var firstXLine = Math.ceil(xStart / Grid.SPACING) * Grid.SPACING;
+  var firstZLine = Math.ceil(zStart / Grid.SPACING) * Grid.SPACING;
 
-  for (var row = 0; row < Grid.OBELISKS_PER_SIDE; row++)
+  for (var x = firstXLine; x < (firstXLine + Radar.RANGE); x += Grid.SPACING)
   {
-    for (var col = 0; col < Grid.OBELISKS_PER_SIDE; col++)
+    for (var z = firstZLine; z < (firstZLine + Radar.RANGE); z += Grid.SPACING)
     {
-      // start at the nearest row, go back by half the square size, increment forward
-      var x = nearestXRowToOrigin - offset + (row * Grid.SPACING);
-      var z = nearestZColumnToOrigin - offset + (col * Grid.SPACING);
-      Radar.render(x, z, 1);
+      Radar.render(x, z, Radar.OBELISK_BLIP_RADIUS);
+    }
+  }  
+};
+
+// Option 2: render all obelisks in the Grid.viewport
+Radar.renderViewportObelisks = function()
+{
+  Radar.canvasContext.fillStyle = C64.css.darkgrey;
+
+  for (var x = Grid.viewport.min.x; x <= Grid.viewport.max.x; x += Grid.SPACING)
+  {
+    for (var z = Grid.viewport.min.y; z <= Grid.viewport.max.y; z += Grid.SPACING)
+    {
+      Radar.render(x, z, Radar.OBELISK_BLIP_RADIUS);
     }
   }
 };
@@ -124,7 +137,7 @@ Radar.update = function()
   // obelisks go underneath more important blips
   if (Radar.showObelisks)
   {
-    Radar.renderObelisks();
+    Radar.renderRadarObelisks();
   }
 
   // TODO currently Player is special-cased as they're not in State.actors

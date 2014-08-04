@@ -1,5 +1,6 @@
 # TODO
 
+  - make saucers bigger
   - Level obelisk color
   - bug: horizon is no longer a flat line
   - alternative ground and obelisk colors
@@ -39,7 +40,7 @@
   - dashboard is midgrey, white text overlay, black highlights
   - record/synth sound effects: player move, warp, enemy ticking, missile
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
-  - better saucer model. Original is simplified to a diamond from afar.
+  - better saucer model, proper geometry. Original is simplified to a diamond from afar.
   - better missile model.
   - work on Timer.js to use everywhere rather than 'startedAt' checks
   - Use a THREE.ArrowHelper for the Pointer class together with a child object
