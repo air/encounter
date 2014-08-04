@@ -31,6 +31,7 @@ State.init = function()
   SaucerSingle.init();
   SaucerTriple.init();
   SaucerChaingun.init();
+  SaucerShotgun.init();
   Camera.init();
   Controls.init();
   Touch.init(); // FIXME depends on Controls.init

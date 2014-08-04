@@ -11,7 +11,7 @@ Level.data = [
     backgroundColor : C64.css.lightblue,
     groundColor : C64.green,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_SINGLE,
+    firstEnemy : Enemy.TYPE_SAUCER_SHOTGUN,
     enemyCount : 4,
     spawnTable : [
       Enemy.TYPE_MISSILE,
