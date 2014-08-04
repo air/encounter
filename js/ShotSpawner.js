@@ -3,11 +3,13 @@
 // A ShotSpawner is a visible Mesh that generates a bunch of Shots
 
 ShotSpawner.prototype = Object.create(THREE.Mesh.prototype); // inheritance style from THREE
+ShotSpawner.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.red });
+ShotSpawner.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightred });
 
 // location is a Vector3 placement for the spawner
 function ShotSpawner(location)
 {
-  THREE.Mesh.call(this, Shot.GEOMETRY, MATS.red); // super constructor
+  THREE.Mesh.call(this, Shot.GEOMETRY, ShotSpawner.SHOT_MATERIAL); // super constructor
   this.SHOT_INTERVAL_MILLIS = 100;
   this.lastShotAt = 0;
   this.position.copy(location);
@@ -29,7 +31,10 @@ ShotSpawner.prototype.update = function(t)
   var millisSinceLastShot = timeNow - this.lastShotAt;
   if (millisSinceLastShot > this.SHOT_INTERVAL_MILLIS)
   {
-    shoot(this, new Date().getTime());
+    var shot = Shot.newInstance(this, this.position, this.rotation, ShotSpawner.SHOT_MATERIAL);
+    State.actors.push(shot);
+    scene.add(shot);
+
     this.lastShotAt = timeNow;
   }
 };

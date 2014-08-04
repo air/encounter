@@ -188,7 +188,7 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction, cssOverrid
 
 Touch.getIdOfTouchedElement = function(touchEvent)
 {
-  var touch = event.changedTouches[0];
+  var touch = touchEvent.changedTouches[0];
   var element = document.elementFromPoint(touch.clientX, touch.clientY);
   // this can return null
   if (element !== null && 'id' in element)
@@ -214,21 +214,22 @@ Touch.initFireButton = function()
   Touch.fireButton.style.right = '0px';
 
   Touch.fireButton.press = function() {
-    event.preventDefault();
     Keys.shooting = true;
   };
   Touch.fireButton.unpress = function() {
-    event.preventDefault();
     Keys.shooting = false;
   };
 
   Touch.fireButton.addEventListener('touchstart', function(event) {
+    event.preventDefault();
     Touch.fireButton.press();
   });
   Touch.fireButton.addEventListener('touchend', function(event) {
+    event.preventDefault();
     Touch.fireButton.unpress();
   });
   Touch.fireButton.addEventListener('touchleave', function(event) {
+    event.preventDefault();
     Touch.fireButton.unpress();
   });
 

@@ -43,7 +43,7 @@ clock.multiplier = 1000; // expose this so we can manipulate it for fun times
 
 // stats
 var rstats;
-var threestats;
+// var threestats;
 
 //=============================================================================
 // init functions
@@ -164,9 +164,8 @@ MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
 // pass in two Vector2s, returns a Vector2
 MY3.lineMidpoint = function(p1, p2)
 {
-  var  x, y, dx, dy;
-  x = Math.min(p1.x, p2.x) + Math.abs( (p1.x - p2.x) / 2 );
-  y = Math.min(p1.y, p2.y) + Math.abs( (p1.y - p2.y) / 2 );
+  var x = Math.min(p1.x, p2.x) + Math.abs( (p1.x - p2.x) / 2 );
+  var y = Math.min(p1.y, p2.y) + Math.abs( (p1.y - p2.y) / 2 );
   return new THREE.Vector2(x, y);
 };
 

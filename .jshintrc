@@ -19,5 +19,5 @@
   "latedef": "nofunc",
   "quotmark": "single",
   "indent": 2,
-  "predef": [ "document", "require", "TWEEN", "jsfxr", "console", "requestAnimationFrame", "webkitAudioContext", "module", "Audio" ]
+  "predef": [ "document", "require", "TWEEN", "jsfxr", "console", "requestAnimationFrame", "webkitAudioContext", "module", "Audio", "Stats", "rStats" ]
 }
