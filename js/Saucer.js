@@ -22,6 +22,7 @@ Saucer.MOVE_TIME_MIN_MS = 1000;
 Saucer.WAIT_TIME_MAX_MS = 2000;
 Saucer.WAIT_TIME_MIN_MS = 1000;
 
+Saucer.performsShotWindup = true; // by default 
 Saucer.SHOT_WINDUP_TIME_MS = 600;
 Saucer.SHOTS_TO_FIRE = 1;
 Saucer.SHOT_INTERVAL_MS = 800; // only relevant if SHOTS_TO_FIRE > 1 
@@ -73,7 +74,14 @@ Saucer.updateWaiting = function(timeDeltaMillis)
     // FIXME delegate AI to subclass
     if (UTIL.random(50) === 42)
     {
-      this.setupShotWindup();
+      if (this.performsShotWindup)
+      {
+        this.setupShotWindup();
+      }
+      else
+      {
+        this.setupShooting();
+      }
     }
   }
 };
@@ -96,7 +104,7 @@ Saucer.setupShooting = function()
   if (this.SHOTS_TO_FIRE > 1)
   {
     this.shotsLeftToFire = this.SHOTS_TO_FIRE - 1;  // read from 'this' not Saucer so we can override in subclass
-    this.shotIntervalCountdown = Saucer.SHOT_INTERVAL_MS;
+    this.shotIntervalCountdown = this.SHOT_INTERVAL_MS;
     this.state = Saucer.STATE_SHOOTING;
   }
   else
@@ -131,7 +139,7 @@ Saucer.updateShooting = function(timeDeltaMillis)
   {
     this.shoot();
     this.shotsLeftToFire -= 1;
-    this.shotIntervalCountdown = Saucer.SHOT_INTERVAL_MS;
+    this.shotIntervalCountdown = this.SHOT_INTERVAL_MS;
   }
 
   if (this.shotsLeftToFire <= 0)

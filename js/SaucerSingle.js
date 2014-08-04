@@ -1,7 +1,6 @@
 'use strict';
 
 // The first enemy, a yellow saucer firing one shot with windup sound.
-// Used by Enemy.js.
 
 var SaucerSingle = Object.create(Saucer);
 

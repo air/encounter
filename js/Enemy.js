@@ -12,6 +12,7 @@ Enemy.spawnTimerStartedAt = null;
 
 Enemy.TYPE_SAUCER_SINGLE = 'saucerSingle';
 Enemy.TYPE_SAUCER_TRIPLE = 'saucerTriple';
+Enemy.TYPE_SAUCER_CHAINGUN = 'saucerChaingun';
 Enemy.TYPE_MISSILE = 'missile';
 
 Enemy.reset = function()
@@ -60,6 +61,9 @@ Enemy.spawn = function()
       break;
     case Enemy.TYPE_MISSILE:
       Enemy.current = Missile.spawn();
+      break;
+    case Enemy.TYPE_SAUCER_CHAINGUN:
+      Enemy.current = SaucerChaingun.spawn();
       break;
     default:
       error ('unknown enemy type: ' + type);

@@ -1,7 +1,6 @@
 'use strict';
 
 // Cyan/grey saucer firing three successive shots with windup sound.
-// Used by Enemy.js.
 
 var SaucerTriple = Object.create(Saucer);
 

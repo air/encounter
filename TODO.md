@@ -1,12 +1,12 @@
 # TODO
 
+  - refactor SaucerTriple and SaucerChaingun
   - edit title screen
   - title screen show readiness once all Inits() are called?
   - lightgrey crosshairs
   - saucers enter from white portal
   - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
-  - L2 saucer: yellow alternating with lightgrey, same as shots. NO WINDUP. Chaingun of 10 shots.
   - L2 saucer: lightgreen. NO WINDUP. Shotgun spray of 3 shots.
   - L2 also spawns YellowSaucer, BlueSaucer, CyanMissile
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions (just to your direction?).
