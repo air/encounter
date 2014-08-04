@@ -31,33 +31,27 @@ Touch.init = function()
   // pass our id, along with our press() and unpress() functions.
   // we need to do this eight times in all.
   Touch.dpad['upleft'] = Touch.createDPadButton('upleft', function() {
-    event.preventDefault();
     Controls.current.moveForward = true;
     Controls.current.turnLeft = true;
   }, function() {
-    event.preventDefault();
     Controls.current.moveForward = false;
     Controls.current.turnLeft = false;
   });
   Touch.dpad['upleft'].style.bottom = (Touch.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
 
   Touch.dpad['up'] = Touch.createDPadButton('up', function() {
-    event.preventDefault();
     Controls.current.moveForward = true;
   },
   function() {
-    event.preventDefault();
     Controls.current.moveForward = false;
   });
   Touch.dpad['up'].style.bottom = (Touch.DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
   Touch.dpad['up'].style.left = Touch.DPAD_BUTTON_WIDTH_PERCENT + '%';
 
   Touch.dpad['upright'] = Touch.createDPadButton('upright', function() {
-    event.preventDefault();
     Controls.current.moveForward = true;
     Controls.current.turnRight = true;
   }, function() {
-    event.preventDefault();
     Controls.current.moveForward = false;
     Controls.current.turnRight = false;
   });
@@ -65,49 +59,39 @@ Touch.init = function()
   Touch.dpad['upright'].style.left = (Touch.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
 
   Touch.dpad['left'] = Touch.createDPadButton('left', function() {
-    event.preventDefault();
     Controls.current.turnLeft = true;
   }, function() {
-    event.preventDefault();
     Controls.current.turnLeft = false;
   });
   Touch.dpad['left'].style.bottom = Touch.DPAD_BUTTON_HEIGHT_PERCENT + '%';
 
   Touch.dpad['right'] = Touch.createDPadButton('right', function() {
-    event.preventDefault();
     Controls.current.turnRight = true;
   }, function() {
-    event.preventDefault();
     Controls.current.turnRight = false;
   });
   Touch.dpad['right'].style.bottom = Touch.DPAD_BUTTON_HEIGHT_PERCENT + '%';
   Touch.dpad['right'].style.left = (Touch.DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
 
   Touch.dpad['downleft'] = Touch.createDPadButton('downleft', function() {
-    event.preventDefault();
     Controls.current.moveBackward = true;
     Controls.current.turnLeft = true;
   }, function() {
-    event.preventDefault();
     Controls.current.moveBackward = false;
     Controls.current.turnLeft = false;
   });
 
   Touch.dpad['down'] = Touch.createDPadButton('down', function() {
-    event.preventDefault();
     Controls.current.moveBackward = true;
   }, function() {
-    event.preventDefault();
     Controls.current.moveBackward = false;
   });
   Touch.dpad['down'].style.left= Touch.DPAD_BUTTON_WIDTH_PERCENT + '%';
 
   Touch.dpad['downright'] = Touch.createDPadButton('downright', function() {
-    event.preventDefault();
     Controls.current.moveBackward = true;
     Controls.current.turnRight = true;
   }, function() {
-    event.preventDefault();
     Controls.current.moveBackward = false;
     Controls.current.turnRight = false;
   });
@@ -115,9 +99,9 @@ Touch.init = function()
 
   // create a dummy button in the middle to accept touchstarts. Override the default CSS for no red colour.
   Touch.dpad['deadzone'] = Touch.createDPadButton('deadzone', function() {
-    event.preventDefault();
+    // no op
   }, function() {
-    event.preventDefault();
+    // no op
   }, Touch.CONTROLS_CSS_NOFILL);
   Touch.dpad['deadzone'].style.left= Touch.DPAD_BUTTON_WIDTH_PERCENT + '%';
   Touch.dpad['deadzone'].style.bottom = Touch.DPAD_BUTTON_HEIGHT_PERCENT + '%';
@@ -149,11 +133,13 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction, cssOverrid
   // press handler for basic touchstart case
   button.addEventListener('touchstart', function(event) {
     Touch.lastDPadPressed = button.id;
+    event.preventDefault();
     button.press();
   });
   // touch left the canvas, seems rarely called
   button.addEventListener('touchleave', function(event) {
     log('touchleave received, how novel');
+    event.preventDefault();
     button.unpress();
   });
   // touch ended. The touch may have moved to another button, so handle that
