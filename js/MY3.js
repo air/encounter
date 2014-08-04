@@ -63,7 +63,7 @@ MY3.init3d = function(far)
   renderer.setSize(WIDTH, HEIGHT);
   renderer.shadowMapEnabled = true;
   document.body.appendChild(renderer.domElement);
-}
+};
 
 MY3.addHelpers = function()
 {
@@ -71,7 +71,7 @@ MY3.addHelpers = function()
   scene.add(axis);
   var camHelp = new THREE.CameraHelper(camera);
   scene.add(camHelp);
-}
+};
 
 // Basic FPS counter from THREE
 MY3.newThreeStats = function()
@@ -83,7 +83,7 @@ MY3.newThreeStats = function()
   STATS.domElement.style.opacity = '0.5';
   document.body.appendChild(STATS.domElement);
   return STATS;
-}
+};
 
 // Use a more advanced stats counter. Requires 'renderer' to exist
 MY3.setupRStats = function()
@@ -104,7 +104,7 @@ MY3.setupRStats = function()
     // plugins: [threestats]
   };
   rstats = new rStats(settings);
-}
+};
 
 //=============================================================================
 // core animation loop
@@ -118,7 +118,7 @@ MY3.render = function()
   
   rstats('frame').end();
   rstats().update(); // redraw the widget
-}
+};
 
 // You need to implement the global function update(timeDeltaMillis).
 // This function calls MY3.render().
@@ -131,7 +131,7 @@ MY3.startAnimationLoop = function()
   rstats('engine').end();
 
   MY3.render();
-}
+};
 
 //=============================================================================
 // maths
@@ -141,7 +141,7 @@ MY3.isVectorNormalised = function(vector)
 {
   var diff = Math.abs(1 - vector.length());
   return (diff < 0.01);
-}
+};
 
 // pass in two Vector3s and their radii. Y axis is ignored.
 MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
@@ -159,7 +159,7 @@ MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
   var collisionThreshold = radius1 + radius2 - COLLISION_EPSILON; // centres must be this close together to touch
   var distance = new THREE.Vector2(position1.x, position1.z).distanceTo(new THREE.Vector2(position2.x, position2.z));    
   return (distance < collisionThreshold);
-}
+};
 
 // pass in two Vector2s, returns a Vector2
 MY3.lineMidpoint = function(p1, p2)
@@ -193,13 +193,13 @@ MY3.objectRotationAsUnitVector = function(object)
   var zComponent = -Math.cos(object.rotation.y);
   var vector = new THREE.Vector3(xComponent, 0, zComponent);
   return vector.normalize();
-}
+};
 
 // returns rotation in radians, suitable for object.rotation
 MY3.randomDirection = function()
 {
   return Math.random() * 2 * Math.PI;
-}
+};
 
 // pass in a Vector3 with X and Z values, get the rotation in radians, suitable for object.rotation.y
 // Note the axes: 0 is negative along Z axis, and it turns anticlockwise from there, so:
@@ -211,7 +211,7 @@ MY3.vectorToRotation = function(vector)
   // we need atan2 to get all quadrants
   // atan2 rotates to the X axis (+Z for us) - so invert the values to get a rotation to -Z axis
   return Math.atan2(-vector.x, -vector.z);
-}
+};
 
 // TODO if lookAt were fully understood we wouldn't need this?
 MY3.rotateObjectToLookAt = function(object, point)
@@ -220,7 +220,7 @@ MY3.rotateObjectToLookAt = function(object, point)
   vectorDelta.subVectors(point, object.position);
   var rotation = this.vectorToRotation(vectorDelta);
   object.rotation.y = rotation;
-}
+};
 
 //=============================================================================
 // mouse controls
@@ -232,7 +232,7 @@ MY3.mousePositionHandler = function(event)
 {
   MOUSE.x = event.clientX;
   MOUSE.y = event.clientY;
-}
+};
 
 // Add mouse listener, init mouse to the center
 MY3.initMouseHandler = function()
@@ -241,7 +241,7 @@ MY3.initMouseHandler = function()
   document.addEventListener('mousemove', MY3.mousePositionHandler, false);
   MOUSE.x = HALFWIDTH;
   MOUSE.y = HALFHEIGHT;
-}
+};
 
 //=============================================================================
 // 3D objects
@@ -270,11 +270,18 @@ MY3.Line.prototype.setEnd = function(position)
 // default length is 200
 MY3.Pointer = function(position, direction, length, pointAt)
 {
-  var length = (typeof length === 'undefined') ? 200 : length;
+  if (typeof length === 'undefined')
+  {
+    length = 200;
+  }
+  
   if (typeof pointAt === 'undefined')
   {
     // 1. use a normal vector
-    if (!MY3.isVectorNormalised(direction)) throw ('direction must be a normal, length: ' + direction.length());
+    if (!MY3.isVectorNormalised(direction))
+    {
+      throw('direction must be a normal, length: ' + direction.length());
+    }
     var endPoint = direction.clone().multiplyScalar(length);
     endPoint.add(position);
 
@@ -300,7 +307,7 @@ MY3.Pointer = function(position, direction, length, pointAt)
     this.position.copy(position);
     this.lookAt(direction);
   }
-}
+};
 MY3.Pointer.prototype = Object.create(THREE.Line.prototype);
 
 // Create a marker sphere at a location with a material
@@ -315,7 +322,7 @@ MY3.markerAt = function(x, y, z, mat)
   marker.castShadow = true;
   scene.add(marker);
   return marker;
-}
+};
 
 // Display some text as a 2D quad
 // text will appear to top left of point, facing the camera
@@ -338,7 +345,7 @@ MY3.textAt = function(x, y, z, text)
   textQuad.position.set(x, y, z);
   scene.add(textQuad);
   return textQuad;
-}
+};
 
 //=============================================================================
 // materials

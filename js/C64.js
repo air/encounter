@@ -83,10 +83,10 @@ C64.randomColour = function()
 {
   var diceRoll = UTIL.random(1, C64.palette.length) - 1;
   return C64.palette[diceRoll];
-}
+};
 
 C64.randomCssColour = function()
 {
   var diceRoll = UTIL.random(1, C64.cssPalette.length) - 1;
   return C64.cssPalette[diceRoll];
-}
+};

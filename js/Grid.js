@@ -120,8 +120,11 @@ Grid.randomLocationCloseToPlayer = function(maxDistance)
 // FIXME brute force alert!
 Grid.randomLocationCloseToPoint = function(point, maxDistance)
 {
-  if (typeof point.x === "undefined") throw('point must have an x, wrong type?');
-
+  if (typeof point.x === 'undefined')
+  {
+    throw('point must have an x, wrong type?');
+  }
+  
   var location = null;
   do
   {

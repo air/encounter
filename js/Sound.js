@@ -137,7 +137,7 @@ Sound.generateFrequencyLoop = function(frequencies, intervalMillis, durationMill
     {
       Sound.activeOscillators.splice(index, 1);
     }
-  }
+  };
 };
 
 Sound.muteOscillators = function()

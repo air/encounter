@@ -70,7 +70,7 @@ var SimpleControls = function(controlledObject)
         }
         break;
     }
-  };
+  }
 
   function keyUp(event)
   {
@@ -98,7 +98,7 @@ var SimpleControls = function(controlledObject)
         this.turnRight = false;
         break;
     }
-  };
+  }
 
   this.update = function(timeDeltaMillis)
   {
@@ -110,11 +110,20 @@ var SimpleControls = function(controlledObject)
       this.object.translateZ(- actualMoveSpeed);
     }
     
-    if (this.moveBackward) this.object.translateZ(actualMoveSpeed);
+    if (this.moveBackward)
+    {
+      this.object.translateZ(actualMoveSpeed);
+    }
 
     // these will only be true if this.canStrafe
-    if (this.moveLeft) this.object.translateX(- actualMoveSpeed);
-    if (this.moveRight) this.object.translateX(actualMoveSpeed);
+    if (this.moveLeft)
+    {
+      this.object.translateX(- actualMoveSpeed);
+    }
+    if (this.moveRight)
+    {
+      this.object.translateX(actualMoveSpeed);
+    }
 
     // rotate player
     if (!this.canStrafe)
@@ -134,4 +143,3 @@ var SimpleControls = function(controlledObject)
   document.addEventListener('keydown', keyDown.bind(this), false);
   document.addEventListener('keyup', keyUp.bind(this), false);
 };
-

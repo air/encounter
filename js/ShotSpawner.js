@@ -18,7 +18,7 @@ function ShotSpawner(location)
 ShotSpawner.prototype.setRotationDegreesPerSecond = function(degreesPerSecond)
 {
   this.ROTATE_RADIANS_PER_MS = (degreesPerSecond / 1000) * UTIL.TO_RADIANS;
-}
+};
 
 ShotSpawner.prototype.update = function(t)
 {
@@ -32,4 +32,4 @@ ShotSpawner.prototype.update = function(t)
     shoot(this, new Date().getTime());
     this.lastShotAt = timeNow;
   }
-}
+};

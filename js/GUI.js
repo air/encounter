@@ -2,7 +2,7 @@
 
 var GUI = {};
 
-var global = Function('return this')(); // nice hacky ref to global object
+// var global = Function('return this')(); // http://stackoverflow.com/questions/3277182/how-to-get-the-global-object-in-javascript
 
 GUI.gui = null;
 
@@ -12,7 +12,7 @@ GUI.init = function()
   //GUI.addGeneralControls();
   //GUI.addPlayerControls();
   //GUI.addCameraControls();
-}
+};
 
 GUI.addGeneralControls = function()
 {
@@ -20,7 +20,7 @@ GUI.addGeneralControls = function()
   //guiControls.add(global, 'State.isPaused').name('paused (p)').listen();
   guiControls.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
   guiControls.add(keys, 'switchControls').name('toggle controls (c)');
-}
+};
 
 GUI.addPlayerControls = function()
 {
@@ -33,7 +33,7 @@ GUI.addPlayerControls = function()
   guiPlayer.add(Player.rotation, 'x').step(0.01).listen().name('rotated x');
   guiPlayer.add(Player.rotation, 'y').step(0.01).listen().name('rotated y');
   guiPlayer.add(Player.rotation, 'z').step(0.01).listen().name('rotated z');
-}
+};
 
 GUI.addCameraControls = function()
 {
@@ -43,4 +43,4 @@ GUI.addCameraControls = function()
   guiCamera.add(Camera, 'CHASE_HEIGHT', 0, 300).step(10);
   guiCamera.add(Camera, 'CHASE_DISTANCE', 0, 400).step(10);
   guiCamera.add(Camera, 'CHASE_ANGLE_DOWN', -0.5, 0.5).step(0.01);
-}
+};

@@ -8,7 +8,7 @@ Controls.shootingAllowed = true;
 Controls.init = function()
 {
   Controls.useEncounterControls();
-}
+};
 
 Controls.useFlyControls = function()
 {
@@ -19,7 +19,7 @@ Controls.useFlyControls = function()
   Controls.current.constrainVertical = false; // default false
   Controls.current.verticalMin = 45 * UTIL.TO_RADIANS;
   Controls.current.verticalMax = 135 * UTIL.TO_RADIANS;
-}
+};
 
 Controls.useEncounterControls = function()
 {
@@ -31,7 +31,7 @@ Controls.useEncounterControls = function()
   Player.position.y = Encounter.CAMERA_HEIGHT;
   Player.rotation.x = 0;
   Player.rotation.z = 0;
-}
+};
 
 Controls.useWarpControls = function()
 {
@@ -40,7 +40,7 @@ Controls.useWarpControls = function()
   Controls.current.movementSpeed = 0;
   Controls.current.turnSpeed = Encounter.TURN_SPEED;
   Controls.current.accelerationFixed = true; 
-}
+};
 
 Controls.interpretKeys = function(timeDeltaMillis)
 {
@@ -48,4 +48,4 @@ Controls.interpretKeys = function(timeDeltaMillis)
   {
     Player.shoot();
   }
-}
+};

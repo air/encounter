@@ -25,14 +25,14 @@ Portal.init = function()
   Portal.mesh = new THREE.Mesh(Portal.GEOMETRY, new THREE.MeshLambertMaterial({ color : C64.black }));
   
   Portal.mesh.radarType = Radar.TYPE_PORTAL;
-}
+};
 
 Portal.startSpawnTimer = function()
 {
   log('started portal spawn timer');
   Portal.spawnTimerStartedAt = clock.oldTime;
   Portal.state = Portal.STATE_WAITING_TO_SPAWN;
-}
+};
 
 Portal.spawnIfReady = function()
 {
@@ -41,7 +41,7 @@ Portal.spawnIfReady = function()
     Portal.spawn();
     Portal.state = Portal.STATE_OPENING;
   }
-}
+};
 
 Portal.spawn = function()
 {
@@ -68,13 +68,13 @@ Portal.spawn = function()
     log('portal opening tween complete');
   });
   tween.start();
-}
+};
 
 Portal.removeFromScene = function()
 {
   scene.remove(Portal.mesh);
   State.actorIsDead(Portal.mesh);
-}
+};
 
 Portal.updateOpening = function(timeDeltaMillis)
 {
@@ -84,7 +84,7 @@ Portal.updateOpening = function(timeDeltaMillis)
     Portal.wasOpenedAt = clock.oldTime;
     Portal.state = Portal.STATE_WAITING_FOR_PLAYER;
   }
-}
+};
 
 Portal.updateClosing = function(timeDeltaMillis)
 {
@@ -98,7 +98,7 @@ Portal.updateClosing = function(timeDeltaMillis)
     State.resetEnemyCounter();
     State.setupWaitForEnemy();
   }
-}
+};
 
 Portal.updateWaitingForPlayer = function(timeDeltaMillis)
 {
@@ -121,7 +121,7 @@ Portal.updateWaitingForPlayer = function(timeDeltaMillis)
     });
     tween.start();
   }
-}
+};
 
 Portal.update = function(timeDeltaMillis)
 {
@@ -146,5 +146,4 @@ Portal.update = function(timeDeltaMillis)
     default:
       error('unknown Portal state: ' + Portal.state);
   }
-
-}
+};

@@ -37,7 +37,7 @@ Saucer.init = function()
   Saucer.shotWindupCountdown = null;
   Saucer.shotIntervalCountdown = null;
   Saucer.shotsLeftToFire = null;
-}
+};
 
 Saucer.spawn = function()
 {
@@ -51,7 +51,7 @@ Saucer.spawn = function()
   this.setupMoving();
 
   return this;
-}
+};
 
 Saucer.setupWaiting = function()
 {
@@ -59,7 +59,7 @@ Saucer.setupWaiting = function()
   log('enemy waiting for ' + this.waitingCountdown + 'ms');
   Sound.saucerWait(this.waitingCountdown);
   this.state = Saucer.STATE_WAITING;
-}
+};
 
 Saucer.updateWaiting = function(timeDeltaMillis)
 {
@@ -71,12 +71,12 @@ Saucer.updateWaiting = function(timeDeltaMillis)
   else
   {
     // FIXME delegate AI to subclass
-    if (UTIL.random(50) == 42)
+    if (UTIL.random(50) === 42)
     {
       this.setupShotWindup();
     }
   }
-}
+};
 
 Saucer.setupShotWindup = function()
 {
@@ -84,7 +84,7 @@ Saucer.setupShotWindup = function()
   Sound.shotWindup();
   log('enemy winding up shot for ' + Saucer.SHOT_WINDUP_TIME_MS + 'ms');
   this.state = Saucer.STATE_SHOT_WINDUP;
-}
+};
 
 Saucer.setupShooting = function()
 {
@@ -103,7 +103,7 @@ Saucer.setupShooting = function()
   {
     this.setupMoving();
   }
-}
+};
 
 Saucer.setupMoving = function()
 {
@@ -112,7 +112,7 @@ Saucer.setupMoving = function()
   log('enemy moving for ' + this.movingCountdown + 'ms in direction ' + this.rotation.y);
   Sound.saucerMove(this.movingCountdown);
   this.state = Saucer.STATE_MOVING;
-}
+};
 
 Saucer.updateShotWindup = function(timeDeltaMillis)
 {
@@ -121,7 +121,7 @@ Saucer.updateShotWindup = function(timeDeltaMillis)
   {
     this.setupShooting();
   }
-}
+};
 
 Saucer.updateShooting = function(timeDeltaMillis)
 {
@@ -138,7 +138,7 @@ Saucer.updateShooting = function(timeDeltaMillis)
   {
     this.setupMoving();
   }
-}
+};
 
 Saucer.updateMoving = function(timeDeltaMillis)
 {
@@ -154,7 +154,7 @@ Saucer.updateMoving = function(timeDeltaMillis)
       // check for precise collision
       var collidePosition = Physics.isCollidingWithObelisk(this.position, Saucer.RADIUS);
       // if we get a return there is work to do
-      if (typeof collidePosition !== "undefined")
+      if (typeof collidePosition !== 'undefined')
       {
         // we have a collision, move the Saucer out but don't change the rotation
         Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, this.position, Saucer.RADIUS);
@@ -166,12 +166,12 @@ Saucer.updateMoving = function(timeDeltaMillis)
   {
     this.setupWaiting();
   }
-}
+};
 
 Saucer.destroyed = function()
 {
   Indicators.setYellow(false);
-}
+};
 
 Saucer.update = function(timeDeltaMillis)
 {
@@ -192,4 +192,4 @@ Saucer.update = function(timeDeltaMillis)
     default:
       error('unknown Saucer state: ' + this.state);
   } 
-}
+};

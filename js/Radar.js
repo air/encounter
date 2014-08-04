@@ -45,22 +45,22 @@ Radar.init = function()
   document.body.appendChild(centredDiv);
 
   Radar.canvasContext = radar.getContext('2d');
-}
+};
 
 Radar.addToScene = function()
 {
   Radar.radarDiv.style.display = 'block';
-}
+};
 
 Radar.removeFromScene = function()
 {
   Radar.radarDiv.style.display = 'none';
-}
+};
 
 Radar.blip = function(x, z)
 {
   Radar.canvasContext.fillRect(x - Radar.BLIP_RADIUS, z - Radar.BLIP_RADIUS, Radar.BLIP_RADIUS * 2, Radar.BLIP_RADIUS * 2);  
-}
+};
 
 // This limits the radar to only showing Radar.RANGE
 Radar.translatePositionByRange = function(xPos, zPos)
@@ -68,7 +68,7 @@ Radar.translatePositionByRange = function(xPos, zPos)
   var x = (xPos / Radar.RANGE) * Radar.RESOLUTION_X;
   var z = (zPos / Radar.RANGE) * Radar.RESOLUTION_Z;
   return new THREE.Vector2(x, z);
-}
+};
 
 Radar.render = function(worldx, worldz)
 {
@@ -85,7 +85,7 @@ Radar.render = function(worldx, worldz)
 
   // paint relative to center (player)
   Radar.blip(Radar.CENTER_X + radarPos.x, Radar.CENTER_Z + radarPos.y);
-}
+};
 
 Radar.update = function()
 {
@@ -123,4 +123,4 @@ Radar.update = function()
 
     Radar.render(State.actors[i].position.x, State.actors[i].position.z);
   }
-}
+};

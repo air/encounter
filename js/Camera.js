@@ -41,20 +41,20 @@ Camera.init = function()
   Camera.orthoCamera.position.set(Grid.SIZE_SQUARE / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.SIZE_SQUARE / 2);
   // look down
   Camera.orthoCamera.rotateOnAxis(MY3.X_AXIS, -90 * UTIL.TO_RADIANS);
-}
+};
 
 Camera.useOrbitMode = function()
 {
   // external camera so let's render the player
   scene.add(Player);
   Camera.mode = Camera.MODE_ORBIT;
-}
+};
 
 Camera.useFirstPersonMode = function()
 {
   scene.remove(Player);
   Camera.mode = Camera.MODE_FIRST_PERSON;
-}
+};
 
 Camera.update = function(timeDeltaMillis)
 {
@@ -96,4 +96,4 @@ Camera.update = function(timeDeltaMillis)
     camera.lookAt(Player.position);
     Camera.orbitCounter += (Camera.ORBIT_SPEED * timeDeltaMillis);
   }
-}
+};

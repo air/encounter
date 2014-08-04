@@ -20,7 +20,7 @@ Player.init = function()
 
   // FIXME for debug purposes player can move in pause mode - uncomment to fix this.
   //State.actors.push(playerMesh);
-}
+};
 
 Player.reset = function()
 {
@@ -35,7 +35,7 @@ Player.reset = function()
   Player.shotsInFlight = 0;
   Player.lastTimeFired = 0;
   Player.isAlive = true;
-}
+};
 
 Player.update = function()
 {
@@ -45,21 +45,21 @@ Player.update = function()
     // check for precise collision
     var collidePosition = Physics.isCollidingWithObelisk(Player.position, Player.RADIUS);
     // if we get a return there is work to do
-    if (typeof collidePosition !== "undefined")
+    if (typeof collidePosition !== 'undefined')
     {
       // we have a collision, move the player out but don't change the rotation
       Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, Player.position, Player.RADIUS);
       Sound.playerCollideObelisk();
     }
   }
-}
+};
 
 Player.wasHit = function()
 {
   Sound.playerKilled();
   Player.isAlive = false;
   State.setupGameOver();
-}
+};
 
 Player.shoot = function()
 {
@@ -78,4 +78,4 @@ Player.shoot = function()
       scene.add(shot);    
     }
   }
-}
+};

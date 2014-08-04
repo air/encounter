@@ -41,7 +41,7 @@ State.init = function()
   Level.init();
 
   State.setupAttract();
-}
+};
 
 // init a new combat level, either on game start or moving out of warp
 State.initLevel = function()
@@ -58,7 +58,7 @@ State.initLevel = function()
   State.resetActors();
 
   State.resetEnemyCounter();
-}
+};
 
 State.resetActors = function()
 {
@@ -67,19 +67,19 @@ State.resetActors = function()
     var actor = State.actors.pop();
     scene.remove(actor);
   }
-}
+};
 
 State.resetEnemyCounter = function()
 {
   State.enemiesRemaining = Level.current.enemyCount;
-}
+};
 
 State.setupAttract = function()
 {
   State.current = State.ATTRACT;
   log(State.current);
   Attract.show();
-}
+};
 
 State.setupWaitForEnemy = function()
 {
@@ -88,7 +88,7 @@ State.setupWaitForEnemy = function()
 
   Overlay.update();
   Enemy.startSpawnTimer();
-}
+};
 
 State.setupWaitForPortal = function()
 {
@@ -97,20 +97,20 @@ State.setupWaitForPortal = function()
 
   Overlay.update();
   Portal.startSpawnTimer();
-}
+};
 
 State.setupCombat = function()
 {
   State.current = State.COMBAT;
   log(State.current);
-}
+};
 
 State.setupGameOver = function()
 {
   State.current = State.GAME_OVER;
   log(State.current);
   Camera.useOrbitMode();
-}
+};
 
 State.setupWarp = function()
 {
@@ -118,7 +118,7 @@ State.setupWarp = function()
   log(State.current);
 
   Warp.setup();
-}
+};
 
 State.enemyKilled = function()
 {
@@ -132,7 +132,7 @@ State.enemyKilled = function()
   {
     State.setupWaitForPortal();
   }
-}
+};
 
 State.updateAttractMode = function(timeDeltaMillis)
 {
@@ -143,7 +143,7 @@ State.updateAttractMode = function(timeDeltaMillis)
     Keys.shooting = false;
     State.setupWaitForEnemy();
   }
-}
+};
 
 State.updateWaitForEnemy = function(timeDeltaMillis)
 {
@@ -161,7 +161,7 @@ State.updateWaitForEnemy = function(timeDeltaMillis)
 
   Enemy.spawnIfReady();
   Radar.update();
-}
+};
 
 State.updateWaitForPortal = function(timeDeltaMillis)
 {
@@ -180,7 +180,7 @@ State.updateWaitForPortal = function(timeDeltaMillis)
   Portal.update(timeDeltaMillis);
   Radar.update();
   TWEEN.update();
-}
+};
 
 State.updateCombat = function(timeDeltaMillis)
 {
@@ -198,7 +198,7 @@ State.updateCombat = function(timeDeltaMillis)
 
   Radar.update();
   Indicators.update(); // needed for flickering effects only
-}
+};
 
 State.updateGameOver = function(timeDeltaMillis)
 {
@@ -209,15 +209,15 @@ State.updateGameOver = function(timeDeltaMillis)
     Level.reset();
     State.setupAttract();
   }
-}
+};
 
 // ask all State.actors to update their state based on the last time delta
 State.updateActors = function(timeDeltaMillis)
 {
   for (var i = 0; i < State.actors.length; i++) {
     State.actors[i].update(timeDeltaMillis);
-  };
-}
+  }
+};
 
 // called from util.js
 function update(timeDeltaMillis)
@@ -249,7 +249,10 @@ function update(timeDeltaMillis)
 
 State.actorIsDead = function(actor)
 {
-  if (typeof actor === "undefined") throw('actor undefined');
+  if (typeof actor === 'undefined')
+  {
+    throw('actor undefined');
+  }
 
   var index = State.actors.indexOf(actor);
   if (index !== -1) {
@@ -257,4 +260,4 @@ State.actorIsDead = function(actor)
   }
 
   scene.remove(actor);
-}
+};

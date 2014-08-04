@@ -54,41 +54,41 @@ Indicators.init = function()
   Indicators.canvasContext = canvas.getContext('2d');
 
   Indicators.paint();
-}
+};
 
 Indicators.adjustForTouch = function()
 {
   Indicators.WIDTH = 50;
   Indicators.X_SEPARATION = 230;
-}
+};
 
 Indicators.addToScene = function()
 {
   Indicators.lightsDiv.style.display = 'block';
-}
+};
 
 Indicators.removeFromScene = function()
 {
   Indicators.lightsDiv.style.display = 'none';
-}
+};
 
 Indicators.setYellow = function(state)
 {
   Indicators.yellow = state;
   Indicators.paint();
-}
+};
 
 Indicators.setRed = function(state)
 {
   Indicators.red = state;
   Indicators.paint();
-}
+};
 
 Indicators.setBlue = function(state)
 {
   Indicators.blue = state;
   Indicators.paint();
-}
+};
 
 Indicators.paintRed = function()
 {
@@ -109,7 +109,7 @@ Indicators.paintRed = function()
 
   Indicators.canvasContext.fillRect(0, 0, Indicators.WIDTH, Indicators.HEIGHT);
   Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, 0, Indicators.WIDTH, Indicators.HEIGHT);
-}
+};
 
 Indicators.paint = function()
 {
@@ -122,7 +122,7 @@ Indicators.paint = function()
   Indicators.canvasContext.fillStyle = Indicators.blue ? C64.css.lightblue : C64.css.blue;
   Indicators.canvasContext.fillRect(0, Indicators.HEIGHT*2 + Indicators.Y_SEPARATION*2, Indicators.WIDTH, Indicators.HEIGHT);
   Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, Indicators.HEIGHT*2 + Indicators.Y_SEPARATION*2, Indicators.WIDTH, Indicators.HEIGHT);
-}
+};
 
 Indicators.update = function()
 {
@@ -130,11 +130,11 @@ Indicators.update = function()
   {
     Indicators.paintRed();
   }
-}
+};
 
 Indicators.reset = function()
 {
   Indicators.setRed(false);
   Indicators.setYellow(false);
   Indicators.setBlue(false);
-}
+};

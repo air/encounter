@@ -17,13 +17,13 @@ Enemy.TYPE_MISSILE = 'missile';
 Enemy.reset = function()
 {
   Enemy.isFirstOnLevel = true;
-}
+};
 
 Enemy.startSpawnTimer = function()
 {
   log('started enemy spawn timer');
   Enemy.spawnTimerStartedAt = clock.oldTime;
-}
+};
 
 Enemy.spawnIfReady = function()
 {
@@ -32,7 +32,7 @@ Enemy.spawnIfReady = function()
     Enemy.spawn();
     State.setupCombat();
   }
-}
+};
 
 Enemy.spawn = function()
 {
@@ -68,7 +68,7 @@ Enemy.spawn = function()
   scene.add(Enemy.current);
   State.actors.push(Enemy.current);
   Enemy.isAlive = true;
-}
+};
 
 // enemy is hit and destroyed, but the explosion still has to play out
 Enemy.destroyed = function()
@@ -86,10 +86,10 @@ Enemy.destroyed = function()
   }
 
   Explode.at(Enemy.current.position);
-}
+};
 
 // explosion has finished animating
 Enemy.cleared = function()
 {
   State.enemyKilled();
-}
+};

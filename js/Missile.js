@@ -27,7 +27,7 @@ Missile.init = function()
   Missile.scale.x = Missile.MESH_SCALE_X;
 
   Missile.setupStrafeTweens();
-}
+};
 
 Missile.spawn = function()
 {
@@ -42,7 +42,7 @@ Missile.spawn = function()
   Missile.strafeTweenLoop.start();
 
   return this;
-}
+};
 
 // set up an infinitely looping tween going back and forth between offsets
 Missile.setupStrafeTweens = function()
@@ -54,7 +54,7 @@ Missile.setupStrafeTweens = function()
   rightToLeft.chain(leftToRight);
   
   Missile.strafeTweenLoop = leftToRight;
-}
+};
 
 Missile.update = function(timeDeltaMillis)
 {
@@ -73,7 +73,7 @@ Missile.update = function(timeDeltaMillis)
       // check for precise collision
       var collidePosition = Physics.isCollidingWithObelisk(Missile.position, Missile.RADIUS);
       // if we get a return there is work to do
-      if (typeof collidePosition !== "undefined")
+      if (typeof collidePosition !== 'undefined')
       {
         // we have a collision, move the Enemy out but don't change the rotation
         Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, Missile.position, Missile.RADIUS);
@@ -87,10 +87,10 @@ Missile.update = function(timeDeltaMillis)
   {
     Player.wasHit();
   }
-}
+};
 
 Missile.destroyed = function()
 {
   Indicators.setRed(false);
   Missile.strafeTweenLoop.stop();
-}
+};

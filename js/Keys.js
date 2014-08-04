@@ -16,7 +16,7 @@ Keys.switchControls = function()
   {
     Controls.useEncounterControls();
   }
-}
+};
 
 Keys.keyUp = function(event)
 {
@@ -45,7 +45,7 @@ Keys.keyUp = function(event)
       }
       break;
   }
-}
+};
 
 Keys.keyDown = function(event)
 {
@@ -56,7 +56,7 @@ Keys.keyDown = function(event)
       Keys.shooting = true;
       break;
   }
-}
+};
 
 document.addEventListener('keydown', Keys.keyDown.bind(this), false);
 document.addEventListener('keyup', Keys.keyUp.bind(this), false);

@@ -17,24 +17,39 @@ if (typeof require === 'function') // test for nodejs environment
 // Uses a 2D rectangular bounding box check using modulus.
 Physics.isCloseToAnObelisk = function(position, radius)
 {
-  if (typeof radius === "undefined") throw('required: radius');
+  if (typeof radius === 'undefined')
+  {
+    throw('required: radius');
+  }
   // special case for too high (fly mode only)
-  if (position.y > (Obelisk.HEIGHT + radius)) return false;
+  if (position.y > (Obelisk.HEIGHT + radius))
+  {
+    return false;
+  }
   // special case for too low (fly mode only)
-  if (position.y < -radius) return false;
+  if (position.y < -radius)
+  {
+    return false;
+  }
 
   var collisionThreshold = Obelisk.RADIUS + radius; // must be this close together to touch
   var collisionMax = Grid.SPACING - collisionThreshold; // getting close to next Z line (obelisk)
 
   var distanceBeyondZLine = position.x % Grid.SPACING;
   // if we're further past than the radius sum, and not yet up to the next line minus that sum, we're safe
-  if (distanceBeyondZLine > collisionThreshold && distanceBeyondZLine < collisionMax) return false;
+  if (distanceBeyondZLine > collisionThreshold && distanceBeyondZLine < collisionMax)
+  {
+    return false;
+  }
 
   var distanceBeyondXLine = position.z % Grid.SPACING;
-  if (distanceBeyondXLine > collisionThreshold && distanceBeyondXLine < collisionMax) return false;
+  if (distanceBeyondXLine > collisionThreshold && distanceBeyondXLine < collisionMax)
+  {
+    return false;
+  }
 
   return true;
-}
+};
 
 // Pass in a Vector3 (Y is ignored!) and radius that might be colliding with an Obelisk. Performs 2D circle intersection check.
 // Returns a Vector3 position for a colliding Obelisk, or undefined if not colliding.
@@ -98,8 +113,14 @@ Physics.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius
 // Returns a Vector3 containing the movement executed, in case that's useful. Y will be zero.
 Physics.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, movingPoint, movingRadius)
 {
-  if (typeof staticPoint.x === "undefined") throw('staticPoint must have an x, wrong type?');
-  if (typeof movingPoint.x === "undefined") throw('movingPoint must have an x, wrong type?');
+  if (typeof staticPoint.x === 'undefined')
+  {
+    throw('staticPoint must have an x, wrong type?');
+  }
+  if (typeof movingPoint.x === 'undefined')
+  {
+    throw('movingPoint must have an x, wrong type?');
+  }
 
   // move the circle a tiny bit further than required, to account for rounding
   var MOVE_EPSILON = 0.000001;
@@ -110,7 +131,8 @@ Physics.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, moving
   var centreDistance = staticPoint2d.distanceTo(movingPoint2d); // careful to ignore Ys here
   var distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
   // if intersecting, this should be negative
-  if (distanceBetweenEdges >= 0) {
+  if (distanceBetweenEdges >= 0)
+  {
     throw('no separation needed. Static ' + staticPoint.x + ',' + staticPoint.z + ' radius ' + staticRadius + ', moving ' + movingPoint.x + ',' + movingPoint.z + ' radius ' + movingRadius);
   }
 
@@ -131,7 +153,8 @@ Physics.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, moving
   // sanity check
   centreDistance = staticPoint2d.distanceTo(movingPoint2d); // again ignore the Ys
   distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
-  if (distanceBetweenEdges < 0) {
+  if (distanceBetweenEdges < 0)
+  {
     throw('separation failed, distance between edges ' + distanceBetweenEdges);
   }
 

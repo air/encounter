@@ -21,7 +21,7 @@ BlueSaucer.init = function()
   // actually set up this Mesh using our materials
   THREE.Mesh.call(BlueSaucer, Saucer.GEOMETRY, BlueSaucer.MATERIAL);
   BlueSaucer.scale.y = Saucer.MESH_SCALE_Y;
-}
+};
 
 BlueSaucer.shoot = function()
 {
@@ -30,7 +30,7 @@ BlueSaucer.shoot = function()
   var shot = Shot.newInstance(BlueSaucer, BlueSaucer.position, BlueSaucer.rotation, BlueSaucer.SHOT_MATERIAL1, BlueSaucer.SHOT_MATERIAL2);
   State.actors.push(shot);
   scene.add(shot);
-}
+};
 
 // decorate default update() to add an alternating mesh material
 BlueSaucer.update = function(timeDeltaMillis)
@@ -46,4 +46,4 @@ BlueSaucer.update = function(timeDeltaMillis)
 
   var proto = Object.getPrototypeOf(BlueSaucer);
   proto.update.call(BlueSaucer, timeDeltaMillis);
-}
+};

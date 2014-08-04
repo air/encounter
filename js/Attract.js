@@ -4,7 +4,7 @@ var Attract = {};
 
 Attract.init = function()
 {
-}
+};
 
 Attract.show = function()
 {
@@ -12,7 +12,7 @@ Attract.show = function()
   Radar.removeFromScene();
   Indicators.removeFromScene();
   renderer.domElement.hidden = true;
-}
+};
 
 Attract.hide = function()
 {
@@ -20,4 +20,4 @@ Attract.hide = function()
   Radar.addToScene();
   Indicators.addToScene();
   renderer.domElement.hidden = false;
-}
+};
