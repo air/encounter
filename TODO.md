@@ -1,6 +1,5 @@
 # TODO
 
-  - Radar: option to show obelisks (can all be done locally)
   - Level obelisk color
   - bug: horizon is no longer a flat line
   - alternative ground and obelisk colors

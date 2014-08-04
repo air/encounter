@@ -10,11 +10,14 @@ Radar.CENTER_X = Math.floor(Radar.RESOLUTION_X / 2);
 Radar.CENTER_Z = Math.floor(Radar.RESOLUTION_Z / 2);
 
 Radar.BLIP_RADIUS = 3;
+Radar.showObelisks = true; // in Encounter, false
+Radar.showShots = true; // in Encounter, false
 
 Radar.TYPE_PLAYER = 'player';
 Radar.TYPE_ENEMY = 'enemy';
 Radar.TYPE_SHOT = 'shot';
 Radar.TYPE_PORTAL = 'portal';
+Radar.TYPE_OBELISK = 'obelisk';
 
 Radar.CSS_CENTRED_DIV = 'position:fixed; bottom:10px; width:100%';
 Radar.CSS_RADAR_DIV = 'background-color:#000; opacity:0.6; margin-left:auto; margin-right:auto';
@@ -57,9 +60,10 @@ Radar.removeFromScene = function()
   Radar.radarDiv.style.display = 'none';
 };
 
-Radar.blip = function(x, z)
+Radar.blip = function(x, z, blipSize)
 {
-  Radar.canvasContext.fillRect(x - Radar.BLIP_RADIUS, z - Radar.BLIP_RADIUS, Radar.BLIP_RADIUS * 2, Radar.BLIP_RADIUS * 2);  
+  var size = (typeof blipSize === 'undefined') ? Radar.BLIP_RADIUS : blipSize;
+  Radar.canvasContext.fillRect(x - size, z - size, size * 2, size * 2);  
 };
 
 // This limits the radar to only showing Radar.RANGE
@@ -70,7 +74,8 @@ Radar.translatePositionByRange = function(xPos, zPos)
   return new THREE.Vector2(x, z);
 };
 
-Radar.render = function(worldx, worldz)
+// blipSize is optional
+Radar.render = function(worldx, worldz, blipSize)
 {
   // translate so player is at origin
   var xRelativeToPlayer = worldx - Player.position.x;
@@ -84,15 +89,46 @@ Radar.render = function(worldx, worldz)
   var radarPos = Radar.translatePositionByRange(x, z);
 
   // paint relative to center (player)
-  Radar.blip(Radar.CENTER_X + radarPos.x, Radar.CENTER_Z + radarPos.y);
+  Radar.blip(Radar.CENTER_X + radarPos.x, Radar.CENTER_Z + radarPos.y, blipSize);
+};
+
+Radar.renderObelisks = function()
+{
+  Radar.canvasContext.fillStyle = C64.css.darkgrey;
+
+  // find a row and column of obelisks at player position
+  var nearestXRowToOrigin = Math.floor(Player.position.x / Grid.SPACING) * Grid.SPACING;
+  var nearestZColumnToOrigin = Math.floor(Player.position.z / Grid.SPACING) * Grid.SPACING;
+
+  // decide how many rows over will become 0,0 of our rendered grid
+  var offsetObelisks = Math.floor(Grid.OBELISKS_PER_SIDE / 2);
+  // what's this offset in absolute terms
+  var offset = offsetObelisks * Grid.SPACING;
+
+  for (var row = 0; row < Grid.OBELISKS_PER_SIDE; row++)
+  {
+    for (var col = 0; col < Grid.OBELISKS_PER_SIDE; col++)
+    {
+      // start at the nearest row, go back by half the square size, increment forward
+      var x = nearestXRowToOrigin - offset + (row * Grid.SPACING);
+      var z = nearestZColumnToOrigin - offset + (col * Grid.SPACING);
+      Radar.render(x, z, 1);
+    }
+  }
 };
 
 Radar.update = function()
 {
   Radar.canvasContext.clearRect(0, 0, Radar.RESOLUTION_X, Radar.RESOLUTION_Z);
 
+  // obelisks go underneath more important blips
+  if (Radar.showObelisks)
+  {
+    Radar.renderObelisks();
+  }
+
   // TODO currently Player is special-cased as they're not in State.actors
-  Radar.canvasContext.fillStyle = '#FFFFFF';
+  Radar.canvasContext.fillStyle = C64.css.white;
   Radar.render(Player.position.x, Player.position.z);
 
   // render all actors as blips
@@ -105,22 +141,26 @@ Radar.update = function()
     {
       case Radar.TYPE_ENEMY:
         Radar.canvasContext.fillStyle = '#FF0000';
+        Radar.render(State.actors[i].position.x, State.actors[i].position.z);
         break;
       case Radar.TYPE_PLAYER:
-        // TODO currently unused as above
-        Radar.canvasContext.fillStyle = '#FFFFFF';
+        // TODO see above, currently player is special case and this block is unused
+        Radar.canvasContext.fillStyle = C64.css.white;
+        Radar.render(State.actors[i].position.x, State.actors[i].position.z);
         break;
       case Radar.TYPE_SHOT:
-        Radar.canvasContext.fillStyle = '#FFFF00';
+        if (Radar.showShots)
+        {
+          Radar.canvasContext.fillStyle = C64.css.yellow;
+          Radar.render(State.actors[i].position.x, State.actors[i].position.z);
+        }
         break;
       case Radar.TYPE_PORTAL:
         Radar.canvasContext.fillStyle = C64.randomCssColour();
+        Radar.render(State.actors[i].position.x, State.actors[i].position.z);
         break;
       default:
         error('unknown .radarType ' + type + ' for actor ' + State.actors[i]);
-        Radar.canvasContext.fillStyle = '#00FF33';
     }
-
-    Radar.render(State.actors[i].position.x, State.actors[i].position.z);
   }
 };
