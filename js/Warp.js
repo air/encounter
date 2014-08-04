@@ -22,7 +22,7 @@ Warp.asteroids = [];
 Warp.init = function()
 {
   // no op since asteroids are created at runtime now
-}
+};
  
 Warp.setup = function()
 {
@@ -49,7 +49,7 @@ Warp.setup = function()
     log('acceleration tween complete');
   });
   tween.start();
-}
+};
 
 Warp.removeFromScene = function()
 {
@@ -58,7 +58,7 @@ Warp.removeFromScene = function()
   });
   // forget this round's asteroids
   Warp.asteroids = [];
-}
+};
 
 Warp.createAsteroidsInFrontOfPlayer = function(timeDeltaMillis)
 {
@@ -71,19 +71,20 @@ Warp.createAsteroidsInFrontOfPlayer = function(timeDeltaMillis)
   asteroid.translateX(UTIL.random(-15000, 15000)); // FIXME adjust this
   scene.add(asteroid);
   Warp.asteroids.push(asteroid);
-}
+};
 
 Warp.removeAsteroidsBehindPlayer = function(timeDeltaMillis)
 {
   // TODO
-}
+  return false;
+};
 
 Warp.checkCollisions = function()
 {
   Warp.asteroids.forEach(function(asteroid) {
     Asteroid.collideWithPlayer(asteroid.position);
   });
-}
+};
 
 Warp.update = function(timeDeltaMillis)
 {
@@ -141,7 +142,7 @@ Warp.update = function(timeDeltaMillis)
     default:
       error('unknown Warp state: ' + Warp.state);
   }
-}
+};
 
 Warp.restoreLevel = function()
 {
@@ -155,4 +156,4 @@ Warp.restoreLevel = function()
   Indicators.addToScene();
 
   State.setupWaitForEnemy();
-}
+};

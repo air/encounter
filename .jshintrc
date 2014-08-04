@@ -15,8 +15,9 @@
   "strict": true,
   "immed": true,
   "expr": true,
+  "validthis": true,
   "latedef": "nofunc",
   "quotmark": "single",
   "indent": 2,
-  "predef": [ "TODO_MY_GLOBAL" ]
+  "predef": [ "document", "require", "TWEEN", "jsfxr", "console", "requestAnimationFrame", "webkitAudioContext", "module", "Audio" ]
 }

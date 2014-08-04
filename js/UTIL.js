@@ -27,13 +27,13 @@ UTIL.random = function(min, max)
     error('max ' + max + ' must be more than min ' + min);
     return 0;
   }
-}
+};
 
 UTIL.randomFromArray = function(array)
 {
   var diceRoll = UTIL.random(1, array.length) - 1; // adjust to be array index
   return array[diceRoll];
-}
+};
 
 //=============================================================================
 // logging
@@ -55,7 +55,7 @@ UTIL.platformSupportsTouch = function()
 {
   // FIXME returns false positive on Windows 8
   return 'ontouchstart' in window;
-}
+};
 
 //=============================================================================
 // make available in nodejs

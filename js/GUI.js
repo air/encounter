@@ -19,7 +19,7 @@ GUI.addGeneralControls = function()
   var guiControls = GUI.gui.addFolder('Controls');
   //guiControls.add(global, 'State.isPaused').name('paused (p)').listen();
   guiControls.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
-  guiControls.add(keys, 'switchControls').name('toggle controls (c)');
+  guiControls.add(Keys, 'switchControls').name('toggle controls (c)');
 };
 
 GUI.addPlayerControls = function()
