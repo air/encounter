@@ -5,8 +5,8 @@
 
 var Saucer = new THREE.Mesh();
 
-Saucer.RADIUS = 40;
-Saucer.GEOMETRY = new THREE.SphereGeometry(Saucer.RADIUS, 8, 4);
+Saucer.RADIUS = 70;
+Saucer.GEOMETRY = new THREE.SphereGeometry(Saucer.RADIUS, 8, 2);
 Saucer.MESH_SCALE_Y = 0.4;
 
 // Player speed is Encounter.MOVEMENT_SPEED

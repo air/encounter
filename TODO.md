@@ -1,7 +1,5 @@
 # TODO
 
-  - make saucers bigger
-  - Level obelisk color
   - bug: horizon is no longer a flat line
   - alternative ground and obelisk colors
     - L2: black night with stars (no clouds), brown land (same as yellow indicator=off), green obelisks!
