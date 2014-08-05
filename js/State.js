@@ -151,25 +151,6 @@ State.enemyKilled = function()
   }
 };
 
-State.updateAttractMode = function(timeDeltaMillis)
-{
-  if (Keys.shooting)
-  {
-    State.initLevel();
-    Attract.hide();
-    Keys.shooting = false;
-    State.setupWaitForEnemy();
-  }
-  else if (Keys.levelRequested > 0)
-  {
-    log('requested start on level ' + Keys.levelRequested);
-    State.initLevel(Keys.levelRequested);
-    Attract.hide();
-    Keys.levelRequested = null;
-    State.setupWaitForEnemy(); 
-  }
-};
-
 State.updateWaitForEnemy = function(timeDeltaMillis)
 {
   Controls.current.update(timeDeltaMillis);
@@ -264,7 +245,7 @@ function update(timeDeltaMillis)
   switch (State.current)
   {
     case State.ATTRACT:
-      State.updateAttractMode(timeDeltaMillis);
+      Attract.update(timeDeltaMillis);
       break;
     case State.COMBAT:
       State.updateCombat(timeDeltaMillis);

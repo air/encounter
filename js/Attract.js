@@ -4,6 +4,7 @@ var Attract = {};
 
 Attract.init = function()
 {
+  // no op
 };
 
 Attract.show = function()
@@ -20,4 +21,23 @@ Attract.hide = function()
   Radar.addToScene();
   Indicators.addToScene();
   renderer.domElement.hidden = false;
+};
+
+Attract.update = function()
+{
+  if (Keys.shooting)
+  {
+    State.initLevel();
+    Attract.hide();
+    Keys.shooting = false;
+    State.setupWaitForEnemy();
+  }
+  else if (Keys.levelRequested > 0)
+  {
+    log('requested start on level ' + Keys.levelRequested);
+    State.initLevel(Keys.levelRequested);
+    Attract.hide();
+    Keys.levelRequested = null;
+    State.setupWaitForEnemy(); 
+  }
 };
