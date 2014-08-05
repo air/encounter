@@ -12,6 +12,7 @@ Warp.state = null;
 Warp.STATE_ACCELERATE = 'accelerate';
 Warp.STATE_CRUISE = 'cruise';
 Warp.STATE_DECELERATE = 'decelerate';
+Warp.STATE_PLAYER_HIT = 'playerHit';
 Warp.STATE_WAIT_TO_EXIT = 'waitToExit';
 
 Warp.enteredAt = null;
@@ -86,9 +87,8 @@ Warp.checkCollisions = function()
   });
 };
 
-Warp.update = function(timeDeltaMillis)
+Warp.updateMovement = function(timeDeltaMillis)
 {
-  // the update loop is the same for all states
   TWEEN.update();
   Controls.current.update(timeDeltaMillis);
   Player.update(timeDeltaMillis);
@@ -96,11 +96,14 @@ Warp.update = function(timeDeltaMillis)
   Controls.interpretKeys(timeDeltaMillis);
   Warp.checkCollisions();
   // no need to update State.actors, we're just Player and Asteroids
+};
 
+Warp.update = function(timeDeltaMillis)
+{
   switch (Warp.state)
   {
     case Warp.STATE_ACCELERATE:
-      // keep things interesting
+      Warp.updateMovement(timeDeltaMillis);
       Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
       if ((clock.oldTime - Warp.enteredAt) > Warp.TIME_ACCELERATING_MS)
       {
@@ -109,7 +112,7 @@ Warp.update = function(timeDeltaMillis)
       }
       break;
     case Warp.STATE_CRUISE:
-      // keep things interesting
+      Warp.updateMovement(timeDeltaMillis);
       Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
       if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS) > Warp.TIME_CRUISING_MS)
       {
@@ -126,6 +129,7 @@ Warp.update = function(timeDeltaMillis)
       }
       break;
     case Warp.STATE_DECELERATE:
+      Warp.updateMovement(timeDeltaMillis);
       // don't create new asteroids in deceleration phase
       if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS - Warp.TIME_CRUISING_MS) > Warp.TIME_DECELERATING_MS)
       {
@@ -135,12 +139,27 @@ Warp.update = function(timeDeltaMillis)
       break;
     case Warp.STATE_WAIT_TO_EXIT:
       // TODO proper warp exit
-      log('warp ended');
+      log('warp ended successfully');
+      Level.nextLevel();
+      Player.awardBonusShield();
       Warp.state = null;
       Warp.restoreLevel();
       break;
+    case Warp.STATE_PLAYER_HIT:
+      Warp.updatePlayerHit();
+      break;
     default:
       error('unknown Warp state: ' + Warp.state);
+  }
+};
+
+Warp.updatePlayerHit = function()
+{
+  if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
+  {
+    Keys.shooting = false;
+    Player.isAlive = true;
+    Warp.restoreLevel();
   }
 };
 
@@ -148,9 +167,7 @@ Warp.restoreLevel = function()
 {
   Warp.removeFromScene();
 
-  Level.nextLevel();
-  State.initLevel();
-  Player.awardBonusShield();
+  State.initLevel();  // does all the heavy lifting of state reset
 
   Grid.addToScene();
   Radar.addToScene();

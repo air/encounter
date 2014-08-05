@@ -63,7 +63,7 @@ Player.wasHit = function()
   Sound.playerKilled();
   Player.isAlive = false;
   Player.timeOfDeath = clock.oldTime;
-  log('player death at time ' + Player.timeOfDeath);
+  log('player death timestamp');
 
   if (Player.shieldsLeft === 0)
   {
@@ -74,7 +74,6 @@ Player.wasHit = function()
     Player.shotsInFlight = 0;
     Player.lastTimeFired = 0;
     Player.shieldsLeft -= 1;
-    State.setupPlayerHit();
   }
 };
 

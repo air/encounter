@@ -29,6 +29,8 @@ Asteroid.collideWithPlayer = function(asteroidPosition)
 {
   if (MY3.doCirclesCollide(asteroidPosition, Asteroid.RADIUS, Player.position, Player.RADIUS))
   {
+    log('player hit asteroid in warp');
     Player.wasHit();
+    Warp.state = Warp.STATE_PLAYER_HIT;
   }
 };

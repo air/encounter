@@ -1,5 +1,6 @@
 # TODO
 
+  - clean up shots on entering warp
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
   - L6 saucer: yellow/lightgreen. 3 sets of mega shotgun containing 5 rounds with wide spread.
@@ -16,6 +17,7 @@
   - saucers enter from white portal
   - Saucer shots that don't depend on FPS
   - L6 horizon effect, lightred between orange and brown
+  - rationalise where Player.isAlive is set
   - allow jump to achieved level from title screen
   - end of game: reverts to L1, displays L9 when you exit, L8 once an enemy shows up.
   - warps get harder as levels go on - L8 warp is nearly impossible

@@ -86,6 +86,7 @@ Missile.update = function(timeDeltaMillis)
   if (MY3.doCirclesCollide(Missile.position, Missile.RADIUS, Player.position, Player.RADIUS))
   {
     Player.wasHit();
+    State.setupPlayerHit();
   }
 };
 
