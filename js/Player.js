@@ -99,3 +99,11 @@ Player.shoot = function()
     }
   }
 };
+
+Player.awardBonusShield = function()
+{
+  if (Player.shipsLeft < Encounter.PLAYER_MAX_SHIELDS)
+  {
+    Player.shipsLeft += 1;
+  }
+};

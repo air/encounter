@@ -150,6 +150,7 @@ Warp.restoreLevel = function()
 
   Level.nextLevel();
   State.initLevel();
+  Player.awardBonusShield();
 
   Grid.addToScene();
   Radar.addToScene();
