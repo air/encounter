@@ -103,53 +103,66 @@ Warp.update = function(timeDeltaMillis)
   switch (Warp.state)
   {
     case Warp.STATE_ACCELERATE:
-      Warp.updateMovement(timeDeltaMillis);
-      Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
-      if ((clock.oldTime - Warp.enteredAt) > Warp.TIME_ACCELERATING_MS)
-      {
-        Warp.state = Warp.STATE_CRUISE;
-        log('warp: cruising');
-      }
+      Warp.updateAccelerate(timeDeltaMillis);
       break;
     case Warp.STATE_CRUISE:
-      Warp.updateMovement(timeDeltaMillis);
-      Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
-      if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS) > Warp.TIME_CRUISING_MS)
-      {
-        Warp.state = Warp.STATE_DECELERATE;
-        log('warp: decelerating');
-
-        var tween = new TWEEN.Tween(Controls.current).to({ movementSpeed: 0 }, Warp.TIME_DECELERATING_MS);
-        //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
-        tween.onComplete(function()
-        {
-          log('acceleration tween complete');
-        });
-        tween.start();
-      }
+      Warp.updateCruise(timeDeltaMillis);
       break;
     case Warp.STATE_DECELERATE:
-      Warp.updateMovement(timeDeltaMillis);
-      // don't create new asteroids in deceleration phase
-      if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS - Warp.TIME_CRUISING_MS) > Warp.TIME_DECELERATING_MS)
-      {
-        Warp.state = Warp.STATE_WAIT_TO_EXIT;
-        log('warp: waiting to exit');
-      }
+      Warp.updateDecelerate(timeDeltaMillis);
       break;
     case Warp.STATE_WAIT_TO_EXIT:
-      // TODO proper warp exit
-      log('warp ended successfully');
-      Level.nextLevel();
-      Player.awardBonusShield();
-      Warp.state = null;
-      Warp.restoreLevel();
+      Warp.updateWaitToExit(timeDeltaMillis);
       break;
     case Warp.STATE_PLAYER_HIT:
       Warp.updatePlayerHit();
       break;
     default:
       error('unknown Warp state: ' + Warp.state);
+  }
+};
+
+Warp.updateAccelerate = function(timeDeltaMillis)
+{
+  Warp.updateMovement(timeDeltaMillis);
+  Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
+
+  if ((clock.oldTime - Warp.enteredAt) > Warp.TIME_ACCELERATING_MS)
+  {
+    Warp.state = Warp.STATE_CRUISE;
+    log('warp: cruising');
+  }
+};
+
+Warp.updateCruise = function(timeDeltaMillis)
+{
+  Warp.updateMovement(timeDeltaMillis);
+  Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
+
+  if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS) > Warp.TIME_CRUISING_MS)
+  {
+    Warp.state = Warp.STATE_DECELERATE;
+    log('warp: decelerating');
+
+    var tween = new TWEEN.Tween(Controls.current).to({ movementSpeed: 0 }, Warp.TIME_DECELERATING_MS);
+    //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
+    tween.onComplete(function()
+    {
+      log('acceleration tween complete');
+    });
+    tween.start();
+  }
+};
+
+Warp.updateDecelerate = function(timeDeltaMillis)
+{
+  Warp.updateMovement(timeDeltaMillis);
+  // don't create new asteroids in deceleration phase
+
+  if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS - Warp.TIME_CRUISING_MS) > Warp.TIME_DECELERATING_MS)
+  {
+    Warp.state = Warp.STATE_WAIT_TO_EXIT;
+    log('warp: waiting to exit');
   }
 };
 
@@ -161,6 +174,17 @@ Warp.updatePlayerHit = function()
     Player.isAlive = true;
     Warp.restoreLevel();
   }
+};
+
+Warp.updateWaitToExit = function(timeDeltaMillis)
+{
+  // TODO proper warp exit
+  log('warp ended successfully');
+  Level.nextLevel();
+  Player.awardBonusShield();
+
+  Warp.state = null;
+  Warp.restoreLevel();
 };
 
 Warp.restoreLevel = function()
