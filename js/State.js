@@ -208,7 +208,7 @@ State.updateCombat = function(timeDeltaMillis)
 
 State.updatePlayerHit = function(timeDeltaMillis)
 {
-  if (Keys.shooting)
+  if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Keys.shooting = false;
     Player.reset();
@@ -223,7 +223,7 @@ State.updatePlayerHit = function(timeDeltaMillis)
 State.updateGameOver = function(timeDeltaMillis)
 {
   Camera.update(timeDeltaMillis);
-  if (Keys.shooting)
+  if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Keys.shooting = false;
     Level.reset();

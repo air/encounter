@@ -17,6 +17,7 @@ Encounter.TIME_TO_ENTER_PORTAL_MS = 12000; // TODO not measured
 Encounter.ENEMY_SPAWN_DISTANCE_MAX = 10000; // not measured
 Encounter.PORTAL_SPAWN_DISTANCE_MAX = 10000; // not measured
 Encounter.PLAYER_INITIAL_ROTATION = 0.259;
+Encounter.PLAYER_DEATH_TIMEOUT_MS = 2000; // time before you can play once being hit 
 
 MY3.init3d(Encounter.DRAW_DISTANCE * 3);
 

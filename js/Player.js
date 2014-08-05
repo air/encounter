@@ -11,8 +11,10 @@ Player.radarType = Radar.TYPE_PLAYER;
 
 Player.lastTimeFired = null;
 Player.shotsInFlight = null;
-Player.isAlive = false;
 Player.shipsLeft = null;
+
+Player.isAlive = false;
+Player.timeOfDeath = null;  // timestamp when we died, for a delay before going back into game
 
 Player.init = function()
 {
@@ -65,6 +67,9 @@ Player.wasHit = function()
 {
   Sound.playerKilled();
   Player.isAlive = false;
+  Player.timeOfDeath = clock.oldTime;
+  log('player death at time ' + Player.timeOfDeath);
+
   if (Player.shipsLeft === 0)
   {
     State.setupGameOver();
