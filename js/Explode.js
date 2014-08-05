@@ -49,7 +49,7 @@ Explode.at = function(location)
 {
   Explode.gibsActive = 0;
   
-  log('sploding at location ' + location.x + ', ' + location.z);
+  log('sploding at location ' + Math.floor(location.x) + ', ' + Math.floor(location.z));
   for (var i = 0; i < Explode.NUMBER_OF_GIBS; i++)
   {
     Explode.gibs[i].position.copy(location);

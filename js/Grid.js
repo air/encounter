@@ -109,10 +109,17 @@ Grid.randomLocation = function()
   return new THREE.Vector3(x, 0, z);
 };
 
-// returns a Vector3
-Grid.randomLocationCloseToPlayer = function(maxDistance)
+// returns a Vector3.
+// requires a max distance. Optionally can specify a minimum distance
+// FIXME brute force alert!
+Grid.randomLocationCloseToPlayer = function(maxDistance, minDistance)
 {
-  return Grid.randomLocationCloseToPoint(Player.position, maxDistance);
+  var location = null;
+  do
+  {
+    location = Grid.randomLocationCloseToPoint(Player.position, maxDistance);
+  } while (location.distanceTo(Player.position) < minDistance);
+  return location;
 };
 
 // point: Vector3

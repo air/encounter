@@ -1,5 +1,6 @@
 # TODO
 
+  - don't use 'first enemy' after loss of shield
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
   - L6 saucer: yellow/lightgreen. 3 sets of mega shotgun containing 5 rounds with wide spread.
@@ -14,7 +15,6 @@
   - refactor Saucer types
   - dashboard is midgrey, white text overlay, black highlights
   - saucers enter from white portal
-  - don't spawn missiles too close to player
   - Saucer shots that don't depend on FPS
   - L6 horizon effect, lightred between orange and brown
   - allow jump to achieved level from title screen

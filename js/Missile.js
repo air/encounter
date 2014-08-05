@@ -14,8 +14,8 @@ Missile.radarType = Radar.TYPE_ENEMY;
 // Player speed is Encounter.MOVEMENT_SPEED
 Missile.MOVEMENT_SPEED = 1.8;
 
-Missile.STRAFE_MAX_OFFSET = 40; // how far the missile will strafe away from a direct line to the player
-Missile.STRAFE_TIME_MILLIS = 1000; // time to sweep from one side to the other
+Missile.STRAFE_MAX_OFFSET = 50; // how far the missile will strafe away from a direct line to the player
+Missile.STRAFE_TIME_MILLIS = 1100; // time to sweep from one side to the other
 
 Missile.strafeOffset = null; // current offset
 Missile.strafeTweenLoop = null; // keep a reference so we can start/stop on demand
@@ -33,9 +33,9 @@ Missile.spawn = function()
 {
   Indicators.setRed(true);
 
-  var spawnPoint = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
+  var spawnPoint = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX, Encounter.MISSILE_SPAWN_DISTANCE_MIN);
   spawnPoint.y = Encounter.CAMERA_HEIGHT;
-  log('spawning missile at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z);
+  log('spawning missile at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z + ', distance ' + Math.floor(Player.position.distanceTo(spawnPoint)));
   Missile.position.copy(spawnPoint);
 
   Missile.strafeOffset = -Missile.STRAFE_MAX_OFFSET; // start at one side for simplicity
