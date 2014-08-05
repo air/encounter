@@ -22,7 +22,7 @@ Radar.TYPE_PORTAL = 'portal';
 Radar.TYPE_OBELISK = 'obelisk';
 
 Radar.CSS_CENTRED_DIV = 'position:fixed; bottom:10px; width:100%';
-Radar.CSS_RADAR_DIV = 'background-color:#000; opacity:0.6; margin-left:auto; margin-right:auto';
+Radar.CSS_RADAR_DIV = 'background-color:#000; opacity:1.0; margin-left:auto; margin-right:auto';
 
 Radar.radarDiv = null; // for hide/show
 Radar.canvasContext = null; // for painting on
@@ -153,7 +153,7 @@ Radar.update = function()
     switch (type)
     {
       case Radar.TYPE_ENEMY:
-        Radar.canvasContext.fillStyle = '#FF0000';
+        Radar.canvasContext.fillStyle = C64.css.yellow;
         Radar.render(State.actors[i].position.x, State.actors[i].position.z);
         break;
       case Radar.TYPE_PLAYER:
@@ -164,7 +164,7 @@ Radar.update = function()
       case Radar.TYPE_SHOT:
         if (Radar.showShots)
         {
-          Radar.canvasContext.fillStyle = C64.css.yellow;
+          Radar.canvasContext.fillStyle = C64.css.orange;
           Radar.render(State.actors[i].position.x, State.actors[i].position.z);
         }
         break;
