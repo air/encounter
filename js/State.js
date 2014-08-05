@@ -61,8 +61,8 @@ State.initLevel = function(levelNumber)
 
   Camera.useFirstPersonMode();
   Controls.useEncounterControls();
-  Player.reset();
-  Player.resetShipsLeft();
+  Player.resetPosition();
+  Player.resetShieldsLeft();
   Grid.reset();
   Enemy.reset();
   Indicators.reset();
@@ -211,11 +211,9 @@ State.updatePlayerHit = function(timeDeltaMillis)
   if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Keys.shooting = false;
-    Player.reset();
-    Grid.reset();
-    Enemy.reset();
     Indicators.reset();
     State.resetActors();
+    Player.isAlive = true;
     State.setupWaitForEnemy();
   } 
 };

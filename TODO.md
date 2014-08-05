@@ -1,6 +1,6 @@
 # TODO
 
-  - don't use 'first enemy' after loss of shield
+  - Radar colours, use C64 palette
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
   - L6 saucer: yellow/lightgreen. 3 sets of mega shotgun containing 5 rounds with wide spread.
@@ -31,7 +31,6 @@
   - add original super-cool exit from warp effect
   - further original UFO types
   - L1 clouds. L2 stars. Use CSS background image and scroll?
-  - Radar colours, use C64 palette
   - L1 10 enemies on NOVICE. Seems to vary weirdly. 
   - Saucers despawn after a couple of minutes!
   - If Saucer is killed with shots in flight, the shots are coloured as gibs burning out. Not sure if they kill.

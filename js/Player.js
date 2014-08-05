@@ -25,8 +25,7 @@ Player.init = function()
   //State.actors.push(playerMesh);
 };
 
-// reset everything about the player except how many lives are left.
-Player.reset = function()
+Player.resetPosition = function()
 {
   Player.position.copy(Grid.playerStartLocation());
 
@@ -35,13 +34,9 @@ Player.reset = function()
   Player.rotation.z = 0;
 
   log('reset player: position ' + Player.position.x + ', ' + Player.position.y + ', ' + Player.position.z + ' and rotation.y ' + Player.rotation.y);
-
-  Player.shotsInFlight = 0;
-  Player.lastTimeFired = 0;
-  Player.isAlive = true;
 };
 
-Player.resetShipsLeft = function()
+Player.resetShieldsLeft = function()
 {
   Player.shieldsLeft = Encounter.PLAYER_LIVES;
 };
@@ -76,6 +71,8 @@ Player.wasHit = function()
   }
   else
   {
+    Player.shotsInFlight = 0;
+    Player.lastTimeFired = 0;
     Player.shieldsLeft -= 1;
     State.setupPlayerHit();
   }
