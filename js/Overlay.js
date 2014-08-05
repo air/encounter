@@ -46,7 +46,7 @@ Overlay.update = function()
     case State.COMBAT:
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
-      Overlay.text.innerHTML = 'L' + Level.number + ' E' + State.enemiesRemaining + ' S' + Player.shipsLeft;
+      Overlay.text.innerHTML = 'L' + Level.number + ' E' + State.enemiesRemaining + ' S' + Player.shieldsLeft;
       break;
     default:
       console.error('unknown state: ', State.current);

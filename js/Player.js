@@ -11,7 +11,7 @@ Player.radarType = Radar.TYPE_PLAYER;
 
 Player.lastTimeFired = null;
 Player.shotsInFlight = null;
-Player.shipsLeft = null;
+Player.shieldsLeft = null;
 
 Player.isAlive = false;
 Player.timeOfDeath = null;  // timestamp when we died, for a delay before going back into game
@@ -43,7 +43,7 @@ Player.reset = function()
 
 Player.resetShipsLeft = function()
 {
-  Player.shipsLeft = Encounter.PLAYER_LIVES;
+  Player.shieldsLeft = Encounter.PLAYER_LIVES;
 };
 
 Player.update = function()
@@ -70,13 +70,13 @@ Player.wasHit = function()
   Player.timeOfDeath = clock.oldTime;
   log('player death at time ' + Player.timeOfDeath);
 
-  if (Player.shipsLeft === 0)
+  if (Player.shieldsLeft === 0)
   {
     State.setupGameOver();
   }
   else
   {
-    Player.shipsLeft -= 1;
+    Player.shieldsLeft -= 1;
     State.setupPlayerHit();
   }
 };
@@ -102,8 +102,8 @@ Player.shoot = function()
 
 Player.awardBonusShield = function()
 {
-  if (Player.shipsLeft < Encounter.PLAYER_MAX_SHIELDS)
+  if (Player.shieldsLeft < Encounter.PLAYER_MAX_SHIELDS)
   {
-    Player.shipsLeft += 1;
+    Player.shieldsLeft += 1;
   }
 };
