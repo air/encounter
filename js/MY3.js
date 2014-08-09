@@ -2,6 +2,8 @@
 
 var MY3 = {};
 
+MY3.threeDiv = null;  // div containing the renderer
+
 //=============================================================================
 // setup for server-side testing
 //=============================================================================
@@ -49,12 +51,14 @@ var rstats;
 // init functions
 //=============================================================================
 // optional argument: far - draw distance, defaults to 10,000
-MY3.init3d = function(far)
+// optional argument: zIndex - for the div containing the canvas, defaults to 10
+MY3.init3d = function(far, zIndex)
 {
   var VIEW_ANGLE = 45; // degrees not radians
   var ASPECT = WIDTH / HEIGHT;
   var NEAR = 0.1; // objects closer than this won't render
   var FAR = (typeof far === 'undefined') ? 10000 : far;
+  var theZIndex = (typeof zIndex === 'undefined') ? 10 : zIndex;
 
   renderer = new THREE.WebGLRenderer();
   camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
@@ -62,7 +66,12 @@ MY3.init3d = function(far)
   scene.add(camera);
   renderer.setSize(WIDTH, HEIGHT);
   renderer.shadowMapEnabled = true;
-  document.body.appendChild(renderer.domElement);
+  MY3.threeDiv = document.createElement('div');
+  MY3.threeDiv.id = 'threejs';
+  MY3.threeDiv.style.position = 'absolute';
+  MY3.threeDiv.style.zIndex = theZIndex;
+  MY3.threeDiv.appendChild(renderer.domElement);
+  document.body.appendChild(MY3.threeDiv);
 };
 
 MY3.addHelpers = function()

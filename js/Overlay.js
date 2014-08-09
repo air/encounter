@@ -1,14 +1,60 @@
-'use strict';
+  'use strict';
 
 var Overlay = {};
 
+Overlay.ZINDEX_SKY = '1';
+Overlay.ZINDEX_HORIZON = '2';
+Overlay.ZINDEX_CANVAS = '3';
+Overlay.ZINDEX_RADAR = '4';
+Overlay.ZINDEX_INDICATORS = '5';
+Overlay.ZINDEX_CROSSHAIRS = '6';
+
 Overlay.containerDiv = null;
+Overlay.horizonDiv = null;
+Overlay.aimDiv = null;
+Overlay.skyDiv = null;
 
 Overlay.text = null; // current text in readout
 
 Overlay.init = function()
 {
   Overlay.initDivs();
+  Overlay.initHorizon();
+  Overlay.initCrosshairs();
+  Overlay.initSky();
+};
+
+Overlay.initSky = function()
+{
+  Overlay.skyDiv = document.createElement('div');
+  Overlay.skyDiv.id = 'sky';
+  Overlay.skyDiv.style.backgroundColor = C64.css.lightblue;
+  Overlay.skyDiv.style.position = 'absolute';
+  Overlay.skyDiv.style.width = '100%';
+  Overlay.skyDiv.style.height = '100%';
+  Overlay.skyDiv.style.zIndex = Overlay.ZINDEX_SKY;
+  Overlay.skyDiv.hidden = true; // off by default until shown
+  document.body.appendChild(Overlay.skyDiv);
+};
+
+Overlay.initHorizon = function()
+{
+  Overlay.horizonDiv = document.createElement('div');
+  Overlay.horizonDiv.id = 'horizon';
+  Overlay.horizonDiv.style.cssText = 'background-color:' + C64.css.blue + '; width=100%; height:4px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
+  Overlay.horizonDiv.style.zIndex = Overlay.ZINDEX_HORIZON;
+  Overlay.horizonDiv.hidden = true; // off by default until shown
+  document.body.appendChild(Overlay.horizonDiv);
+};
+
+Overlay.initCrosshairs = function()
+{
+  Overlay.aimDiv = document.createElement('div');
+  Overlay.aimDiv.id = 'crosshairs';
+  Overlay.aimDiv.style.cssText = 'background-color:' + C64.css.lightgrey + '; width:60px; height:60px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
+  Overlay.aimDiv.style.zIndex = Overlay.ZINDEX_CROSSHAIRS;
+  Overlay.aimDiv.hidden = true; // off by default until shown
+  document.body.appendChild(Overlay.aimDiv);
 };
 
 Overlay.initDivs = function()
@@ -16,7 +62,7 @@ Overlay.initDivs = function()
   // the overlay div will contain a line of text, containing world number and enemy count
   Overlay.containerDiv = document.createElement('div');
   Overlay.containerDiv.id = 'overlay';
-  Overlay.containerDiv.style.cssText = 'opacity:0.5';
+  Overlay.containerDiv.style.cssText = 'background-color:#000;';
   Overlay.containerDiv.style.display = 'none'; // off by default until shown
 
   // textBox adds padding, alignment, background
@@ -56,9 +102,15 @@ Overlay.update = function()
 Overlay.removeFromScene = function()
 {
   Overlay.containerDiv.style.display = 'none';
+  Overlay.horizonDiv.hidden = true;
+  Overlay.aimDiv.hidden = true;
+  Overlay.skyDiv.hidden = true;
 };
 
 Overlay.addToScene = function()
 {
   Overlay.containerDiv.style.display = 'block';
+  Overlay.horizonDiv.hidden = false;
+  Overlay.aimDiv.hidden = false;
+  Overlay.skyDiv.hidden = false;
 };

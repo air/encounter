@@ -12,7 +12,7 @@ Attract.show = function()
   Overlay.removeFromScene();
   Radar.removeFromScene();
   Indicators.removeFromScene();
-  renderer.domElement.hidden = true;
+  MY3.threeDiv.hidden = true;
 };
 
 Attract.hide = function()
@@ -20,7 +20,7 @@ Attract.hide = function()
   Overlay.addToScene();
   Radar.addToScene();
   Indicators.addToScene();
-  renderer.domElement.hidden = false;
+  MY3.threeDiv.hidden = false;
 };
 
 Attract.update = function()

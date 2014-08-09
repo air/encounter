@@ -1,5 +1,7 @@
 # TODO
 
+  - rename overlay to layers or similar
+  - move block/none to hidden true/false
   - lightgrey crosshairs
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
@@ -12,6 +14,7 @@
     - title screen show readiness once all Inits() are called?
   - saucer shoot noise is the SAME as obelisk rebound
   - refactor Saucer types
+  - add Grid.randomLocationCloserToPlayer(currentPosition)
   - dashboard is midgrey, white text overlay, black highlights
   - saucers enter from white portal
   - Saucer shots that don't depend on FPS
@@ -26,7 +29,6 @@
   - sound: C64 oscillator doesn't have SINE, must be sawtooth or triangle
     - see https://github.com/pstoica/web-audio-synth/blob/master/js/sid.js and http://www.igorski.nl/experiment/websid
   - MaterialsC64.js - then clone() all materials from the set
-  - bug: horizon is no longer a flat line
   - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - add original super-cool exit from warp effect
   - further original UFO types

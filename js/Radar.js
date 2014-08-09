@@ -33,6 +33,8 @@ Radar.init = function()
   var centredDiv = document.createElement('div');
   centredDiv.id = 'centredRadarDiv';
   centredDiv.style.cssText = Radar.CSS_CENTRED_DIV;
+  // set the z-index for all the radar divs in the parent div
+  centredDiv.style.zIndex = Overlay.ZINDEX_RADAR;
 
   Radar.radarDiv = document.createElement('div');
   Radar.radarDiv.id = 'radarDiv';
