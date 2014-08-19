@@ -8,6 +8,7 @@ Overlay.ZINDEX_CANVAS = '3';
 Overlay.ZINDEX_RADAR = '4';
 Overlay.ZINDEX_INDICATORS = '5';
 Overlay.ZINDEX_CROSSHAIRS = '6';
+Overlay.ZINDEX_TEXT = '7';
 
 Overlay.containerDiv = null;
 Overlay.horizonDiv = null;
@@ -33,7 +34,7 @@ Overlay.initSky = function()
   Overlay.skyDiv.style.width = '100%';
   Overlay.skyDiv.style.height = '100%';
   Overlay.skyDiv.style.zIndex = Overlay.ZINDEX_SKY;
-  Overlay.skyDiv.hidden = true; // off by default until shown
+  Overlay.skyDiv.style.display = 'none'; // off by default until shown
   document.body.appendChild(Overlay.skyDiv);
 };
 
@@ -43,7 +44,7 @@ Overlay.initHorizon = function()
   Overlay.horizonDiv.id = 'horizon';
   Overlay.horizonDiv.style.cssText = 'background-color:' + C64.css.blue + '; width=100%; height:4px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
   Overlay.horizonDiv.style.zIndex = Overlay.ZINDEX_HORIZON;
-  Overlay.horizonDiv.hidden = true; // off by default until shown
+  Overlay.horizonDiv.style.display = 'none'; // off by default until shown
   document.body.appendChild(Overlay.horizonDiv);
 };
 
@@ -53,7 +54,7 @@ Overlay.initCrosshairs = function()
   Overlay.aimDiv.id = 'crosshairs';
   Overlay.aimDiv.style.cssText = 'background-color:' + C64.css.lightgrey + '; width:60px; height:60px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
   Overlay.aimDiv.style.zIndex = Overlay.ZINDEX_CROSSHAIRS;
-  Overlay.aimDiv.hidden = true; // off by default until shown
+  Overlay.aimDiv.style.display = 'none'; // off by default until shown
   document.body.appendChild(Overlay.aimDiv);
 };
 
@@ -64,6 +65,7 @@ Overlay.initDivs = function()
   Overlay.containerDiv.id = 'overlay';
   Overlay.containerDiv.style.cssText = 'background-color:#000;';
   Overlay.containerDiv.style.display = 'none'; // off by default until shown
+  Overlay.containerDiv.style.zIndex = Overlay.ZINDEX_TEXT;
 
   // textBox adds padding, alignment, background
   var textBox = document.createElement('div');
@@ -102,15 +104,20 @@ Overlay.update = function()
 Overlay.removeFromScene = function()
 {
   Overlay.containerDiv.style.display = 'none';
-  Overlay.horizonDiv.hidden = true;
-  Overlay.aimDiv.hidden = true;
-  Overlay.skyDiv.hidden = true;
+  Overlay.horizonDiv.style.display = 'none';
+  Overlay.aimDiv.style.display = 'none';
+  Overlay.skyDiv.style.display = 'none';
 };
 
 Overlay.addToScene = function()
 {
   Overlay.containerDiv.style.display = 'block';
-  Overlay.horizonDiv.hidden = false;
-  Overlay.aimDiv.hidden = false;
-  Overlay.skyDiv.hidden = false;
+  Overlay.horizonDiv.style.display = 'block';
+  Overlay.aimDiv.style.display = 'block';
+  Overlay.skyDiv.style.display = 'block';
+};
+
+Overlay.setSkyColour = function(cssColour)
+{
+  Overlay.skyDiv.style.backgroundColor = cssColour;
 };

@@ -1,8 +1,11 @@
 # TODO
 
   - rename overlay to layers or similar
-  - move block/none to hidden true/false
+  - colour horizon from level data
+  - game over still in control?
+  - move hidden to block/none
   - lightgrey crosshairs
+  - remove fonts.googleapis.com dependency
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
   - L6 saucer: yellow/lightgreen. 3 sets of mega shotgun containing 5 rounds with wide spread.

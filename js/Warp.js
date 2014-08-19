@@ -37,7 +37,8 @@ Warp.setup = function()
 
   Warp.enteredAt = clock.oldTime;
 
-  document.body.style.background = C64.css.black;
+  Overlay.setSkyColour(C64.css.black);
+  Overlay.horizonDiv.style.display = 'none';
 
   Warp.state = Warp.STATE_ACCELERATE;
   log('warp: accelerating');
@@ -192,6 +193,7 @@ Warp.restoreLevel = function()
   Warp.removeFromScene();
 
   State.initLevel();  // does all the heavy lifting of state reset
+  Overlay.horizonDiv.style.display = 'block';
 
   Grid.addToScene();
   Radar.addToScene();
