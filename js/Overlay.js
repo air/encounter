@@ -42,7 +42,7 @@ Overlay.initHorizon = function()
 {
   Overlay.horizonDiv = document.createElement('div');
   Overlay.horizonDiv.id = 'horizon';
-  Overlay.horizonDiv.style.cssText = 'background-color:' + C64.css.blue + '; width=100%; height:4px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
+  Overlay.horizonDiv.style.cssText = 'width=100%; height:4px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
   Overlay.horizonDiv.style.transform = 'translateY(2px)';
   Overlay.horizonDiv.style.zIndex = Overlay.ZINDEX_HORIZON;
   Overlay.horizonDiv.style.display = 'none'; // off by default until shown
@@ -121,4 +121,9 @@ Overlay.addToScene = function()
 Overlay.setSkyColour = function(cssColour)
 {
   Overlay.skyDiv.style.backgroundColor = cssColour;
+};
+
+Overlay.setHorizonColour = function(cssColour)
+{
+  Overlay.horizonDiv.style.backgroundColor = cssColour;
 };

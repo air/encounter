@@ -1,7 +1,7 @@
 # TODO
 
   - rename overlay to layers or similar
-  - colour horizon from level data
+  - fill below horizon with ground colour
   - game over still in control?
   - move hidden to block/none
   - lightgrey crosshairs

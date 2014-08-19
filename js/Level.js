@@ -9,6 +9,7 @@ Level.data = [
   // level 1
   {
     backgroundColor : C64.css.lightblue,
+    horizonColor : C64.css.blue,
     groundColor : C64.green,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_SINGLE,
@@ -22,6 +23,7 @@ Level.data = [
   // level 2
   {
     backgroundColor : C64.css.black,
+    horizonColor : C64.css.black,
     groundColor : C64.brown,
     obeliskColor : C64.green,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
@@ -37,6 +39,7 @@ Level.data = [
   // level 3
   {
     backgroundColor : C64.css.lightblue,
+    horizonColor : C64.css.blue,
     groundColor : C64.lightred,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
@@ -52,6 +55,7 @@ Level.data = [
   // level 4
   {
     backgroundColor : C64.css.black,
+    horizonColor : C64.css.black,
     groundColor : C64.red,
     obeliskColor : C64.purple,
     firstEnemy : Enemy.TYPE_SAUCER_AUTOSHOTGUN,
@@ -67,6 +71,7 @@ Level.data = [
   // level 5
   {
     backgroundColor : C64.css.lightblue,
+    horizonColor : C64.css.blue,
     groundColor : C64.grey,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_CHAINGUN,
@@ -82,6 +87,7 @@ Level.data = [
   // level 6
   {
     backgroundColor : C64.css.orange,
+    horizonColor : C64.css.lightred,
     groundColor : C64.brown,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
@@ -97,6 +103,7 @@ Level.data = [
   // level 7
   {
     backgroundColor : C64.css.black,
+    horizonColor : C64.css.black,
     groundColor : C64.lightblue,
     obeliskColor : C64.blue,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
@@ -111,8 +118,9 @@ Level.data = [
   },
   // level 8
   {
-    backgroundColor : C64.css.orange,
-    groundColor : C64.brown,
+    backgroundColor : C64.css.lightred,
+    horizonColor : C64.css.orange,
+    groundColor : C64.red,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
