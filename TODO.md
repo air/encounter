@@ -1,9 +1,7 @@
 # TODO
 
-  - new game after game over (due to death in warp) not displayed correctly
   - rename overlay to layers or similar
   - fill below horizon with ground colour
-  - game over still in control?
   - move hidden to block/none
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.

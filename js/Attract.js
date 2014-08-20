@@ -9,6 +9,7 @@ Attract.init = function()
 
 Attract.show = function()
 {
+  Grid.removeFromScene();
   Overlay.removeFromScene();
   Radar.removeFromScene();
   Indicators.removeFromScene();
@@ -17,6 +18,7 @@ Attract.show = function()
 
 Attract.hide = function()
 {
+  Grid.addToScene();
   Overlay.addToScene();
   Radar.addToScene();
   Indicators.addToScene();

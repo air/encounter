@@ -173,6 +173,7 @@ Warp.updatePlayerHit = function()
   if (Player.shieldsLeft < 0)
   {
     Warp.state = null;
+    Warp.removeAsteroidsFromScene();  // FIXME asteroids disappear, will be replaced by death fuzz
     State.setupGameOver();
   }
   else if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
