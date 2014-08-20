@@ -1,4 +1,4 @@
-  'use strict';
+'use strict';
 
 var Overlay = {};
 
@@ -116,11 +116,16 @@ Overlay.update = function()
     case State.COMBAT:
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
-      Overlay.text.innerHTML = 'L' + Level.number + ' E' + State.enemiesRemaining + ' S' + Player.shieldsLeft;
+      Overlay.setText('L' + Level.number + ' E' + State.enemiesRemaining + ' S' + Player.shieldsLeft);
       break;
     default:
       console.error('unknown state: ', State.current);
   }
+};
+
+Overlay.setText = function(text)
+{
+  Overlay.text.innerHTML = text;
 };
 
 Overlay.removeFromScene = function()

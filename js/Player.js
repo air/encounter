@@ -58,23 +58,17 @@ Player.update = function()
   }
 };
 
+// player was hit either in Warp or in combat, amend local state.
 Player.wasHit = function()
 {
   Sound.playerKilled();
   Player.isAlive = false;
   Player.timeOfDeath = clock.oldTime;
-  log('player death timestamp');
+  log('player wasHit');
 
-  if (Player.shieldsLeft === 0)
-  {
-    State.setupGameOver();
-  }
-  else
-  {
-    Player.shotsInFlight = 0;
-    Player.lastTimeFired = 0;
-    Player.shieldsLeft -= 1;
-  }
+  Player.shotsInFlight = 0;
+  Player.lastTimeFired = 0;
+  Player.shieldsLeft -= 1;
 };
 
 Player.shoot = function()

@@ -121,13 +121,17 @@ State.setupPlayerHit = function()
 {
   State.current = State.PLAYER_HIT;
   log(State.current);
+  if (Player.shieldsLeft < 0)
+  {
+    State.setupGameOver();
+  }
 };
 
 State.setupGameOver = function()
 {
   State.current = State.GAME_OVER;
   log(State.current);
-  Camera.useOrbitMode();
+  Overlay.setText('GAME OVER');
 };
 
 State.setupWarp = function()
@@ -221,7 +225,6 @@ State.updatePlayerHit = function(timeDeltaMillis)
 
 State.updateGameOver = function(timeDeltaMillis)
 {
-  Camera.update(timeDeltaMillis);
   if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Keys.shooting = false;
