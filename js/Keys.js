@@ -57,6 +57,13 @@ Keys.keyUp = function(event)
         error('cheat: skipper!');
       }
       break;
+    case 85: // u
+      if (State.current === State.COMBAT || State.current === State.WAIT_FOR_ENEMY)
+      {
+        error('cheat: suicide');
+        Player.wasHit();
+        State.setupPlayerHitInCombat();
+      }
   }
 };
 
