@@ -67,7 +67,7 @@ Radar.removeFromScene = function()
 Radar.blip = function(x, z, blipSize)
 {
   var size = (typeof blipSize === 'undefined') ? Radar.BLIP_RADIUS : blipSize;
-  Radar.canvasContext.fillRect(x - size, z - size, size * 2, size * 2);  
+  Radar.canvasContext.fillRect(x - size, z - size, size * 2, size * 2);
 };
 
 // This limits the radar to only showing Radar.RANGE

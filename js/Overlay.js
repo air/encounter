@@ -10,6 +10,10 @@ Overlay.ZINDEX_INDICATORS = '5';
 Overlay.ZINDEX_CROSSHAIRS = '6';
 Overlay.ZINDEX_TEXT = '7';
 
+Overlay.CROSSHAIR_WIDTH = 80;
+Overlay.CROSSHAIR_HEIGHT = 60;
+Overlay.CROSSHAIR_THICKNESS = 7;
+
 Overlay.containerDiv = null;
 Overlay.horizonDiv = null;
 Overlay.aimDiv = null;
@@ -51,11 +55,28 @@ Overlay.initHorizon = function()
 
 Overlay.initCrosshairs = function()
 {
-  Overlay.aimDiv = document.createElement('div');
+  Overlay.aimDiv = document.createElement('canvas');
   Overlay.aimDiv.id = 'crosshairs';
-  Overlay.aimDiv.style.cssText = 'background-color:' + C64.css.lightgrey + '; width:60px; height:60px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
+  // don't use CSS to set the size of a canvas, or you'll get scaling. Set direct on the element.
+  Overlay.aimDiv.width = Overlay.CROSSHAIR_WIDTH;
+  Overlay.aimDiv.height = Overlay.CROSSHAIR_HEIGHT;
+  Overlay.aimDiv.style.cssText = 'position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
   Overlay.aimDiv.style.zIndex = Overlay.ZINDEX_CROSSHAIRS;
   Overlay.aimDiv.style.display = 'none'; // off by default until shown
+
+  // draw the crosshairs
+  var canvas = Overlay.aimDiv.getContext('2d');
+  canvas.fillStyle = C64.css.lightgrey;
+  var serifLength = Overlay.CROSSHAIR_WIDTH / 5;
+  // left
+  canvas.fillRect(0, 0, serifLength, Overlay.CROSSHAIR_THICKNESS);
+  canvas.fillRect(0, 0, Overlay.CROSSHAIR_THICKNESS, Overlay.CROSSHAIR_HEIGHT);
+  canvas.fillRect(0, Overlay.CROSSHAIR_HEIGHT - Overlay.CROSSHAIR_THICKNESS, serifLength, Overlay.CROSSHAIR_THICKNESS);
+  // right
+  canvas.fillRect(Overlay.CROSSHAIR_WIDTH - serifLength, 0, serifLength, Overlay.CROSSHAIR_THICKNESS);
+  canvas.fillRect(Overlay.CROSSHAIR_WIDTH - Overlay.CROSSHAIR_THICKNESS, 0, Overlay.CROSSHAIR_THICKNESS, Overlay.CROSSHAIR_HEIGHT);
+  canvas.fillRect(Overlay.CROSSHAIR_WIDTH - serifLength, Overlay.CROSSHAIR_HEIGHT - Overlay.CROSSHAIR_THICKNESS, serifLength, Overlay.CROSSHAIR_THICKNESS);
+
   document.body.appendChild(Overlay.aimDiv);
 };
 
