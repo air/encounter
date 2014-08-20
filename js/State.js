@@ -117,7 +117,7 @@ State.setupCombat = function()
   log(State.current);
 };
 
-State.setupPlayerHit = function()
+State.setupPlayerHitInCombat = function()
 {
   State.current = State.PLAYER_HIT;
   log(State.current);
@@ -211,7 +211,7 @@ State.updateCombat = function(timeDeltaMillis)
   Indicators.update(); // needed for flickering effects only
 };
 
-State.updatePlayerHit = function(timeDeltaMillis)
+State.updatePlayerHitInCombat = function(timeDeltaMillis)
 {
   if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
@@ -262,7 +262,7 @@ function update(timeDeltaMillis)
       Warp.update(timeDeltaMillis);
       break;
     case State.PLAYER_HIT:
-      State.updatePlayerHit(timeDeltaMillis);
+      State.updatePlayerHitInCombat(timeDeltaMillis);
       break;
     case State.GAME_OVER:
       State.updateGameOver(timeDeltaMillis);

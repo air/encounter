@@ -97,7 +97,7 @@ Shot.collideWithShips = function(shot)
   if (shot.shotType === Shot.TYPE_ENEMY && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Player.position, Player.RADIUS))
   {
     Player.wasHit();
-    State.setupPlayerHit();
+    State.setupPlayerHitInCombat();
   }
   // kill the enemy
   if (shot.shotType === Shot.TYPE_PLAYER && Enemy.isAlive && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.current.position, Enemy.current.RADIUS))
