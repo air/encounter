@@ -1,6 +1,5 @@
 # TODO
 
-  - rename fooPlayerHit -> fooPlayerHitInCombat 
   - new game after game over (due to death in warp) not displayed correctly
   - rename overlay to layers or similar
   - fill below horizon with ground colour

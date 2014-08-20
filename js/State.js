@@ -89,14 +89,14 @@ State.resetEnemyCounter = function()
 State.setupAttract = function()
 {
   State.current = State.ATTRACT;
-  log(State.current);
+  log('State: ' + State.current);
   Attract.show();
 };
 
 State.setupWaitForEnemy = function()
 {
   State.current = State.WAIT_FOR_ENEMY;
-  log(State.current);
+  log('State: ' + State.current);
 
   Overlay.update();
   Enemy.startSpawnTimer();
@@ -105,7 +105,7 @@ State.setupWaitForEnemy = function()
 State.setupWaitForPortal = function()
 {
   State.current = State.WAIT_FOR_PORTAL;
-  log(State.current);
+  log('State: ' + State.current);
 
   Overlay.update();
   Portal.startSpawnTimer();
@@ -114,13 +114,13 @@ State.setupWaitForPortal = function()
 State.setupCombat = function()
 {
   State.current = State.COMBAT;
-  log(State.current);
+  log('State: ' + State.current);
 };
 
 State.setupPlayerHitInCombat = function()
 {
   State.current = State.PLAYER_HIT;
-  log(State.current);
+  log('State: ' + State.current);
   if (Player.shieldsLeft < 0)
   {
     State.setupGameOver();
@@ -130,14 +130,14 @@ State.setupPlayerHitInCombat = function()
 State.setupGameOver = function()
 {
   State.current = State.GAME_OVER;
-  log(State.current);
+  log('State: ' + State.current);
   Overlay.setText('GAME OVER');
 };
 
 State.setupWarp = function()
 {
   State.current = State.WARP;
-  log(State.current);
+  log('State: ' + State.current);
 
   Warp.setup();
 };
