@@ -53,7 +53,7 @@ Warp.setup = function()
   tween.start();
 };
 
-Warp.removeFromScene = function()
+Warp.removeAsteroidsFromScene = function()
 {
   Warp.asteroids.forEach(function(asteroid) {
     scene.remove(asteroid);
@@ -196,7 +196,7 @@ Warp.updateWaitToExit = function(timeDeltaMillis)
 
 Warp.restoreLevel = function()
 {
-  Warp.removeFromScene();
+  Warp.removeAsteroidsFromScene();
 
   State.initLevel();  // does all the heavy lifting of state reset
   Overlay.horizonDiv.style.display = 'block';

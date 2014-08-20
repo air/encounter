@@ -64,10 +64,10 @@ Player.wasHit = function()
   Sound.playerKilled();
   Player.isAlive = false;
   Player.timeOfDeath = clock.oldTime;
-  log('player wasHit');
 
   Player.shotsInFlight = 0;
   Player.lastTimeFired = 0;
+  log('reducing shields from ' + Player.shieldsLeft + ' to ' + (Player.shieldsLeft - 1));
   Player.shieldsLeft -= 1;
 };
 
