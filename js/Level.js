@@ -8,7 +8,7 @@ Level.current = null; // reference to current level data object
 Level.data = [
   // level 1
   {
-    backgroundColor : C64.css.lightblue,
+    skyColor : C64.css.lightblue,
     horizonColor : C64.css.blue,
     groundColor : C64.green,
     obeliskColor : C64.black,
@@ -22,7 +22,7 @@ Level.data = [
   },
   // level 2
   {
-    backgroundColor : C64.css.black,
+    skyColor : C64.css.black,
     horizonColor : C64.css.black,
     groundColor : C64.brown,
     obeliskColor : C64.green,
@@ -38,7 +38,7 @@ Level.data = [
   },
   // level 3
   {
-    backgroundColor : C64.css.lightblue,
+    skyColor : C64.css.lightblue,
     horizonColor : C64.css.blue,
     groundColor : C64.lightred,
     obeliskColor : C64.black,
@@ -54,7 +54,7 @@ Level.data = [
   },
   // level 4
   {
-    backgroundColor : C64.css.black,
+    skyColor : C64.css.black,
     horizonColor : C64.css.black,
     groundColor : C64.red,
     obeliskColor : C64.purple,
@@ -70,7 +70,7 @@ Level.data = [
   },
   // level 5
   {
-    backgroundColor : C64.css.lightblue,
+    skyColor : C64.css.lightblue,
     horizonColor : C64.css.blue,
     groundColor : C64.grey,
     obeliskColor : C64.black,
@@ -86,7 +86,7 @@ Level.data = [
   },
   // level 6
   {
-    backgroundColor : C64.css.orange,
+    skyColor : C64.css.orange,
     horizonColor : C64.css.lightred,
     groundColor : C64.brown,
     obeliskColor : C64.black,
@@ -102,7 +102,7 @@ Level.data = [
   },
   // level 7
   {
-    backgroundColor : C64.css.black,
+    skyColor : C64.css.black,
     horizonColor : C64.css.black,
     groundColor : C64.lightblue,
     obeliskColor : C64.blue,
@@ -118,7 +118,7 @@ Level.data = [
   },
   // level 8
   {
-    backgroundColor : C64.css.lightred,
+    skyColor : C64.css.lightred,
     horizonColor : C64.css.orange,
     groundColor : C64.red,
     obeliskColor : C64.black,

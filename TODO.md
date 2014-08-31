@@ -1,6 +1,5 @@
 # TODO
 
-  - rename backgroundColor -> skyColor
   - rename overlay to layers or similar
   - fill below horizon with ground colour
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape

@@ -57,7 +57,7 @@ State.initLevel = function(levelNumber)
   }
 
   log('initialising level ' + Level.number);
-  Overlay.setSkyColour(Level.current.backgroundColor);
+  Overlay.setSkyColour(Level.current.skyColor);
   Overlay.setHorizonColour(Level.current.horizonColor);
 
   Camera.useFirstPersonMode();

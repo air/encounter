@@ -162,6 +162,6 @@ Overlay.showShieldLossStatic = function()
 
 Overlay.hideShieldLossStatic = function()
 {
-  Overlay.setSkyColour(Level.current.backgroundColor);
+  Overlay.setSkyColour(Level.current.skyColor);
   Ground.material.color = new THREE.Color(Level.current.groundColor);
 };
