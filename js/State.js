@@ -121,6 +121,9 @@ State.setupPlayerHitInCombat = function()
 {
   State.current = State.PLAYER_HIT;
   log('State: ' + State.current);
+
+  Overlay.showShieldLossStatic();
+
   if (Player.shieldsLeft < 0)
   {
     State.setupGameOver();
@@ -213,9 +216,10 @@ State.updateCombat = function(timeDeltaMillis)
 
 State.updatePlayerHitInCombat = function(timeDeltaMillis)
 {
-  if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
+  if (clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
-    Keys.shooting = false;
+    // Keys.shooting = false;
+    Overlay.hideShieldLossStatic();
     Indicators.reset();
     State.resetActors();
     Player.isAlive = true;
@@ -227,6 +231,7 @@ State.updateGameOver = function(timeDeltaMillis)
 {
   if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
+    Overlay.hideShieldLossStatic();
     Keys.shooting = false;
     Level.reset();
     State.setupAttract();

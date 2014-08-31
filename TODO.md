@@ -1,8 +1,9 @@
 # TODO
 
+  - rename backgroundColor -> skyColor
   - rename overlay to layers or similar
   - fill below horizon with ground colour
-  - move hidden to block/none
+  - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
   - L6 saucer: yellow/lightgreen. 3 sets of mega shotgun containing 5 rounds with wide spread.

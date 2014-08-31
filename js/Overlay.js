@@ -153,3 +153,15 @@ Overlay.setHorizonColour = function(cssColour)
 {
   Overlay.horizonDiv.style.backgroundColor = cssColour;
 };
+
+Overlay.showShieldLossStatic = function()
+{
+  Overlay.setSkyColour(C64.css.white);
+  Ground.material.color = new THREE.Color(C64.white);
+};
+
+Overlay.hideShieldLossStatic = function()
+{
+  Overlay.setSkyColour(Level.current.backgroundColor);
+  Ground.material.color = new THREE.Color(Level.current.groundColor);
+};

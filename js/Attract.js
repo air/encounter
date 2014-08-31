@@ -13,7 +13,7 @@ Attract.show = function()
   Overlay.removeFromScene();
   Radar.removeFromScene();
   Indicators.removeFromScene();
-  MY3.threeDiv.hidden = true;
+  MY3.threeDiv.style.display = 'none';
 };
 
 Attract.hide = function()
@@ -22,7 +22,7 @@ Attract.hide = function()
   Overlay.addToScene();
   Radar.addToScene();
   Indicators.addToScene();
-  MY3.threeDiv.hidden = false;
+  MY3.threeDiv.style.display = 'block';
 };
 
 Attract.update = function()
