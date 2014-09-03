@@ -233,7 +233,7 @@ State.updateGameOver = function(timeDeltaMillis)
   {
     Display.hideShieldLossStatic();
     Keys.shooting = false;
-    Level.reset();
+    Level.resetToBeginning();
     State.setupAttract();
   }
 };

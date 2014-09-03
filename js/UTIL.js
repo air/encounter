@@ -3,6 +3,17 @@
 var UTIL = {};
 
 //=============================================================================
+// HTML/CSS
+//=============================================================================
+
+// converts the string e.g. '#ff6699' to numeric 16737945
+UTIL.convertSixDigitCssRgbToNumeric = function(cssSixDigitColour)
+{
+  var hexString = '0x' + cssSixDigitColour.split('#')[1];
+  return eval(hexString);
+};
+
+//=============================================================================
 // maths
 //=============================================================================
 UTIL.TO_RADIANS = Math.PI / 180;

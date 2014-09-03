@@ -35,7 +35,7 @@ Display.initSky = function()
 {
   Display.skyDiv = document.createElement('div');
   Display.skyDiv.id = 'sky';
-  Display.skyDiv.style.backgroundColor = C64.css.lightblue;
+  Display.skyDiv.style.backgroundColor = C64.css.white; // dummy colour
   Display.skyDiv.style.position = 'absolute';
   Display.skyDiv.style.width = '100%';
   Display.skyDiv.style.height = '100%';
@@ -46,15 +46,16 @@ Display.initSky = function()
 
 Display.initGround = function()
 {
-  // Display.skyDiv = document.createElement('div');
-  // Display.skyDiv.id = 'sky';
-  // Display.skyDiv.style.backgroundColor = C64.css.lightblue;
-  // Display.skyDiv.style.position = 'absolute';
-  // Display.skyDiv.style.width = '100%';
-  // Display.skyDiv.style.height = '100%';
-  // Display.skyDiv.style.zIndex = Display.ZINDEX_SKY;
-  // Display.skyDiv.style.display = 'none'; // off by default until shown
-  // document.body.appendChild(Display.skyDiv);
+  Display.groundDiv = document.createElement('div');
+  Display.groundDiv.id = 'ground';
+  Display.groundDiv.style.backgroundColor = C64.css.white; // dummy colour
+  Display.groundDiv.style.position = 'absolute';
+  Display.groundDiv.style.width = '100%';
+  Display.groundDiv.style.height = '50%';
+  Display.groundDiv.style.bottom = '0px';
+  Display.groundDiv.style.zIndex = Display.ZINDEX_GROUND;
+  Display.groundDiv.style.display = 'none'; // off by default until shown
+  document.body.appendChild(Display.groundDiv);
 };
 
 Display.initHorizon = function()
@@ -147,6 +148,7 @@ Display.removeFromScene = function()
 {
   Display.containerDiv.style.display = 'none';
   Display.horizonDiv.style.display = 'none';
+  Display.groundDiv.style.display = 'none';
   Display.aimDiv.style.display = 'none';
   Display.skyDiv.style.display = 'none';
 };
@@ -155,6 +157,7 @@ Display.addToScene = function()
 {
   Display.containerDiv.style.display = 'block';
   Display.horizonDiv.style.display = 'block';
+  Display.groundDiv.style.display = 'block';
   Display.aimDiv.style.display = 'block';
   Display.skyDiv.style.display = 'block';
 };
@@ -172,7 +175,7 @@ Display.setHorizonColour = function(cssColour)
 Display.showShieldLossStatic = function()
 {
   Display.setSkyColour(C64.css.white);
-  Ground.setColor(C64.white);
+  Ground.setColor(C64.css.white);
 };
 
 Display.hideShieldLossStatic = function()

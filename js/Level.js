@@ -10,7 +10,7 @@ Level.data = [
   {
     skyColor : C64.css.lightblue,
     horizonColor : C64.css.blue,
-    groundColor : C64.green,
+    groundColor : C64.css.green,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_SINGLE,
     enemyCount : 4,
@@ -24,7 +24,7 @@ Level.data = [
   {
     skyColor : C64.css.black,
     horizonColor : C64.css.black,
-    groundColor : C64.brown,
+    groundColor : C64.css.brown,
     obeliskColor : C64.green,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
@@ -40,7 +40,7 @@ Level.data = [
   {
     skyColor : C64.css.lightblue,
     horizonColor : C64.css.blue,
-    groundColor : C64.lightred,
+    groundColor : C64.css.lightred,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
@@ -56,7 +56,7 @@ Level.data = [
   {
     skyColor : C64.css.black,
     horizonColor : C64.css.black,
-    groundColor : C64.red,
+    groundColor : C64.css.red,
     obeliskColor : C64.purple,
     firstEnemy : Enemy.TYPE_SAUCER_AUTOSHOTGUN,
     enemyCount : 6,
@@ -72,7 +72,7 @@ Level.data = [
   {
     skyColor : C64.css.lightblue,
     horizonColor : C64.css.blue,
-    groundColor : C64.grey,
+    groundColor : C64.css.grey,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_CHAINGUN,
     enemyCount : 6,
@@ -88,7 +88,7 @@ Level.data = [
   {
     skyColor : C64.css.orange,
     horizonColor : C64.css.lightred,
-    groundColor : C64.brown,
+    groundColor : C64.css.brown,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
@@ -104,7 +104,7 @@ Level.data = [
   {
     skyColor : C64.css.black,
     horizonColor : C64.css.black,
-    groundColor : C64.lightblue,
+    groundColor : C64.css.lightblue,
     obeliskColor : C64.blue,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
@@ -120,7 +120,7 @@ Level.data = [
   {
     skyColor : C64.css.lightred,
     horizonColor : C64.css.orange,
-    groundColor : C64.red,
+    groundColor : C64.css.red,
     obeliskColor : C64.black,
     firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
@@ -136,7 +136,7 @@ Level.data = [
 
 Level.init = function()
 {
-  Level.reset();
+  Level.resetToBeginning();
 };
 
 Level.nextLevel = function()
@@ -145,7 +145,7 @@ Level.nextLevel = function()
   Level.current = Level.data[Level.number - 1];
 };
 
-Level.reset = function()
+Level.resetToBeginning = function()
 {
   Level.number = 1;
   Level.current = Level.data[Level.number - 1];

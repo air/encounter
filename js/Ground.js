@@ -2,6 +2,9 @@
 
 var Ground = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 
+// The Ground plane is faked but we can turn on a real one if need be - looks better in e.g. flight mode.
+Ground.DO_RENDER = false;
+
 // ground plane. Lots of segments will KILL your fps
 Ground.X_SEGMENTS = 1;
 Ground.Z_SEGMENTS = 1;
@@ -12,6 +15,11 @@ Ground.MATERIAL = new THREE.MeshBasicMaterial({ color : C64.white });
 
 Ground.init = function()
 {
+  if (!Ground.DO_RENDER)
+  {
+    return;
+  }
+
   Ground.GEOMETRY = new THREE.PlaneGeometry(Grid.SIZE_SQUARE, Grid.SIZE_SQUARE, Ground.X_SEGMENTS, Ground.Z_SEGMENTS);
 
   // actually set up this Mesh using our materials
@@ -32,8 +40,18 @@ Ground.init = function()
   Grid.addToScene();
 };
 
-// e.g. C64.white
-Ground.setColor = function(color)
+// Pass a CSS colour string, e.g. C64.css.white
+Ground.setColor = function(cssColor)
 {
-  Ground.material.color = new THREE.Color(color);
+  log('setColor ' + cssColor);
+
+  if (Ground.DO_RENDER)
+  {
+    var numericColor = UTIL.convertSixDigitCssRgbToNumeric(cssColor);
+    Ground.material.color = new THREE.Color(numericColor);
+  }
+  else
+  {
+    Display.groundDiv.style.backgroundColor = cssColor;
+  }
 };
