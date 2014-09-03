@@ -24,7 +24,7 @@ State.init = function()
   Grid.init();  // reads the camera draw distance and sizes the Grid.viewport
   Ground.init();
   Sound.init();
-  Overlay.init();
+  Display.init();
   Player.init();
   Missile.init();
   Saucer.init();
@@ -57,8 +57,8 @@ State.initLevel = function(levelNumber)
   }
 
   log('initialising level ' + Level.number);
-  Overlay.setSkyColour(Level.current.skyColor);
-  Overlay.setHorizonColour(Level.current.horizonColor);
+  Display.setSkyColour(Level.current.skyColor);
+  Display.setHorizonColour(Level.current.horizonColor);
 
   Camera.useFirstPersonMode();
   Controls.useEncounterControls();
@@ -98,7 +98,7 @@ State.setupWaitForEnemy = function()
   State.current = State.WAIT_FOR_ENEMY;
   log('State: ' + State.current);
 
-  Overlay.update();
+  Display.update();
   Enemy.startSpawnTimer();
 };
 
@@ -107,7 +107,7 @@ State.setupWaitForPortal = function()
   State.current = State.WAIT_FOR_PORTAL;
   log('State: ' + State.current);
 
-  Overlay.update();
+  Display.update();
   Portal.startSpawnTimer();
 };
 
@@ -122,7 +122,7 @@ State.setupPlayerHitInCombat = function()
   State.current = State.PLAYER_HIT;
   log('State: ' + State.current);
 
-  Overlay.showShieldLossStatic();
+  Display.showShieldLossStatic();
 
   if (Player.shieldsLeft < 0)
   {
@@ -134,7 +134,7 @@ State.setupGameOver = function()
 {
   State.current = State.GAME_OVER;
   log('State: ' + State.current);
-  Overlay.setText('GAME OVER');
+  Display.setText('GAME OVER');
 };
 
 State.setupWarp = function()
@@ -219,7 +219,7 @@ State.updatePlayerHitInCombat = function(timeDeltaMillis)
   if (clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     // Keys.shooting = false;
-    Overlay.hideShieldLossStatic();
+    Display.hideShieldLossStatic();
     Indicators.reset();
     State.resetActors();
     Player.isAlive = true;
@@ -231,7 +231,7 @@ State.updateGameOver = function(timeDeltaMillis)
 {
   if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
-    Overlay.hideShieldLossStatic();
+    Display.hideShieldLossStatic();
     Keys.shooting = false;
     Level.reset();
     State.setupAttract();

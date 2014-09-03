@@ -32,7 +32,7 @@ Indicators.init = function()
   centredDiv.id = 'centredLightsDiv';
   centredDiv.style.cssText = Indicators.CSS_CENTRED_DIV;
   // set the z-index for all the indicator divs in the parent div
-  centredDiv.style.zIndex = Overlay.ZINDEX_INDICATORS;
+  centredDiv.style.zIndex = Display.ZINDEX_INDICATORS;
 
   // figure out how big our draw area is for the lights
   var width = (Indicators.WIDTH * 2) + Indicators.X_SEPARATION;

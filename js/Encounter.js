@@ -22,7 +22,7 @@ Encounter.PLAYER_DEATH_TIMEOUT_MS = 2000; // time before you can play once being
 Encounter.PLAYER_MAX_SHIELDS = 9; // from instruction manual
 
 // set the draw distance and the CSS z-index of the canvas
-MY3.init3d(Encounter.DRAW_DISTANCE * 3, Overlay.ZINDEX_CANVAS);
+MY3.init3d(Encounter.DRAW_DISTANCE * 3, Display.ZINDEX_CANVAS);
 
 State.init();
 

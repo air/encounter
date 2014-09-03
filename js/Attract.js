@@ -10,7 +10,7 @@ Attract.init = function()
 Attract.show = function()
 {
   Grid.removeFromScene();
-  Overlay.removeFromScene();
+  Display.removeFromScene();
   Radar.removeFromScene();
   Indicators.removeFromScene();
   MY3.threeDiv.style.display = 'none';
@@ -19,7 +19,7 @@ Attract.show = function()
 Attract.hide = function()
 {
   Grid.addToScene();
-  Overlay.addToScene();
+  Display.addToScene();
   Radar.addToScene();
   Indicators.addToScene();
   MY3.threeDiv.style.display = 'block';

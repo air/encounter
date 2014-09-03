@@ -1,6 +1,5 @@
 # TODO
 
-  - rename overlay to layers or similar
   - fill below horizon with ground colour
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
@@ -43,11 +42,9 @@
   - world wraparound. Head away from enemy and they appear in front.
   - record/synth sound effects: player move, warp, enemy ticking, missile
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
-  - better saucer model, proper geometry. Original is simplified to a diamond from afar.
+  - better saucer model, proper geometry - use threejs editor. Original is simplified to a diamond from afar.
   - better missile model.
   - work on Timer.js to use everywhere rather than 'startedAt' checks
-  - Use a THREE.ArrowHelper for the Pointer class together with a child object
-  - rationalise the notion of State.actors (affected by pause) and pause-immune State.actors
   - see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
   - replace direct use of rotation.n.set with rotateOnAxis()
   - shader for the 'snow' effect once destroyed
