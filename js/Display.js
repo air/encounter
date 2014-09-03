@@ -63,7 +63,6 @@ Display.initHorizon = function()
   Display.horizonDiv = document.createElement('div');
   Display.horizonDiv.id = 'horizon';
   Display.horizonDiv.style.cssText = 'width=100%; height:4px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
-  Display.horizonDiv.style.transform = 'translateY(2px)';
   Display.horizonDiv.style.zIndex = Display.ZINDEX_HORIZON;
   Display.horizonDiv.style.display = 'none'; // off by default until shown
   document.body.appendChild(Display.horizonDiv);
