@@ -216,6 +216,8 @@ State.updateCombat = function(timeDeltaMillis)
 
 State.updatePlayerHitInCombat = function(timeDeltaMillis)
 {
+  Display.updateShieldLossStatic();
+  
   if (clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     // Keys.shooting = false;

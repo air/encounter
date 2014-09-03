@@ -43,8 +43,6 @@ Ground.init = function()
 // Pass a CSS colour string, e.g. C64.css.white
 Ground.setColor = function(cssColor)
 {
-  log('setColor ' + cssColor);
-
   if (Ground.DO_RENDER)
   {
     var numericColor = UTIL.convertSixDigitCssRgbToNumeric(cssColor);

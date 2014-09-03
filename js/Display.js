@@ -174,11 +174,20 @@ Display.setHorizonColour = function(cssColour)
 Display.showShieldLossStatic = function()
 {
   Display.setSkyColour(C64.css.white);
+  Display.setHorizonColour(C64.css.white);
   Ground.setColor(C64.css.white);
 };
 
 Display.hideShieldLossStatic = function()
 {
   Display.setSkyColour(Level.current.skyColor);
+  Display.setHorizonColour(Level.current.horizonColor);
   Ground.setColor(Level.current.groundColor);
+};
+
+Display.updateShieldLossStatic = function()
+{
+  Display.setSkyColour(C64.randomCssColour());
+  Display.setHorizonColour(C64.randomCssColour());
+  Ground.setColor(C64.randomCssColour());
 };

@@ -1,6 +1,6 @@
 # TODO
 
-  - fill below horizon with ground colour - use div for Ground and stop rendering Ground? - means we can't use fly mode any more.
+  - saucers enter from white portal
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
@@ -13,13 +13,13 @@
     - title screen show readiness once all Inits() are called?
   - saucer shoot noise is the SAME as obelisk rebound
   - refactor Saucer types
+  - true 'snow' effect on shield loss
   - add Grid.randomLocationCloserToPlayer(currentPosition)
   - dashboard is midgrey, white text overlay, black highlights
-  - saucers enter from white portal
   - Saucer shots that don't depend on FPS
-  - L6 horizon effect, lightred between orange and brown
+  - L6 flickering horizon effect, lightred between orange and brown
   - rationalise where Player.isAlive is set
-  - allow jump to achieved level from title screen
+  - allow jump to *achieved* level from title screen
   - end of game: reverts to L1, displays L9 when you exit, L8 once an enemy shows up.
   - warps get harder as levels go on - L8 warp is nearly impossible
   - sounds: reverse-engineer encounter memory
@@ -47,8 +47,7 @@
   - work on Timer.js to use everywhere rather than 'startedAt' checks
   - see if we can improve timestep, e.g. http://gafferongames.com/game-physics/fix-your-timestep/
   - replace direct use of rotation.n.set with rotateOnAxis()
-  - shader for the 'snow' effect once destroyed
-  - shader for scanlines
+  - simulate CRT scanlines - may be tricky given mix of threejs and CSS elements
 
 # FIXME
 
@@ -68,3 +67,4 @@
     - define the size of our grid based on view distance
     - what threshold do we use? as soon as we cross the first line
     - does this change the grid size needed?
+  - The update loop is redefined for every State we can be in. This is highly flexible.
