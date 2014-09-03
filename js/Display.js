@@ -3,12 +3,13 @@
 var Display = {};
 
 Display.ZINDEX_SKY = '1';
-Display.ZINDEX_HORIZON = '2';
-Display.ZINDEX_CANVAS = '3';
-Display.ZINDEX_RADAR = '4';
-Display.ZINDEX_INDICATORS = '5';
-Display.ZINDEX_CROSSHAIRS = '6';
-Display.ZINDEX_TEXT = '7';
+Display.ZINDEX_GROUND = '2';
+Display.ZINDEX_HORIZON = '3';
+Display.ZINDEX_CANVAS = '4';
+Display.ZINDEX_RADAR = '5';
+Display.ZINDEX_INDICATORS = '6';
+Display.ZINDEX_CROSSHAIRS = '7';
+Display.ZINDEX_TEXT = '8';
 
 Display.CROSSHAIR_WIDTH = 80;
 Display.CROSSHAIR_HEIGHT = 60;
@@ -23,10 +24,11 @@ Display.text = null; // current text in readout
 
 Display.init = function()
 {
-  Display.initDivs();
+  Display.initText();
+  Display.initSky();
+  Display.initGround();
   Display.initHorizon();
   Display.initCrosshairs();
-  Display.initSky();
 };
 
 Display.initSky = function()
@@ -40,6 +42,19 @@ Display.initSky = function()
   Display.skyDiv.style.zIndex = Display.ZINDEX_SKY;
   Display.skyDiv.style.display = 'none'; // off by default until shown
   document.body.appendChild(Display.skyDiv);
+};
+
+Display.initGround = function()
+{
+  // Display.skyDiv = document.createElement('div');
+  // Display.skyDiv.id = 'sky';
+  // Display.skyDiv.style.backgroundColor = C64.css.lightblue;
+  // Display.skyDiv.style.position = 'absolute';
+  // Display.skyDiv.style.width = '100%';
+  // Display.skyDiv.style.height = '100%';
+  // Display.skyDiv.style.zIndex = Display.ZINDEX_SKY;
+  // Display.skyDiv.style.display = 'none'; // off by default until shown
+  // document.body.appendChild(Display.skyDiv);
 };
 
 Display.initHorizon = function()
@@ -80,7 +95,7 @@ Display.initCrosshairs = function()
   document.body.appendChild(Display.aimDiv);
 };
 
-Display.initDivs = function()
+Display.initText = function()
 {
   // the Display div will contain a line of text, containing world number and enemy count
   Display.containerDiv = document.createElement('div');
@@ -157,11 +172,11 @@ Display.setHorizonColour = function(cssColour)
 Display.showShieldLossStatic = function()
 {
   Display.setSkyColour(C64.css.white);
-  Ground.material.color = new THREE.Color(C64.white);
+  Ground.setColor(C64.white);
 };
 
 Display.hideShieldLossStatic = function()
 {
   Display.setSkyColour(Level.current.skyColor);
-  Ground.material.color = new THREE.Color(Level.current.groundColor);
+  Ground.setColor(Level.current.groundColor);
 };

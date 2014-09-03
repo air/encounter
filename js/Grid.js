@@ -148,7 +148,7 @@ Grid.reset = function()
   Grid.mesh.position.z = Grid.viewport.min.y; // note that Y in the Vector2 represents Z
 
   Grid.mesh.material.color = new THREE.Color(Level.current.obeliskColor);
-  Ground.material.color = new THREE.Color(Level.current.groundColor);
+  Ground.setColor(Level.current.groundColor);
 };
 
 // When the player moves close to the edge of the grid, translate it seamlessly.

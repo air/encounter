@@ -31,3 +31,9 @@ Ground.init = function()
   Grid.mesh.add(Ground);
   Grid.addToScene();
 };
+
+// e.g. C64.white
+Ground.setColor = function(color)
+{
+  Ground.material.color = new THREE.Color(color);
+};
