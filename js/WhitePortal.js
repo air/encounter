@@ -34,10 +34,12 @@ WhitePortal.spawnForEnemy = function(enemyType)
   log('spawning white portal with enemy type: ' + WhitePortal.enemyTypeIncoming);
 
   WhitePortal.spawn();
+  WhitePortal.mesh.radarType = Radar.TYPE_PORTAL;
 };
 
 WhitePortal.opened = function()
 {
   Enemy.spawnGivenTypeAt(WhitePortal.enemyTypeIncoming, WhitePortal.mesh.position);
+  WhitePortal.mesh.radarType = Radar.TYPE_NONE;
   WhitePortal.startClosing();
 };

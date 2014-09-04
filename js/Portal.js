@@ -7,7 +7,7 @@ var Portal = {};
 Portal.STATE_OPENING = 'opening';
 Portal.STATE_CLOSING = 'closing';
 
-Portal.TIME_TO_ANIMATE_OPENING_MS = 5000;
+Portal.TIME_TO_ANIMATE_OPENING_MS = 4000;
 Portal.TIME_TO_ANIMATE_CLOSING_MS = 3000;
 
 // prototype state

@@ -108,14 +108,14 @@ Display.initText = function()
   var textBox = document.createElement('div');
   textBox.id = 'textBox';
   // padding order: top right bottom left
-  // TODO gradient needs multiple declarations to work in all browsers, as per stats.js/examples/theming.html
-  textBox.style.cssText = 'padding:0px 5px 0px 5px; text-align:left; background-color:#000; background-image:-webkit-linear-gradient(top, rgba(255,255,255,.4) 0%, rgba(0,0,0,.35) 100%)';
+  textBox.style.cssText = 'padding:0px 5px 0px 5px; text-align:left; background-color:#000;';
   Display.containerDiv.appendChild(textBox);
 
   // text is the content
   Display.text = document.createElement('div');
   Display.text.id = 'text';
-  Display.text.style.cssText = 'color:#0ff; font-family:Helvetica,Arial,sans-serif; font-size:36px; font-weight:bold; /* line-height:18px */';
+  Display.text.style.cssText = 'font-family:Helvetica,Arial,sans-serif; font-size:36px; font-weight:bold; /* line-height:18px */';
+  Display.text.style.color = C64.css.white;
   textBox.appendChild(Display.text);
 
   // place the Display in the page
@@ -131,7 +131,7 @@ Display.update = function()
     case State.COMBAT:
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
-      Display.setText('L' + Level.number + ' E' + State.enemiesRemaining + ' S' + Player.shieldsLeft);
+      Display.setText('Level:' + Level.number + ' Enemies:' + State.enemiesRemaining + ' Shields:' + Player.shieldsLeft);
       break;
     default:
       panic('unknown state: ', State.current);

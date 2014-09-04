@@ -20,6 +20,7 @@ Radar.TYPE_ENEMY = 'enemy';
 Radar.TYPE_SHOT = 'shot';
 Radar.TYPE_PORTAL = 'portal';
 Radar.TYPE_OBELISK = 'obelisk';
+Radar.TYPE_NONE = 'none';
 
 Radar.CSS_CENTRED_DIV = 'position:fixed; bottom:10px; width:100%';
 Radar.CSS_RADAR_DIV = 'background-color:#000; opacity:1.0; margin-left:auto; margin-right:auto';
@@ -173,6 +174,9 @@ Radar.update = function()
       case Radar.TYPE_PORTAL:
         Radar.canvasContext.fillStyle = C64.randomCssColour();
         Radar.render(State.actors[i].position.x, State.actors[i].position.z);
+        break;
+      case Radar.TYPE_NONE:
+        // no op
         break;
       default:
         panic('unknown .radarType ' + type + ' for actor ' + State.actors[i]);

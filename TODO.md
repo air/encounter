@@ -1,18 +1,6 @@
 # TODO
 
-  - Remove portal states from State? There's only combat. Portals have spawn timers.
-      - A black portal dictates the state flow. We need a BlackPortal with update()
-      - Only a Saucer spawn creates a white portal! Definitely not a State, rather a chained Enemy.
-      - A white portal is disconnected from state flow once the enemy emerges. Use COMBAT. The first actor (portal)spawns the second (enemy).
-        - The COMBAT loop runs. The WhitePortal's actor update() will spawn Enemy and also clean up itself.
-        - The time (ENEMY_ALIVE + Explode.LIFETIME) > Portal.CLOSING.
-      - Both portals have a spawn timer, and the first enemy is always a saucer, BUT
-        - We still need a spawn time before Missile appears.
-        - So two distinct spawn timers (black portal and ANY enemy) are needed.
-        - So white portal has no spawn timer after all, created on demand.
-  - saucers enter from white portal but missiles do not
   - portal_distance_from_player is not the same as enemy_distance
-  - refactor BlackPortal spawntimer into WhitePortal spawntimer and remove State.WAIT_FOR_ENEMY
   - when working, change Portal proto style to ctor style
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
@@ -101,3 +89,13 @@ The journey to JS OO.
   - The update loop is redefined for every State we can be in. This is highly flexible.
   - OO style in Saucer and Portal
     - being able to accidentally change state of prototypes (Portal and Saucer) is a source of bugs
+  - Remove portal states from State? There's only combat. Portals have spawn timers.
+      - A black portal dictates the state flow. We need a BlackPortal with update()
+      - Only a Saucer spawn creates a white portal! Definitely not a State, rather a chained Enemy.
+      - A white portal is disconnected from state flow once the enemy emerges. Use COMBAT. The first actor (portal)spawns the second (enemy).
+        - The COMBAT loop runs. The WhitePortal's actor update() will spawn Enemy and also clean up itself.
+        - The time (ENEMY_ALIVE + Explode.LIFETIME) > Portal.CLOSING.
+      - Both portals have a spawn timer, and the first enemy is always a saucer, BUT
+        - We still need a spawn time before Missile appears.
+        - So two distinct spawn timers (black portal and ANY enemy) are needed.
+        - So white portal has no spawn timer after all, created on demand.
