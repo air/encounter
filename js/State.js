@@ -65,7 +65,6 @@ State.initLevel = function(levelNumber)
   Camera.useFirstPersonMode();
   Controls.useEncounterControls();
   Player.resetPosition();
-  Player.resetShieldsLeft();
   Grid.reset();
   Enemy.reset();
   Indicators.reset();
@@ -136,7 +135,7 @@ State.setupGameOver = function()
 {
   State.current = State.GAME_OVER;
   log('State: ' + State.current);
-  Display.setText('GAME OVER');
+  Display.setText('GAME OVER, PRESS FIRE');
 };
 
 State.setupWarp = function()
@@ -237,7 +236,6 @@ State.updateGameOver = function(timeDeltaMillis)
   {
     Display.hideShieldLossStatic();
     Keys.shooting = false;
-    Level.resetToBeginning();
     State.setupAttract();
   }
 };

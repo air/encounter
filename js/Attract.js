@@ -29,9 +29,12 @@ Attract.update = function()
 {
   if (Keys.shooting)
   {
+    Level.resetToBeginning();
+    Player.resetShieldsLeft();
     State.initLevel();
-    Attract.hide();
     Keys.shooting = false;
+
+    Attract.hide();
     State.setupWaitForEnemy();
   }
   else if (Keys.levelRequested > 0)
