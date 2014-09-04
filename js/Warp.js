@@ -27,18 +27,18 @@ Warp.init = function()
  
 Warp.setup = function()
 {
+  // remove selected elements from the display
   BlackPortal.removeFromScene();
   Grid.removeFromScene();
   Radar.removeFromScene();
   Indicators.removeFromScene();
+  Display.setSkyColour(C64.css.black);
+  Display.horizonDiv.style.display = 'none';
 
   State.resetActors(); 
   Controls.useWarpControls();
 
   Warp.enteredAt = clock.oldTime;
-
-  Display.setSkyColour(C64.css.black);
-  Display.horizonDiv.style.display = 'none';
 
   Warp.state = Warp.STATE_ACCELERATE;
   log('warp: accelerating');
@@ -200,8 +200,9 @@ Warp.restoreLevel = function()
   Warp.removeAsteroidsFromScene();
 
   State.initLevel();  // does all the heavy lifting of state reset
-  Display.horizonDiv.style.display = 'block';
 
+  // restore the elements we selectively hid earlier
+  Display.horizonDiv.style.display = 'block';
   Grid.addToScene();
   Radar.addToScene();
   Indicators.addToScene();

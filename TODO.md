@@ -1,7 +1,5 @@
 # TODO
 
-  - move error()s to panic()s
-  - hide ground in warp
   - don't wait for shoot after warp death; also use death fuzz
   - when working, change Portal proto style to ctor style
   - saucers enter from white portal

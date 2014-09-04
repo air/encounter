@@ -77,15 +77,27 @@ Grid.calculateConstants = function()
   log('trigger distance from viewport edge is ' + Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE);
 };
 
+// also takes care of Ground plane
 Grid.addToScene = function()
 {
-  scene.add(Grid.mesh);
+  scene.add(Grid.mesh); // includes a child Ground object if Ground.DO_RENDER
+  if (!Ground.DO_RENDER)
+  {
+    Display.groundDiv.style.display = 'block';
+  }
+
   Grid.isActive = true;
 };
 
+// also takes care of Ground plane
 Grid.removeFromScene = function()
 {
-  scene.remove(Grid.mesh);
+  scene.remove(Grid.mesh); // includes a child Ground object if Ground.DO_RENDER
+  if (!Ground.DO_RENDER)
+  {
+    Display.groundDiv.style.display = 'none';
+  }
+
   Grid.isActive = false;
 };
 
