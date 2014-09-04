@@ -4,7 +4,6 @@ var State = {};
 
 State.ATTRACT = 'attract';
 State.WAIT_FOR_ENEMY = 'waitForEnemy';
-State.ENEMY_PORTAL_OPENING = 'enemyPortalOpening';
 State.COMBAT = 'combat';
 State.WAIT_FOR_PORTAL = 'waitForPortal';
 State.WARP = 'warp';
@@ -104,14 +103,6 @@ State.setupWaitForEnemy = function()
   Enemy.startSpawnTimer();
 };
 
-State.setupEnemyPortalOpening = function()
-{
-  State.current = State.ENEMY_PORTAL_OPENING;
-  log('State: ' + State.current);
-
-  WhitePortal.setupOpening();
-};
-
 State.setupWaitForPortal = function()
 {
   State.current = State.WAIT_FOR_PORTAL;
@@ -175,15 +166,6 @@ State.updateWaitForEnemy = function(timeDeltaMillis)
 
   Enemy.spawnIfReady();
   Radar.update();
-};
-
-State.updateEnemyPortalOpening = function(timeDeltaMillis)
-{
-  State.performNormalLevelUpdates(timeDeltaMillis);
-
-  WhitePortal.update(timeDeltaMillis);
-  Radar.update();
-  TWEEN.update();
 };
 
 State.updateWaitForPortal = function(timeDeltaMillis)
@@ -266,9 +248,6 @@ function update(timeDeltaMillis)
       break;
     case State.WAIT_FOR_ENEMY:
       State.updateWaitForEnemy(timeDeltaMillis);
-      break;
-    case State.ENEMY_PORTAL_OPENING:
-      State.updateEnemyPortalOpening(timeDeltaMillis);
       break;
     case State.WARP:
       Warp.update(timeDeltaMillis);

@@ -1,6 +1,15 @@
 # TODO
 
-  - remove portal states from State? There's only combat. Portals have spawn timers.
+  - Remove portal states from State? There's only combat. Portals have spawn timers.
+      - A black portal dictates the state flow. We need a BlackPortal with update()
+      - Only a Saucer spawn creates a white portal! Definitely not a State, rather a chained Enemy.
+      - A white portal is disconnected from state flow once the enemy emerges. Use COMBAT. The first actor (portal)spawns the second (enemy).
+        - The COMBAT loop runs. The WhitePortal's actor update() will spawn Enemy and also clean up itself.
+        - The time (ENEMY_ALIVE + Explode.LIFETIME) > Portal.CLOSING.
+      - Both portals have a spawn timer, and the first enemy is always a saucer, BUT
+        - We still need a spawn time before Missile appears.
+        - So two distinct spawn timers (black portal and ANY enemy) are needed.
+        - So white portal has no spawn timer after all, created on demand.
   - saucers enter from white portal but missiles do not
   - portal_distance_from_player is not the same as enemy_distance
   - refactor BlackPortal spawntimer into WhitePortal spawntimer and remove State.WAIT_FOR_ENEMY
@@ -23,6 +32,7 @@
   - Saucer shots that don't depend on FPS
   - L6 flickering horizon effect, lightred between orange and brown
   - rationalise where Player.isAlive is set
+  - AI: enemies much more often circlestrafe the player than go toward/away
   - allow jump to *achieved* level from title screen
   - end of game: reverts to L1, displays L9 when you exit, L8 once an enemy shows up.
   - warps get harder as levels go on - L8 warp is nearly impossible

@@ -8,6 +8,8 @@ WhitePortal.init = function()
 {
   WhitePortal.mesh = new THREE.Mesh(WhitePortal.GEOMETRY, WhitePortal.MATERIAL);
   WhitePortal.mesh.radarType = Radar.TYPE_PORTAL;
+
+  // FIXME add a mesh.update(timeDeltaMillis)
 };
 
 WhitePortal.setupOpening = function()
