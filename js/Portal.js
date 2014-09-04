@@ -41,12 +41,25 @@ Portal.spawn = function()
   State.actors.push(this.mesh);
   log('portal spawned');
   
-  // let's animate!
   var tween = new TWEEN.Tween(this.mesh.scale).to({ y: 1.0 }, Portal.TIME_TO_ANIMATE_OPENING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
   tween.onComplete(function()
   {
     log('portal opening tween complete');
+  });
+  tween.start();
+};
+
+Portal.startClosing = function()
+{
+  log('starting to close portal');
+  this.state = Portal.STATE_CLOSING;
+  this.closeStartedAt = clock.oldTime;
+
+  var tween = new TWEEN.Tween(this.mesh.scale).to({ y: 0.01 }, Portal.TIME_TO_ANIMATE_CLOSING_MS);
+  //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
+  tween.onComplete(function() {
+    log('portal closing tween complete');
   });
   tween.start();
 };
@@ -77,12 +90,12 @@ Portal.updateClosing = function(timeDeltaMillis)
   }
 };
 
-// Portal.opened = function()
-// {
-//   // default no op
-// };
+Portal.opened = function()
+{
+  // default no op
+};
 
-// Portal.closed = function()
-// {
-//   // default no op
-// };
+Portal.closed = function()
+{
+  // default no op
+};

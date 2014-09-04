@@ -38,15 +38,6 @@ WhitePortal.spawnForEnemy = function(enemyType)
 
 WhitePortal.opened = function()
 {
-  // TODO reorder this
-
-  this.state = WhitePortal.CLOSING;
-
-  // FIXME
-  log('hacking out white portal');
-  WhitePortal.state = null;
-  WhitePortal.removeFromScene();
-  // FIXME
-
   Enemy.spawnGivenTypeAt(WhitePortal.enemyTypeIncoming, WhitePortal.mesh.position);
+  WhitePortal.startClosing();
 };

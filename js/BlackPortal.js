@@ -46,16 +46,7 @@ BlackPortal.updateWaitingForPlayer = function(timeDeltaMillis)
   else if ((clock.oldTime - BlackPortal.wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS)
   {
     log('player failed to enter portal, closing');
-    BlackPortal.state = BlackPortal.STATE_CLOSING;
-    BlackPortal.closeStartedAt = clock.oldTime;
-
-    // let's animate!
-    var tween = new TWEEN.Tween(BlackPortal.mesh.scale).to({ y: 0.01 }, BlackPortal.TIME_TO_ANIMATE_CLOSING_MS);
-    //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
-    tween.onComplete(function() {
-      log('portal closing tween complete');
-    });
-    tween.start();
+    BlackPortal.startClosing();
   }
 };
 
