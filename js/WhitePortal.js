@@ -25,6 +25,12 @@ WhitePortal.updateOpening = function()
     this.wasOpenedAt = clock.oldTime; // FIXME not used in White
     this.state = WhitePortal.CLOSING;
 
+    // FIXME
+    log('hacking out white portal');
+    WhitePortal.state = null;
+    WhitePortal.removeFromScene();
+    // FIXME
+
     Enemy.spawn();
     State.setupCombat();
   }
