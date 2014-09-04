@@ -157,11 +157,11 @@ MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
 {
   if (typeof position2 === 'undefined')
   {
-    error('doCirclesCollide: undefined position2');
+    panic('doCirclesCollide: undefined position2');
   }
   if (typeof radius2 === 'undefined')
   {
-    error('doCirclesCollide: undefined radius2');
+    panic('doCirclesCollide: undefined radius2');
   }
   // collision overlap must exceed a small epsilon so we don't count rounding errors
   var COLLISION_EPSILON = 0.01;

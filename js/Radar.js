@@ -175,7 +175,7 @@ Radar.update = function()
         Radar.render(State.actors[i].position.x, State.actors[i].position.z);
         break;
       default:
-        error('unknown .radarType ' + type + ' for actor ' + State.actors[i]);
+        panic('unknown .radarType ' + type + ' for actor ' + State.actors[i]);
     }
   }
 };

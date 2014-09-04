@@ -74,7 +74,7 @@ Enemy.spawn = function()
       Enemy.current = SaucerAutoShotgun.spawn();
       break;
     default:
-      error ('unknown enemy type: ' + type);
+      panic('unknown enemy type: ' + type);
   }
 
   scene.add(Enemy.current);

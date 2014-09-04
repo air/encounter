@@ -198,6 +198,6 @@ Saucer.update = function(timeDeltaMillis)
       this.updateShooting(timeDeltaMillis);
       break;
     default:
-      error('unknown Saucer state: ' + this.state);
+      panic('unknown Saucer state: ' + this.state);
   } 
 };

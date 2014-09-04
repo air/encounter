@@ -277,7 +277,7 @@ function update(timeDeltaMillis)
       State.updateGameOver(timeDeltaMillis);
       break;
     default:
-      console.error('unknown state: ', State.current);
+      panic('unknown state: ', State.current);
   }
 }
 

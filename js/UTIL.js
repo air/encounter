@@ -35,7 +35,7 @@ UTIL.random = function(min, max)
   }
   else
   {
-    error('max ' + max + ' must be more than min ' + min);
+    panic('max ' + max + ' must be more than min ' + min);
     return 0;
   }
 };

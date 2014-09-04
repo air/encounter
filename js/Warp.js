@@ -119,7 +119,7 @@ Warp.update = function(timeDeltaMillis)
       Warp.updatePlayerHit();
       break;
     default:
-      error('unknown Warp state: ' + Warp.state);
+      panic('unknown Warp state: ' + Warp.state);
   }
 };
 

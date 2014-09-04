@@ -134,7 +134,7 @@ Display.update = function()
       Display.setText('L' + Level.number + ' E' + State.enemiesRemaining + ' S' + Player.shieldsLeft);
       break;
     default:
-      console.error('unknown state: ', State.current);
+      panic('unknown state: ', State.current);
   }
 };
 
