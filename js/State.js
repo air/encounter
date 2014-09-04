@@ -38,6 +38,8 @@ State.init = function()
   Touch.init(); // FIXME depends on Controls.init
   Radar.init();
   Portal.init();
+  WhitePortal.init();
+  BlackPortal.init();
   Warp.init();
   GUI.init(); // depends on Controls.init
   Indicators.init();
@@ -108,7 +110,7 @@ State.setupWaitForPortal = function()
   log('State: ' + State.current);
 
   Display.update();
-  Portal.startSpawnTimer();
+  BlackPortal.startSpawnTimer();
 };
 
 State.setupCombat = function()
@@ -191,7 +193,7 @@ State.updateWaitForPortal = function(timeDeltaMillis)
     Controls.interpretKeys(timeDeltaMillis);
   }
 
-  Portal.update(timeDeltaMillis);
+  BlackPortal.update(timeDeltaMillis);
   Radar.update();
   TWEEN.update();
 };

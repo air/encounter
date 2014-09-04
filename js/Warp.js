@@ -27,7 +27,7 @@ Warp.init = function()
  
 Warp.setup = function()
 {
-  Portal.removeFromScene();
+  BlackPortal.removeFromScene();
   Grid.removeFromScene();
   Radar.removeFromScene();
   Indicators.removeFromScene();

@@ -1,5 +1,9 @@
 # TODO
 
+  - move error()s to panic()s
+  - hide ground in warp
+  - don't wait for shoot after warp death; also use death fuzz
+  - when working, change Portal proto style to ctor style
   - saucers enter from white portal
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
@@ -55,6 +59,21 @@
   - shot pointers are incorrect in fly mode. Seem ok in normal mode
   - Y rotation breaks when the camera flips from Simple to FirstPerson.
 
+# OO notes
+
+  - prototype state = does updating an inherited property .foo update the proto? No, it creates a shadow prop on the object.
+    - what about if the change is made IN the proto using this.prop=foo? Cool, this binds to the object (not proto).
+  - Why use ctor functions?
+    - You get the instanceof operator. Otherwise use isPrototypeOf().
+The journey to JS OO.
+  - First use pure prototypes with no 'new' stuff, just use Object.create();
+  - You will find yourself building factories like newInstance().
+  - You will learn property shadowing and using 'this' in the proto to delegate down to the object.
+  - Finally learn the ctor function, which does some lifting for you and has a special property 'prototype'. The relationship between the ctor function and the function-prototype object is actually very simple.
+    - This explains what the instanceof operator does: looks at obj X, and matches isPrototypeOf() against the .prototype property of the ctor function you give it.
+@sporto article is good but not complete. Needs explanation of shadowing and 'this' delegation even when using pure Object.create style.
+  - Write your prototype with properties divided into 'actual proto state' and 'will be shadowed in derived objects'. The latter must always be addressed with 'this'. 
+
 # Interesting things
 
   - How I measured the Encounter constants
@@ -68,3 +87,5 @@
     - what threshold do we use? as soon as we cross the first line
     - does this change the grid size needed?
   - The update loop is redefined for every State we can be in. This is highly flexible.
+  - OO style in Saucer and Portal
+    - being able to accidentally change state of prototypes (Portal and Saucer) is a source of bugs

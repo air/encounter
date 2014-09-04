@@ -59,6 +59,12 @@ function error(msg)
   console.error(Math.floor(window.performance.now()) + ' ' + msg);
 }
 
+function panic(msg)
+{
+  console.error(msg);
+  debugger;
+}
+
 //=============================================================================
 // touch and mobile
 //=============================================================================
