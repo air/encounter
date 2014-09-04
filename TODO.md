@@ -71,7 +71,7 @@
 
 # OO notes
 
-Inheritance sucks for the Portal -> White/Black variants. Up/down communication is opaque and difficult to follow. Better to have composed peer objects that communicate via an API with clear boundaries and hooks for custom behaviour.
+Inheritance sucks for the Portal -> White/Black variants. Up/down communication is opaque and difficult to follow (is this function in this object, or the superclass, or the supersuperclass?). Better to have composed peer objects that communicate via an API with clear boundaries and hooks for custom behaviour.
 
   - prototype state = does updating an inherited property .foo update the proto? No, it creates a shadow prop on the object.
     - what about if the change is made IN the proto using this.prop=foo? Cool, this binds to the object (not proto).

@@ -40,15 +40,17 @@ Saucer.init = function()
   Saucer.shotsLeftToFire = null;
 };
 
-Saucer.spawn = function()
+Saucer.spawn = function(location)
 {
+  if (typeof location === 'undefined')
+  {
+    panic('Saucer spawn requires a location');
+  }
+
   Indicators.setYellow(true);
 
-  var spawnPoint = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
-  spawnPoint.y = Encounter.CAMERA_HEIGHT;
-  log('spawning saucer at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z);
-  this.position.copy(spawnPoint);
-
+  log('spawning saucer at ' + location.x + ', ' + location.y + ', ' + location.z);
+  this.position.copy(location);
   this.setupMoving();
 
   return this;

@@ -27,6 +27,7 @@ Portal.init = function()
 Portal.spawn = function()
 {
   this.spawnedAt = clock.oldTime;
+  this.state = Portal.STATE_OPENING;
 
   // TODO don't collide with obelisk
   var spawnPosition = Grid.randomLocationCloseToPlayer(Encounter.PORTAL_SPAWN_DISTANCE_MAX);
@@ -35,7 +36,6 @@ Portal.spawn = function()
   // TODO use tween chaining for the left/right then up/down opening phases!
   this.mesh.position.set(spawnPosition.x, Obelisk.HEIGHT / 2, spawnPosition.z);
   this.mesh.scale.y = 0.01;
-  this.mesh.update = function(){};  // needed since we're in the actors list, but updates are handled in derived object
 
   scene.add(this.mesh);
   State.actors.push(this.mesh);

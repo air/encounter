@@ -17,6 +17,8 @@ BlackPortal.init = function()
 {
   BlackPortal.mesh = new THREE.Mesh(BlackPortal.GEOMETRY, BlackPortal.MATERIAL);
   BlackPortal.mesh.radarType = Radar.TYPE_PORTAL;
+  // dummy actor update, we handle updates as a top-level State
+  BlackPortal.mesh.update = function(){};
 };
 
 BlackPortal.startSpawnTimer = function()
@@ -31,7 +33,6 @@ BlackPortal.spawnIfReady = function()
   if ((clock.oldTime - BlackPortal.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
   {
     BlackPortal.spawn();
-    BlackPortal.state = BlackPortal.STATE_OPENING;
   }
 };
 
@@ -84,7 +85,7 @@ BlackPortal.update = function(timeDeltaMillis)
       BlackPortal.updateWaitingForPlayer(timeDeltaMillis);
       break;
     case BlackPortal.STATE_PLAYER_ENTERED:
-      BlackPortal.state = null; // lifecycle of this portal is over
+      BlackPortal.state = null; // lifecycle of this portal is over, despite being open
       State.setupWarp();
       break;
     case BlackPortal.STATE_CLOSING:

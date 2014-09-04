@@ -183,6 +183,7 @@ State.updateCombat = function(timeDeltaMillis)
 
   Radar.update();
   Indicators.update(); // needed for flickering effects only
+  TWEEN.update(); // white portal animations
 };
 
 State.updatePlayerHitInCombat = function(timeDeltaMillis)

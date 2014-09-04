@@ -53,25 +53,37 @@ Enemy.spawn = function()
     log('spawn table generated enemy: ' + type);
   }
 
+  if (type === Enemy.TYPE_MISSILE)
+  {
+    Enemy.current = Missile.spawn();
+    scene.add(Enemy.current);
+    State.actors.push(Enemy.current);
+    Enemy.isAlive = true;
+  }
+  else
+  {
+    WhitePortal.spawnForEnemy(type);
+  }
+};
+
+Enemy.spawnGivenTypeAt = function(type, location)
+{
   switch (type)
   {
     case Enemy.TYPE_SAUCER_SINGLE:
-      Enemy.current = SaucerSingle.spawn();
+      Enemy.current = SaucerSingle.spawn(location);
       break;
     case Enemy.TYPE_SAUCER_TRIPLE:
-      Enemy.current = SaucerTriple.spawn();
-      break;
-    case Enemy.TYPE_MISSILE:
-      Enemy.current = Missile.spawn();
+      Enemy.current = SaucerTriple.spawn(location);
       break;
     case Enemy.TYPE_SAUCER_CHAINGUN:
-      Enemy.current = SaucerChaingun.spawn();
+      Enemy.current = SaucerChaingun.spawn(location);
       break;
     case Enemy.TYPE_SAUCER_SHOTGUN:
-      Enemy.current = SaucerShotgun.spawn();
+      Enemy.current = SaucerShotgun.spawn(location);
       break;
     case Enemy.TYPE_SAUCER_AUTOSHOTGUN:
-      Enemy.current = SaucerAutoShotgun.spawn();
+      Enemy.current = SaucerAutoShotgun.spawn(location);
       break;
     default:
       panic('unknown enemy type: ' + type);

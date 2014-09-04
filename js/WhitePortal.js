@@ -4,23 +4,42 @@ var WhitePortal = Object.create(Portal);
 
 WhitePortal.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 
+// additional state for white portals
+WhitePortal.enemyTypeIncoming = null;
+
 WhitePortal.init = function()
 {
   WhitePortal.mesh = new THREE.Mesh(WhitePortal.GEOMETRY, WhitePortal.MATERIAL);
   WhitePortal.mesh.radarType = Radar.TYPE_PORTAL;
 
-  // FIXME add a mesh.update(timeDeltaMillis)
+  WhitePortal.mesh.update = function(timeDeltaMillis)
+  {
+    switch(WhitePortal.state)
+    {
+      case WhitePortal.STATE_OPENING:
+        WhitePortal.updateOpening(timeDeltaMillis);
+        break;
+      case WhitePortal.STATE_CLOSING:
+        WhitePortal.updateClosing(timeDeltaMillis);
+        break;
+      default:
+        panic('unknown WhitePortal state: ' + WhitePortal.state);
+    }
+  };
 };
 
-WhitePortal.setupOpening = function()
+WhitePortal.spawnForEnemy = function(enemyType)
 {
-  WhitePortal.spawn();
-  WhitePortal.state = WhitePortal.STATE_OPENING;
+  WhitePortal.enemyTypeIncoming = enemyType;
+  log('spawning white portal with enemy type: ' + WhitePortal.enemyTypeIncoming);
 
+  WhitePortal.spawn();
 };
 
 WhitePortal.opened = function()
 {
+  // TODO reorder this
+
   this.state = WhitePortal.CLOSING;
 
   // FIXME
@@ -29,21 +48,5 @@ WhitePortal.opened = function()
   WhitePortal.removeFromScene();
   // FIXME
 
-  Enemy.spawn();
-  State.setupCombat();
-};
-
-WhitePortal.update = function(timeDeltaMillis)
-{
-  switch(WhitePortal.state)
-  {
-    case WhitePortal.STATE_OPENING:
-      WhitePortal.updateOpening(timeDeltaMillis);
-      break;
-    case WhitePortal.STATE_CLOSING:
-      WhitePortal.updateClosing(timeDeltaMillis);
-      break;
-    default:
-      panic('unknown WhitePortal state: ' + WhitePortal.state);
-  }
+  Enemy.spawnGivenTypeAt(WhitePortal.enemyTypeIncoming, WhitePortal.mesh.position);
 };
