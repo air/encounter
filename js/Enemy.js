@@ -32,8 +32,7 @@ Enemy.spawnIfReady = function()
 {
   if ((clock.oldTime - Enemy.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
   {
-    Enemy.spawn();
-    State.setupCombat();
+    State.setupEnemyPortalOpening();
   }
 };
 

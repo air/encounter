@@ -7,14 +7,14 @@ var Portal = {};
 Portal.STATE_OPENING = 'opening';
 Portal.STATE_CLOSING = 'closing';
 
-Portal.TIME_TO_ANIMATE_OPENING_MS = 6000;
-Portal.TIME_TO_ANIMATE_CLOSING_MS = 4000;
+Portal.TIME_TO_ANIMATE_OPENING_MS = 5000;
+Portal.TIME_TO_ANIMATE_CLOSING_MS = 3000;
 
 // prototype state
 Portal.GEOMETRY = null;
-Portal.mesh = null;
 
 // state to be shadowed in derived objects
+Portal.mesh = null;
 Portal.state = null;
 Portal.spawnedAt = null;
 Portal.wasOpenedAt = null;
@@ -23,9 +23,6 @@ Portal.closeStartedAt = null;
 Portal.init = function()
 {
   Portal.GEOMETRY = new THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
-  Portal.mesh = new THREE.Mesh(Portal.GEOMETRY, new THREE.MeshLambertMaterial({ color : C64.black }));
-  
-  Portal.mesh.radarType = Radar.TYPE_PORTAL;
 };
 
 Portal.spawn = function()
@@ -37,16 +34,16 @@ Portal.spawn = function()
   
   // FIXME this is temporary
   // TODO use tween chaining for the left/right then up/down opening phases!
-  Portal.mesh.position.set(spawnPosition.x, Obelisk.HEIGHT / 2, spawnPosition.z);
-  Portal.mesh.update = function(){};
-  Portal.mesh.scale.y = 0.01;
+  this.mesh.position.set(spawnPosition.x, Obelisk.HEIGHT / 2, spawnPosition.z);
+  this.mesh.scale.y = 0.01;
+  this.mesh.update = function(){};  // needed since we're in the actors list, but updates are handled in derived object
 
-  scene.add(Portal.mesh);
-  State.actors.push(Portal.mesh);
+  scene.add(this.mesh);
+  State.actors.push(this.mesh);
   log('portal spawned');
   
   // let's animate!
-  var tween = new TWEEN.Tween(Portal.mesh.scale).to({ y: 1.0 }, Portal.TIME_TO_ANIMATE_OPENING_MS);
+  var tween = new TWEEN.Tween(this.mesh.scale).to({ y: 1.0 }, Portal.TIME_TO_ANIMATE_OPENING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
   tween.onComplete(function()
   {
@@ -57,6 +54,6 @@ Portal.spawn = function()
 
 Portal.removeFromScene = function()
 {
-  scene.remove(Portal.mesh);
-  State.actorIsDead(Portal.mesh);
+  scene.remove(this.mesh);
+  State.actorIsDead(this.mesh);
 };

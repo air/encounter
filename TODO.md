@@ -1,8 +1,10 @@
 # TODO
 
-  - don't wait for shoot after warp death; also use death fuzz
+  - remove portal states from State? There's only combat. Portals have spawn timers.
+  - saucers enter from white portal but missiles do not
+  - portal_distance_from_player is not the same as enemy_distance
+  - refactor BlackPortal spawntimer into WhitePortal spawntimer and remove State.WAIT_FOR_ENEMY
   - when working, change Portal proto style to ctor style
-  - saucers enter from white portal
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
@@ -58,6 +60,8 @@
   - Y rotation breaks when the camera flips from Simple to FirstPerson.
 
 # OO notes
+
+Inheritance sucks for the Portal -> White/Black variants. Up/down communication is opaque and difficult to follow. Better to have composed peer objects that communicate via an API with clear boundaries and hooks for custom behaviour.
 
   - prototype state = does updating an inherited property .foo update the proto? No, it creates a shadow prop on the object.
     - what about if the change is made IN the proto using this.prop=foo? Cool, this binds to the object (not proto).

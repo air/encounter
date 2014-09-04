@@ -4,6 +4,7 @@ var State = {};
 
 State.ATTRACT = 'attract';
 State.WAIT_FOR_ENEMY = 'waitForEnemy';
+State.ENEMY_PORTAL_OPENING = 'enemyPortalOpening';
 State.COMBAT = 'combat';
 State.WAIT_FOR_PORTAL = 'waitForPortal';
 State.WARP = 'warp';
@@ -103,6 +104,14 @@ State.setupWaitForEnemy = function()
   Enemy.startSpawnTimer();
 };
 
+State.setupEnemyPortalOpening = function()
+{
+  State.current = State.ENEMY_PORTAL_OPENING;
+  log('State: ' + State.current);
+
+  WhitePortal.setupOpening();
+};
+
 State.setupWaitForPortal = function()
 {
   State.current = State.WAIT_FOR_PORTAL;
@@ -135,7 +144,7 @@ State.setupGameOver = function()
 {
   State.current = State.GAME_OVER;
   log('State: ' + State.current);
-  Display.setText('GAME OVER, PRESS FIRE');
+  Display.setText('GAME OVER. PRESS FIRE');
 };
 
 State.setupWarp = function()
@@ -162,35 +171,24 @@ State.enemyKilled = function()
 
 State.updateWaitForEnemy = function(timeDeltaMillis)
 {
-  Controls.current.update(timeDeltaMillis);
-  Player.update(timeDeltaMillis);
-  Camera.update(timeDeltaMillis);
-  Grid.update();
-
-  // update non-Player game State.actors
-  if (!State.isPaused)
-  {
-    State.updateActors(timeDeltaMillis);
-    Controls.interpretKeys(timeDeltaMillis);
-  }
+  State.performNormalLevelUpdates(timeDeltaMillis);
 
   Enemy.spawnIfReady();
   Radar.update();
 };
 
+State.updateEnemyPortalOpening = function(timeDeltaMillis)
+{
+  State.performNormalLevelUpdates(timeDeltaMillis);
+
+  WhitePortal.update(timeDeltaMillis);
+  Radar.update();
+  TWEEN.update();
+};
+
 State.updateWaitForPortal = function(timeDeltaMillis)
 {
-  Controls.current.update(timeDeltaMillis);
-  Player.update(timeDeltaMillis);
-  Camera.update(timeDeltaMillis);
-  Grid.update();
-
-  // update non-Player game State.actors
-  if (!State.isPaused)
-  {
-    State.updateActors(timeDeltaMillis);
-    Controls.interpretKeys(timeDeltaMillis);
-  }
+  State.performNormalLevelUpdates(timeDeltaMillis);
 
   BlackPortal.update(timeDeltaMillis);
   Radar.update();
@@ -199,17 +197,7 @@ State.updateWaitForPortal = function(timeDeltaMillis)
 
 State.updateCombat = function(timeDeltaMillis)
 {
-  Controls.current.update(timeDeltaMillis);
-  Player.update(timeDeltaMillis);
-  Camera.update(timeDeltaMillis);
-  Grid.update();
-
-  // update non-Player game State.actors
-  if (!State.isPaused)
-  {
-    State.updateActors(timeDeltaMillis);
-    Controls.interpretKeys(timeDeltaMillis);
-  }
+  State.performNormalLevelUpdates(timeDeltaMillis);
 
   Radar.update();
   Indicators.update(); // needed for flickering effects only
@@ -221,7 +209,6 @@ State.updatePlayerHitInCombat = function(timeDeltaMillis)
   
   if (clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
-    // Keys.shooting = false;
     Display.hideShieldLossStatic();
     Indicators.reset();
     State.resetActors();
@@ -248,6 +235,21 @@ State.updateActors = function(timeDeltaMillis)
   }
 };
 
+State.performNormalLevelUpdates = function(timeDeltaMillis)
+{
+  Controls.current.update(timeDeltaMillis);
+  Player.update(timeDeltaMillis);
+  Camera.update(timeDeltaMillis);
+  Grid.update();
+
+  // update non-Player game State.actors
+  if (!State.isPaused)
+  {
+    State.updateActors(timeDeltaMillis);
+    Controls.interpretKeys(timeDeltaMillis);
+  }
+};
+
 // called from util.js
 function update(timeDeltaMillis)
 {
@@ -264,6 +266,9 @@ function update(timeDeltaMillis)
       break;
     case State.WAIT_FOR_ENEMY:
       State.updateWaitForEnemy(timeDeltaMillis);
+      break;
+    case State.ENEMY_PORTAL_OPENING:
+      State.updateEnemyPortalOpening(timeDeltaMillis);
       break;
     case State.WARP:
       Warp.update(timeDeltaMillis);

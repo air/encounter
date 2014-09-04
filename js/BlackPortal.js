@@ -2,6 +2,8 @@
 
 var BlackPortal = Object.create(Portal);
 
+BlackPortal.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.black });
+
 // additional states for black portals
 BlackPortal.STATE_WAITING_TO_SPAWN = 'waitingToSpawn';
 BlackPortal.STATE_WAITING_FOR_PLAYER = 'waitingForPlayer';
@@ -12,7 +14,8 @@ BlackPortal.spawnTimerStartedAt = null;
 
 BlackPortal.init = function()
 {
-
+  BlackPortal.mesh = new THREE.Mesh(BlackPortal.GEOMETRY, BlackPortal.MATERIAL);
+  BlackPortal.mesh.radarType = Radar.TYPE_PORTAL;
 };
 
 BlackPortal.startSpawnTimer = function()
@@ -58,7 +61,7 @@ BlackPortal.updateOpening = function(timeDeltaMillis)
 {
   if ((clock.oldTime - this.spawnedAt) > BlackPortal.TIME_TO_ANIMATE_OPENING_MS)
   {
-    log('portal open');
+    log('black portal open');
     this.wasOpenedAt = clock.oldTime;
     this.state = BlackPortal.STATE_WAITING_FOR_PLAYER;
   }
@@ -69,7 +72,7 @@ BlackPortal.updateClosing = function(timeDeltaMillis)
   // TODO animate
   if ((clock.oldTime - this.closeStartedAt) > BlackPortal.TIME_TO_ANIMATE_CLOSING_MS)
   {
-    log('portal closed');
+    log('black portal closed');
     BlackPortal.state = null;
     BlackPortal.removeFromScene();
     
