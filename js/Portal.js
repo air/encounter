@@ -17,7 +17,6 @@ Portal.GEOMETRY = null;
 Portal.mesh = null;
 Portal.state = null;
 Portal.spawnedAt = null;
-Portal.wasOpenedAt = null;
 Portal.closeStartedAt = null;
 
 Portal.init = function()
@@ -63,7 +62,6 @@ Portal.updateOpening = function(timeDeltaMillis)
   if ((clock.oldTime - this.spawnedAt) > Portal.TIME_TO_ANIMATE_OPENING_MS)
   {
     log('portal opened');
-    this.wasOpenedAt = clock.oldTime;
     this.opened();  // custom behaviour
   }
 };

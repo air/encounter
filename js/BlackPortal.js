@@ -10,6 +10,7 @@ BlackPortal.STATE_WAITING_FOR_PLAYER = 'waitingForPlayer';
 BlackPortal.STATE_PLAYER_ENTERED = 'playerEntered';
 
 // additional state for black portals
+BlackPortal.wasOpenedAt = null;
 BlackPortal.spawnTimerStartedAt = null;
 
 BlackPortal.init = function()
@@ -59,6 +60,7 @@ BlackPortal.updateWaitingForPlayer = function(timeDeltaMillis)
 
 BlackPortal.opened = function()
 {
+  BlackPortal.wasOpenedAt = clock.oldTime;
   BlackPortal.state = BlackPortal.STATE_WAITING_FOR_PLAYER;
 };
 
