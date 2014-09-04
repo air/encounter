@@ -170,13 +170,15 @@ Warp.updateDecelerate = function(timeDeltaMillis)
 // if shields are gone then game over; else play the death animation and return to previous level.
 Warp.updatePlayerHit = function()
 {
+  Display.updateShieldLossStatic();
+
   if (Player.shieldsLeft < 0)
   {
     Warp.state = null;
     Warp.removeAsteroidsFromScene();  // FIXME asteroids disappear, will be replaced by death fuzz
     State.setupGameOver();
   }
-  else if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
+  else if (clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Keys.shooting = false;
     Player.isAlive = true;
