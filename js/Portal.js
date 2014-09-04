@@ -1,6 +1,6 @@
 'use strict';
 
-// Prototype for BlackPortal (where player enters warp) and WhitePortal (where enemies warp in)
+// Prototype for BlackPortal (where player enters warp) and WhitePortal (where enemies warp in).
 
 var Portal = {};
 
@@ -57,3 +57,34 @@ Portal.removeFromScene = function()
   scene.remove(this.mesh);
   State.actorIsDead(this.mesh);
 };
+
+Portal.updateOpening = function(timeDeltaMillis)
+{
+  if ((clock.oldTime - this.spawnedAt) > Portal.TIME_TO_ANIMATE_OPENING_MS)
+  {
+    log('portal opened');
+    this.wasOpenedAt = clock.oldTime;
+    this.opened();  // custom behaviour
+  }
+};
+
+Portal.updateClosing = function(timeDeltaMillis)
+{
+  if ((clock.oldTime - this.closeStartedAt) > Portal.TIME_TO_ANIMATE_CLOSING_MS)
+  {
+    log('portal closed');
+    this.state = null;
+    this.removeFromScene();
+    this.closed();  // custom behaviour
+  }
+};
+
+// Portal.opened = function()
+// {
+//   // default no op
+// };
+
+// Portal.closed = function()
+// {
+//   // default no op
+// };

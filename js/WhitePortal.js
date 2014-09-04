@@ -17,33 +17,18 @@ WhitePortal.setupOpening = function()
 
 };
 
-WhitePortal.updateOpening = function()
+WhitePortal.opened = function()
 {
-  if ((clock.oldTime - this.spawnedAt) > WhitePortal.TIME_TO_ANIMATE_OPENING_MS)
-  {
-    log('white portal open');
-    this.wasOpenedAt = clock.oldTime; // FIXME not used in White
-    this.state = WhitePortal.CLOSING;
+  this.state = WhitePortal.CLOSING;
 
-    // FIXME
-    log('hacking out white portal');
-    WhitePortal.state = null;
-    WhitePortal.removeFromScene();
-    // FIXME
+  // FIXME
+  log('hacking out white portal');
+  WhitePortal.state = null;
+  WhitePortal.removeFromScene();
+  // FIXME
 
-    Enemy.spawn();
-    State.setupCombat();
-  }
-};
-
-WhitePortal.updateClosing = function(timeDeltaMillis)
-{
-  if ((clock.oldTime - this.closeStartedAt) > WhitePortal.TIME_TO_ANIMATE_CLOSING_MS)
-  {
-    log('white portal closed');
-    WhitePortal.state = null;
-    WhitePortal.removeFromScene();
-  }
+  Enemy.spawn();
+  State.setupCombat();
 };
 
 WhitePortal.update = function(timeDeltaMillis)

@@ -57,28 +57,15 @@ BlackPortal.updateWaitingForPlayer = function(timeDeltaMillis)
   }
 };
 
-BlackPortal.updateOpening = function(timeDeltaMillis)
+BlackPortal.opened = function()
 {
-  if ((clock.oldTime - this.spawnedAt) > BlackPortal.TIME_TO_ANIMATE_OPENING_MS)
-  {
-    log('black portal open');
-    this.wasOpenedAt = clock.oldTime;
-    this.state = BlackPortal.STATE_WAITING_FOR_PLAYER;
-  }
+  BlackPortal.state = BlackPortal.STATE_WAITING_FOR_PLAYER;
 };
 
-BlackPortal.updateClosing = function(timeDeltaMillis)
+BlackPortal.closed = function()
 {
-  // TODO animate
-  if ((clock.oldTime - this.closeStartedAt) > BlackPortal.TIME_TO_ANIMATE_CLOSING_MS)
-  {
-    log('black portal closed');
-    BlackPortal.state = null;
-    BlackPortal.removeFromScene();
-    
-    State.resetEnemyCounter();
-    State.setupWaitForEnemy();
-  }
+  State.resetEnemyCounter();
+  State.setupWaitForEnemy();
 };
 
 BlackPortal.update = function(timeDeltaMillis)
