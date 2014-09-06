@@ -10,7 +10,7 @@ SaucerAutoShotgun.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.light
 SaucerAutoShotgun.SHOT_SPREAD = 0.05;
 
 // override
-SaucerAutoShotgun.performsShotWindup = false;
+SaucerAutoShotgun.PERFORMS_SHOT_WINDUP = false;
 // override
 SaucerAutoShotgun.SHOTS_TO_FIRE = 3;
 // override

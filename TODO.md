@@ -1,9 +1,8 @@
 # TODO
 
-  - candidates for new ctor style: Shot, Asteroid
-    - everything else is a singleton. We would just replace .init()s with ctors, and need .prototype everywhere.
-    - WhitePortal, BlackPortal could be new Portal()s then extended, but not much gain.
-    - replace all newInstance with Object.create? Maybe don't need if no inheritance.
+  - Saucer proto with a separate mesh for every saucer type
+  - candidates for new ctor style: Shot, Asteroid, anything with newInstance
+  - everything in State.actor should be an Actor created with new(), with getRadarType() and update()
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.

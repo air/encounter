@@ -10,7 +10,7 @@ SaucerChaingun.SHOT_MATERIAL1 = new THREE.MeshBasicMaterial({ color: C64.yellow 
 SaucerChaingun.SHOT_MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
 
 // override
-SaucerChaingun.performsShotWindup = false;
+SaucerChaingun.PERFORMS_SHOT_WINDUP = false;
 // override
 SaucerChaingun.SHOTS_TO_FIRE = 10;
 // override
@@ -23,7 +23,7 @@ SaucerChaingun.isYellow = true;  // current yellow/grey flicker state
 SaucerChaingun.init = function()
 {
   // actually set up this Mesh using our materials
-  THREE.Mesh.call(SaucerChaingun, Saucer.GEOMETRY, SaucerChaingun.MATERIAL);
+  THREE.Mesh.call(SaucerChaingun, Saucer.GEOMETRY, SaucerChaingun.MATERIAL1);
   SaucerChaingun.scale.y = Saucer.MESH_SCALE_Y;
 };
 

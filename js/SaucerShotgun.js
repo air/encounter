@@ -10,7 +10,7 @@ SaucerShotgun.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgree
 SaucerShotgun.SHOT_SPREAD = 0.05;
 
 // override
-SaucerShotgun.performsShotWindup = false;
+SaucerShotgun.PERFORMS_SHOT_WINDUP = false;
 
 SaucerShotgun.init = function()
 {
