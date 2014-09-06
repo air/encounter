@@ -33,7 +33,8 @@ WhitePortal.spawnForEnemy = function(enemyType)
   WhitePortal.enemyTypeIncoming = enemyType;
   log('spawning white portal with enemy type: ' + WhitePortal.enemyTypeIncoming);
 
-  WhitePortal.spawn();
+  var location = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
+  WhitePortal.spawn(location);
   WhitePortal.mesh.radarType = Radar.TYPE_PORTAL;
 };
 

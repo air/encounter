@@ -24,17 +24,19 @@ Portal.init = function()
   Portal.GEOMETRY = new THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
 };
 
-Portal.spawn = function()
+Portal.spawn = function(location)
 {
+  if (typeof location === 'undefined')
+  {
+    panic('spawn requires location');
+  }
+  
   this.spawnedAt = clock.oldTime;
   this.state = Portal.STATE_OPENING;
-
-  // TODO don't collide with obelisk
-  var spawnPosition = Grid.randomLocationCloseToPlayer(Encounter.PORTAL_SPAWN_DISTANCE_MAX);
   
   // FIXME this is temporary
   // TODO use tween chaining for the left/right then up/down opening phases!
-  this.mesh.position.set(spawnPosition.x, Obelisk.HEIGHT / 2, spawnPosition.z);
+  this.mesh.position.set(location.x, Obelisk.HEIGHT / 2, location.z);
   this.mesh.scale.y = 0.01;
 
   scene.add(this.mesh);

@@ -32,7 +32,8 @@ BlackPortal.spawnIfReady = function()
 {
   if ((clock.oldTime - BlackPortal.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
   {
-    BlackPortal.spawn();
+    var location = Grid.randomLocationCloseToPlayer(Encounter.PORTAL_SPAWN_DISTANCE_MAX);
+    BlackPortal.spawn(location);
   }
 };
 

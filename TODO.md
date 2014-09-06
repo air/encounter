@@ -1,7 +1,9 @@
 # TODO
 
-  - portal_distance_from_player is not the same as enemy_distance
-  - when working, change Portal proto style to ctor style
+  - candidates for new ctor style: Shot, Asteroid
+    - everything else is a singleton. We would just replace .init()s with ctors, and need .prototype everywhere.
+    - WhitePortal, BlackPortal could be new Portal()s then extended, but not much gain.
+    - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
@@ -30,7 +32,6 @@
   - sound: C64 oscillator doesn't have SINE, must be sawtooth or triangle
     - see https://github.com/pstoica/web-audio-synth/blob/master/js/sid.js and http://www.igorski.nl/experiment/websid
   - MaterialsC64.js - then clone() all materials from the set
-  - replace all newInstance with Object.create? Maybe don't need if no inheritance.
   - add original super-cool exit from warp effect
   - further original UFO types
   - L1 clouds. L2 stars. Use CSS background image and scroll?
