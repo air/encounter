@@ -43,6 +43,8 @@
   - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 
   - world wraparound. Head away from enemy and they appear in front.
   - record/synth sound effects: player move, warp, enemy ticking, missile
+    - http://csdb.dk/forums/index.php?roomid=11&topicid=32097&firstpost=2
+    - Just look for executable code with sta $d400. Then see where a is loaded from.
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
   - better saucer model, proper geometry - use threejs editor. Original is simplified to a diamond from afar.
   - better missile model.
