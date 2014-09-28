@@ -1,5 +1,11 @@
 # TODO
 
+  - in the middle of adding Actors and Actor
+    - what goes in the actors list? Should satisfy a few basic functions
+    - an actor needs access to the state of the object it represents
+    - should we have a rigid type (which must go in the proto chain) or can the object construct something less formal?
+  - Saucer.update -> Saucer.mesh.update
+  - Radar iterating over actors is horrible, use every?
   - Saucer proto with a separate mesh for every saucer type
   - candidates for new ctor style: Shot, Asteroid, anything with newInstance
   - everything in State.actor should be an Actor created with new(), with getRadarType() and update()
@@ -43,6 +49,8 @@
   - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 
   - world wraparound. Head away from enemy and they appear in front.
   - record/synth sound effects: player move, warp, enemy ticking, missile
+    - http://csdb.dk/forums/index.php?roomid=11&topicid=32097&firstpost=2
+    - Just look for executable code with sta $d400. Then see where a is loaded from.
   - improve mobile FPS. e.g. merge geometry; shorter draw distance; fog. Measure 'best' FPS with nothing going on.
   - better saucer model, proper geometry - use threejs editor. Original is simplified to a diamond from afar.
   - better missile model.

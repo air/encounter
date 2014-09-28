@@ -1,5 +1,7 @@
 'use strict';
 
+// Saucer is an abstract type.
+
 // constructor for new
 var Saucer = function(material)
 {
@@ -9,6 +11,10 @@ var Saucer = function(material)
   }
 
   this.mesh = new THREE.Mesh(Saucer.GEOMETRY, material);
+  this.mesh.scale.y = Saucer.MESH_SCALE_Y;
+
+  // FIXME update doesn't have reference to state
+  this.actor = new Actor(this.mesh, this.update, Radar.TYPE_ENEMY);
   return this;
 }
 
@@ -27,9 +33,6 @@ Saucer.WAIT_TIME_MAX_MS = 2000;
 Saucer.WAIT_TIME_MIN_MS = 1000;
 
 Saucer.prototype = {
-  // prototype constants - referenced as this.foo
-  radarType: Radar.TYPE_ENEMY,
-
   // config defaults. TODO configure at create time
   PERFORMS_SHOT_WINDUP: true,
   SHOT_WINDUP_TIME_MS: 600,
@@ -39,27 +42,12 @@ Saucer.prototype = {
   // current state
   mesh: null,
   state: null,
+  actor: null;
   movingCountdown: null,
   waitingCountdown: null,
   shotWindupCountdown: null,
-  shotIntervalCountdown: null,
-  shotsLeftToFire: null,
-
-  spawn: function(location)
-  {
-    if (typeof location === 'undefined')
-    {
-      panic('Saucer spawn requires a location');
-    }
-
-    Indicators.setYellow(true);
-
-    log('spawning saucer at ' + location.x + ', ' + location.y + ', ' + location.z);
-    this.mesh.position.copy(location);
-    this.setupMoving();
-
-    return this;  // FIXME still appropriate?
-  },
+  shotIntervalCountdown: null,  // only relevant if SHOTS_TO_FIRE > 1
+  shotsLeftToFire: null, // only relevant if SHOTS_TO_FIRE > 1
 
   setupWaiting: function()
   {
@@ -195,6 +183,10 @@ Saucer.prototype = {
 
   update: function(timeDeltaMillis)
   {
+    if (typeof this.state === 'undefined')
+    {
+      panic('ugh', this);
+    }
     switch(this.state)
     {
       case Saucer.STATE_WAITING:

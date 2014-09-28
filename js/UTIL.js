@@ -59,9 +59,13 @@ function error(msg)
   console.error(Math.floor(window.performance.now()) + ' ' + msg);
 }
 
-function panic(msg)
+function panic(msg, object)
 {
   console.error(msg);
+  if (typeof object !== 'undefined')
+  {
+    console.log(object);
+  }
   debugger;
 }
 

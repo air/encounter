@@ -35,7 +35,7 @@ Warp.setup = function()
   Display.setSkyColour(C64.css.black);
   Display.horizonDiv.style.display = 'none';
 
-  State.resetActors(); 
+  State.actors.reset(); 
   Controls.useWarpControls();
 
   Warp.enteredAt = clock.oldTime;

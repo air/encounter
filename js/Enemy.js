@@ -56,8 +56,7 @@ Enemy.spawn = function()
   if (type === Enemy.TYPE_MISSILE)
   {
     Enemy.current = Missile.spawn();
-    scene.add(Enemy.current);
-    State.actors.push(Enemy.current);
+    State.actors.add(Enemy.current);
     Enemy.isAlive = true;
   }
   else
@@ -71,7 +70,7 @@ Enemy.spawnGivenTypeAt = function(type, location)
   switch (type)
   {
     case Enemy.TYPE_SAUCER_SINGLE:
-      Enemy.current = SaucerSingle.spawn(location);
+      Enemy.current = new SaucerSingle(location);
       break;
     case Enemy.TYPE_SAUCER_TRIPLE:
       Enemy.current = SaucerTriple.spawn(location);
@@ -89,9 +88,9 @@ Enemy.spawnGivenTypeAt = function(type, location)
       panic('unknown enemy type: ' + type);
   }
 
-  scene.add(Enemy.current);
-  State.actors.push(Enemy.current);
+  State.actors.add(Enemy.current.mesh);
   Enemy.isAlive = true;
+  Indicators.setYellow(true);
 };
 
 // enemy is hit and destroyed, but the explosion still has to play out

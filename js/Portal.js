@@ -39,8 +39,7 @@ Portal.spawn = function(location)
   this.mesh.position.set(location.x, Obelisk.HEIGHT / 2, location.z);
   this.mesh.scale.y = 0.01;
 
-  scene.add(this.mesh);
-  State.actors.push(this.mesh);
+  State.actors.add(this.mesh);
   log('portal spawned');
   
   var tween = new TWEEN.Tween(this.mesh.scale).to({ y: 1.0 }, Portal.TIME_TO_ANIMATE_OPENING_MS);

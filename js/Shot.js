@@ -124,7 +124,7 @@ Shot.cleanUpDeadShot = function(shot)
   }
   else // check if this was the last enemy shot cleaned up
   {
-    if (State.actors.every(Shot.isNotEnemyShot))
+    if (State.actors.list.every(Shot.isNotEnemyShot))
     {
       Indicators.setBlue(false);
     }

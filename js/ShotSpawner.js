@@ -33,8 +33,7 @@ ShotSpawner.prototype.update = function(t)
   if (millisSinceLastShot > this.SHOT_INTERVAL_MILLIS)
   {
     var shot = Shot.newInstance(this, this.position, this.rotation, ShotSpawner.SHOT_MATERIAL);
-    State.actors.push(shot);
-    scene.add(shot);
+    State.actors.add(shot);
 
     this.lastShotAt = timeNow;
   }

@@ -11,7 +11,7 @@ State.PLAYER_HIT = 'playerHit';
 State.GAME_OVER = 'gameOver';
 State.current = null;
 
-State.actors = [];
+State.actors = new Actors();
 
 State.enemiesRemaining = null;
 
@@ -27,12 +27,10 @@ State.init = function()
   Display.init();
   Player.init();
   Missile.init();
-  Saucer.init();
-  SaucerSingle.init();
-  SaucerTriple.init();
-  SaucerChaingun.init();
-  SaucerShotgun.init();
-  SaucerAutoShotgun.init();
+  // SaucerTriple.init();
+  // SaucerChaingun.init();
+  // SaucerShotgun.init();
+  // SaucerAutoShotgun.init();
   Camera.init();
   Controls.init();
   Touch.init(); // FIXME depends on Controls.init
@@ -68,18 +66,9 @@ State.initLevel = function(levelNumber)
   Grid.reset();
   Enemy.reset();
   Indicators.reset();
-  State.resetActors();
+  State.actors.reset();
 
   State.resetEnemyCounter();
-};
-
-State.resetActors = function()
-{
-  while (State.actors.length > 0)
-  {
-    var actor = State.actors.pop();
-    scene.remove(actor);
-  }
 };
 
 State.resetEnemyCounter = function()
@@ -194,7 +183,7 @@ State.updatePlayerHitInCombat = function(timeDeltaMillis)
   {
     Display.hideShieldLossStatic();
     Indicators.reset();
-    State.resetActors();
+    State.actors.reset();
     Player.isAlive = true;
     State.setupWaitForEnemy();
   } 
@@ -210,14 +199,6 @@ State.updateGameOver = function(timeDeltaMillis)
   }
 };
 
-// ask all State.actors to update their state based on the last time delta
-State.updateActors = function(timeDeltaMillis)
-{
-  for (var i = 0; i < State.actors.length; i++) {
-    State.actors[i].update(timeDeltaMillis);
-  }
-};
-
 State.performNormalLevelUpdates = function(timeDeltaMillis)
 {
   Controls.current.update(timeDeltaMillis);
@@ -228,7 +209,7 @@ State.performNormalLevelUpdates = function(timeDeltaMillis)
   // update non-Player game State.actors
   if (!State.isPaused)
   {
-    State.updateActors(timeDeltaMillis);
+    State.actors.update(timeDeltaMillis);
     Controls.interpretKeys(timeDeltaMillis);
   }
 };
@@ -266,15 +247,5 @@ function update(timeDeltaMillis)
 
 State.actorIsDead = function(actor)
 {
-  if (typeof actor === 'undefined')
-  {
-    throw('actor undefined');
-  }
-
-  var index = State.actors.indexOf(actor);
-  if (index !== -1) {
-    State.actors.splice(index, 1);
-  }
-
-  scene.remove(actor);
+  State.actors.remove(actor);
 };

@@ -22,7 +22,7 @@ Player.init = function()
   THREE.Mesh.call(Player, Player.GEOMETRY, Player.MATERIAL); 
 
   // FIXME for debug purposes player can move in pause mode - uncomment to fix this.
-  //State.actors.push(playerMesh);
+  //State.actors.add(playerMesh);
 };
 
 Player.resetPosition = function()
@@ -85,7 +85,6 @@ Player.shoot = function()
       Player.shotsInFlight += 1;
       Player.lastTimeFired = now;
       State.actors.push(shot);
-      scene.add(shot);    
     }
   }
 };

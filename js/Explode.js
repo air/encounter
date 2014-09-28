@@ -56,8 +56,7 @@ Explode.at = function(location)
     Explode.gibs[i].translateZ(-Gib.OFFSET_FROM_CENTER);
     Explode.gibs[i].ageMillis = 0;
 
-    State.actors.push(Explode.gibs[i]);
-    scene.add(Explode.gibs[i]);
+    State.actors.add(Explode.gibs[i]);
 
     Explode.gibsActive += 1;
   }

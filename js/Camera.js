@@ -35,7 +35,7 @@ Camera.init = function()
   Camera.orthoCamera = new THREE.OrthographicCamera(Camera.TOPDOWN_VIEWPORT_SIDE / -2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / -2, 1, 100);
 
   // removed since we want the camera to move in pause mode
-  //State.actors.push(Camera);
+  //State.actors.add(Camera);
 
   // put ortho camera in the centre
   Camera.orthoCamera.position.set(Grid.SIZE_SQUARE / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.SIZE_SQUARE / 2);

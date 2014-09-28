@@ -2,23 +2,30 @@
 
 // The first enemy, a yellow saucer firing one shot with windup sound.
 
-var SaucerSingle = Object.create(Saucer);
-
-SaucerSingle.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.yellow });
-SaucerSingle.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.yellow });
-
-SaucerSingle.init = function()
+// location is optional, default will be 0,0,0
+var SaucerSingle = function(location)
 {
-  // actually set up this Mesh using our materials
-  THREE.Mesh.call(SaucerSingle, Saucer.GEOMETRY, SaucerSingle.MATERIAL);
-  SaucerSingle.scale.y = Saucer.MESH_SCALE_Y;
+  Saucer.call(this, SaucerSingle.MATERIAL);
+
+  if (typeof location !== 'undefined')
+  {
+    this.mesh.position.copy(location);
+  }
+
+  log('new SingleSaucer at ' + location.x + ', ' + location.y + ', ' + location.z);
+  this.setupMoving();
 };
 
-SaucerSingle.shoot = function()
+// type constants
+SaucerSingle.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.yellow });
+SaucerSingle.SHOT_MATERIAL = SaucerSingle.MATERIAL;
+
+SaucerSingle.prototype = Object.create(Saucer.prototype);
+
+SaucerSingle.prototype.shoot = function()
 {
-  MY3.rotateObjectToLookAt(this, Player.position);
+  MY3.rotateObjectToLookAt(this.mesh, Player.position);
   Sound.enemyShoot();
-  var shot = Shot.newInstance(SaucerSingle, SaucerSingle.position, SaucerSingle.rotation, SaucerSingle.SHOT_MATERIAL);
-  State.actors.push(shot);
-  scene.add(shot);
+  var shot = Shot.newInstance(this, this.mesh.position, this.mesh.rotation, SaucerSingle.SHOT_MATERIAL);
+  State.actors.add(shot);
 };
