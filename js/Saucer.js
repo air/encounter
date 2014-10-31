@@ -13,7 +13,7 @@ var Saucer = function(material)
   this.mesh = new THREE.Mesh(Saucer.GEOMETRY, material);
   this.mesh.scale.y = Saucer.MESH_SCALE_Y;
 
-  // FIXME update doesn't have reference to state
+  // FIXME update doesn't have reference to state - should get as 'self' in update() closure defined in parent object?
   this.actor = new Actor(this.mesh, this.update, Radar.TYPE_ENEMY);
   return this;
 }
@@ -42,7 +42,7 @@ Saucer.prototype = {
   // current state
   mesh: null,
   state: null,
-  actor: null;
+  actor: null,
   movingCountdown: null,
   waitingCountdown: null,
   shotWindupCountdown: null,
@@ -185,7 +185,7 @@ Saucer.prototype = {
   {
     if (typeof this.state === 'undefined')
     {
-      panic('ugh', this);
+      panic('Saucer: this.state is undefined, wtf', this);
     }
     switch(this.state)
     {
