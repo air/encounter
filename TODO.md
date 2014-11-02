@@ -7,6 +7,7 @@
   - Saucer.update -> Saucer.mesh.update
   - Radar iterating over actors is horrible, use every?
   - Saucer proto with a separate mesh for every saucer type
+  - Once Saucers are discrete objects try N Saucers on the map!
   - candidates for new ctor style: Shot, Asteroid, anything with newInstance
   - everything in State.actor should be an Actor created with new(), with getRadarType() and update()
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape

@@ -1,6 +1,7 @@
 'use strict';
 
-// Saucer is an abstract type.
+// Saucer is an abstract type. Derived objects must implement:
+// - shoot()
 
 // constructor for new
 var Saucer = function(material)
@@ -13,8 +14,44 @@ var Saucer = function(material)
   this.mesh = new THREE.Mesh(Saucer.GEOMETRY, material);
   this.mesh.scale.y = Saucer.MESH_SCALE_Y;
 
-  // FIXME update doesn't have reference to state - should get as 'self' in update() closure defined in parent object?
-  this.actor = new Actor(this.mesh, this.update, Radar.TYPE_ENEMY);
+  var self = this;
+
+  // update is a closure passed over to Actor and invoked there, so we need 'self' to track the owning Saucer instance
+  var update = function(timeDeltaMillis)
+  {
+    if (typeof self === 'undefined')
+    {
+      panic('Saucer: self is undefined, wtf', this)
+    }
+
+    console.log('Saucer update this: ', this);
+    console.log('Saucer update self: ', self);
+
+    if (typeof self.state === 'undefined')
+    {
+      panic('Saucer: self.state is undefined, wtf', this);
+    }
+
+    switch(self.state)
+    {
+      case Saucer.STATE_WAITING:
+        self.updateWaiting(timeDeltaMillis);
+        break;
+      case Saucer.STATE_MOVING:
+        self.updateMoving(timeDeltaMillis);
+        break;
+      case Saucer.STATE_SHOT_WINDUP:
+        self.updateShotWindup(timeDeltaMillis);
+        break;
+      case Saucer.STATE_SHOOTING:
+        self.updateShooting(timeDeltaMillis);
+        break;
+      default:
+        panic('unknown Saucer state: ' + self.state);
+    } 
+  };
+
+  this.actor = new Actor(this.mesh, update, Radar.TYPE_ENEMY);
   return this;
 }
 
@@ -179,31 +216,6 @@ Saucer.prototype = {
   destroyed: function()
   {
     Indicators.setYellow(false);
-  },
-
-  update: function(timeDeltaMillis)
-  {
-    if (typeof this.state === 'undefined')
-    {
-      panic('Saucer: this.state is undefined, wtf', this);
-    }
-    switch(this.state)
-    {
-      case Saucer.STATE_WAITING:
-        this.updateWaiting(timeDeltaMillis);
-        break;
-      case Saucer.STATE_MOVING:
-        this.updateMoving(timeDeltaMillis);
-        break;
-      case Saucer.STATE_SHOT_WINDUP:
-        this.updateShotWindup(timeDeltaMillis);
-        break;
-      case Saucer.STATE_SHOOTING:
-        this.updateShooting(timeDeltaMillis);
-        break;
-      default:
-        panic('unknown Saucer state: ' + this.state);
-    } 
   }
 
 // end prototype  

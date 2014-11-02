@@ -12,7 +12,7 @@ var SaucerSingle = function(location)
     this.mesh.position.copy(location);
   }
 
-  log('new SingleSaucer at ' + location.x + ', ' + location.y + ', ' + location.z);
+  log('new SingleSaucer at ', this.mesh.position);
   this.setupMoving();
 };
 

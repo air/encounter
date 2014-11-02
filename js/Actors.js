@@ -1,5 +1,10 @@
 'use strict';
 
+// An Actor has
+// - an Object3D for the scene
+// - an update() function
+// - a Radar type
+// ---------------------------------------------------------------------------
 var Actor = function(object3D, updateFunction, radarType)
 {
   this.object3D = object3D;
@@ -24,6 +29,8 @@ Actor.prototype = {
   },
 };
 
+// Actors is a strongly typed Array of Actor objects. Each Actor is placed in the scene.
+// ---------------------------------------------------------------------------
 var Actors = function()
 {
   this.list = [];
