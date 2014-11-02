@@ -88,7 +88,7 @@ Enemy.spawnGivenTypeAt = function(type, location)
       panic('unknown enemy type: ' + type);
   }
 
-  State.actors.add(Enemy.current.mesh);
+  State.actors.add(Enemy.current.actor);
   Enemy.isAlive = true;
   Indicators.setYellow(true);
 };
@@ -100,7 +100,7 @@ Enemy.destroyed = function()
   scene.remove(Enemy.current);
   Enemy.isAlive = false;
 
-  State.actors.remove(Enemy.current);
+  State.actors.remove(Enemy.current.actor);
 
   // if this enemy has a destroyed() decorator, invoke it
   if (typeof(Enemy.current.destroyed) === 'function')

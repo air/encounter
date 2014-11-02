@@ -24,9 +24,6 @@ var Saucer = function(material)
       panic('Saucer: self is undefined, wtf', this)
     }
 
-    console.log('Saucer update this: ', this);
-    console.log('Saucer update self: ', self);
-
     if (typeof self.state === 'undefined')
     {
       panic('Saucer: self.state is undefined, wtf', this);
@@ -120,9 +117,9 @@ Saucer.prototype = {
 
   setupShotWindup: function()
   {
-    this.shotWindupCountdown = Saucer.SHOT_WINDUP_TIME_MS;
+    this.shotWindupCountdown = this.SHOT_WINDUP_TIME_MS;
     Sound.shotWindup();
-    log('enemy winding up shot for ' + Saucer.SHOT_WINDUP_TIME_MS + 'ms');
+    log('enemy winding up shot for ' + this.SHOT_WINDUP_TIME_MS + 'ms');
     this.state = Saucer.STATE_SHOT_WINDUP;
   },
 
