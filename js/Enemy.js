@@ -100,7 +100,7 @@ Enemy.destroyed = function()
   scene.remove(Enemy.current);
   Enemy.isAlive = false;
 
-  State.actorIsDead(Enemy.current);
+  State.actors.remove(Enemy.current);
 
   // if this enemy has a destroyed() decorator, invoke it
   if (typeof(Enemy.current.destroyed) === 'function')

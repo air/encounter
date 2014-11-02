@@ -4,7 +4,6 @@
     - what goes in the actors list? Should satisfy a few basic functions
     - an actor needs access to the state of the object it represents
     - should we have a rigid type (which must go in the proto chain) or can the object construct something less formal?
-  - Saucer.update -> Saucer.mesh.update
   - Radar iterating over actors is horrible, use every?
   - Saucer proto with a separate mesh for every saucer type
   - Once Saucers are discrete objects try N Saucers on the map!

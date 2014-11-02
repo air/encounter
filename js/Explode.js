@@ -109,7 +109,7 @@ Gib.newInstance = function()
 
 Gib.cleanUpDeadGib = function(gib)
 {
-  State.actorIsDead(gib);
+  State.actors.remove(gib);
   Explode.gibsActive -= 1;
 
   // animation is finished, move the State onward

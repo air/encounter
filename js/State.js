@@ -244,8 +244,3 @@ function update(timeDeltaMillis)
       panic('unknown state: ', State.current);
   }
 }
-
-State.actorIsDead = function(actor)
-{
-  State.actors.remove(actor);
-};

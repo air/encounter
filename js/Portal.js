@@ -39,7 +39,8 @@ Portal.spawn = function(location)
   this.mesh.position.set(location.x, Obelisk.HEIGHT / 2, location.z);
   this.mesh.scale.y = 0.01;
 
-  State.actors.add(this.mesh);
+  this.actor = new Actor(this.mesh, this.update, Radar.TYPE_PORTAL);
+  State.actors.add(this.actor);
   log('portal spawned');
   
   var tween = new TWEEN.Tween(this.mesh.scale).to({ y: 1.0 }, Portal.TIME_TO_ANIMATE_OPENING_MS);
@@ -68,7 +69,7 @@ Portal.startClosing = function()
 Portal.removeFromScene = function()
 {
   scene.remove(this.mesh);
-  State.actorIsDead(this.mesh);
+  State.actors.remove(this.actor);
 };
 
 Portal.updateOpening = function(timeDeltaMillis)

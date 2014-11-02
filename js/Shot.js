@@ -116,7 +116,7 @@ Shot.isNotEnemyShot = function(element, index, array)
 
 Shot.cleanUpDeadShot = function(shot)
 {
-  State.actorIsDead(shot);
+  State.actors.remove(shot);
 
   if (shot.shotType === Shot.TYPE_PLAYER)
   {

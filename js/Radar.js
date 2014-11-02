@@ -157,23 +157,23 @@ Radar.update = function()
     {
       case Radar.TYPE_ENEMY:
         Radar.canvasContext.fillStyle = C64.css.yellow;
-        Radar.render(State.actors.list[i].position.x, State.actors.list[i].position.z);
+        Radar.render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
         break;
       case Radar.TYPE_PLAYER:
         // TODO see above, currently player is special case and this block is unused
         Radar.canvasContext.fillStyle = C64.css.white;
-        Radar.render(State.actors.list[i].position.x, State.actors.list[i].position.z);
+        Radar.render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
         break;
       case Radar.TYPE_SHOT:
         if (Radar.showShots)
         {
           Radar.canvasContext.fillStyle = C64.css.orange;
-          Radar.render(State.actors.list[i].position.x, State.actors.list[i].position.z);
+          Radar.render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
         }
         break;
       case Radar.TYPE_PORTAL:
         Radar.canvasContext.fillStyle = C64.randomCssColour();
-        Radar.render(State.actors.list[i].position.x, State.actors.list[i].position.z);
+        Radar.render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
         break;
       case Radar.TYPE_NONE:
         // no op
