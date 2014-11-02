@@ -49,9 +49,13 @@ UTIL.randomFromArray = function(array)
 //=============================================================================
 // logging
 //=============================================================================
-function log(msg)
+function log(msg, object)
 {
   console.log(Math.floor(window.performance.now()) + ' ' + msg);
+  if (typeof object !== 'undefined')
+  {
+    console.log(object);
+  }
 }
 
 function error(msg)
