@@ -104,7 +104,7 @@ Shot.collideWithShips = function(shot)
     State.setupPlayerHitInCombat();
   }
   // kill the enemy
-  if (shot.shotType === Shot.TYPE_PLAYER && Enemy.isAlive && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.current.position, Enemy.current.RADIUS))
+  if (shot.shotType === Shot.TYPE_PLAYER && Enemy.isAlive && MY3.doCirclesCollide(shot.position, Shot.RADIUS, Enemy.current.mesh.position, Enemy.current.RADIUS))
   {
     Enemy.destroyed();
     // remove the shot

@@ -1,14 +1,10 @@
 # TODO
 
   - in the middle of adding Actors and Actor
-    - what goes in the actors list? Should satisfy a few basic functions
-    - an actor needs access to the state of the object it represents
-    - should we have a rigid type (which must go in the proto chain) or can the object construct something less formal?
   - Radar iterating over actors is horrible, use every?
   - Saucer proto with a separate mesh for every saucer type
   - Once Saucers are discrete objects try N Saucers on the map!
   - candidates for new ctor style: Shot, Asteroid, anything with newInstance
-  - everything in State.actor should be an Actor created with new(), with getRadarType() and update()
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
   - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
@@ -80,7 +76,9 @@ The journey to JS OO.
   - Finally learn the ctor function, which does some lifting for you and has a special property 'prototype'. The relationship between the ctor function and the function-prototype object is actually very simple.
     - This explains what the instanceof operator does: looks at obj X, and matches isPrototypeOf() against the .prototype property of the ctor function you give it.
 @sporto article is good but not complete. Needs explanation of shadowing and 'this' delegation even when using pure Object.create style.
-  - Write your prototype with properties divided into 'actual proto state' and 'will be shadowed in derived objects'. The latter must always be addressed with 'this'. 
+  - Write your prototype with properties divided into 'actual proto state' and 'will be shadowed in derived objects'. The latter must always be addressed with 'this'.
+
+Better use of composition and closures in Actor. Encapsulate the idea of a thing that 1. Goes in the scene and 2. has some behaviour (a function). That function needs to remember state of its parent - hence a 'self' closure reference.
 
 # Interesting things
 

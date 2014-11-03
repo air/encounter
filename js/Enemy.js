@@ -56,7 +56,7 @@ Enemy.spawn = function()
   if (type === Enemy.TYPE_MISSILE)
   {
     Enemy.current = Missile.spawn();
-    State.actors.add(Enemy.current);
+    State.actors.add(Enemy.current.actor);
     Enemy.isAlive = true;
   }
   else
@@ -97,7 +97,6 @@ Enemy.spawnGivenTypeAt = function(type, location)
 Enemy.destroyed = function()
 {
   Sound.playerKilled();
-  scene.remove(Enemy.current);
   Enemy.isAlive = false;
 
   State.actors.remove(Enemy.current.actor);
@@ -108,7 +107,7 @@ Enemy.destroyed = function()
     Enemy.current.destroyed.call(); 
   }
 
-  Explode.at(Enemy.current.position);
+  Explode.at(Enemy.current.mesh.position);
 };
 
 // explosion has finished animating

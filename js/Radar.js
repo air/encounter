@@ -12,7 +12,7 @@ Radar.CENTER_Z = Math.floor(Radar.RESOLUTION_Z / 2);
 Radar.BLIP_RADIUS = 3;
 Radar.OBELISK_BLIP_RADIUS = 1;
 
-Radar.showObelisks = true; // in Encounter, false
+Radar.showObelisks = false; // in Encounter, false
 Radar.showShots = true; // in Encounter, false
 
 Radar.TYPE_PLAYER = 'player';

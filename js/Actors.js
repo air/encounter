@@ -73,7 +73,7 @@ Actors.prototype = {
     while (this.list.length > 0)
     {
       var actor = this.list.pop();
-      scene.remove(actor);
+      scene.remove(actor.getObject3D());
     }
   },
 

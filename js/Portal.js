@@ -68,7 +68,6 @@ Portal.startClosing = function()
 
 Portal.removeFromScene = function()
 {
-  scene.remove(this.mesh);
   State.actors.remove(this.actor);
 };
 

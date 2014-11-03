@@ -84,7 +84,7 @@ Player.shoot = function()
       var shot = Shot.newInstance(Player, Player.position, Player.rotation, Player.SHOT_MATERIAL);
       Player.shotsInFlight += 1;
       Player.lastTimeFired = now;
-      State.actors.push(shot);
+      State.actors.add(shot.actor);
     }
   }
 };

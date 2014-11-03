@@ -67,6 +67,7 @@ Saucer.WAIT_TIME_MIN_MS = 1000;
 
 Saucer.prototype = {
   // config defaults. TODO configure at create time
+  RADIUS: Saucer.RADIUS,
   PERFORMS_SHOT_WINDUP: true,
   SHOT_WINDUP_TIME_MS: 600,
   SHOTS_TO_FIRE: 1,
@@ -190,15 +191,15 @@ Saucer.prototype = {
       this.mesh.translateZ(-actualMoveSpeed);
 
       // if an obelisk is close (fast check), do a detailed collision check
-      if (Physics.isCloseToAnObelisk(this.mesh.position, Saucer.RADIUS))
+      if (Physics.isCloseToAnObelisk(this.mesh.position, this.RADIUS))
       {
         // check for precise collision
-        var collidePosition = Physics.isCollidingWithObelisk(this.mesh.position, Saucer.RADIUS);
+        var collidePosition = Physics.isCollidingWithObelisk(this.mesh.position, this.RADIUS);
         // if we get a return there is work to do
         if (typeof collidePosition !== 'undefined')
         {
           // we have a collision, move the Saucer out but don't change the rotation
-          Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, this.mesh.position, Saucer.RADIUS);
+          Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, this.mesh.position, this.RADIUS);
           Sound.playerCollideObelisk();
         }
       }
