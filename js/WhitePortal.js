@@ -44,6 +44,6 @@ WhitePortal.spawnForEnemy = function(enemyType)
 WhitePortal.opened = function()
 {
   Enemy.spawnGivenTypeAt(WhitePortal.enemyTypeIncoming, WhitePortal.mesh.position);
-  WhitePortal.mesh.radarType = Radar.TYPE_NONE;
+  WhitePortal.actor.radarType = Radar.TYPE_NONE;
   WhitePortal.startClosing();
 };

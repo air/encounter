@@ -141,7 +141,7 @@ Grid.randomLocationCloseToPoint = function(point, maxDistance)
 {
   if (typeof point.x === 'undefined')
   {
-    throw('point must have an x, wrong type?');
+    panic('point must have an x:', point);
   }
   
   var location = null;
