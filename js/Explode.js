@@ -56,7 +56,7 @@ Explode.at = function(location)
     Explode.gibs[i].translateZ(-Gib.OFFSET_FROM_CENTER);
     Explode.gibs[i].ageMillis = 0;
 
-    State.actors.add(Explode.gibs[i]);
+    State.actors.add(Explode.gibs[i].actor);
 
     Explode.gibsActive += 1;
   }
@@ -81,35 +81,39 @@ Gib.newInstance = function()
   gibMesh.frameCounter = 0; // current flicker timer
   gibMesh.isFirstMaterial = true;  // current flicker state
 
-  newGib.update = function(timeDeltaMillis)
+  var self = newGib;
+  // update is a closure passed to Actor, so we need 'self' for gib state
+  var update = function(timeDeltaMillis)
   {
-    this.ageMillis += timeDeltaMillis;
-    if (this.ageMillis > Gib.LIFETIME_MS)
+    self.ageMillis += timeDeltaMillis;
+    if (self.ageMillis > Gib.LIFETIME_MS)
     {
-      Gib.cleanUpDeadGib(this);
+      Gib.cleanUpDeadGib(self);
     }
     else
     {
       // move the parent
       var actualMoveSpeed = timeDeltaMillis * Gib.SPEED;
-      this.translateZ(-actualMoveSpeed);
+      self.translateZ(-actualMoveSpeed);
 
       // rotate the child
-      this.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
+      self.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
 
-      Gib.animateMaterial(this);
+      Gib.animateMaterial(self);
 
-      Gib.collideWithObelisks(this);
-      Gib.collideWithPlayer(this);
+      Gib.collideWithObelisks(self);
+      Gib.collideWithPlayer(self);
     }
   };
+
+  newGib.actor = new Actor(newGib, update, newGib.radarType);
 
   return newGib;
 };
 
 Gib.cleanUpDeadGib = function(gib)
 {
-  State.actors.remove(gib);
+  State.actors.remove(gib.actor);
   Explode.gibsActive -= 1;
 
   // animation is finished, move the State onward

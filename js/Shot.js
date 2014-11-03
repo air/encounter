@@ -73,7 +73,7 @@ Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, mat
     }
   };
 
-  newShot.actor = new Actor(newShot, update, Radar.TYPE_SHOT);
+  newShot.actor = new Actor(newShot, update, newShot.radarType);
 
   return newShot;
 };
