@@ -1,9 +1,9 @@
 # TODO
 
-  - in the middle of adding Actors and Actor
+  - refactor Shotgun, AutoShotgun and Chaingun to OO style 
   - Radar iterating over actors is horrible, use every?
-  - Saucer proto with a separate mesh for every saucer type
-  - Add a key to run: for (var i=0; i<20; i++) { var loc = Grid.randomLocationCloseToPlayer(10000, 2000); loc.y = Encounter.CAMERA_HEIGHT; Enemy.spawnGivenTypeAt(Enemy.TYPE_SAUCER_SINGLE, loc); }
+  - refactor flickering into a new MY3.FlickeringBasicMaterial(colors[], frames). If material instanceof FlickeringBasicMaterial then material.tick();
+  - Add a key to run e.g.: for (var i=0; i<20; i++) { var loc = Grid.randomLocationCloseToPlayer(10000, 2000); loc.y = Encounter.CAMERA_HEIGHT; Enemy.spawnGivenTypeAt(Enemy.TYPE_SAUCER_SINGLE, loc); }
   - candidates for new ctor style: Shot, Asteroid, anything with newInstance
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
   - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
