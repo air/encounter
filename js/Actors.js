@@ -4,6 +4,8 @@
 // - an Object3D for the scene
 // - an update() function
 // - a Radar type
+// FIXME other things that are expected to be in an Actor
+// - object3D.shotType
 // ---------------------------------------------------------------------------
 var Actor = function(object3D, updateFunction, radarType)
 {

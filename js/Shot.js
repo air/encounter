@@ -41,35 +41,39 @@ Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, mat
 
   newShot.hasTravelled = 0;
 
-  newShot.update = function(timeDeltaMillis) {
+  // update is a closure passed over to Actor and invoked there, so we need 'self' to track the owning object
+  var self = newShot;
+  var update = function(timeDeltaMillis) {
     // update alternating materials
-    if (typeof this.alternatingMaterial !== 'undefined')
+    if (typeof self.alternatingMaterial !== 'undefined')
     {
-      this.material = (this.isFirstMaterial ? this.originalMaterial : this.alternatingMaterial);
-      this.frameCounter += 1;
-      if (this.frameCounter === Shot.FLICKER_FRAMES)
+      self.material = (self.isFirstMaterial ? self.originalMaterial : self.alternatingMaterial);
+      self.frameCounter += 1;
+      if (self.frameCounter === Shot.FLICKER_FRAMES)
       {
-        this.isFirstMaterial = !this.isFirstMaterial;
-        this.frameCounter = 0;
+        self.isFirstMaterial = !self.isFirstMaterial;
+        self.frameCounter = 0;
       }
     }
 
     // move the shot
     var actualMoveSpeed = timeDeltaMillis * Encounter.SHOT_SPEED;
-    this.translateZ(-actualMoveSpeed);
-    this.hasTravelled += actualMoveSpeed;
+    self.translateZ(-actualMoveSpeed);
+    self.hasTravelled += actualMoveSpeed;
 
     // expire an aging shot based on distance travelled
-    if (this.hasTravelled > Shot.CAN_TRAVEL)
+    if (self.hasTravelled > Shot.CAN_TRAVEL)
     {
-      Shot.cleanUpDeadShot(this);
+      Shot.cleanUpDeadShot(self);
     }
     else
     {
-      Shot.collideWithObelisks(this);
-      Shot.collideWithShips(this);
+      Shot.collideWithObelisks(self);
+      Shot.collideWithShips(self);
     }
   };
+
+  newShot.actor = new Actor(newShot, update, Radar.TYPE_SHOT);
 
   return newShot;
 };
@@ -108,21 +112,29 @@ Shot.collideWithShips = function(shot)
   }
 };
 
-// for use with Array.every()
+// FIXME use instanceof Shot here for sanity
+// for use with Array.every() where the Array contains Actor objects
 Shot.isNotEnemyShot = function(element, index, array)
 {
-  return element.shotType !== Shot.TYPE_ENEMY;
+  if (element.getObject3D().shotType === Shot.TYPE_ENEMY)
+  {
+    return false;
+  }
+  else // it's a Player shot or shotType is undefined
+  {
+    return true;
+  }
 };
 
 Shot.cleanUpDeadShot = function(shot)
 {
-  State.actors.remove(shot);
+  State.actors.remove(shot.actor);
 
   if (shot.shotType === Shot.TYPE_PLAYER)
   {
     Player.shotsInFlight -= 1;
   }
-  else // check if this was the last enemy shot cleaned up
+  else // if this was the last enemy shot cleaned up, no enemy shots remain so kill the blue light
   {
     if (State.actors.list.every(Shot.isNotEnemyShot))
     {

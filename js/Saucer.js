@@ -14,9 +14,8 @@ var Saucer = function(material)
   this.mesh = new THREE.Mesh(Saucer.GEOMETRY, material);
   this.mesh.scale.y = Saucer.MESH_SCALE_Y;
 
-  var self = this;
-
   // update is a closure passed over to Actor and invoked there, so we need 'self' to track the owning Saucer instance
+  var self = this;
   var update = function(timeDeltaMillis)
   {
     if (typeof self === 'undefined')

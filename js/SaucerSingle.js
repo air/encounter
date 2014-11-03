@@ -27,5 +27,5 @@ SaucerSingle.prototype.shoot = function()
   MY3.rotateObjectToLookAt(this.mesh, Player.position);
   Sound.enemyShoot();
   var shot = Shot.newInstance(this, this.mesh.position, this.mesh.rotation, SaucerSingle.SHOT_MATERIAL);
-  State.actors.add(shot);
+  State.actors.add(shot.actor);
 };
