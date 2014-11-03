@@ -2,7 +2,7 @@
 
 // The first enemy, a yellow saucer firing one shot with windup sound.
 
-// location is optional, default will be 0,0,0
+// constructor. Location is optional, default will be 0,0,0
 var SaucerSingle = function(location)
 {
   Saucer.call(this, SaucerSingle.MATERIAL);
