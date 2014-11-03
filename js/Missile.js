@@ -2,7 +2,9 @@
 
 // Used by Enemy.js.
 
-var Missile = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
+var Missile = {};
+
+Missile.mesh = null;
 
 Missile.RADIUS = 50; // FIXME collides at this radius but doesn't appear it
 Missile.GEOMETRY = new THREE.SphereGeometry(Missile.RADIUS, 4, 4);
@@ -22,11 +24,12 @@ Missile.strafeTweenLoop = null; // keep a reference so we can start/stop on dema
 
 Missile.init = function()
 {
-  // actually set up this Mesh using our materials
-  THREE.Mesh.call(Missile, Missile.GEOMETRY, Missile.MATERIAL);
-  Missile.scale.x = Missile.MESH_SCALE_X;
+  Missile.mesh = new THREE.Mesh(Missile.GEOMETRY, Missile.MATERIAL);
+  Missile.mesh.scale.x = Missile.MESH_SCALE_X;
 
   Missile.setupStrafeTweens();
+
+  Missile.actor = new Actor(Missile.mesh, Missile.update, Missile.radarType);
 };
 
 Missile.spawn = function()
@@ -36,7 +39,7 @@ Missile.spawn = function()
   var spawnPoint = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX, Encounter.MISSILE_SPAWN_DISTANCE_MIN);
   spawnPoint.y = Encounter.CAMERA_HEIGHT;
   log('spawning missile at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z + ', distance ' + Math.floor(Player.position.distanceTo(spawnPoint)));
-  Missile.position.copy(spawnPoint);
+  Missile.mesh.position.copy(spawnPoint);
 
   Missile.strafeOffset = -Missile.STRAFE_MAX_OFFSET; // start at one side for simplicity
   Missile.strafeTweenLoop.start();
@@ -60,30 +63,30 @@ Missile.update = function(timeDeltaMillis)
 {
   TWEEN.update();
 
-  Missile.translateX(Missile.strafeOffset);
+  Missile.mesh.translateX(Missile.strafeOffset);
 
-  MY3.rotateObjectToLookAt(Missile, Player.position);
+  MY3.rotateObjectToLookAt(Missile.mesh, Player.position);
   
   var actualMoveSpeed = timeDeltaMillis * Missile.MOVEMENT_SPEED;
-    Missile.translateZ(-actualMoveSpeed);
+    Missile.mesh.translateZ(-actualMoveSpeed);
 
     // if an obelisk is close (fast check), do a detailed collision check
-    if (Physics.isCloseToAnObelisk(Missile.position, Missile.RADIUS))
+    if (Physics.isCloseToAnObelisk(Missile.mesh.position, Missile.RADIUS))
     {
       // check for precise collision
-      var collidePosition = Physics.isCollidingWithObelisk(Missile.position, Missile.RADIUS);
+      var collidePosition = Physics.isCollidingWithObelisk(Missile.mesh.position, Missile.RADIUS);
       // if we get a return there is work to do
       if (typeof collidePosition !== 'undefined')
       {
         // we have a collision, move the Enemy out but don't change the rotation
-        Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, Missile.position, Missile.RADIUS);
+        Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, Missile.mesh.position, Missile.RADIUS);
         Sound.playerCollideObelisk();
       }
     }
 
   // offset to the side
   // collide and kill the player
-  if (MY3.doCirclesCollide(Missile.position, Missile.RADIUS, Player.position, Player.RADIUS))
+  if (MY3.doCirclesCollide(Missile.mesh.position, Missile.RADIUS, Player.position, Player.RADIUS))
   {
     Player.wasHit();
     State.setupPlayerHitInCombat();
