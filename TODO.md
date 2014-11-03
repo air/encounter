@@ -77,6 +77,7 @@ The journey to JS OO.
     - This explains what the instanceof operator does: looks at obj X, and matches isPrototypeOf() against the .prototype property of the ctor function you give it.
 @sporto article is good but not complete. Needs explanation of shadowing and 'this' delegation even when using pure Object.create style.
   - Write your prototype with properties divided into 'actual proto state' and 'will be shadowed in derived objects'. The latter must always be addressed with 'this'.
+  - Actually doing inheritance: 1. Your subclass ctor needs <Super>.call(this) for superclass ctor, and 2. Your subclass prototype needs to be made with Object.create(<Super>.prototype).
 
 Better use of composition and closures in Actor. Encapsulate the idea of a thing that 1. Goes in the scene and 2. has some behaviour (a function). That function needs to remember state of its parent - hence a 'self' closure reference.
 

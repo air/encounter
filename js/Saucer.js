@@ -25,7 +25,7 @@ var Saucer = function(material)
 
     if (typeof self.state === 'undefined')
     {
-      panic('Saucer: self.state is undefined, wtf', this);
+      panic('Saucer: self.state is undefined, wtf', self);
     }
 
     switch(self.state)
