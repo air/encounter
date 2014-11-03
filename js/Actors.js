@@ -6,6 +6,7 @@
 // - a Radar type
 // FIXME other things that are expected to be in an Actor
 // - object3D.shotType
+// FIXME are we in fact always storing Meshes, not Object3Ds?
 // ---------------------------------------------------------------------------
 var Actor = function(object3D, updateFunction, radarType)
 {

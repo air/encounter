@@ -14,6 +14,25 @@ var SaucerTriple = function(location)
 
   // override defaults
   this.SHOTS_TO_FIRE = 3;
+  // decorate default update() to add an alternating mesh material
+  var self = this;
+  var defaultUpdateFunction = this.actor.update;
+  var decoratedUpdate = function(timeDeltaMillis)
+  {
+    // this = Actor
+    // self = SaucerTriple
+    this.object3D.material = (self.isCyan ? SaucerTriple.MATERIAL1 : SaucerTriple.MATERIAL2);
+
+    self.frameCounter += 1;
+    if (self.frameCounter === SaucerTriple.FLICKER_FRAMES)
+    {
+      self.isCyan = !self.isCyan;
+      self.frameCounter = 0;
+    } 
+
+    defaultUpdateFunction.call(this, timeDeltaMillis);
+  };
+  this.actor.update = decoratedUpdate;
 
   // new state for this type
   this.frameCounter = null; // current flicker timer
@@ -38,20 +57,4 @@ SaucerTriple.prototype.shoot = function()
   Sound.enemyShoot();
   var shot = Shot.newInstance(this, this.mesh.position, this.mesh.rotation, SaucerTriple.SHOT_MATERIAL1, SaucerTriple.SHOT_MATERIAL2);
   State.actors.add(shot.actor);
-};
-
-// decorate default update() to add an alternating mesh material
-SaucerTriple.update = function(timeDeltaMillis)
-{
-  SaucerTriple.material = (SaucerTriple.isCyan ? SaucerTriple.MATERIAL1 : SaucerTriple.MATERIAL2);
-
-  SaucerTriple.frameCounter += 1;
-  if (SaucerTriple.frameCounter === SaucerTriple.FLICKER_FRAMES)
-  {
-    SaucerTriple.isCyan = !SaucerTriple.isCyan;
-    SaucerTriple.frameCounter = 0;
-  } 
-
-  var proto = Object.getPrototypeOf(SaucerTriple);
-  proto.update.call(SaucerTriple, timeDeltaMillis);
 };
