@@ -16,9 +16,13 @@ BlackPortal.spawnTimerStartedAt = null;
 BlackPortal.init = function()
 {
   BlackPortal.mesh = new THREE.Mesh(BlackPortal.GEOMETRY, BlackPortal.MATERIAL);
-  BlackPortal.mesh.radarType = Radar.TYPE_PORTAL;
-  // dummy actor update, we handle updates as a top-level State
-  BlackPortal.mesh.update = function(){};
+};
+
+// dummy actor update, we handle updates as a top-level State
+BlackPortal.getActorUpdateFunction = function()
+{
+  var update = function(){};
+  return update;
 };
 
 BlackPortal.startSpawnTimer = function()

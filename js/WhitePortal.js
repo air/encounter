@@ -10,23 +10,26 @@ WhitePortal.enemyTypeIncoming = null;
 WhitePortal.init = function()
 {
   WhitePortal.mesh = new THREE.Mesh(WhitePortal.GEOMETRY, WhitePortal.MATERIAL);
-  WhitePortal.mesh.radarType = Radar.TYPE_PORTAL;
 };
 
-WhitePortal.update = function(timeDeltaMillis)
+WhitePortal.getActorUpdateFunction = function()
 {
-  switch(WhitePortal.state)
+  var update = function(timeDeltaMillis)
   {
-    case WhitePortal.STATE_OPENING:
-      WhitePortal.updateOpening(timeDeltaMillis);
-      break;
-    case WhitePortal.STATE_CLOSING:
-      WhitePortal.updateClosing(timeDeltaMillis);
-      break;
-    default:
-      panic('unknown WhitePortal state: ' + WhitePortal.state);
-  }
-};
+    switch(WhitePortal.state)
+    {
+      case WhitePortal.STATE_OPENING:
+        WhitePortal.updateOpening(timeDeltaMillis);
+        break;
+      case WhitePortal.STATE_CLOSING:
+        WhitePortal.updateClosing(timeDeltaMillis);
+        break;
+      default:
+        panic('unknown WhitePortal state: ' + WhitePortal.state);
+    }
+  };
+  return update;
+}
 
 WhitePortal.spawnForEnemy = function(enemyType)
 {

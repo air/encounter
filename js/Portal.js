@@ -39,7 +39,7 @@ Portal.spawn = function(location)
   this.mesh.position.set(location.x, Obelisk.HEIGHT / 2, location.z);
   this.mesh.scale.y = 0.01;
 
-  this.actor = new Actor(this.mesh, this.update, Radar.TYPE_PORTAL);
+  this.actor = new Actor(this.mesh, this.getActorUpdateFunction(), Radar.TYPE_PORTAL);
   State.actors.add(this.actor);
   log('portal spawned');
   
