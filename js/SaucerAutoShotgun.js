@@ -5,12 +5,7 @@
 // constructor. Location is optional, default will be 0,0,0
 var SaucerAutoShotgun = function(location)
 {
-  Saucer.call(this, SaucerAutoShotgun.MATERIAL);
-
-  if (typeof location !== 'undefined')
-  {
-    this.mesh.position.copy(location);
-  }
+  Saucer.call(this, SaucerAutoShotgun.MATERIAL, location);
 
   // override defaults
   this.PERFORMS_SHOT_WINDUP = false;

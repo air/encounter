@@ -3,8 +3,8 @@
 // Saucer is an abstract type. Derived objects must implement:
 // - shoot()
 
-// constructor for new
-var Saucer = function(material)
+// constructor for new. Material is required, location is optional.
+var Saucer = function(material, location)
 {
   if (typeof material === 'undefined')
   {
@@ -13,6 +13,11 @@ var Saucer = function(material)
 
   this.mesh = new THREE.Mesh(Saucer.GEOMETRY, material);
   this.mesh.scale.y = Saucer.MESH_SCALE_Y;
+
+  if (typeof location !== 'undefined')
+  {
+    this.mesh.position.copy(location);
+  }
 
   // update is a closure passed over to Actor and invoked there, so we need 'self' to track the owning Saucer instance
   var self = this;

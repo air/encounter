@@ -5,12 +5,7 @@
 // constructor. Location is optional, default will be 0,0,0
 var SaucerSingle = function(location)
 {
-  Saucer.call(this, SaucerSingle.MATERIAL);
-
-  if (typeof location !== 'undefined')
-  {
-    this.mesh.position.copy(location);
-  }
+  Saucer.call(this, SaucerSingle.MATERIAL, location);
 
   log('new SaucerSingle at ', this.mesh.position);
   this.setupMoving();

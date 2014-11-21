@@ -5,12 +5,7 @@
 // constructor. Location is optional, default will be 0,0,0
 var SaucerTriple = function(location)
 {
-  Saucer.call(this, SaucerTriple.MATERIAL);
-
-  if (typeof location !== 'undefined')
-  {
-    this.mesh.position.copy(location);
-  }
+  Saucer.call(this, SaucerTriple.MATERIAL, location);
 
   // override defaults
   this.SHOTS_TO_FIRE = 3;

@@ -5,12 +5,7 @@
 // constructor. Location is optional, default will be 0,0,0
 var SaucerChaingun = function(location)
 {
-  Saucer.call(this, SaucerChaingun.MATERIAL);
-
-  if (typeof location !== 'undefined')
-  {
-    this.mesh.position.copy(location);
-  }
+  Saucer.call(this, SaucerChaingun.MATERIAL, location);
 
   // override defaults
   this.PERFORMS_SHOT_WINDUP = false;
