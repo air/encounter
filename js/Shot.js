@@ -12,26 +12,15 @@ Shot.GEOMETRY = new THREE.SphereGeometry(Shot.RADIUS, 16, 16);
 Shot.TYPE_PLAYER = 'playerShot';
 Shot.TYPE_ENEMY = 'enemyShot';
 
-Shot.FLICKER_FRAMES = 3;  // when flickering, show each colour for this many frames
-
 // returns a new shot fired by the shooterObject.
 // material is required.
 // alternatingMaterial is optional for shots that flip material per frame.
 // TODO would be cool to delegate material behaviour to a Material type rather than assuming here
-Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, material, alternatingMaterial)
+Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, material)
 {
   var newShot = new THREE.Mesh(Shot.GEOMETRY, material);
 
   newShot.shotType = (shooterObject === Player ? Shot.TYPE_PLAYER : Shot.TYPE_ENEMY);
-
-  // set up a flickering shot
-  if (typeof alternatingMaterial !== 'undefined')
-  {
-    newShot.originalMaterial = material;
-    newShot.alternatingMaterial = alternatingMaterial;
-    newShot.frameCounter = null; // current flicker timer
-    newShot.isFirstMaterial = true;  // current flicker state
-  }
 
   newShot.radarType = Radar.TYPE_SHOT;
 
@@ -44,16 +33,9 @@ Shot.newInstance = function(shooterObject, shooterPosition, shooterRotation, mat
   // update is a closure passed over to Actor and invoked there, so we need 'self' to track the owning object
   var self = newShot;
   var update = function(timeDeltaMillis) {
-    // update alternating materials
-    if (typeof self.alternatingMaterial !== 'undefined')
+    if (self.material instanceof MY3.FlickeringBasicMaterial)
     {
-      self.material = (self.isFirstMaterial ? self.originalMaterial : self.alternatingMaterial);
-      self.frameCounter += 1;
-      if (self.frameCounter === Shot.FLICKER_FRAMES)
-      {
-        self.isFirstMaterial = !self.isFirstMaterial;
-        self.frameCounter = 0;
-      }
+      self.material.tick();
     }
 
     // move the shot

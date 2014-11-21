@@ -22,8 +22,7 @@ var SaucerTriple = function(location)
 // type constants
 SaucerTriple.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
 SaucerTriple.MATERIAL = new MY3.FlickeringBasicMaterial([C64.cyan, C64.lightgrey], SaucerTriple.FLICKER_FRAMES);
-SaucerTriple.SHOT_MATERIAL1 = new THREE.MeshBasicMaterial({ color: C64.cyan });
-SaucerTriple.SHOT_MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
+SaucerTriple.SHOT_MATERIAL = new MY3.FlickeringBasicMaterial([C64.cyan, C64.lightgrey], SaucerTriple.FLICKER_FRAMES);
 
 SaucerTriple.prototype = Object.create(Saucer.prototype);
 
@@ -31,6 +30,6 @@ SaucerTriple.prototype.shoot = function()
 {
   MY3.rotateObjectToLookAt(this.mesh, Player.position);
   Sound.enemyShoot();
-  var shot = Shot.newInstance(this, this.mesh.position, this.mesh.rotation, SaucerTriple.SHOT_MATERIAL1, SaucerTriple.SHOT_MATERIAL2);
+  var shot = Shot.newInstance(this, this.mesh.position, this.mesh.rotation, SaucerTriple.SHOT_MATERIAL);
   State.actors.add(shot.actor);
 };

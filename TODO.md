@@ -2,8 +2,6 @@
 
   - Radar iterating over actors is horrible, use every?
   - refactor flickering into a new MY3.FlickeringBasicMaterial(colors[], frames). If material instanceof FlickeringBasicMaterial then material.tick();
-    - use in Saucers
-    - use for Shots
     - use for Gibs
   - Multiple enemy items:
     - Shot.collideWithShips needs to pull Enemies out of Actors (every with instanceof?), otherwise you can only shoot Enemy.current

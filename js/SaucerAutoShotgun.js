@@ -23,7 +23,7 @@ var SaucerAutoShotgun = function(location)
 
 // type constants
 SaucerAutoShotgun.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
-SaucerAutoShotgun.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
+SaucerAutoShotgun.SHOT_MATERIAL = SaucerAutoShotgun.MATERIAL;
 SaucerAutoShotgun.SHOT_SPREAD = 0.05;
 
 SaucerAutoShotgun.prototype = Object.create(Saucer.prototype);
