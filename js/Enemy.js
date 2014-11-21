@@ -79,7 +79,7 @@ Enemy.spawnGivenTypeAt = function(type, location)
       Enemy.current = SaucerChaingun.spawn(location);
       break;
     case Enemy.TYPE_SAUCER_SHOTGUN:
-      Enemy.current = SaucerShotgun.spawn(location);
+      Enemy.current = new SaucerShotgun(location);
       break;
     case Enemy.TYPE_SAUCER_AUTOSHOTGUN:
       Enemy.current = SaucerAutoShotgun.spawn(location);
@@ -104,7 +104,7 @@ Enemy.destroyed = function()
   // if this enemy has a destroyed() decorator, invoke it
   if (typeof(Enemy.current.destroyed) === 'function')
   {
-    Enemy.current.destroyed.call(); 
+    Enemy.current.destroyed.call();
   }
 
   Explode.at(Enemy.current.mesh.position);

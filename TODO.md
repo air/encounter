@@ -1,6 +1,6 @@
 # TODO
 
-  - refactor Shotgun, AutoShotgun and Chaingun to OO style 
+  - refactor AutoShotgun and Chaingun to OO style 
   - Radar iterating over actors is horrible, use every?
   - refactor flickering into a new MY3.FlickeringBasicMaterial(colors[], frames). If material instanceof FlickeringBasicMaterial then material.tick();
   - Add a key to run e.g.: for (var i=0; i<20; i++) { var loc = Grid.randomLocationCloseToPlayer(10000, 2000); loc.y = Encounter.CAMERA_HEIGHT; Enemy.spawnGivenTypeAt(Enemy.TYPE_SAUCER_SINGLE, loc); }
@@ -36,13 +36,13 @@
   - add original super-cool exit from warp effect
   - further original UFO types
   - L1 clouds. L2 stars. Use CSS background image and scroll?
-  - L1 10 enemies on NOVICE. Seems to vary weirdly. 
+  - L1 10 enemies on NOVICE. Seems to vary weirdly.
   - Saucers despawn after a couple of minutes!
   - If Saucer is killed with shots in flight, the shots are coloured as gibs burning out. Not sure if they kill.
   - thick lines on horizon for L1, L3 and others.
   - 'Sticky' obelisks for extra missile terror
-  - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears. 
-  - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe) 
+  - Attract mode has a demo of L1, which flips to L2 enemy set (overlay also updates to L2) once saucer appears.
+  - It's possible for a Missile to get 'caught' as you back away and match your retreating arc (effectively no strafe)
   - world wraparound. Head away from enemy and they appear in front.
   - record/synth sound effects: player move, warp, enemy ticking, missile
     - http://csdb.dk/forums/index.php?roomid=11&topicid=32097&firstpost=2

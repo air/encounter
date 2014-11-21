@@ -2,41 +2,45 @@
 
 // Lightgreen saucer that fires a shotgun blast of 3 shots with no warning.
 
-var SaucerShotgun = Object.create(Saucer);
-
-SaucerShotgun.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgreen });
-SaucerShotgun.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgreen });
-
-SaucerShotgun.SHOT_SPREAD = 0.05;
-
-// override
-SaucerShotgun.PERFORMS_SHOT_WINDUP = false;
-
-SaucerShotgun.init = function()
+// constructor. Location is optional, default will be 0,0,0
+var SaucerShotgun = function(location)
 {
-  // actually set up this Mesh using our materials
-  THREE.Mesh.call(SaucerShotgun, Saucer.GEOMETRY, SaucerShotgun.MATERIAL);
-  SaucerShotgun.scale.y = Saucer.MESH_SCALE_Y;
+  Saucer.call(this, SaucerShotgun.MATERIAL);
+
+  if (typeof location !== 'undefined')
+  {
+    this.mesh.position.copy(location);
+  }
+
+  // override defaults
+  this.PERFORMS_SHOT_WINDUP = false;
+
+  log('new SaucerShotgun at ', this.mesh.position);
+  this.setupMoving();
 };
 
-SaucerShotgun.shoot = function()
+// type constants
+SaucerShotgun.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgreen });
+SaucerShotgun.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.lightgreen });
+SaucerShotgun.SHOT_SPREAD = 0.05;
+
+SaucerShotgun.prototype = Object.create(Saucer.prototype);
+
+SaucerShotgun.prototype.shoot = function()
 {
   Sound.enemyShoot();
 
   // shot 1 directly at player
-  MY3.rotateObjectToLookAt(SaucerShotgun, Player.position);
-  var shotMiddle = Shot.newInstance(SaucerShotgun, SaucerShotgun.position, SaucerShotgun.rotation, SaucerShotgun.SHOT_MATERIAL);
+  MY3.rotateObjectToLookAt(this.mesh, Player.position);
+  var shotMiddle = Shot.newInstance(this, this.mesh.position, this.mesh.rotation, SaucerShotgun.SHOT_MATERIAL);
   // shot 2 to the right of target
-  SaucerShotgun.rotation.y -= SaucerShotgun.SHOT_SPREAD;
-  var shotRight = Shot.newInstance(SaucerShotgun, SaucerShotgun.position, SaucerShotgun.rotation, SaucerShotgun.SHOT_MATERIAL);
+  this.mesh.rotation.y -= SaucerShotgun.SHOT_SPREAD;
+  var shotRight = Shot.newInstance(this, this.mesh.position, this.mesh.rotation, SaucerShotgun.SHOT_MATERIAL);
   // shot 3 to the left
-  SaucerShotgun.rotation.y += (SaucerShotgun.SHOT_SPREAD * 2);
-  var shotLeft = Shot.newInstance(SaucerShotgun, SaucerShotgun.position, SaucerShotgun.rotation, SaucerShotgun.SHOT_MATERIAL);
+  this.mesh.rotation.y += (SaucerShotgun.SHOT_SPREAD * 2);
+  var shotLeft = Shot.newInstance(this, this.mesh.position, this.mesh.rotation, SaucerShotgun.SHOT_MATERIAL);
 
-  State.actors.push(shotMiddle);
-  State.actors.push(shotRight);
-  State.actors.push(shotLeft);
-  scene.add(shotMiddle);
-  scene.add(shotRight);
-  scene.add(shotLeft);
+  State.actors.add(shotMiddle.actor);
+  State.actors.add(shotRight.actor);
+  State.actors.add(shotLeft.actor);
 };
