@@ -76,7 +76,7 @@ Enemy.spawnGivenTypeAt = function(type, location)
       Enemy.current = new SaucerTriple(location);
       break;
     case Enemy.TYPE_SAUCER_CHAINGUN:
-      Enemy.current = SaucerChaingun.spawn(location);
+      Enemy.current = new SaucerChaingun(location);
       break;
     case Enemy.TYPE_SAUCER_SHOTGUN:
       Enemy.current = new SaucerShotgun(location);
