@@ -82,7 +82,7 @@ Enemy.spawnGivenTypeAt = function(type, location)
       Enemy.current = new SaucerShotgun(location);
       break;
     case Enemy.TYPE_SAUCER_AUTOSHOTGUN:
-      Enemy.current = SaucerAutoShotgun.spawn(location);
+      Enemy.current = new SaucerAutoShotgun(location);
       break;
     default:
       panic('unknown enemy type: ' + type);
