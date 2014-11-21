@@ -1,8 +1,7 @@
 # TODO
 
   - Radar iterating over actors is horrible, use every?
-  - refactor flickering into a new MY3.FlickeringBasicMaterial(colors[], frames). If material instanceof FlickeringBasicMaterial then material.tick();
-    - use for Gibs
+  - Fix Gibs so that the FlickeringMaterial belongs to the Explode and is ticked once per frame, not 8 times per frame.
   - Multiple enemy items:
     - Shot.collideWithShips needs to pull Enemies out of Actors (every with instanceof?), otherwise you can only shoot Enemy.current
     - Add a key to run e.g.: for (var i=0; i<20; i++) { var loc = Grid.randomLocationCloseToPlayer(10000, 2000); loc.y = Encounter.CAMERA_HEIGHT; Enemy.spawnGivenTypeAt(Level.current.spawnTable[UTIL.random(1, Level.current.spawnTable.length - 1)], loc); }

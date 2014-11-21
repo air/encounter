@@ -13,27 +13,32 @@ Gib.GEOMETRY = new THREE.SphereGeometry(Gib.RADIUS, 2, 2); // a diamond shape
 Gib.SCALE_X = 0.1;
 Gib.SCALE_Y = 0.4;
 Gib.LIFETIME_MS = 3000;
+Gib.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
 Gib.MATERIAL_PHASES = [
-  { untilAgeMillis: 800,
-    material1: new THREE.MeshBasicMaterial({ color: C64.white }),
-    material2: new THREE.MeshBasicMaterial({ color: C64.white }) },
-  { untilAgeMillis: 1400,
-    material1: new THREE.MeshBasicMaterial({ color: C64.yellow }),
-    material2: new THREE.MeshBasicMaterial({ color: C64.white }) },
-  { untilAgeMillis: 2200,
-    material1: new THREE.MeshBasicMaterial({ color: C64.lightred }),
-    material2: new THREE.MeshBasicMaterial({ color: C64.yellow }) },
-  { untilAgeMillis: 2700,
-    material1: new THREE.MeshBasicMaterial({ color: C64.brown }),
-    material2: new THREE.MeshBasicMaterial({ color: C64.lightred }) },
-  { untilAgeMillis: Gib.LIFETIME_MS,
-    material1: new THREE.MeshBasicMaterial({ color: C64.black }),
-    material2: new THREE.MeshBasicMaterial({ color: C64.brown }) }
+  {
+    untilAgeMillis: 800,
+    material: new THREE.MeshBasicMaterial({ color: C64.white })
+  },
+  {
+    untilAgeMillis: 1400,
+    material: new MY3.FlickeringBasicMaterial([C64.yellow, C64.white], Gib.FLICKER_FRAMES)
+  },
+  {
+    untilAgeMillis: 2200,
+    material: new MY3.FlickeringBasicMaterial([C64.lightred, C64.yellow], Gib.FLICKER_FRAMES)
+  },
+  {
+    untilAgeMillis: 2700,
+    material: new MY3.FlickeringBasicMaterial([C64.brown, C64.lightred], Gib.FLICKER_FRAMES)
+  },
+  {
+    untilAgeMillis: Gib.LIFETIME_MS,
+    material: new MY3.FlickeringBasicMaterial([C64.black, C64.brown], Gib.FLICKER_FRAMES)
+  }
 ];
 Gib.SPEED = 0.3;
 Gib.ROTATE_SPEED = -0.02;
 Gib.OFFSET_FROM_CENTER = 0;
-Gib.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
 
 // there will only ever be eight Gibs, so we can reuse them
 Explode.init = function()
@@ -48,7 +53,7 @@ Explode.init = function()
 Explode.at = function(location)
 {
   Explode.gibsActive = 0;
-  
+
   log('sploding at location ' + Math.floor(location.x) + ', ' + Math.floor(location.z));
   for (var i = 0; i < Explode.NUMBER_OF_GIBS; i++)
   {
@@ -126,6 +131,7 @@ Gib.cleanUpDeadGib = function(gib)
 Gib.animateMaterial = function(gib)
 {
   var phase = null;
+  // find the current phase based on the age
   for (phase = 0; phase < Gib.MATERIAL_PHASES.length; phase++)
   {
     if (gib.ageMillis < Gib.MATERIAL_PHASES[phase].untilAgeMillis)
@@ -134,13 +140,10 @@ Gib.animateMaterial = function(gib)
     }
   }
 
-  gib.mesh.material = gib.mesh.isFirstMaterial ? Gib.MATERIAL_PHASES[phase].material1 : Gib.MATERIAL_PHASES[phase].material2;
-
-  gib.mesh.frameCounter += 1;
-  if (gib.mesh.frameCounter === Gib.FLICKER_FRAMES)
+  gib.mesh.material = Gib.MATERIAL_PHASES[phase].material;
+  if (gib.mesh.material instanceof MY3.FlickeringBasicMaterial)
   {
-    gib.mesh.isFirstMaterial = !gib.mesh.isFirstMaterial;
-    gib.mesh.frameCounter = 0;
+    gib.mesh.material.tick();
   }
 };
 
