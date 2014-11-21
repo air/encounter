@@ -28,6 +28,12 @@ var Saucer = function(material)
       panic('Saucer: self.state is undefined, wtf', self);
     }
 
+    // things we do regardless of state
+    if (self.mesh.material instanceof MY3.FlickeringBasicMaterial)
+    {
+      self.mesh.material.tick();
+    }
+
     switch(self.state)
     {
       case Saucer.STATE_WAITING:
@@ -44,7 +50,7 @@ var Saucer = function(material)
         break;
       default:
         panic('unknown Saucer state: ' + self.state);
-    } 
+    }
   };
 
   this.actor = new Actor(this.mesh, update, Radar.TYPE_ENEMY);
@@ -215,5 +221,5 @@ Saucer.prototype = {
     Indicators.setYellow(false);
   }
 
-// end prototype  
+// end prototype
 };

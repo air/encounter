@@ -69,6 +69,10 @@ Enemy.spawnGivenTypeAt = function(type, location)
 {
   switch (type)
   {
+    case Enemy.TYPE_MISSILE:
+      log('warn: missile spawned in spawnGivenTypeAt, ignoring location parameter')
+      Enemy.current = Missile.spawn();
+      break;
     case Enemy.TYPE_SAUCER_SINGLE:
       Enemy.current = new SaucerSingle(location);
       break;

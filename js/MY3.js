@@ -99,7 +99,7 @@ MY3.setupRStats = function()
 {
   // three.js plugin
   // threestats = new threeStats(renderer); // when restoring, don't forget plugins: below
-  // FIXME I hacked rStats.extras.js to remove the alarm at 1000 renderer.info.render.faces  
+  // FIXME I hacked rStats.extras.js to remove the alarm at 1000 renderer.info.render.faces
 
   // base rstats
   var settings = {
@@ -122,9 +122,9 @@ MY3.render = function()
 {
   rstats('frame').start();
   rstats('FPS').frame();
-  
-  renderer.render(scene, camera);  
-  
+
+  renderer.render(scene, camera);
+
   rstats('frame').end();
   rstats().update(); // redraw the widget
 };
@@ -166,7 +166,7 @@ MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
   // collision overlap must exceed a small epsilon so we don't count rounding errors
   var COLLISION_EPSILON = 0.01;
   var collisionThreshold = radius1 + radius2 - COLLISION_EPSILON; // centres must be this close together to touch
-  var distance = new THREE.Vector2(position1.x, position1.z).distanceTo(new THREE.Vector2(position2.x, position2.z));    
+  var distance = new THREE.Vector2(position1.x, position1.z).distanceTo(new THREE.Vector2(position2.x, position2.z));
   return (distance < collisionThreshold);
 };
 
@@ -282,7 +282,7 @@ MY3.Pointer = function(position, direction, length, pointAt)
   {
     length = 200;
   }
-  
+
   if (typeof pointAt === 'undefined')
   {
     // 1. use a normal vector
@@ -368,6 +368,59 @@ MATS.normal = new THREE.MeshNormalMaterial();
 MATS.wireframe = new THREE.MeshBasicMaterial({color : 0xFFFFFF, wireframe: true, transparent: true});
 // TODO linewidth is broken https://github.com/mrdoob/three.js/issues/269
 MATS.lineVertex = new THREE.LineBasicMaterial( { vertexColors: THREE.VertexColors, linewidth: 1 } );
+
+// constructor. Pass an array of colors (hex numbers), and the number of frames to display each.
+MY3.FlickeringBasicMaterial = function(colorArray, framesForEach)
+{
+  if ( !(colorArray instanceof Array) )
+  {
+    panic('colorArray not an Array');
+  }
+  if (colorArray.length < 1)
+  {
+    panic('colorArray is empty');
+  }
+  if (typeof framesForEach === 'undefined')
+  {
+    panic('framesForEach undefined');
+  }
+
+  THREE.MeshBasicMaterial.call(this);
+
+  // config
+  this.colorArray = [];
+  // TODO better way to do this in JavaScript right, map?
+  for (var i = 0; i < colorArray.length; i++)
+  {
+    this.colorArray.push(new THREE.Color(colorArray[i]));
+  }
+  this.framesForEach = framesForEach;
+
+  // current state
+  this.frameCounter = 0;
+  this.currentColor = 0;
+  this.color = this.colorArray[this.currentColor];
+};
+
+MY3.FlickeringBasicMaterial.prototype = Object.create(THREE.MeshBasicMaterial.prototype);
+
+MY3.FlickeringBasicMaterial.prototype.tick = function()
+{
+  this.frameCounter += 1;
+  // change the color if needed
+  if (this.frameCounter === this.framesForEach)
+  {
+    this.currentColor += 1;
+    if (this.currentColor === this.colorArray.length)
+    {
+      this.currentColor = 0;
+    }
+    this.color = this.colorArray[this.currentColor]
+
+    // reset counter
+    this.frameCounter = 0;
+  }
+};
 
 //=============================================================================
 // colors

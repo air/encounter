@@ -5,7 +5,7 @@
 // constructor. Location is optional, default will be 0,0,0
 var SaucerTriple = function(location)
 {
-  Saucer.call(this, SaucerTriple.MATERIAL1);
+  Saucer.call(this, SaucerTriple.MATERIAL);
 
   if (typeof location !== 'undefined')
   {
@@ -14,40 +14,16 @@ var SaucerTriple = function(location)
 
   // override defaults
   this.SHOTS_TO_FIRE = 3;
-  // decorate default update() to add an alternating mesh material
-  var self = this;
-  var defaultUpdateFunction = this.actor.update;
-  var decoratedUpdate = function(timeDeltaMillis)
-  {
-    // this = Actor
-    // self = SaucerTriple
-    this.object3D.material = (self.isCyan ? SaucerTriple.MATERIAL1 : SaucerTriple.MATERIAL2);
-
-    self.frameCounter += 1;
-    if (self.frameCounter === SaucerTriple.FLICKER_FRAMES)
-    {
-      self.isCyan = !self.isCyan;
-      self.frameCounter = 0;
-    } 
-
-    defaultUpdateFunction.call(this, timeDeltaMillis);
-  };
-  this.actor.update = decoratedUpdate;
-
-  // new state for this type
-  this.frameCounter = null; // current flicker timer
-  this.isCyan = true;  // current cyan/grey flicker state
 
   log('new SaucerTriple at ', this.mesh.position);
   this.setupMoving();
 };
 
 // type constants
-SaucerTriple.MATERIAL1 = new THREE.MeshBasicMaterial({ color: C64.cyan });
-SaucerTriple.MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
+SaucerTriple.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
+SaucerTriple.MATERIAL = new MY3.FlickeringBasicMaterial([C64.cyan, C64.lightgrey], SaucerTriple.FLICKER_FRAMES);
 SaucerTriple.SHOT_MATERIAL1 = new THREE.MeshBasicMaterial({ color: C64.cyan });
 SaucerTriple.SHOT_MATERIAL2 = new THREE.MeshBasicMaterial({ color: C64.lightgrey });
-SaucerTriple.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
 
 SaucerTriple.prototype = Object.create(Saucer.prototype);
 
