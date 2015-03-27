@@ -19,5 +19,8 @@
   "latedef": "nofunc",
   "quotmark": "single",
   "indent": 2,
-  "predef": [ "document", "require", "TWEEN", "jsfxr", "console", "requestAnimationFrame", "webkitAudioContext", "module", "Audio", "Stats", "rStats" ]
+  "predef": [ "THREE", "C64", "log", "panic", "MY3", "UTIL", "State", "Actor", "Enemy",
+              "Physics","Obelisk", "Player", "Sound", "Radar",
+              "document", "require", "TWEEN", "jsfxr", "console", "requestAnimationFrame",
+              "webkitAudioContext", "module", "Audio", "Stats", "rStats" ]
 }

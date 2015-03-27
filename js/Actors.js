@@ -23,7 +23,7 @@ Actor.prototype = {
 
   getRadarType: function()
   {
-    return radarType;
+    return this.radarType;
   },
 
   update: function()
