@@ -2,8 +2,6 @@
 
 // An exploding enemy generates flying gibs.
 
-// TODO try 12 gibs or more!
-
 // An Explode is a dummy object, just serving as an anchor for gibs
 var Explode = new THREE.Object3D();
 Explode.NUMBER_OF_GIBS = 8;
@@ -92,8 +90,8 @@ Explode.init = function()
   {
     Explode.gibs[i] = Gib.newInstance();
     // rotate the Gib parent objects to radiate out evenly
-    // TODO add here: var startingAngle = 360 / Explode.NUMBER_OF_GIBS;
-    Explode.gibs[i].rotateOnAxis(MY3.Y_AXIS, i * 45 * UTIL.TO_RADIANS);
+    var startingAngle = 360 / Explode.NUMBER_OF_GIBS;
+    Explode.gibs[i].rotateOnAxis(MY3.Y_AXIS, i * startingAngle * UTIL.TO_RADIANS);
   }
 };
 
