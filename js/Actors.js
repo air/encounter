@@ -10,6 +10,15 @@
 // ---------------------------------------------------------------------------
 var Actor = function(object3D, updateFunction, radarType)
 {
+  if (!(object3D instanceof THREE.Object3D))
+  {
+    panic('object3D must be an Object3D');
+  }
+  else if (typeof updateFunction !== 'function')
+  {
+    panic('updateFunction must be a function');
+  }
+
   this.object3D = object3D;
   this.update = updateFunction;
   this.radarType = radarType;

@@ -283,6 +283,7 @@ MY3.Pointer = function(position, direction, length, pointAt)
     length = 200;
   }
 
+  var lineGeometry = new THREE.Geometry();
   if (typeof pointAt === 'undefined')
   {
     // 1. use a normal vector
@@ -293,7 +294,6 @@ MY3.Pointer = function(position, direction, length, pointAt)
     var endPoint = direction.clone().multiplyScalar(length);
     endPoint.add(position);
 
-    var lineGeometry = new THREE.Geometry();
     lineGeometry.vertices.push(position);
     lineGeometry.vertices.push(endPoint);
     lineGeometry.colors.push(new THREE.Color( 0x00aa00 ));
@@ -304,7 +304,6 @@ MY3.Pointer = function(position, direction, length, pointAt)
   {
     // 2. point at something
     // first create at the origin with our length pointing 'forward'
-    var lineGeometry = new THREE.Geometry();
     lineGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
     lineGeometry.vertices.push(new THREE.Vector3(0, 0, length));
     lineGeometry.colors.push(new THREE.Color( 0x00aa00 ));
@@ -415,7 +414,7 @@ MY3.FlickeringBasicMaterial.prototype.tick = function()
     {
       this.currentColor = 0;
     }
-    this.color = this.colorArray[this.currentColor]
+    this.color = this.colorArray[this.currentColor];
 
     // reset counter
     this.frameCounter = 0;

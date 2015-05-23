@@ -2,70 +2,125 @@
 
 // An exploding enemy generates flying gibs.
 
-var Explode = {};
+// TODO try 12 gibs or more!
+
+// An Explode is a dummy object, just serving as an anchor for gibs
+var Explode = new THREE.Object3D();
 Explode.NUMBER_OF_GIBS = 8;
 Explode.gibs = [];
-Explode.gibsActive = null;
-
-var Gib = {};
-Gib.RADIUS = 80;
-Gib.GEOMETRY = new THREE.SphereGeometry(Gib.RADIUS, 2, 2); // a diamond shape
-Gib.SCALE_X = 0.1;
-Gib.SCALE_Y = 0.4;
-Gib.LIFETIME_MS = 3000;
-Gib.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
-Gib.MATERIAL_PHASES = [
+Explode.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
+Explode.LIFETIME_MS = 3000;
+Explode.ageMillis = 0;
+Explode.actor = null;
+Explode.MATERIAL_PHASES = [
   {
     untilAgeMillis: 800,
     material: new THREE.MeshBasicMaterial({ color: C64.white })
   },
   {
     untilAgeMillis: 1400,
-    material: new MY3.FlickeringBasicMaterial([C64.yellow, C64.white], Gib.FLICKER_FRAMES)
+    material: new MY3.FlickeringBasicMaterial([C64.yellow, C64.white], Explode.FLICKER_FRAMES)
   },
   {
     untilAgeMillis: 2200,
-    material: new MY3.FlickeringBasicMaterial([C64.lightred, C64.yellow], Gib.FLICKER_FRAMES)
+    material: new MY3.FlickeringBasicMaterial([C64.lightred, C64.yellow], Explode.FLICKER_FRAMES)
   },
   {
     untilAgeMillis: 2700,
-    material: new MY3.FlickeringBasicMaterial([C64.brown, C64.lightred], Gib.FLICKER_FRAMES)
+    material: new MY3.FlickeringBasicMaterial([C64.brown, C64.lightred], Explode.FLICKER_FRAMES)
   },
   {
-    untilAgeMillis: Gib.LIFETIME_MS,
-    material: new MY3.FlickeringBasicMaterial([C64.black, C64.brown], Gib.FLICKER_FRAMES)
+    untilAgeMillis: Explode.LIFETIME_MS,
+    material: new MY3.FlickeringBasicMaterial([C64.black, C64.brown], Explode.FLICKER_FRAMES)
   }
 ];
-Gib.SPEED = 0.3;
-Gib.ROTATE_SPEED = -0.02;
-Gib.OFFSET_FROM_CENTER = 0;
+
+Explode.animateMaterial = function()
+{
+  // step through phase array until the age falls into range
+  for (var phase = 0; phase < Explode.MATERIAL_PHASES.length; phase++)
+  {
+    if (Explode.ageMillis < Explode.MATERIAL_PHASES[phase].untilAgeMillis)
+    {
+      break;
+    }
+  }
+
+  var material = Explode.MATERIAL_PHASES[phase].material;
+
+  Explode.gibs.forEach(function(gib) {
+    gib.mesh.material = material;
+  });
+
+  if (material instanceof MY3.FlickeringBasicMaterial)
+  {
+    material.tick();
+  }
+};
+
+Explode.cleanUp = function()
+{
+  log('cleaning up explosion');
+  State.actors.remove(Explode.actor);
+  Explode.gibs.forEach(function(gib) {
+    State.actors.remove(gib.actor);
+  });
+
+  // animation is finished, move the State onward
+  Enemy.cleared();
+};
+
+Explode.update = function(timeDeltaMillis)
+{
+  Explode.ageMillis += timeDeltaMillis;
+  if (Explode.ageMillis > Explode.LIFETIME_MS)
+  {
+    Explode.cleanUp();
+  }
+  else
+  {
+    Explode.animateMaterial();
+  }
+};
 
 // there will only ever be eight Gibs, so we can reuse them
 Explode.init = function()
 {
+  Explode.actor = new Actor(Explode, Explode.update, Radar.TYPE_NONE);
+
   for (var i = 0; i < Explode.NUMBER_OF_GIBS; i++)
   {
     Explode.gibs[i] = Gib.newInstance();
+    // rotate the Gib parent objects to radiate out evenly
+    // TODO add here: var startingAngle = 360 / Explode.NUMBER_OF_GIBS;
     Explode.gibs[i].rotateOnAxis(MY3.Y_AXIS, i * 45 * UTIL.TO_RADIANS);
   }
 };
 
+// location must have an x and z
 Explode.at = function(location)
 {
-  Explode.gibsActive = 0;
-
   log('sploding at location ' + Math.floor(location.x) + ', ' + Math.floor(location.z));
-  for (var i = 0; i < Explode.NUMBER_OF_GIBS; i++)
-  {
-    Explode.gibs[i].position.copy(location);
-    Explode.gibs[i].translateZ(-Gib.OFFSET_FROM_CENTER);
-    Explode.gibs[i].ageMillis = 0;
+  Explode.position.copy(location);  // not strictly necessary
+  Explode.ageMillis = 0;
+  State.actors.add(Explode.actor);
 
-    State.actors.add(Explode.gibs[i].actor);
-
-    Explode.gibsActive += 1;
-  }
+  // reset gib locations and add them to actors
+  Explode.gibs.forEach(function(gib) {
+    gib.position.copy(location);
+    gib.translateZ(-Gib.OFFSET_FROM_CENTER);
+    State.actors.add(gib.actor);
+  });
 };
+
+var Gib = {};
+Gib.RADIUS = 80;
+Gib.GEOMETRY = new THREE.SphereGeometry(Gib.RADIUS, 2, 2); // a diamond shape
+Gib.SCALE_X = 0.1;
+Gib.SCALE_Y = 0.4;
+Gib.SPEED = 0.3;
+Gib.ROTATE_SPEED = -0.02;
+Gib.OFFSET_FROM_CENTER = 0; // spawn this far away from the point of explosion
 
 // A Gib is actually two objects:
 // 1. An invisible Object3D parent that provides a constant movement direction
@@ -73,8 +128,7 @@ Explode.at = function(location)
 Gib.newInstance = function()
 {
   var newGib = new THREE.Object3D();
-  newGib.radarType = Radar.TYPE_PORTAL;
-  newGib.ageMillis = 0;
+  newGib.radarType = Radar.TYPE_PORTAL; // in the original this is TYPE_NONE
 
   var gibMesh = new THREE.Mesh(Gib.GEOMETRY, Gib.MATERIAL);
   gibMesh.scale.x = Gib.SCALE_X;
@@ -83,68 +137,24 @@ Gib.newInstance = function()
   newGib.add(gibMesh);
   newGib.mesh = gibMesh;  // provide an explicit ref to first and only child
 
-  gibMesh.frameCounter = 0; // current flicker timer
-  gibMesh.isFirstMaterial = true;  // current flicker state
-
   var self = newGib;
   // update is a closure passed to Actor, so we need 'self' for gib state
   var update = function(timeDeltaMillis)
   {
-    self.ageMillis += timeDeltaMillis;
-    if (self.ageMillis > Gib.LIFETIME_MS)
-    {
-      Gib.cleanUpDeadGib(self);
-    }
-    else
-    {
-      // move the parent
-      var actualMoveSpeed = timeDeltaMillis * Gib.SPEED;
-      self.translateZ(-actualMoveSpeed);
+    // move the parent
+    var actualMoveSpeed = timeDeltaMillis * Gib.SPEED;
+    self.translateZ(-actualMoveSpeed);
 
-      // rotate the child
-      self.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
+    // rotate the child
+    self.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
 
-      Gib.animateMaterial(self);
-
-      Gib.collideWithObelisks(self);
-      Gib.collideWithPlayer(self);
-    }
+    Gib.collideWithObelisks(self);
+    Gib.collideWithPlayer(self);
   };
 
   newGib.actor = new Actor(newGib, update, newGib.radarType);
 
   return newGib;
-};
-
-Gib.cleanUpDeadGib = function(gib)
-{
-  State.actors.remove(gib.actor);
-  Explode.gibsActive -= 1;
-
-  // animation is finished, move the State onward
-  if (Explode.gibsActive === 0)
-  {
-    Enemy.cleared();
-  }
-};
-
-Gib.animateMaterial = function(gib)
-{
-  var phase = null;
-  // find the current phase based on the age
-  for (phase = 0; phase < Gib.MATERIAL_PHASES.length; phase++)
-  {
-    if (gib.ageMillis < Gib.MATERIAL_PHASES[phase].untilAgeMillis)
-    {
-      break;
-    }
-  }
-
-  gib.mesh.material = Gib.MATERIAL_PHASES[phase].material;
-  if (gib.mesh.material instanceof MY3.FlickeringBasicMaterial)
-  {
-    gib.mesh.material.tick();
-  }
 };
 
 Gib.collideWithObelisks = function(gib)
