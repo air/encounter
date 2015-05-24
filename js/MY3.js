@@ -369,6 +369,7 @@ MATS.wireframe = new THREE.MeshBasicMaterial({color : 0xFFFFFF, wireframe: true,
 MATS.lineVertex = new THREE.LineBasicMaterial( { vertexColors: THREE.VertexColors, linewidth: 1 } );
 
 // constructor. Pass an array of colors (hex numbers), and the number of frames to display each.
+// fun example 1: new MY3.FlickeringBasicMaterial(MY3.COLORMAP_BASE16.map(function(col) { return Number(col[1]); }), 1);
 MY3.FlickeringBasicMaterial = function(colorArray, framesForEach)
 {
   if ( !(colorArray instanceof Array) )
