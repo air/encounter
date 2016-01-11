@@ -387,13 +387,8 @@ MY3.FlickeringBasicMaterial = function(colorArray, framesForEach)
 
   THREE.MeshBasicMaterial.call(this);
 
-  // config
-  this.colorArray = [];
-  // TODO better way to do this in JavaScript right, map?
-  for (var i = 0; i < colorArray.length; i++)
-  {
-    this.colorArray.push(new THREE.Color(colorArray[i]));
-  }
+  // config. Create Color objects out of the hex values
+  this.colorArray = colorArray.map(function(color) { return new THREE.Color(color); });
   this.framesForEach = framesForEach;
 
   // current state

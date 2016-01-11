@@ -1,4 +1,5 @@
 juice it! http://www.youtube.com/watch?v=Fy0aCDmgnxg
+- shadowblur on things that should glow: shots, indicator lights
 
 Enemy with spotlight looking for you. Level is darker, close pillars. When light sweeps over the enemy freaks out and starts shooting wildly.
 
@@ -34,5 +35,3 @@ Check Amiga version http://hol.abime.net/3262/screenshot
 
 - http://github.grumdrig.com/jsfxr/
 - http://www.bfxr.net/
-
-
