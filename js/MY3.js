@@ -370,15 +370,19 @@ MATS.lineVertex = new THREE.LineBasicMaterial( { vertexColors: THREE.VertexColor
 
 // constructor. Pass an array of colors (hex numbers), and the number of frames to display each.
 // fun example 1: new MY3.FlickeringBasicMaterial(MY3.COLORMAP_BASE16.map(function(col) { return Number(col[1]); }), 1);
-MY3.FlickeringBasicMaterial = function(colorArray, framesForEach)
+MY3.FlickeringBasicMaterial = function(hexArray, framesForEach)
 {
-  if ( !(colorArray instanceof Array) )
+  if ( !(hexArray instanceof Array) )
   {
-    panic('colorArray not an Array');
+    panic('hexArray not an Array');
   }
-  if (colorArray.length < 1)
+  if (typeof(hexArray[0]) !== 'number')
   {
-    panic('colorArray is empty');
+    panic('hexArray must contain numbers');
+  }
+  if (hexArray.length < 1)
+  {
+    panic('hexArray is empty');
   }
   if (typeof framesForEach === 'undefined')
   {
@@ -388,7 +392,7 @@ MY3.FlickeringBasicMaterial = function(colorArray, framesForEach)
   THREE.MeshBasicMaterial.call(this);
 
   // config. Create Color objects out of the hex values
-  this.colorArray = colorArray.map(function(color) { return new THREE.Color(color); });
+  this.colorArray = hexArray.map(function(color) { return new THREE.Color(color); });
   this.framesForEach = framesForEach;
 
   // current state
