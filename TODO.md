@@ -2,6 +2,7 @@
 
   - Radar iterating over actors is horrible, use every?
   - fix webaudio with new final API
+  - Move from dat.gui to https://github.com/lo-th/uil
   - Multiple enemy items:
     - Shot.collideWithShips needs to pull Enemies out of Actors (every with instanceof?), otherwise you can only shoot Enemy.current
     - Add a key to run e.g.: for (var i=0; i<20; i++) { var loc = Grid.randomLocationCloseToPlayer(10000, 2000); loc.y = Encounter.CAMERA_HEIGHT; Enemy.spawnGivenTypeAt(Level.current.spawnTable[UTIL.random(1, Level.current.spawnTable.length - 1)], loc); }
