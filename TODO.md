@@ -1,7 +1,7 @@
 # TODO
 
-  - Radar iterating over actors is horrible, use every?
   - fix webaudio with new final API
+  - Radar iterating over actors is horrible, use every?
   - Move from dat.gui to https://github.com/lo-th/uil
   - Multiple enemy items:
     - Shot.collideWithShips needs to pull Enemies out of Actors (every with instanceof?), otherwise you can only shoot Enemy.current
