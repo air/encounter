@@ -22,7 +22,7 @@ Sound.SAUCER_WAIT_FREQS = [976, 720, 464, 720];
 Sound.SAUCER_WAIT_INTERVAL_MS = 21;
 Sound.SAUCER_MOVE_FREQS = [976, 848, 720, 592, 464, 592, 720, 848];
 Sound.SAUCER_MOVE_INTERVAL_MS = 22;
-Sound.audio = null;
+Sound.audioContext = null;
 Sound.activeOscillators = null;
 
 Sound.init = function()
@@ -90,7 +90,7 @@ Sound.shotWindup = function()
 
 Sound.initWebAudio = function()
 {
-  Sound.audio = new webkitAudioContext();
+  Sound.audioContext = new AudioContext();
   Sound.activeOscillators = [];
 };
 
@@ -107,13 +107,13 @@ Sound.saucerWait = function(durationMillis)
 // frequencies is an array
 Sound.generateFrequencyLoop = function(frequencies, intervalMillis, durationMillis)
 {
-  var oscillator = Sound.audio.createOscillator();
-  oscillator.type = oscillator.SINE;
-  oscillator.connect(Sound.audio.destination);
+  var oscillator = Sound.audioContext.createOscillator();
+  oscillator.type = 'sine'; // per https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/type
+  oscillator.connect(Sound.audioContext.destination);
 
   var numPoints = Math.floor(durationMillis / intervalMillis);
 
-  var startTime = Sound.audio.currentTime;
+  var startTime = Sound.audioContext.currentTime;
 
   for (var point = 0; point < numPoints; point++)
   {
