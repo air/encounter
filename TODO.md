@@ -1,6 +1,5 @@
 # TODO
 
-  - fix webaudio with new final API
   - Radar iterating over actors is horrible, use every?
   - Move from dat.gui to https://github.com/lo-th/uil
   - Multiple enemy items:

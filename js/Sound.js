@@ -107,6 +107,8 @@ Sound.saucerWait = function(durationMillis)
 // frequencies is an array
 Sound.generateFrequencyLoop = function(frequencies, intervalMillis, durationMillis)
 {
+  // FIXME
+  var DECAY_RATE = 0.000001 // per https://developer.mozilla.org/en-US/docs/Web/API/AudioParam/setTargetAtTime
   var oscillator = Sound.audioContext.createOscillator();
   oscillator.type = 'sine'; // per https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/type
   oscillator.connect(Sound.audioContext.destination);
@@ -120,7 +122,7 @@ Sound.generateFrequencyLoop = function(frequencies, intervalMillis, durationMill
       var frequency = frequencies[point % frequencies.length];
       var timePointInSeconds = point * (intervalMillis / 1000);
       var actualTimePoint = startTime + timePointInSeconds;
-      oscillator.frequency.setTargetAtTime(frequency, actualTimePoint, 0); // last param is rapidity of change
+      oscillator.frequency.setTargetAtTime(frequency, actualTimePoint, DECAY_RATE); // last param is rapidity of change
   }
 
   oscillator.start(startTime);
