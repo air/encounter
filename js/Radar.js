@@ -4,6 +4,7 @@ var Radar = {};
 
 Radar.RESOLUTION_X = 200;
 Radar.RESOLUTION_Z = 200;
+Radar.CROSSHAIR_RADIUS = 25;
 Radar.RANGE = 20000; // world units from one side of the radar to the other (i.e. the diameter)
 
 Radar.CENTER_X = Math.floor(Radar.RESOLUTION_X / 2);
@@ -113,7 +114,8 @@ Radar.render = function(worldx, worldz, blipSize)
   Radar.blip(Radar.CENTER_X + radarPos.x, Radar.CENTER_Z + radarPos.y, blipSize);
 };
 
-// Option 1: render all obelisks in a square of size Radar.RANGE
+// Render obelisks on the radar. Not done in the original.
+// Renders all obelisks in a square of size Radar.RANGE.
 Radar.renderRadarObelisks = function()
 {
   Radar.canvasContext.fillStyle = C64.css.darkgrey;
@@ -135,7 +137,7 @@ Radar.renderRadarObelisks = function()
   }
 };
 
-// Option 2: render all obelisks in the Grid.viewport
+// Alternative render: show all obelisks in the Grid.viewport. Not currently used.
 Radar.renderViewportObelisks = function()
 {
   Radar.canvasContext.fillStyle = C64.css.darkgrey;
@@ -153,6 +155,15 @@ Radar.clearCanvas = function()
 {
   Radar.canvasContext.fillStyle = C64.css.black;
   Radar.canvasContext.fillRect(0, 0, Radar.RESOLUTION_X, Radar.RESOLUTION_Z);
+
+  // crosshairs
+  Radar.canvasContext.strokeStyle = C64.css.grey;
+  Radar.canvasContext.lineWidth = 4;
+  Radar.canvasContext.moveTo(Radar.CENTER_X, Radar.CENTER_Z - Radar.CROSSHAIR_RADIUS);
+  Radar.canvasContext.lineTo(Radar.CENTER_X, Radar.CENTER_Z + Radar.CROSSHAIR_RADIUS)
+  Radar.canvasContext.moveTo(Radar.CENTER_X - Radar.CROSSHAIR_RADIUS, Radar.CENTER_Z);
+  Radar.canvasContext.lineTo(Radar.CENTER_X + Radar.CROSSHAIR_RADIUS, Radar.CENTER_Z);
+  Radar.canvasContext.stroke();
 };
 
 Radar.update = function()
@@ -165,10 +176,6 @@ Radar.update = function()
     Radar.renderRadarObelisks();
   }
 
-  // TODO currently Player is special-cased as they're not in State.actors
-  Radar.canvasContext.fillStyle = C64.css.white;
-  Radar.render(Player.position.x, Player.position.z);
-
   // render all actors as blips
   for (var i = 0; i < State.actors.list.length; i++)
   {
@@ -179,11 +186,6 @@ Radar.update = function()
     {
       case Radar.TYPE_ENEMY:
         Radar.canvasContext.fillStyle = C64.css.yellow;
-        Radar.render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
-        break;
-      case Radar.TYPE_PLAYER:
-        // TODO see above, currently player is special case and this block is unused
-        Radar.canvasContext.fillStyle = C64.css.white;
         Radar.render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
         break;
       case Radar.TYPE_SHOT:
