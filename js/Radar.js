@@ -23,7 +23,7 @@ Radar.TYPE_OBELISK = 'obelisk';
 Radar.TYPE_NONE = 'none';
 
 Radar.CSS_CENTRED_DIV = 'position:fixed; bottom:10px; width:100%';
-Radar.CSS_RADAR_DIV = 'background-color:#000; opacity:1.0; margin-left:auto; margin-right:auto';
+Radar.CSS_RADAR_DIV = 'opacity:1.0; margin-left:auto; margin-right:auto';
 
 Radar.radarDiv = null; // for hide/show
 Radar.canvasContext = null; // for painting on
@@ -53,6 +53,22 @@ Radar.init = function()
   document.body.appendChild(centredDiv);
 
   Radar.canvasContext = radar.getContext('2d');
+  Radar.initCanvasClipRegion();
+};
+
+Radar.initCanvasClipRegion = function()
+{
+  Radar.canvasContext.beginPath();
+  Radar.canvasContext.moveTo(45, 0);
+  Radar.canvasContext.lineTo(154, 0);
+  Radar.canvasContext.lineTo(200, 45);
+  Radar.canvasContext.lineTo(200, 154);
+  Radar.canvasContext.lineTo(154, 200);
+  Radar.canvasContext.lineTo(45, 200);
+  Radar.canvasContext.lineTo(0, 154);
+  Radar.canvasContext.lineTo(0, 45);
+  Radar.canvasContext.closePath();
+  Radar.canvasContext.clip();
 };
 
 Radar.addToScene = function()
@@ -116,7 +132,7 @@ Radar.renderRadarObelisks = function()
     {
       Radar.render(x, z, Radar.OBELISK_BLIP_RADIUS);
     }
-  }  
+  }
 };
 
 // Option 2: render all obelisks in the Grid.viewport
@@ -133,9 +149,15 @@ Radar.renderViewportObelisks = function()
   }
 };
 
+Radar.clearCanvas = function()
+{
+  Radar.canvasContext.fillStyle = C64.css.black;
+  Radar.canvasContext.fillRect(0, 0, Radar.RESOLUTION_X, Radar.RESOLUTION_Z);
+};
+
 Radar.update = function()
 {
-  Radar.canvasContext.clearRect(0, 0, Radar.RESOLUTION_X, Radar.RESOLUTION_Z);
+  Radar.clearCanvas();
 
   // obelisks go underneath more important blips
   if (Radar.showObelisks)
