@@ -34,8 +34,6 @@
   - sounds: reverse-engineer encounter memory
     - look for writing to the SID locations
     - look for reads from the sound data locations
-  - sound: C64 oscillator doesn't have SINE, must be sawtooth or triangle
-    - see https://github.com/pstoica/web-audio-synth/blob/master/js/sid.js and http://www.igorski.nl/experiment/websid
   - MaterialsC64.js - then clone() all materials from the set
   - add original super-cool exit from warp effect
   - further original UFO types

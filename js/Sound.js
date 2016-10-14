@@ -110,7 +110,7 @@ Sound.generateFrequencyLoop = function(frequencies, intervalMillis, durationMill
   // FIXME
   var DECAY_RATE = 0.000001 // per https://developer.mozilla.org/en-US/docs/Web/API/AudioParam/setTargetAtTime
   var oscillator = Sound.audioContext.createOscillator();
-  oscillator.type = 'sine'; // per https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/type
+  oscillator.type = 'triangle'; // per https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/type
   oscillator.connect(Sound.audioContext.destination);
 
   var numPoints = Math.floor(durationMillis / intervalMillis);
