@@ -6,6 +6,7 @@ Indicators.WIDTH = 200;
 Indicators.HEIGHT = 50;
 Indicators.X_SEPARATION = 300;
 Indicators.Y_SEPARATION = 25;
+Indicators.BORDER_WIDTH = 6; // black border around lights
 
 Indicators.CSS_CENTRED_DIV = 'position:fixed; bottom:10px; width:100%';
 Indicators.CSS_LIGHTS_DIV = 'margin-left:auto; margin-right:auto';
@@ -17,6 +18,7 @@ Indicators.isRedOn = true;  // current flicker state
 Indicators.lightsDiv = null; // for hide/show
 Indicators.canvasContext = null; // for painting on
 
+// on/off state of indicators
 Indicators.red = false;
 Indicators.yellow = false;
 Indicators.blue = false;
@@ -41,7 +43,7 @@ Indicators.init = function()
   Indicators.lightsDiv = document.createElement('div');
   Indicators.lightsDiv.id = 'lightsDiv';
   Indicators.lightsDiv.style.cssText = Indicators.CSS_LIGHTS_DIV;
-  Indicators.lightsDiv.style.width = width + 'px'; 
+  Indicators.lightsDiv.style.width = width + 'px';
   Indicators.lightsDiv.style.height = height + 'px';
   Indicators.lightsDiv.style.display = 'none';  // off by default until shown
 
@@ -55,7 +57,27 @@ Indicators.init = function()
 
   Indicators.canvasContext = canvas.getContext('2d');
 
+  Indicators.initBorders();
   Indicators.paint();
+};
+
+// just draw black rects where the lights will be
+Indicators.initBorders = function()
+{
+  Indicators.canvasContext.fillStyle = C64.css.black;
+  for (var row = 0; row <=2; row++)
+  {
+    // left column
+    Indicators.canvasContext.fillRect(0,
+      (Indicators.HEIGHT * row) + (Indicators.Y_SEPARATION * row),
+      Indicators.WIDTH,
+      Indicators.HEIGHT);
+    // right column
+    Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION,
+      (Indicators.HEIGHT * row) + (Indicators.Y_SEPARATION * row),
+      Indicators.WIDTH,
+      Indicators.HEIGHT);
+  }
 };
 
 Indicators.adjustForTouch = function()
@@ -92,11 +114,32 @@ Indicators.setBlue = function(state)
   Indicators.paint();
 };
 
+// row is 0, 1, 2 for top, middle, bottom.
+Indicators.paintRowWithColour = function(row, colour)
+{
+  Indicators.canvasContext.fillStyle = colour;
+  // left column
+  Indicators.canvasContext.fillRect(Indicators.BORDER_WIDTH,
+    (Indicators.HEIGHT * row) + (Indicators.Y_SEPARATION * row) + Indicators.BORDER_WIDTH,
+    Indicators.WIDTH - Indicators.BORDER_WIDTH * 2,
+    Indicators.HEIGHT - Indicators.BORDER_WIDTH * 2);
+  // right column
+  Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION + Indicators.BORDER_WIDTH,
+    (Indicators.HEIGHT * row) + (Indicators.Y_SEPARATION * row) + Indicators.BORDER_WIDTH,
+    Indicators.WIDTH - Indicators.BORDER_WIDTH * 2,
+    Indicators.HEIGHT - Indicators.BORDER_WIDTH * 2);
+};
+
 Indicators.paintRed = function()
 {
+  // default state is dull red = off
+  var currentRedColour = C64.css.red;
+
   if (Indicators.red)
   {
-    Indicators.canvasContext.fillStyle = Indicators.isRedOn ? C64.css.lightred : C64.css.red;
+    // set colour according to flicker state
+    currentRedColour = Indicators.isRedOn ? C64.css.lightred : C64.css.red;
+    // advance the flicker state
     Indicators.frameCounter += 1;
     if (Indicators.frameCounter === Indicators.FLICKER_FRAMES)
     {
@@ -104,26 +147,15 @@ Indicators.paintRed = function()
       Indicators.frameCounter = 0;
     }
   }
-  else
-  {
-    Indicators.canvasContext.fillStyle = C64.css.red;
-  }
 
-  Indicators.canvasContext.fillRect(0, 0, Indicators.WIDTH, Indicators.HEIGHT);
-  Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, 0, Indicators.WIDTH, Indicators.HEIGHT);
+  Indicators.paintRowWithColour(0, currentRedColour);
 };
 
 Indicators.paint = function()
 {
   Indicators.paintRed();
-
-  Indicators.canvasContext.fillStyle = Indicators.yellow ? C64.css.yellow : C64.css.orange;
-  Indicators.canvasContext.fillRect(0, Indicators.HEIGHT + Indicators.Y_SEPARATION, Indicators.WIDTH, Indicators.HEIGHT);
-  Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, Indicators.HEIGHT + Indicators.Y_SEPARATION, Indicators.WIDTH, Indicators.HEIGHT);
-
-  Indicators.canvasContext.fillStyle = Indicators.blue ? C64.css.lightblue : C64.css.blue;
-  Indicators.canvasContext.fillRect(0, Indicators.HEIGHT*2 + Indicators.Y_SEPARATION*2, Indicators.WIDTH, Indicators.HEIGHT);
-  Indicators.canvasContext.fillRect(Indicators.WIDTH + Indicators.X_SEPARATION, Indicators.HEIGHT*2 + Indicators.Y_SEPARATION*2, Indicators.WIDTH, Indicators.HEIGHT);
+  Indicators.paintRowWithColour(1, Indicators.yellow ? C64.css.yellow : C64.css.orange);
+  Indicators.paintRowWithColour(2, Indicators.blue ? C64.css.lightblue : C64.css.blue);
 };
 
 Indicators.update = function()
