@@ -97,26 +97,33 @@ Display.initCrosshairs = function()
 
 Display.initText = function()
 {
-  // the Display div will contain a line of text, containing world number and enemy count
+  // container div across whole screen, with style elements common to children
   Display.containerDiv = document.createElement('div');
   Display.containerDiv.id = 'Display';
-  Display.containerDiv.style.cssText = 'background-color:#000;';
+  Display.containerDiv.style.cssText = 'width:100%; font-family:monospace; font-size:48px; font-weight:bold; ' +
+    'text-align:center; color:' + C64.css.white + '; background-color:' + C64.css.grey;
   Display.containerDiv.style.display = 'none'; // off by default until shown
   Display.containerDiv.style.zIndex = Display.ZINDEX_TEXT;
 
-  // textBox adds padding, alignment, background
-  var textBox = document.createElement('div');
-  textBox.id = 'textBox';
-  // padding order: top right bottom left
-  textBox.style.cssText = 'padding:0px 5px 0px 5px; text-align:left; background-color:#000;';
-  Display.containerDiv.appendChild(textBox);
+  Display.score = document.createElement('div');
+  Display.score.id = 'score';
+  Display.score.style.cssText = 'width:25%; float:left';
+  Display.containerDiv.appendChild(Display.score);
 
-  // text is the content
-  Display.text = document.createElement('div');
-  Display.text.id = 'text';
-  Display.text.style.cssText = 'font-family:Helvetica,Arial,sans-serif; font-size:36px; font-weight:bold; /* line-height:18px */';
-  Display.text.style.color = C64.css.white;
-  textBox.appendChild(Display.text);
+  Display.level = document.createElement('div');
+  Display.level.id = 'level';
+  Display.level.style.cssText = 'width:25%; float:left';
+  Display.containerDiv.appendChild(Display.level);
+
+  Display.enemies = document.createElement('div');
+  Display.enemies.id = 'enemies';
+  Display.enemies.style.cssText = 'width:25%; float:left';
+  Display.containerDiv.appendChild(Display.enemies);
+
+  Display.shields = document.createElement('div');
+  Display.shields.id = 'shields';
+  Display.shields.style.cssText = 'width:25%; float:left';
+  Display.containerDiv.appendChild(Display.shields);
 
   // place the Display in the page
   Display.containerDiv.style.position = 'absolute';
@@ -131,16 +138,14 @@ Display.update = function()
     case State.COMBAT:
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
-      Display.setText('Level:' + Level.number + ' Enemies:' + State.enemiesRemaining + ' Shields:' + Player.shieldsLeft);
+      Display.score.innerHTML = ('0000000' + State.score).slice(-7);
+      Display.level.innerHTML = 'L' + Level.number;
+      Display.enemies.innerHTML = 'E' + ('00' + State.enemiesRemaining).slice(-2);
+      Display.shields.innerHTML = 'S' + Player.shieldsLeft;
       break;
     default:
       panic('unknown state: ', State.current);
   }
-};
-
-Display.setText = function(text)
-{
-  Display.text.innerHTML = text;
 };
 
 Display.removeFromScene = function()

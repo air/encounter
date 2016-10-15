@@ -17,6 +17,8 @@ State.enemiesRemaining = null;
 
 State.isPaused = false;
 
+State.score = 0;
+
 // called once at startup. Go into our first state
 State.init = function()
 {
@@ -174,7 +176,7 @@ State.updateCombat = function(timeDeltaMillis)
 State.updatePlayerHitInCombat = function(timeDeltaMillis)
 {
   Display.updateShieldLossStatic();
-  
+
   if (clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Display.hideShieldLossStatic();
@@ -182,7 +184,7 @@ State.updatePlayerHitInCombat = function(timeDeltaMillis)
     State.actors.reset();
     Player.isAlive = true;
     State.setupWaitForEnemy();
-  } 
+  }
 };
 
 State.updateGameOver = function(timeDeltaMillis)
