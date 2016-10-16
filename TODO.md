@@ -1,5 +1,6 @@
 # TODO
 
+  - Vertically center the 3D view into whatever the viewport is. Adjust for dashboard if on/off.
   - Radar iterating over actors is horrible, use every?
   - Move from dat.gui to https://github.com/lo-th/uil
   - Multiple enemy items:

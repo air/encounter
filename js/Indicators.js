@@ -2,6 +2,7 @@
 
 var Indicators = {};
 
+// sizes all in pixels
 Indicators.WIDTH = 200;
 Indicators.HEIGHT = 50;
 Indicators.X_SEPARATION = 300;

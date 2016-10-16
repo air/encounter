@@ -5,11 +5,12 @@ var Display = {};
 Display.ZINDEX_SKY = '1';
 Display.ZINDEX_GROUND = '2';
 Display.ZINDEX_HORIZON = '3';
-Display.ZINDEX_CANVAS = '4';
-Display.ZINDEX_RADAR = '5';
-Display.ZINDEX_INDICATORS = '6';
-Display.ZINDEX_CROSSHAIRS = '7';
-Display.ZINDEX_TEXT = '8';
+Display.ZINDEX_CANVAS = '4'; // where the 3D view is painted
+Display.ZINDEX_DASHBOARD = '5';
+Display.ZINDEX_RADAR = '6';
+Display.ZINDEX_INDICATORS = '7';
+Display.ZINDEX_CROSSHAIRS = '8';
+Display.ZINDEX_TEXT = '9';
 
 Display.CROSSHAIR_WIDTH = 80;
 Display.CROSSHAIR_HEIGHT = 60;
@@ -20,8 +21,6 @@ Display.horizonDiv = null;
 Display.aimDiv = null;
 Display.skyDiv = null;
 
-Display.text = null; // current text in readout
-
 Display.init = function()
 {
   Display.initText();
@@ -29,6 +28,21 @@ Display.init = function()
   Display.initGround();
   Display.initHorizon();
   Display.initCrosshairs();
+  Display.initDashboard();
+};
+
+Display.initDashboard = function()
+{
+  Display.dashboardDiv = document.createElement('div');
+  Display.dashboardDiv.id = 'dashboard';
+  Display.dashboardDiv.style.backgroundColor = C64.css.grey;
+  Display.dashboardDiv.style.width = '100%';
+  Display.dashboardDiv.style.height = '225px';
+  Display.dashboardDiv.style.position = 'absolute';
+  Display.dashboardDiv.style.bottom = '0px';
+  Display.dashboardDiv.style.zIndex = Display.ZINDEX_DASHBOARD;
+  Display.dashboardDiv.style.display = 'none';
+  document.body.appendChild(Display.dashboardDiv);
 };
 
 Display.initSky = function()
@@ -100,8 +114,9 @@ Display.initText = function()
   // container div across whole screen, with style elements common to children
   Display.containerDiv = document.createElement('div');
   Display.containerDiv.id = 'Display';
-  Display.containerDiv.style.cssText = 'width:100%; font-family:monospace; font-size:48px; font-weight:bold; ' +
-    'text-align:center; color:' + C64.css.white + '; background-color:' + C64.css.grey;
+  Display.containerDiv.style.cssText = 'width:100%; font-family:monospace; font-size:48px; font-weight:bold; text-align:center'
+  Display.containerDiv.style.color = C64.css.white;
+  Display.containerDiv.style.backgroundColor = C64.css.grey;
   Display.containerDiv.style.display = 'none'; // off by default until shown
   Display.containerDiv.style.zIndex = Display.ZINDEX_TEXT;
 
@@ -155,6 +170,7 @@ Display.removeFromScene = function()
   Display.groundDiv.style.display = 'none';
   Display.aimDiv.style.display = 'none';
   Display.skyDiv.style.display = 'none';
+  Display.dashboardDiv.style.display = 'none';
 };
 
 Display.addToScene = function()
@@ -164,6 +180,7 @@ Display.addToScene = function()
   Display.groundDiv.style.display = 'block';
   Display.aimDiv.style.display = 'block';
   Display.skyDiv.style.display = 'block';
+  Display.dashboardDiv.style.display = 'block';
 };
 
 Display.setSkyColour = function(cssColour)
