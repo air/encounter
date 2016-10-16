@@ -43,8 +43,8 @@ var renderer, camera, scene;
 var clock = new THREE.Clock(true);
 clock.multiplier = 1000; // expose this so we can manipulate it for fun times
 
-// stats
-var rstats;
+// stats - choose either rstats or threestats
+// var rstats;
 // var threestats;
 
 //=============================================================================
@@ -120,13 +120,13 @@ MY3.setupRStats = function()
 //=============================================================================
 MY3.render = function()
 {
-  rstats('frame').start();
-  rstats('FPS').frame();
+  // rstats('frame').start();
+  // rstats('FPS').frame();
 
   renderer.render(scene, camera);
 
-  rstats('frame').end();
-  rstats().update(); // redraw the widget
+  // rstats('frame').end();
+  // rstats().update(); // redraw the widget
 };
 
 // You need to implement the global function update(timeDeltaMillis).
@@ -135,9 +135,9 @@ MY3.startAnimationLoop = function()
 {
   requestAnimationFrame(MY3.startAnimationLoop);
 
-  rstats('engine').start();
+  // rstats('engine').start();
   update(clock.getDelta() * clock.multiplier);
-  rstats('engine').end();
+  // rstats('engine').end();
 
   MY3.render();
 };

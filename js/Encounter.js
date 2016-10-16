@@ -26,5 +26,5 @@ MY3.init3d(Encounter.DRAW_DISTANCE * 3, Display.ZINDEX_CANVAS);
 
 State.init();
 
-MY3.setupRStats(); // requires three renderer to be ready
+//MY3.setupRStats(); // requires three renderer to be ready
 MY3.startAnimationLoop();
