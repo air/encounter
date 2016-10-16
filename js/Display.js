@@ -43,6 +43,28 @@ Display.initDashboard = function()
   Display.dashboardDiv.style.zIndex = Display.ZINDEX_DASHBOARD;
   Display.dashboardDiv.style.display = 'none';
   document.body.appendChild(Display.dashboardDiv);
+
+  Display.leftDashDiv = document.createElement('div');
+  Display.leftDashDiv.id = 'leftdash';
+  Display.leftDashDiv.style.backgroundColor = C64.css.grey;
+  Display.leftDashDiv.style.width = '25px';
+  Display.leftDashDiv.style.height = '100%';
+  Display.leftDashDiv.style.position = 'absolute';
+  Display.leftDashDiv.style.left = '0px';
+  Display.leftDashDiv.style.zIndex = Display.ZINDEX_DASHBOARD;
+  Display.leftDashDiv.style.display = 'none';
+  document.body.appendChild(Display.leftDashDiv);
+
+  Display.rightDashDiv = document.createElement('div');
+  Display.rightDashDiv.id = 'rightdash';
+  Display.rightDashDiv.style.backgroundColor = C64.css.grey;
+  Display.rightDashDiv.style.width = '25px';
+  Display.rightDashDiv.style.height = '100%';
+  Display.rightDashDiv.style.position = 'absolute';
+  Display.rightDashDiv.style.right = '0px';
+  Display.rightDashDiv.style.zIndex = Display.ZINDEX_DASHBOARD;
+  Display.rightDashDiv.style.display = 'none';
+  document.body.appendChild(Display.rightDashDiv);
 };
 
 Display.initSky = function()
@@ -171,6 +193,8 @@ Display.removeFromScene = function()
   Display.aimDiv.style.display = 'none';
   Display.skyDiv.style.display = 'none';
   Display.dashboardDiv.style.display = 'none';
+  Display.leftDashDiv.style.display = 'none';
+  Display.rightDashDiv.style.display = 'none';
 };
 
 Display.addToScene = function()
@@ -181,6 +205,8 @@ Display.addToScene = function()
   Display.aimDiv.style.display = 'block';
   Display.skyDiv.style.display = 'block';
   Display.dashboardDiv.style.display = 'block';
+  Display.leftDashDiv.style.display = 'block';
+  Display.rightDashDiv.style.display = 'block';
 };
 
 Display.setSkyColour = function(cssColour)
