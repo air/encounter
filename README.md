@@ -1,24 +1,30 @@
-# Encounter #
+# Encounter
 
-One man's mission to remake this 80s gem in WebGL.
+One man's mission to remake this amazing Commodore 64 game in WebGL.
 
-Current build status: [![Build Status](https://travis-ci.org/air/encounter.svg)](https://travis-ci.org/air/encounter)
-
-Follow the devlog at http://aaronbell.com
-
-* [Video of the original](http://www.youtube.com/watch?v=_7eCFOpI0SU)
+* [Video of the original game](http://www.youtube.com/watch?v=_7eCFOpI0SU)
 * [Lemon64 entry](http://www.lemon64.com/games/details.php?ID=832)
-* [Downloadable D64 image from c64.com](http://www.c64.com/games/351)
+* [Downloadable D64 image for emulators](http://www.c64.com/games/351)
 
-# How to play #
+# How to play
 
-[Play the current build on github](http://air.github.io/encounter).
+[Play the current build](http://air.github.io/encounter).
 
-- WSAD or arrows or mobile d-pad to move
-- Space or Z or touch to shoot
-- P to pause
+- Move: WSAD or arrows or mobile d-pad
+- Shoot: Space or Z or touch the mobile d-pad button
+- Pause: P
 
-# Status #
+# Development
+
+Build status: [![Build Status](https://travis-ci.org/air/encounter.svg)](https://travis-ci.org/air/encounter)
+
+Follow the devlog at http://aaronbell.com.
+
+## Cool stuff
+
+Some of the synth frequencies in [Sound.js](https://github.com/air/encounter/blob/master/js/Sound.js#L21) are reverse engineered right out of the C64's memory using [ICU64](http://icu64.blogspot.com/).
+
+## Feature status
 
 - ![Progress](http://progressed.io/bar/100) Obelisks on an infinite ground plane
 - ![Progress](http://progressed.io/bar/100) Controls
