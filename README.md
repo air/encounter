@@ -34,7 +34,7 @@ Follow the devlog at http://aaronbell.com
 - ![Progress](http://progressed.io/bar/80) Worlds 2-8
 - ![Progress](http://progressed.io/bar/40) Additional enemy AI
 - ![Progress](http://progressed.io/bar/80) Lighting and colours
-- ![Progress](http://progressed.io/bar/20) Accurate UI overlay
+- ![Progress](http://progressed.io/bar/80) Accurate UI overlay
 
 # Original C64 manual
 
