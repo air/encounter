@@ -26,7 +26,7 @@ Portal.init = function()
 
 Portal.spawn = function(location)
 {
-  if (typeof location === 'undefined')
+  if (location === undefined)
   {
     panic('spawn requires location');
   }

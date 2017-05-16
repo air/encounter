@@ -12,7 +12,7 @@ if (typeof require === 'function') // test for nodejs environment
   var THREE = require('three');
 }
 
-if (typeof window === 'undefined')
+if (window === undefined)
 {
   var window = {};
   window.innerWidth = '480';
@@ -57,8 +57,8 @@ MY3.init3d = function(far, zIndex)
   var VIEW_ANGLE = 45; // degrees not radians
   var ASPECT = WIDTH / HEIGHT;
   var NEAR = 0.1; // objects closer than this won't render
-  var FAR = (typeof far === 'undefined') ? 10000 : far;
-  var theZIndex = (typeof zIndex === 'undefined') ? 10 : zIndex;
+  var FAR = (far === undefined) ? 10000 : far;
+  var theZIndex = (zIndex === undefined) ? 10 : zIndex;
 
   renderer = new THREE.WebGLRenderer();
   camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
@@ -155,11 +155,11 @@ MY3.isVectorNormalised = function(vector)
 // pass in two Vector3s and their radii. Y axis is ignored.
 MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
 {
-  if (typeof position2 === 'undefined')
+  if (position2 === undefined)
   {
     panic('doCirclesCollide: undefined position2');
   }
-  if (typeof radius2 === 'undefined')
+  if (radius2 === undefined)
   {
     panic('doCirclesCollide: undefined radius2');
   }
@@ -185,7 +185,7 @@ MY3.lineMidpoint = function(p1, p2)
 // -90 along positive X axis
 MY3.yRotationToDegrees = function(object)
 {
-  if (typeof object.rotation === 'undefined') {
+  if (object.rotation === undefined) {
     return (object.y * UTIL.TO_DEGREES) % 360;
   } else {
     return (object.rotation.y * UTIL.TO_DEGREES) % 360;
@@ -278,13 +278,13 @@ MY3.Line.prototype.setEnd = function(position)
 // default length is 200
 MY3.Pointer = function(position, direction, length, pointAt)
 {
-  if (typeof length === 'undefined')
+  if (length === undefined)
   {
     length = 200;
   }
 
   var lineGeometry = new THREE.Geometry();
-  if (typeof pointAt === 'undefined')
+  if (pointAt === undefined)
   {
     // 1. use a normal vector
     if (!MY3.isVectorNormalised(direction))
@@ -384,7 +384,7 @@ MY3.FlickeringBasicMaterial = function(hexArray, framesForEach)
   {
     panic('hexArray is empty');
   }
-  if (typeof framesForEach === 'undefined')
+  if (framesForEach === undefined)
   {
     panic('framesForEach undefined');
   }

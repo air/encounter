@@ -6,7 +6,7 @@
 // constructor for new. Material is required, location is optional.
 var Saucer = function(material, location)
 {
-  if (typeof material === 'undefined')
+  if (material === undefined)
   {
     panic('Saucer must be provided a material');
   }
@@ -23,12 +23,12 @@ var Saucer = function(material, location)
   var self = this;
   var update = function(timeDeltaMillis)
   {
-    if (typeof self === 'undefined')
+    if (self === undefined)
     {
       panic('Saucer: self is undefined, wtf', this)
     }
 
-    if (typeof self.state === 'undefined')
+    if (self.state === undefined)
     {
       panic('Saucer: self.state is undefined, wtf', self);
     }

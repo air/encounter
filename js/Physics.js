@@ -17,7 +17,7 @@ if (typeof require === 'function') // test for nodejs environment
 // Uses a 2D rectangular bounding box check using modulus.
 Physics.isCloseToAnObelisk = function(position, radius)
 {
-  if (typeof radius === 'undefined')
+  if (radius === undefined)
   {
     throw('required: radius');
   }
@@ -113,11 +113,11 @@ Physics.bounceObjectOutOfIntersectingCircle = function(staticPoint, staticRadius
 // Returns a Vector3 containing the movement executed, in case that's useful. Y will be zero.
 Physics.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, movingPoint, movingRadius)
 {
-  if (typeof staticPoint.x === 'undefined')
+  if (staticPoint.x === undefined)
   {
     throw('staticPoint must have an x, wrong type?');
   }
-  if (typeof movingPoint.x === 'undefined')
+  if (movingPoint.x === undefined)
   {
     throw('movingPoint must have an x, wrong type?');
   }
