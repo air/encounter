@@ -14,7 +14,7 @@ var Saucer = function(material, location)
   this.mesh = new THREE.Mesh(Saucer.GEOMETRY, material);
   this.mesh.scale.y = Saucer.MESH_SCALE_Y;
 
-  if (typeof location !== 'undefined')
+  if (location)
   {
     this.mesh.position.copy(location);
   }
@@ -207,7 +207,7 @@ Saucer.prototype = {
         // check for precise collision
         var collidePosition = Physics.isCollidingWithObelisk(this.mesh.position, this.RADIUS);
         // if we get a return there is work to do
-        if (typeof collidePosition !== 'undefined')
+        if (collidePosition)
         {
           // we have a collision, move the Saucer out but don't change the rotation
           Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, this.mesh.position, this.RADIUS);

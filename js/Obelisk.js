@@ -13,7 +13,7 @@ Obelisk.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 Obelisk.newMeshInstance = function(position)
 {
   var mesh = new THREE.Mesh(Obelisk.GEOMETRY, Obelisk.MATERIAL);
-  if (typeof position !== 'undefined')
+  if (position)
   {
     mesh.position.copy(position);
   }

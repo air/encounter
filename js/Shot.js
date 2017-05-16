@@ -68,7 +68,7 @@ Shot.collideWithObelisks = function(shot)
     // check for precise collision
     var collidePosition = Physics.isCollidingWithObelisk(shot.position, Shot.RADIUS);
     // if we get a return value we have work to do
-    if (typeof collidePosition !== 'undefined')
+    if (collidePosition)
     {
       // we have a collision, bounce
       Physics.bounceObjectOutOfIntersectingCircle(collidePosition, Obelisk.RADIUS, shot, Shot.RADIUS);

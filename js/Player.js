@@ -49,7 +49,7 @@ Player.update = function()
     // check for precise collision
     var collidePosition = Physics.isCollidingWithObelisk(Player.position, Player.RADIUS);
     // if we get a return there is work to do
-    if (typeof collidePosition !== 'undefined')
+    if (collidePosition)
     {
       // we have a collision, move the player out but don't change the rotation
       Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, Player.position, Player.RADIUS);

@@ -113,7 +113,7 @@ Touch.createDPadButton = function(id, pressFunction, unpressFunction, cssOverrid
 {
   var button = document.createElement('div');
   button.id = id;
-  if (typeof cssOverride !== 'undefined')
+  if (cssOverride)
   {
     button.style.cssText = cssOverride;
   }

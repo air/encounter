@@ -76,7 +76,7 @@ Missile.update = function(timeDeltaMillis)
       // check for precise collision
       var collidePosition = Physics.isCollidingWithObelisk(Missile.mesh.position, Missile.RADIUS);
       // if we get a return there is work to do
-      if (typeof collidePosition !== 'undefined')
+      if (collidePosition)
       {
         // we have a collision, move the Enemy out but don't change the rotation
         Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, Missile.mesh.position, Missile.RADIUS);

@@ -163,7 +163,7 @@ Gib.collideWithObelisks = function(gib)
     // check for precise collision
     var collidePosition = Physics.isCollidingWithObelisk(gib.position, Gib.RADIUS);
     // if we get a return value we have work to do
-    if (typeof collidePosition !== 'undefined')
+    if (collidePosition)
     {
       // we have a collision, move the gib out
       Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, gib.position, Gib.RADIUS);

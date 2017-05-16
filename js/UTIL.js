@@ -52,7 +52,7 @@ UTIL.randomFromArray = function(array)
 function log(msg, object)
 {
   console.log(Math.floor(window.performance.now()) + ' ' + msg);
-  if (typeof object !== 'undefined')
+  if (object)
   {
     console.log(object);
   }
@@ -66,7 +66,7 @@ function error(msg)
 function panic(msg, object)
 {
   console.error(msg);
-  if (typeof object !== 'undefined')
+  if (object)
   {
     console.log(object);
   }
@@ -85,7 +85,7 @@ UTIL.platformSupportsTouch = function()
 //=============================================================================
 // make available in nodejs
 //=============================================================================
-if (typeof exports !== 'undefined')
+if (exports)
 {
   module.exports = UTIL;
 }

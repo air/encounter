@@ -49,7 +49,7 @@ State.init = function()
 // Level number is optional; by default rely on the state in Level.
 State.initLevel = function(levelNumber)
 {
-  if (typeof levelNumber !== 'undefined')
+  if (levelNumber)
   {
     Level.set(levelNumber);
   }
