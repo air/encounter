@@ -22,7 +22,9 @@ Follow the devlog at http://aaronbell.com.
 
 ## Cool stuff
 
-Some of the synth frequencies in [Sound.js](https://github.com/air/encounter/blob/master/js/Sound.js#L21) are reverse engineered right out of the C64's memory using [ICU64](http://icu64.blogspot.com/).
+- On mobile, the touchscreen controller is hand-written to allow smooth transition between d-pad positions without lifting your thumb. Read more at http://www.aaronbell.com/mobile-touch-controls-from-scratch/
+- Some of the synth frequencies in [Sound.js](https://github.com/air/encounter/blob/master/js/Sound.js#L21) are reverse engineered right out of the C64's memory using [ICU64](http://icu64.blogspot.com/).
+- The playfield of obelisks is infinite in all directions.
 
 ## Feature status
 
