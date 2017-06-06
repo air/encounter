@@ -1,5 +1,6 @@
 # TODO
 
+  - FPS drops over time after 1-2min possibly due to sound errors
   - Dashboard, radar, indicators all stay during warp
   - Vertically center the 3D view into whatever the viewport is. Adjust for dashboard if on/off.
   - Radar iterating over actors is horrible, use every?
