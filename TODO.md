@@ -6,22 +6,25 @@
   - Move from dat.gui to https://github.com/lo-th/uil
   - Multiple enemy items:
     - Shot.collideWithShips needs to pull Enemies out of Actors (every with instanceof?), otherwise you can only shoot Enemy.current
-    - Add a key to run e.g.: for (var i=0; i<20; i++) { var loc = Grid.randomLocationCloseToPlayer(10000, 2000); loc.y = Encounter.CAMERA_HEIGHT; Enemy.spawnGivenTypeAt(Level.current.spawnTable[UTIL.random(1, Level.current.spawnTable.length - 1)], loc); }
+    - Add a key to run e.g. `for (var i=0; i<20; i++) { var loc = Grid.randomLocationCloseToPlayer(10000, 2000); loc.y = Encounter.CAMERA_HEIGHT; Enemy.spawnGivenTypeAt(Level.current.spawnTable[UTIL.random(1, Level.current.spawnTable.length - 1)], loc); }`
     - Enemy can have arbitrary Actor assigned as the target! Player doesn't need to be involved.
     - Replace Enemy.current with Enemy.numberAlive for multiple enemies
     - Gib needs refactored as an Actor
   - candidates for new ctor style: Shot, Asteroid, anything with newInstance
   - tweak overlay sizes for mobile - modes: desktop, mobile-portrait, mobile-landscape
-  - L3 saucer: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
-  - L5 saucer: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
-  - L6 saucer: yellow/lightgreen. 3 sets of mega shotgun containing 5 rounds with wide spread.
-  - L6 saucer: yellow/lightgrey. Sprays a hose of shots arriving on your right and dragging to the left.
-  - L6 saucer: cyan/lightgreen. Never moves. Shoots at a moderate rate.
-  - L8 saucer: cyan/lightgreen. Never stops moving, shoots chaingun at you, extremely aggressive.
-  - L8 saucer: yellow, shoots 7 alternating left and right of you, never dead on
+  - Add Saucers:
+    - L3: pure cyan. Ticking beep, 16 pips then boom. No usual saucer move/wait sound. Burst of shots in all directions.
+    - L5: cyan/lightgrey. Never goes into waiting state/sound, always moving fast and taking potshots.
+    - L6: yellow/lightgreen. 3 sets of mega shotgun containing 5 rounds with wide spread.
+    - L6: yellow/lightgrey. Sprays a hose of shots arriving on your right and dragging to the left.
+    - L6: cyan/lightgreen. Never moves. Shoots at a moderate rate.
+    - L8: cyan/lightgreen. Never stops moving, shoots chaingun at you, extremely aggressive.
+    - L8: yellow, shoots 7 alternating left and right of you, never dead on
   - edit title screen
     - title screen show readiness once all Inits() are called?
   - saucer shoot noise is the SAME as obelisk rebound
+  - use HTML5 local storage to remember the highest level and score achieved; show on title screen
+  - allow jump to achieved level from title screen
   - refactor Saucer types into something sane, using JSON?
   - true 'snow' effect on shield loss
   - add Grid.randomLocationCloserToPlayer(currentPosition)
@@ -29,8 +32,7 @@
   - Saucer shots that don't depend on FPS
   - L6 flickering horizon effect, lightred between orange and brown
   - rationalise where Player.isAlive is set
-  - AI: enemies much more often circlestrafe the player than go toward/away
-  - allow jump to *achieved* level from title screen
+  - AI: enemies should much more often circlestrafe the player than go toward/away
   - end of game: reverts to L1, displays L9 when you exit, L8 once an enemy shows up.
   - warps get harder as levels go on - L8 warp is nearly impossible
   - sounds: reverse-engineer encounter memory
