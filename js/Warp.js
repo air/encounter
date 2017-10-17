@@ -24,18 +24,16 @@ Warp.init = function()
 {
   // no op since asteroids are created at runtime now
 };
- 
+
 Warp.setup = function()
 {
   // remove selected elements from the display
   BlackPortal.removeFromScene();
   Grid.removeFromScene();
-  Radar.removeFromScene();
-  Indicators.removeFromScene();
   Display.setSkyColour(C64.css.black);
   Display.horizonDiv.style.display = 'none';
 
-  State.actors.reset(); 
+  State.actors.reset();
   Controls.useWarpControls();
 
   Warp.enteredAt = clock.oldTime;
@@ -65,7 +63,7 @@ Warp.removeAsteroidsFromScene = function()
 Warp.createAsteroidsInFrontOfPlayer = function(timeDeltaMillis)
 {
   // TODO set ASTEROIDS_CREATED_PER_SECOND and tween it according to phase
-  // otherwise we are 1. more dense when going slow and 2. FPS will affect difficulty 
+  // otherwise we are 1. more dense when going slow and 2. FPS will affect difficulty
   var asteroid = Asteroid.newInstance();
   asteroid.position.copy(Player.position);
   asteroid.rotation.copy(Player.rotation);
@@ -206,8 +204,6 @@ Warp.restoreLevel = function()
   // restore the elements we selectively hid earlier
   Display.horizonDiv.style.display = 'block';
   Grid.addToScene();
-  Radar.addToScene();
-  Indicators.addToScene();
 
   State.setupWaitForEnemy();
 };
