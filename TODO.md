@@ -1,5 +1,6 @@
 # TODO
 
+  - fix undefined errors - looks like some cases where truthy check isn't appropriate (might never have been defined at all)
   - Vertically center the 3D view into whatever the viewport is. Adjust for dashboard if on/off.
   - Radar iterating over actors is horrible, use every?
   - Feels more like an open field

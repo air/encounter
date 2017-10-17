@@ -64,13 +64,13 @@ MY3.init3d = function(far, zIndex)
   camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
   scene = new THREE.Scene();
   scene.add(camera);
-  renderer.setSize(WIDTH, HEIGHT);
+  renderer.setSize(WIDTH, HEIGHT); // size of canvas element
   renderer.shadowMapEnabled = true;
   MY3.threeDiv = document.createElement('div');
   MY3.threeDiv.id = 'threejs';
   MY3.threeDiv.style.position = 'absolute';
   MY3.threeDiv.style.zIndex = theZIndex;
-  MY3.threeDiv.appendChild(renderer.domElement);
+  MY3.threeDiv.appendChild(renderer.domElement); // adds canvas element
   document.body.appendChild(MY3.threeDiv);
 };
 
