@@ -6,25 +6,25 @@
 var Explode = new THREE.Object3D();
 Explode.NUMBER_OF_GIBS = 8;
 Explode.gibs = [];
-Explode.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
-Explode.LIFETIME_MS = 3000;
+Explode.FLICKER_FRAMES = 2; // when flickering, show each colour for this many frames
+Explode.LIFETIME_MS = 2200;
 Explode.ageMillis = 0;
 Explode.actor = null;
 Explode.MATERIAL_PHASES = [
   {
-    untilAgeMillis: 800,
+    untilAgeMillis: 600,
     material: new THREE.MeshBasicMaterial({ color: C64.white })
   },
   {
-    untilAgeMillis: 1400,
+    untilAgeMillis: 1100,
     material: new MY3.FlickeringBasicMaterial([C64.yellow, C64.white], Explode.FLICKER_FRAMES)
   },
   {
-    untilAgeMillis: 2200,
+    untilAgeMillis: 1600,
     material: new MY3.FlickeringBasicMaterial([C64.lightred, C64.yellow], Explode.FLICKER_FRAMES)
   },
   {
-    untilAgeMillis: 2700,
+    untilAgeMillis: 2000,
     material: new MY3.FlickeringBasicMaterial([C64.brown, C64.lightred], Explode.FLICKER_FRAMES)
   },
   {

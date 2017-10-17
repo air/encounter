@@ -2,6 +2,8 @@
 
   - Vertically center the 3D view into whatever the viewport is. Adjust for dashboard if on/off.
   - Radar iterating over actors is horrible, use every?
+  - Feels more like an open field
+  - Grid is hex shaped?
   - Move from dat.gui to https://github.com/lo-th/uil
   - Multiple enemy items:
     - Shot.collideWithShips needs to pull Enemies out of Actors (every with instanceof?), otherwise you can only shoot Enemy.current
