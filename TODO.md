@@ -2,6 +2,7 @@
 
   - fix undefined errors - looks like some cases where truthy check isn't appropriate (might never have been defined at all)
   - Vertically center the 3D view into whatever the viewport is. Adjust for dashboard if on/off.
+    - Adopt true CSS divs: Display, Viewport, Dashboard. Get working then move to HTML.
   - Radar iterating over actors is horrible, use every?
   - Feels more like an open field
   - Grid is hex shaped?
