@@ -8,7 +8,7 @@ One man's mission to remake this amazing Commodore 64 game in WebGL.
 
 # How to play
 
-[Play the current build](http://air.github.io/encounter).
+[Play the current build](http://air.github.io/encounter) - press Space to start.
 
 - Move: WSAD or arrows or mobile d-pad
 - Shoot: Space or Z or touch the mobile d-pad button
