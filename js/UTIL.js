@@ -85,7 +85,7 @@ UTIL.platformSupportsTouch = function()
 //=============================================================================
 // make available in nodejs
 //=============================================================================
-if (exports)
+if (typeof(exports) !== 'undefined')
 {
   module.exports = UTIL;
 }

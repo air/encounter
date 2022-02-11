@@ -164,7 +164,7 @@ Physics.moveCircleOutOfStaticCircle = function(staticPoint, staticRadius, moving
 //=============================================================================
 // make available in nodejs
 //=============================================================================
-if (exports)
+if (typeof(exports) !== 'undefined')
 {
   module.exports = Physics;
 }
