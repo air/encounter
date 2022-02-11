@@ -18,8 +18,8 @@ var SaucerChaingun = function(location)
 
 // type constants
 SaucerChaingun.FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
-SaucerChaingun.MATERIAL = new MY3.FlickeringBasicMaterial([C64.yellow, C64.lightgrey], SaucerChaingun.FLICKER_FRAMES);
-SaucerChaingun.SHOT_MATERIAL = new MY3.FlickeringBasicMaterial([C64.yellow, C64.lightgrey], SaucerChaingun.FLICKER_FRAMES);
+SaucerChaingun.MATERIAL = new FlickeringBasicMaterial([C64.yellow, C64.lightgrey], SaucerChaingun.FLICKER_FRAMES);
+SaucerChaingun.SHOT_MATERIAL = new FlickeringBasicMaterial([C64.yellow, C64.lightgrey], SaucerChaingun.FLICKER_FRAMES);
 
 SaucerChaingun.prototype = Object.create(Saucer.prototype);
 

@@ -17,19 +17,19 @@ Explode.MATERIAL_PHASES = [
   },
   {
     untilAgeMillis: 1100,
-    material: new MY3.FlickeringBasicMaterial([C64.yellow, C64.white], Explode.FLICKER_FRAMES)
+    material: new FlickeringBasicMaterial([C64.yellow, C64.white], Explode.FLICKER_FRAMES)
   },
   {
     untilAgeMillis: 1600,
-    material: new MY3.FlickeringBasicMaterial([C64.lightred, C64.yellow], Explode.FLICKER_FRAMES)
+    material: new FlickeringBasicMaterial([C64.lightred, C64.yellow], Explode.FLICKER_FRAMES)
   },
   {
     untilAgeMillis: 2000,
-    material: new MY3.FlickeringBasicMaterial([C64.brown, C64.lightred], Explode.FLICKER_FRAMES)
+    material: new FlickeringBasicMaterial([C64.brown, C64.lightred], Explode.FLICKER_FRAMES)
   },
   {
     untilAgeMillis: Explode.LIFETIME_MS,
-    material: new MY3.FlickeringBasicMaterial([C64.black, C64.brown], Explode.FLICKER_FRAMES)
+    material: new FlickeringBasicMaterial([C64.black, C64.brown], Explode.FLICKER_FRAMES)
   }
 ];
 
@@ -50,7 +50,7 @@ Explode.animateMaterial = function()
     gib.mesh.material = material;
   });
 
-  if (material instanceof MY3.FlickeringBasicMaterial)
+  if (material instanceof FlickeringBasicMaterial)
   {
     material.tick();
   }
