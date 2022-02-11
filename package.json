@@ -22,7 +22,7 @@
     "gulp-jshint": ">1.5.5",
     "gulp-concat": ">2.2.0",
     "mocha": ">1.18.2",
-    "three": "~0.58.10",
+    "three": "~0.125.0",
     "chai": ">1.9.1"
   },
   "license": "CC-BY-NC-SA-3.0",
