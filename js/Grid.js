@@ -1,5 +1,8 @@
 'use strict';
 
+// FIXME import
+//import { BufferGeometryUtils } from './lib/BufferGeometryUtils.js';
+
 var Grid = {};
 
 // the Grid is:
@@ -29,7 +32,7 @@ Grid.init = function()
 
   Grid.viewport = new THREE.Box2(new THREE.Vector2(0,0), new THREE.Vector2(Grid.SIZE_SQUARE, Grid.SIZE_SQUARE));
 
-  Grid.geometry = new THREE.Geometry();
+  Grid.geometry = new THREE.BufferGeometry();
   var obeliskMesh = Obelisk.newMeshInstance(); // just need one of these as a cookie cutter
 
   // one-time loop to set up geometry
@@ -40,8 +43,8 @@ Grid.init = function()
       var xPos = colIndex * Grid.SPACING;
       var zPos = rowIndex * Grid.SPACING;
       // update the template mesh and merge it into Grid
-      obeliskMesh.position = new THREE.Vector3(xPos, Obelisk.HEIGHT / 2, zPos);
-      THREE.GeometryUtils.merge(Grid.geometry, obeliskMesh);
+      obeliskMesh.position.set(new THREE.Vector3(xPos, Obelisk.HEIGHT / 2, zPos));
+      Grid.geometry = THREE.BufferGeometryUtils.mergeBufferGeometries([Grid.geometry, obeliskMesh.geometry]);
     }
   }
 
@@ -108,7 +111,7 @@ Grid.playerStartLocation = function()
   if (Physics.isCloseToAnObelisk(position, Player.RADIUS))
   {
     position.x += Grid.SPACING / 2;
-    position.z += Grid.SPACING / 2; 
+    position.z += Grid.SPACING / 2;
   }
   return position;
 };
@@ -143,7 +146,7 @@ Grid.randomLocationCloseToPoint = function(point, maxDistance)
   {
     panic('point must have an x:', point);
   }
-  
+
   var location = null;
   do
   {
@@ -165,11 +168,11 @@ Grid.reset = function()
 
 // When the player moves close to the edge of the grid, translate it seamlessly.
 // Child objects (Ground plane) will inherit translations.
-// Reminder, the Grid.mesh is anchored at its bottom left (0,0) in X,Z terms. 
+// Reminder, the Grid.mesh is anchored at its bottom left (0,0) in X,Z terms.
 Grid.update = function()
 {
   // define a threshold that will trigger when the player crosses it
-  // TODO could use another bounding box with contains() to make this tidier 
+  // TODO could use another bounding box with contains() to make this tidier
   var maxThresholdX = Grid.viewport.max.x - Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;
   var maxThresholdZ = Grid.viewport.max.y - Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;
   var minThresholdX = Grid.viewport.min.x + Grid.TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;

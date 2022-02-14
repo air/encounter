@@ -1,5 +1,7 @@
 'use strict';
 
+// This is the entry point for the game.
+
 // constants modelling the original game.
 // time for complete rotation: 9s
 // time to pass 10 obelisks: 8s

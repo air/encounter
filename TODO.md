@@ -1,5 +1,6 @@
 # TODO
-
+  - remove all 'use strict'
+  - rename all modules to .mjs
   - fix undefined errors - looks like some cases where truthy check isn't appropriate (might never have been defined at all)
   - FPS drops over time after 1-2min (possibly due to sound errors?)
   - Vertically center the 3D view into whatever the viewport is. Adjust for dashboard if on/off.
