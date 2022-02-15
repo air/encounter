@@ -6,8 +6,10 @@ import * as Display from '/js/Display.js';
 
 // debug: export modules to console
 import * as THREE from '/lib/three.module.js';
+import * as C64 from '/js/C64.js'
 window.THREE = THREE;
 window.MY3 = MY3;
+window.C64 = C64;
 
 // set the draw distance and the CSS z-index of the canvas
 MY3.init3d(Encounter.DRAW_DISTANCE * 3, Display.ZINDEX_CANVAS);

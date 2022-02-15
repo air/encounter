@@ -2,51 +2,55 @@ import { log, error, panic } from '/js/UTIL.js';
 import * as Portal from '/js/Portal.js'
 import * as THREE from '/lib/three.module.js'
 import * as C64 from '/js/C64.js'
+import * as Grid from '/js/Grid.js'
+import * as Encounter from '/js/Encounter.js'
+import * as Radar from '/js/Radar.js'
+import * as Enemy from '/js/Enemy.js'
 
-var WhitePortal = Object.create(Portal);
+export const MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 
-WhitePortal.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
-
-// additional state for white portals
-WhitePortal.enemyTypeIncoming = null;
-
-WhitePortal.init = function()
+export class WhitePortal extends Portal
 {
-  WhitePortal.mesh = new THREE.Mesh(WhitePortal.GEOMETRY, WhitePortal.MATERIAL);
-};
-
-WhitePortal.getActorUpdateFunction = function()
-{
-  var update = function(timeDeltaMillis)
+  constructor()
   {
-    switch(WhitePortal.state)
+    super();
+    this.mesh = new THREE.Mesh(Portal.GEOMETRY, MATERIAL);
+    // additional state for white portals
+    this.enemyTypeIncoming = null;
+  }
+
+  getActorUpdateFunction()
+  {
+    return function(timeDeltaMillis)
     {
-      case WhitePortal.STATE_OPENING:
-        WhitePortal.updateOpening(timeDeltaMillis);
-        break;
-      case WhitePortal.STATE_CLOSING:
-        WhitePortal.updateClosing(timeDeltaMillis);
-        break;
-      default:
-        panic('unknown WhitePortal state: ' + WhitePortal.state);
-    }
+      switch(this.state)
+      {
+        case STATE_OPENING:
+          this.updateOpening(timeDeltaMillis);
+          break;
+        case STATE_CLOSING:
+          this.updateClosing(timeDeltaMillis);
+          break;
+        default:
+          panic('unknown WhitePortal state: ' + this.state);
+      }
+    };
+  }
+
+  spawnForEnemy(enemyType)
+  {
+    this.enemyTypeIncoming = enemyType;
+    log('spawning white portal with enemy type: ' + this.enemyTypeIncoming);
+
+    var location = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
+    this.spawn(location);
+    this.mesh.radarType = Radar.TYPE_PORTAL;
   };
-  return update;
+
+  opened()
+  {
+    Enemy.spawnGivenTypeAt(this.enemyTypeIncoming, this.mesh.position);
+    this.actor.radarType = Radar.TYPE_NONE;
+    this.startClosing();
+  };
 }
-
-WhitePortal.spawnForEnemy = function(enemyType)
-{
-  WhitePortal.enemyTypeIncoming = enemyType;
-  log('spawning white portal with enemy type: ' + WhitePortal.enemyTypeIncoming);
-
-  var location = Grid.randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
-  WhitePortal.spawn(location);
-  WhitePortal.mesh.radarType = Radar.TYPE_PORTAL;
-};
-
-WhitePortal.opened = function()
-{
-  Enemy.spawnGivenTypeAt(WhitePortal.enemyTypeIncoming, WhitePortal.mesh.position);
-  WhitePortal.actor.radarType = Radar.TYPE_NONE;
-  WhitePortal.startClosing();
-};

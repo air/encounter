@@ -28,7 +28,7 @@ ShotSpawner.prototype.update = function(t)
   var rotateRadians = t * this.ROTATE_RADIANS_PER_MS;
   this.rotateOnAxis(new THREE.Vector3(0,1,0), rotateRadians);
 
-  var timeNow = clock.oldTime;
+  var timeNow = MY3.clock.oldTime;
   var millisSinceLastShot = timeNow - this.lastShotAt;
   if (millisSinceLastShot > this.SHOT_INTERVAL_MILLIS)
   {

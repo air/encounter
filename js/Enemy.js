@@ -25,12 +25,12 @@ Enemy.reset = function()
 Enemy.startSpawnTimer = function()
 {
   log('started enemy spawn timer');
-  Enemy.spawnTimerStartedAt = clock.oldTime;
+  Enemy.spawnTimerStartedAt = MY3.clock.oldTime;
 };
 
 Enemy.spawnIfReady = function()
 {
-  if ((clock.oldTime - Enemy.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
+  if ((MY3.clock.oldTime - Enemy.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
   {
     Enemy.spawn();
     State.setupCombat();

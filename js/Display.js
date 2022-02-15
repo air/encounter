@@ -1,241 +1,244 @@
 import { log, error, panic } from '/js/UTIL.js';
+import * as C64 from '/js/C64.js'
+import * as Player from '/js/Player.js'
+import * as State from '/js/State.js'
+import * as Level from '/js/Level.js'
+import * as Ground from '/js/Ground.js'
 
-var Display = {};
+const ZINDEX_SKY = '1';
+const ZINDEX_GROUND = '2';
+const ZINDEX_HORIZON = '3';
+const ZINDEX_CANVAS = '4'; // where the 3D view is painted
+const ZINDEX_DASHBOARD = '5';
+const ZINDEX_RADAR = '6';
+const ZINDEX_INDICATORS = '7';
+const ZINDEX_CROSSHAIRS = '8';
+const ZINDEX_TEXT = '9';
 
-Display.ZINDEX_SKY = '1';
-Display.ZINDEX_GROUND = '2';
-Display.ZINDEX_HORIZON = '3';
-Display.ZINDEX_CANVAS = '4'; // where the 3D view is painted
-Display.ZINDEX_DASHBOARD = '5';
-Display.ZINDEX_RADAR = '6';
-Display.ZINDEX_INDICATORS = '7';
-Display.ZINDEX_CROSSHAIRS = '8';
-Display.ZINDEX_TEXT = '9';
+const CROSSHAIR_WIDTH = 80;
+const CROSSHAIR_HEIGHT = 60;
+const CROSSHAIR_THICKNESS = 7;
 
-Display.CROSSHAIR_WIDTH = 80;
-Display.CROSSHAIR_HEIGHT = 60;
-Display.CROSSHAIR_THICKNESS = 7;
+// div elements
+var containerDiv, groundDiv, horizonDiv, aimDiv, skyDiv, dashboardDiv, leftDashDiv, rightDashDiv;
+// info elements
+var score, level, enemies, shields;
 
-Display.containerDiv = null;
-Display.horizonDiv = null;
-Display.aimDiv = null;
-Display.skyDiv = null;
-
-Display.init = function()
+export function init()
 {
-  Display.initText();
-  Display.initSky();
-  Display.initGround();
-  Display.initHorizon();
-  Display.initCrosshairs();
-  Display.initDashboard();
+  initText();
+  initSky();
+  initGround();
+  initHorizon();
+  initCrosshairs();
+  initDashboard();
 };
 
-Display.initDashboard = function()
+function initDashboard()
 {
-  Display.dashboardDiv = document.createElement('div');
-  Display.dashboardDiv.id = 'dashboard';
-  Display.dashboardDiv.style.backgroundColor = C64.css.grey;
-  Display.dashboardDiv.style.width = '100%';
-  Display.dashboardDiv.style.height = '225px';
-  Display.dashboardDiv.style.position = 'absolute';
-  Display.dashboardDiv.style.bottom = '0px';
-  Display.dashboardDiv.style.zIndex = Display.ZINDEX_DASHBOARD;
-  Display.dashboardDiv.style.display = 'none';
-  document.body.appendChild(Display.dashboardDiv);
+  dashboardDiv = document.createElement('div');
+  dashboardDiv.id = 'dashboard';
+  dashboardDiv.style.backgroundColor = C64.css.grey;
+  dashboardDiv.style.width = '100%';
+  dashboardDiv.style.height = '225px';
+  dashboardDiv.style.position = 'absolute';
+  dashboardDiv.style.bottom = '0px';
+  dashboardDiv.style.zIndex = ZINDEX_DASHBOARD;
+  dashboardDiv.style.display = 'none';
+  document.body.appendChild(dashboardDiv);
 
-  Display.leftDashDiv = document.createElement('div');
-  Display.leftDashDiv.id = 'leftdash';
-  Display.leftDashDiv.style.backgroundColor = C64.css.grey;
-  Display.leftDashDiv.style.width = '25px';
-  Display.leftDashDiv.style.height = '100%';
-  Display.leftDashDiv.style.position = 'absolute';
-  Display.leftDashDiv.style.left = '0px';
-  Display.leftDashDiv.style.zIndex = Display.ZINDEX_DASHBOARD;
-  Display.leftDashDiv.style.display = 'none';
-  document.body.appendChild(Display.leftDashDiv);
+  leftDashDiv = document.createElement('div');
+  leftDashDiv.id = 'leftdash';
+  leftDashDiv.style.backgroundColor = C64.css.grey;
+  leftDashDiv.style.width = '25px';
+  leftDashDiv.style.height = '100%';
+  leftDashDiv.style.position = 'absolute';
+  leftDashDiv.style.left = '0px';
+  leftDashDiv.style.zIndex = ZINDEX_DASHBOARD;
+  leftDashDiv.style.display = 'none';
+  document.body.appendChild(leftDashDiv);
 
-  Display.rightDashDiv = document.createElement('div');
-  Display.rightDashDiv.id = 'rightdash';
-  Display.rightDashDiv.style.backgroundColor = C64.css.grey;
-  Display.rightDashDiv.style.width = '25px';
-  Display.rightDashDiv.style.height = '100%';
-  Display.rightDashDiv.style.position = 'absolute';
-  Display.rightDashDiv.style.right = '0px';
-  Display.rightDashDiv.style.zIndex = Display.ZINDEX_DASHBOARD;
-  Display.rightDashDiv.style.display = 'none';
-  document.body.appendChild(Display.rightDashDiv);
+  rightDashDiv = document.createElement('div');
+  rightDashDiv.id = 'rightdash';
+  rightDashDiv.style.backgroundColor = C64.css.grey;
+  rightDashDiv.style.width = '25px';
+  rightDashDiv.style.height = '100%';
+  rightDashDiv.style.position = 'absolute';
+  rightDashDiv.style.right = '0px';
+  rightDashDiv.style.zIndex = ZINDEX_DASHBOARD;
+  rightDashDiv.style.display = 'none';
+  document.body.appendChild(rightDashDiv);
 };
 
-Display.initSky = function()
+function initSky()
 {
-  Display.skyDiv = document.createElement('div');
-  Display.skyDiv.id = 'sky';
-  Display.skyDiv.style.backgroundColor = C64.css.white; // dummy colour
-  Display.skyDiv.style.position = 'absolute';
-  Display.skyDiv.style.width = '100%';
-  Display.skyDiv.style.height = '100%';
-  Display.skyDiv.style.zIndex = Display.ZINDEX_SKY;
-  Display.skyDiv.style.display = 'none'; // off by default until shown
-  document.body.appendChild(Display.skyDiv);
+  skyDiv = document.createElement('div');
+  skyDiv.id = 'sky';
+  skyDiv.style.backgroundColor = C64.css.white; // dummy colour
+  skyDiv.style.position = 'absolute';
+  skyDiv.style.width = '100%';
+  skyDiv.style.height = '100%';
+  skyDiv.style.zIndex = ZINDEX_SKY;
+  skyDiv.style.display = 'none'; // off by default until shown
+  document.body.appendChild(skyDiv);
 };
 
-Display.initGround = function()
+function initGround()
 {
-  Display.groundDiv = document.createElement('div');
-  Display.groundDiv.id = 'ground';
-  Display.groundDiv.style.backgroundColor = C64.css.white; // dummy colour
-  Display.groundDiv.style.position = 'absolute';
-  Display.groundDiv.style.width = '100%';
-  Display.groundDiv.style.height = '50%';
-  Display.groundDiv.style.bottom = '0px';
-  Display.groundDiv.style.zIndex = Display.ZINDEX_GROUND;
-  Display.groundDiv.style.display = 'none'; // off by default until shown
-  document.body.appendChild(Display.groundDiv);
+  groundDiv = document.createElement('div');
+  groundDiv.id = 'ground';
+  groundDiv.style.backgroundColor = C64.css.white; // dummy colour
+  groundDiv.style.position = 'absolute';
+  groundDiv.style.width = '100%';
+  groundDiv.style.height = '50%';
+  groundDiv.style.bottom = '0px';
+  groundDiv.style.zIndex = ZINDEX_GROUND;
+  groundDiv.style.display = 'none'; // off by default until shown
+  document.body.appendChild(groundDiv);
 };
 
-Display.initHorizon = function()
+function initHorizon()
 {
-  Display.horizonDiv = document.createElement('div');
-  Display.horizonDiv.id = 'horizon';
-  Display.horizonDiv.style.cssText = 'width=100%; height:4px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
-  Display.horizonDiv.style.zIndex = Display.ZINDEX_HORIZON;
-  Display.horizonDiv.style.display = 'none'; // off by default until shown
-  document.body.appendChild(Display.horizonDiv);
+  horizonDiv = document.createElement('div');
+  horizonDiv.id = 'horizon';
+  horizonDiv.style.cssText = 'width=100%; height:4px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
+  horizonDiv.style.zIndex = ZINDEX_HORIZON;
+  horizonDiv.style.display = 'none'; // off by default until shown
+  document.body.appendChild(horizonDiv);
 };
 
-Display.initCrosshairs = function()
+function initCrosshairs()
 {
-  Display.aimDiv = document.createElement('canvas');
-  Display.aimDiv.id = 'crosshairs';
+  aimDiv = document.createElement('canvas');
+  aimDiv.id = 'crosshairs';
   // don't use CSS to set the size of a canvas, or you'll get scaling. Set direct on the element.
-  Display.aimDiv.width = Display.CROSSHAIR_WIDTH;
-  Display.aimDiv.height = Display.CROSSHAIR_HEIGHT;
-  Display.aimDiv.style.cssText = 'position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
-  Display.aimDiv.style.zIndex = Display.ZINDEX_CROSSHAIRS;
-  Display.aimDiv.style.display = 'none'; // off by default until shown
+  aimDiv.width = CROSSHAIR_WIDTH;
+  aimDiv.height = CROSSHAIR_HEIGHT;
+  aimDiv.style.cssText = 'position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;';
+  aimDiv.style.zIndex = ZINDEX_CROSSHAIRS;
+  aimDiv.style.display = 'none'; // off by default until shown
 
   // draw the crosshairs
-  var canvas = Display.aimDiv.getContext('2d');
+  var canvas = aimDiv.getContext('2d');
   canvas.fillStyle = C64.css.lightgrey;
-  var serifLength = Display.CROSSHAIR_WIDTH / 5;
+  var serifLength = CROSSHAIR_WIDTH / 5;
   // left
-  canvas.fillRect(0, 0, serifLength, Display.CROSSHAIR_THICKNESS);
-  canvas.fillRect(0, 0, Display.CROSSHAIR_THICKNESS, Display.CROSSHAIR_HEIGHT);
-  canvas.fillRect(0, Display.CROSSHAIR_HEIGHT - Display.CROSSHAIR_THICKNESS, serifLength, Display.CROSSHAIR_THICKNESS);
+  canvas.fillRect(0, 0, serifLength, CROSSHAIR_THICKNESS);
+  canvas.fillRect(0, 0, CROSSHAIR_THICKNESS, CROSSHAIR_HEIGHT);
+  canvas.fillRect(0, CROSSHAIR_HEIGHT - CROSSHAIR_THICKNESS, serifLength, CROSSHAIR_THICKNESS);
   // right
-  canvas.fillRect(Display.CROSSHAIR_WIDTH - serifLength, 0, serifLength, Display.CROSSHAIR_THICKNESS);
-  canvas.fillRect(Display.CROSSHAIR_WIDTH - Display.CROSSHAIR_THICKNESS, 0, Display.CROSSHAIR_THICKNESS, Display.CROSSHAIR_HEIGHT);
-  canvas.fillRect(Display.CROSSHAIR_WIDTH - serifLength, Display.CROSSHAIR_HEIGHT - Display.CROSSHAIR_THICKNESS, serifLength, Display.CROSSHAIR_THICKNESS);
+  canvas.fillRect(CROSSHAIR_WIDTH - serifLength, 0, serifLength, CROSSHAIR_THICKNESS);
+  canvas.fillRect(CROSSHAIR_WIDTH - CROSSHAIR_THICKNESS, 0, CROSSHAIR_THICKNESS, CROSSHAIR_HEIGHT);
+  canvas.fillRect(CROSSHAIR_WIDTH - serifLength, CROSSHAIR_HEIGHT - CROSSHAIR_THICKNESS, serifLength, CROSSHAIR_THICKNESS);
 
-  document.body.appendChild(Display.aimDiv);
+  document.body.appendChild(aimDiv);
 };
 
-Display.initText = function()
+function initText()
 {
   // container div across whole screen, with style elements common to children
-  Display.containerDiv = document.createElement('div');
-  Display.containerDiv.id = 'Display';
-  Display.containerDiv.style.cssText = 'width:100%; font-family:monospace; font-size:48px; font-weight:bold; text-align:center'
-  Display.containerDiv.style.color = C64.css.white;
-  Display.containerDiv.style.backgroundColor = C64.css.grey;
-  Display.containerDiv.style.display = 'none'; // off by default until shown
-  Display.containerDiv.style.zIndex = Display.ZINDEX_TEXT;
+  containerDiv = document.createElement('div');
+  containerDiv.id = 'Display';
+  containerDiv.style.cssText = 'width:100%; font-family:monospace; font-size:48px; font-weight:bold; text-align:center'
+  containerDiv.style.color = C64.css.white;
+  containerDiv.style.backgroundColor = C64.css.grey;
+  containerDiv.style.display = 'none'; // off by default until shown
+  containerDiv.style.zIndex = ZINDEX_TEXT;
 
-  Display.score = document.createElement('div');
-  Display.score.id = 'score';
-  Display.score.style.cssText = 'width:25%; float:left';
-  Display.containerDiv.appendChild(Display.score);
+  score = document.createElement('div');
+  score.id = 'score';
+  score.style.cssText = 'width:25%; float:left';
+  containerDiv.appendChild(score);
 
-  Display.level = document.createElement('div');
-  Display.level.id = 'level';
-  Display.level.style.cssText = 'width:25%; float:left';
-  Display.containerDiv.appendChild(Display.level);
+  level = document.createElement('div');
+  level.id = 'level';
+  level.style.cssText = 'width:25%; float:left';
+  containerDiv.appendChild(level);
 
-  Display.enemies = document.createElement('div');
-  Display.enemies.id = 'enemies';
-  Display.enemies.style.cssText = 'width:25%; float:left';
-  Display.containerDiv.appendChild(Display.enemies);
+  enemies = document.createElement('div');
+  enemies.id = 'enemies';
+  enemies.style.cssText = 'width:25%; float:left';
+  containerDiv.appendChild(enemies);
 
-  Display.shields = document.createElement('div');
-  Display.shields.id = 'shields';
-  Display.shields.style.cssText = 'width:25%; float:left';
-  Display.containerDiv.appendChild(Display.shields);
+  shields = document.createElement('div');
+  shields.id = 'shields';
+  shields.style.cssText = 'width:25%; float:left';
+  containerDiv.appendChild(shields);
 
   // place the Display in the page
-  Display.containerDiv.style.position = 'absolute';
-  Display.containerDiv.style.top = '0px';
-  document.body.appendChild(Display.containerDiv);
+  containerDiv.style.position = 'absolute';
+  containerDiv.style.top = '0px';
+  document.body.appendChild(containerDiv);
 };
 
-Display.update = function()
+export function update()
 {
   switch (State.current)
   {
     case State.COMBAT:
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
-      Display.score.innerHTML = ('0000000' + State.score).slice(-7);
-      Display.level.innerHTML = 'L' + Level.number;
-      Display.enemies.innerHTML = 'E' + ('00' + State.enemiesRemaining).slice(-2);
-      Display.shields.innerHTML = 'S' + Player.shieldsLeft;
+      score.innerHTML = ('0000000' + State.score).slice(-7);
+      level.innerHTML = 'L' + Level.number;
+      enemies.innerHTML = 'E' + ('00' + State.enemiesRemaining).slice(-2);
+      shields.innerHTML = 'S' + Player.shieldsLeft;
       break;
     default:
       panic('unknown state: ', State.current);
   }
 };
 
-Display.removeFromScene = function()
+export function removeFromScene()
 {
-  Display.containerDiv.style.display = 'none';
-  Display.horizonDiv.style.display = 'none';
-  Display.groundDiv.style.display = 'none';
-  Display.aimDiv.style.display = 'none';
-  Display.skyDiv.style.display = 'none';
-  Display.dashboardDiv.style.display = 'none';
-  Display.leftDashDiv.style.display = 'none';
-  Display.rightDashDiv.style.display = 'none';
+  containerDiv.style.display = 'none';
+  horizonDiv.style.display = 'none';
+  groundDiv.style.display = 'none';
+  aimDiv.style.display = 'none';
+  skyDiv.style.display = 'none';
+  dashboardDiv.style.display = 'none';
+  leftDashDiv.style.display = 'none';
+  rightDashDiv.style.display = 'none';
 };
 
-Display.addToScene = function()
+export function addToScene()
 {
-  Display.containerDiv.style.display = 'block';
-  Display.horizonDiv.style.display = 'block';
-  Display.groundDiv.style.display = 'block';
-  Display.aimDiv.style.display = 'block';
-  Display.skyDiv.style.display = 'block';
-  Display.dashboardDiv.style.display = 'block';
-  Display.leftDashDiv.style.display = 'block';
-  Display.rightDashDiv.style.display = 'block';
+  containerDiv.style.display = 'block';
+  horizonDiv.style.display = 'block';
+  groundDiv.style.display = 'block';
+  aimDiv.style.display = 'block';
+  skyDiv.style.display = 'block';
+  dashboardDiv.style.display = 'block';
+  leftDashDiv.style.display = 'block';
+  rightDashDiv.style.display = 'block';
 };
 
-Display.setSkyColour = function(cssColour)
+export function setSkyColour(cssColour)
 {
-  Display.skyDiv.style.backgroundColor = cssColour;
+  skyDiv.style.backgroundColor = cssColour;
 };
 
-Display.setHorizonColour = function(cssColour)
+export function setHorizonColour(cssColour)
 {
-  Display.horizonDiv.style.backgroundColor = cssColour;
+  horizonDiv.style.backgroundColor = cssColour;
 };
 
-Display.showShieldLossStatic = function()
+export function showShieldLossStatic()
 {
-  Display.setSkyColour(C64.css.white);
-  Display.setHorizonColour(C64.css.white);
+  setSkyColour(C64.css.white);
+  setHorizonColour(C64.css.white);
   Ground.setColor(C64.css.white);
 };
 
-Display.hideShieldLossStatic = function()
+export function hideShieldLossStatic()
 {
-  Display.setSkyColour(Level.current.skyColor);
-  Display.setHorizonColour(Level.current.horizonColor);
+  setSkyColour(Level.current.skyColor);
+  setHorizonColour(Level.current.horizonColor);
   Ground.setColor(Level.current.groundColor);
 };
 
-Display.updateShieldLossStatic = function()
+export function updateShieldLossStatic()
 {
-  Display.setSkyColour(C64.randomCssColour());
-  Display.setHorizonColour(C64.randomCssColour());
+  setSkyColour(C64.randomCssColour());
+  setHorizonColour(C64.randomCssColour());
   Ground.setColor(C64.randomCssColour());
 };

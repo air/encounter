@@ -67,7 +67,7 @@ Player.wasHit = function()
 {
   Sound.playerKilled();
   Player.isAlive = false;
-  Player.timeOfDeath = clock.oldTime;
+  Player.timeOfDeath = MY3.clock.oldTime;
 
   Player.shotsInFlight = 0;
   Player.lastTimeFired = 0;

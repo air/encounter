@@ -1,12 +1,10 @@
-import { log, error, panic } from '/js/UTIL.js';
+import { log, error, panic, random } from '/js/UTIL.js';
 
 // Gamma-corrected RGB values from http://www.pepto.de/projects/colorvic/
 
 // TODO use THREE.Color
 
-var C64 = {};
-
-C64.palette = [
+export const palette = [
   0x000000,
   0xFFFFFF,
   0x68372B,
@@ -25,7 +23,7 @@ C64.palette = [
   0x959595
 ];
 
-C64.cssPalette = [
+export const cssPalette = [
   '#000000',
   '#FFFFFF',
   '#68372B',
@@ -44,49 +42,50 @@ C64.cssPalette = [
   '#959595'
 ];
 
-C64.black = C64.palette[0];
-C64.white = C64.palette[1];
-C64.red = C64.palette[2];
-C64.cyan = C64.palette[3];
-C64.purple = C64.palette[4];
-C64.green = C64.palette[5];
-C64.blue = C64.palette[6];
-C64.yellow = C64.palette[7];
-C64.orange = C64.palette[8];
-C64.brown = C64.palette[9];
-C64.lightred = C64.palette[10];
-C64.darkgrey = C64.palette[11];
-C64.grey = C64.palette[12];
-C64.lightgreen = C64.palette[13];
-C64.lightblue = C64.palette[14];
-C64.lightgrey = C64.palette[15];
+export const black = palette[0];
+export const white = palette[1];
+export const red = palette[2];
+export const cyan = palette[3];
+export const purple = palette[4];
+export const green = palette[5];
+export const blue = palette[6];
+export const yellow = palette[7];
+export const orange = palette[8];
+export const brown = palette[9];
+export const lightred = palette[10];
+export const darkgrey = palette[11];
+export const grey = palette[12];
+export const lightgreen = palette[13];
+export const lightblue = palette[14];
+export const lightgrey = palette[15];
 
-C64.css = {};
-C64.css.black = C64.cssPalette[0];
-C64.css.white = C64.cssPalette[1];
-C64.css.red = C64.cssPalette[2];
-C64.css.cyan = C64.cssPalette[3];
-C64.css.purple = C64.cssPalette[4];
-C64.css.green = C64.cssPalette[5];
-C64.css.blue = C64.cssPalette[6];
-C64.css.yellow = C64.cssPalette[7];
-C64.css.orange = C64.cssPalette[8];
-C64.css.brown = C64.cssPalette[9];
-C64.css.lightred = C64.cssPalette[10];
-C64.css.darkgrey = C64.cssPalette[11];
-C64.css.grey = C64.cssPalette[12];
-C64.css.lightgreen = C64.cssPalette[13];
-C64.css.lightblue = C64.cssPalette[14];
-C64.css.lightgrey = C64.cssPalette[15];
+var css = {};
+css.black = cssPalette[0];
+css.white = cssPalette[1];
+css.red = cssPalette[2];
+css.cyan = cssPalette[3];
+css.purple = cssPalette[4];
+css.green = cssPalette[5];
+css.blue = cssPalette[6];
+css.yellow = cssPalette[7];
+css.orange = cssPalette[8];
+css.brown = cssPalette[9];
+css.lightred = cssPalette[10];
+css.darkgrey = cssPalette[11];
+css.grey = cssPalette[12];
+css.lightgreen = cssPalette[13];
+css.lightblue = cssPalette[14];
+css.lightgrey = cssPalette[15];
+export const css;
 
-C64.randomColour = function()
+export function randomColour()
 {
-  var diceRoll = UTIL.random(1, C64.palette.length) - 1;
-  return C64.palette[diceRoll];
+  var diceRoll = random(1, palette.length) - 1;
+  return palette[diceRoll];
 };
 
-C64.randomCssColour = function()
+export function randomCssColour()
 {
-  var diceRoll = UTIL.random(1, C64.cssPalette.length) - 1;
-  return C64.cssPalette[diceRoll];
+  var diceRoll = random(1, cssPalette.length) - 1;
+  return cssPalette[diceRoll];
 };

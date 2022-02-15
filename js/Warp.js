@@ -36,7 +36,7 @@ Warp.setup = function()
   State.actors.reset();
   Controls.useWarpControls();
 
-  Warp.enteredAt = clock.oldTime;
+  Warp.enteredAt = MY3.clock.oldTime;
 
   Warp.state = Warp.STATE_ACCELERATE;
   log('warp: accelerating');
@@ -126,7 +126,7 @@ Warp.updateAccelerate = function(timeDeltaMillis)
   Warp.updateMovement(timeDeltaMillis);
   Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
 
-  if ((clock.oldTime - Warp.enteredAt) > Warp.TIME_ACCELERATING_MS)
+  if ((MY3.clock.oldTime - Warp.enteredAt) > Warp.TIME_ACCELERATING_MS)
   {
     Warp.state = Warp.STATE_CRUISE;
     log('warp: cruising');
@@ -138,7 +138,7 @@ Warp.updateCruise = function(timeDeltaMillis)
   Warp.updateMovement(timeDeltaMillis);
   Warp.createAsteroidsInFrontOfPlayer(timeDeltaMillis);
 
-  if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS) > Warp.TIME_CRUISING_MS)
+  if ((MY3.clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS) > Warp.TIME_CRUISING_MS)
   {
     Warp.state = Warp.STATE_DECELERATE;
     log('warp: decelerating');
@@ -158,7 +158,7 @@ Warp.updateDecelerate = function(timeDeltaMillis)
   Warp.updateMovement(timeDeltaMillis);
   // don't create new asteroids in deceleration phase
 
-  if ((clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS - Warp.TIME_CRUISING_MS) > Warp.TIME_DECELERATING_MS)
+  if ((MY3.clock.oldTime - Warp.enteredAt - Warp.TIME_ACCELERATING_MS - Warp.TIME_CRUISING_MS) > Warp.TIME_DECELERATING_MS)
   {
     Warp.state = Warp.STATE_WAIT_TO_EXIT;
     log('warp: waiting to exit');
@@ -176,7 +176,7 @@ Warp.updatePlayerHit = function()
     Warp.removeAsteroidsFromScene();  // FIXME asteroids disappear, will be replaced by death fuzz
     State.setupGameOver();
   }
-  else if (clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
+  else if (MY3.clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Keys.shooting = false;
     Player.isAlive = true;

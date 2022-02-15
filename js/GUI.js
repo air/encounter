@@ -18,7 +18,7 @@ GUI.addGeneralControls = function()
 {
   var guiControls = GUI.gui.addFolder('Controls');
   //guiControls.add(global, 'State.isPaused').name('paused (p)').listen();
-  guiControls.add(clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
+  guiControls.add(MY3.clock, 'multiplier', 0, 2000).step(50).name('time multiplier');
   guiControls.add(Keys, 'switchControls').name('toggle controls (c)');
 };
 

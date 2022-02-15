@@ -1,50 +1,52 @@
 import { log, error, panic } from '/js/UTIL.js';
+import * as Keys from '/js/Keys.js'
+import * as Player from '/js/Player.js'
+import { TO_RADIANS } from '/js/UTIL.js'
+import * as Encounter from '/js/Encounter.js'
 
-var Controls = {};
+export var current = null;
+export var shootingAllowed = true;
 
-Controls.current = null;
-Controls.shootingAllowed = true;
-
-Controls.init = function()
+export function init()
 {
-  Controls.useEncounterControls();
+  useEncounterControls();
 };
 
-Controls.useFlyControls = function()
+export function useFlyControls()
 {
-  Controls.shootingAllowed = true;
-  Controls.current = new THREE.FirstPersonControls(Player);
-  Controls.current.movementSpeed = 2.0;
-  Controls.current.lookSpeed = 0.0001;
-  Controls.current.constrainVertical = false; // default false
-  Controls.current.verticalMin = 45 * UTIL.TO_RADIANS;
-  Controls.current.verticalMax = 135 * UTIL.TO_RADIANS;
+  shootingAllowed = true;
+  current = new THREE.FirstPersonControls(Player);
+  current.movementSpeed = 2.0;
+  current.lookSpeed = 0.0001;
+  current.constrainVertical = false; // default false
+  current.verticalMin = 45 * TO_RADIANS;
+  current.verticalMax = 135 * TO_RADIANS;
 };
 
-Controls.useEncounterControls = function()
+export function useEncounterControls()
 {
-  Controls.shootingAllowed = true;
-  Controls.current = new SimpleControls(Player);
-  Controls.current.movementSpeed = Encounter.MOVEMENT_SPEED;
-  Controls.current.turnSpeed = Encounter.TURN_SPEED;
-  Controls.current.accelerationFixed = false;
+  shootingAllowed = true;
+  current = new SimpleControls(Player);
+  current.movementSpeed = Encounter.MOVEMENT_SPEED;
+  current.turnSpeed = Encounter.TURN_SPEED;
+  current.accelerationFixed = false;
   Player.position.y = Encounter.CAMERA_HEIGHT;
   Player.rotation.x = 0;
   Player.rotation.z = 0;
 };
 
-Controls.useWarpControls = function()
+export function useWarpControls()
 {
-  Controls.shootingAllowed = false;
-  Controls.current = new SimpleControls(Player);
-  Controls.current.movementSpeed = 0;
-  Controls.current.turnSpeed = Encounter.TURN_SPEED;
-  Controls.current.accelerationFixed = true;
+  shootingAllowed = false;
+  current = new SimpleControls(Player);
+  current.movementSpeed = 0;
+  current.turnSpeed = Encounter.TURN_SPEED;
+  current.accelerationFixed = true;
 };
 
-Controls.interpretKeys = function(timeDeltaMillis)
+export function interpretKeys(timeDeltaMillis)
 {
-  if (Keys.shooting && Controls.shootingAllowed)
+  if (Keys.shooting && shootingAllowed)
   {
     Player.shoot();
   }

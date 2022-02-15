@@ -1,100 +1,101 @@
 import { log, error, panic } from '/js/UTIL.js';
-import * as UTIL from '/js/UTIL.js'
+import { TO_RADIANS } from '/js/UTIL.js';
+import * as MY3 from '/js/MY3.js'
+import * as Grid from '/js/Grid.js'
+import * as Player from '/js/Player.js'
 
 // FIXME Camera and camera is confusing
 
 // TODO TOP_DOWN is untested after we went to an infinite playfield, likely broken
 
-var Camera = {};
+export const MODE_FIRST_PERSON = 'first person';
+export const MODE_CHASE = 'chase';
+export const MODE_ORBIT = 'orbit';
+export const MODE_TOP_DOWN = 'top down';
+var mode = MODE_FIRST_PERSON;
 
-Camera.MODE_FIRST_PERSON = 'first person';
-Camera.MODE_CHASE = 'chase';
-Camera.MODE_ORBIT = 'orbit';
-Camera.MODE_TOP_DOWN = 'top down';
-Camera.mode = Camera.MODE_FIRST_PERSON;
+export const CHASE_DISTANCE = 220;
+export const CHASE_HEIGHT = 80;
+export const CHASE_ANGLE_DOWN = 10 * -UTIL.TO_RADIANS;
 
-Camera.CHASE_DISTANCE = 220;
-Camera.CHASE_HEIGHT = 80;
-Camera.CHASE_ANGLE_DOWN = 10 * -UTIL.TO_RADIANS;
+export const ORBIT_DISTANCE = 600;
+export const ORBIT_HEIGHT = 200;
+export const ORBIT_SPEED = 0.0002;
+var orbitCounter = 0;
 
-Camera.ORBIT_DISTANCE = 600;
-Camera.ORBIT_HEIGHT = 200;
-Camera.ORBIT_SPEED = 0.0002;
-Camera.orbitCounter = 0;
+var perspectiveCamera = null;
+var orthoCamera = null;
 
-Camera.perspectiveCamera = null;
-Camera.orthoCamera = null;
-
-Camera.TOPDOWN_HEIGHT_CUTOFF = 100;
+export const TOPDOWN_HEIGHT_CUTOFF = 100;
 // TODO adjust viewport shape to match screen shape
-Camera.TOPDOWN_VIEWPORT_SIDE = 3000;
+export const TOPDOWN_VIEWPORT_SIDE = 3000;
 
-Camera.init = function()
+export function init()
 {
   // store a ref to the normal camera
-  Camera.perspectiveCamera = camera;
-  Camera.orthoCamera = new THREE.OrthographicCamera(Camera.TOPDOWN_VIEWPORT_SIDE / -2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / -2, 1, 100);
+  perspectiveCamera = MY3.camera;
+  orthoCamera = new THREE.OrthographicCamera(TOPDOWN_VIEWPORT_SIDE / -2, TOPDOWN_VIEWPORT_SIDE / 2, Camera.TOPDOWN_VIEWPORT_SIDE / 2, TOPDOWN_VIEWPORT_SIDE / -2, 1, 100);
 
   // removed since we want the camera to move in pause mode
   //State.actors.add(Camera);
 
   // put ortho camera in the centre
-  Camera.orthoCamera.position.set(Grid.SIZE_SQUARE / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.SIZE_SQUARE / 2);
+  orthoCamera.position.set(Grid.SIZE_SQUARE / 2, Camera.TOPDOWN_HEIGHT_CUTOFF, Grid.SIZE_SQUARE / 2);
   // look down
-  Camera.orthoCamera.rotateOnAxis(MY3.X_AXIS, -90 * UTIL.TO_RADIANS);
+  orthoCamera.rotateOnAxis(MY3.X_AXIS, -90 * TO_RADIANS);
 };
 
-Camera.useOrbitMode = function()
+export function useOrbitMode()
 {
   // external camera so let's render the player
   scene.add(Player);
-  Camera.mode = Camera.MODE_ORBIT;
+  mode = MODE_ORBIT;
 };
 
-Camera.useFirstPersonMode = function()
+export function useFirstPersonMode()
 {
   scene.remove(Player);
-  Camera.mode = Camera.MODE_FIRST_PERSON;
+  mode = MODE_FIRST_PERSON;
 };
 
-Camera.update = function(timeDeltaMillis)
+export function update(timeDeltaMillis)
 {
-  if (Camera.mode === Camera.MODE_TOP_DOWN)
+  if (mode === MODE_TOP_DOWN)
   {
-    camera = Camera.orthoCamera;
-    camera.position.x = Player.position.x;
-    camera.position.z = Player.position.z;
+    MY3.camera = orthoCamera;
+    MY3.camera.position.x = Player.position.x;
+    MY3.camera.position.z = Player.position.z;
   }
   else
   {
-    camera = Camera.perspectiveCamera;
+    MY3.camera = perspectiveCamera;
   }
 
-  if (Camera.mode === Camera.MODE_FIRST_PERSON)
+  if (mode === MODE_FIRST_PERSON)
   {
-    camera.position.copy(Player.position);
-    camera.rotation.copy(Player.rotation);
+    MY3.camera.position.copy(Player.position);
+    MY3.camera.rotation.copy(Player.rotation);
   }
-  else if (Camera.mode === Camera.MODE_CHASE)
+  else if (mode === MODE_CHASE)
   {
-    camera.position.copy(Player.position);
-    camera.rotation.copy(Player.rotation);
+    MY3.camera.position.copy(Player.position);
+    MY3.camera.rotation.copy(Player.rotation);
 
-    camera.position.y += Camera.CHASE_HEIGHT;
+    MY3.camera.position.y += CHASE_HEIGHT;
     // could have used translateZ() instead here I think, after a pushMatrix() - see Shot constructor
-    camera.position.z += Camera.CHASE_DISTANCE * Math.cos(Player.rotation.y);
-    camera.position.x += Camera.CHASE_DISTANCE * Math.sin(Player.rotation.y);
+    MY3.camera.position.z += CHASE_DISTANCE * Math.cos(Player.rotation.y);
+    MY3.camera.position.x += CHASE_DISTANCE * Math.sin(Player.rotation.y);
 
-    camera.rotateOnAxis(MY3.X_AXIS, Camera.CHASE_ANGLE_DOWN);
+    MY3.camera.rotateOnAxis(MY3.X_AXIS, CHASE_ANGLE_DOWN);
   }
-  else if (Camera.mode === Camera.MODE_ORBIT)
+  else if (mode === MODE_ORBIT)
   {
-    camera.position.copy(Player.position);
-    camera.rotation.copy(Player.rotation);
-    camera.position.y += Camera.ORBIT_HEIGHT;
-    camera.position.z += Camera.ORBIT_DISTANCE * Math.cos(Camera.orbitCounter);
-    camera.position.x += Camera.ORBIT_DISTANCE * Math.sin(Camera.orbitCounter);
-    camera.lookAt(Player.position);
-    Camera.orbitCounter += (Camera.ORBIT_SPEED * timeDeltaMillis);
+    MY3.camera.position.copy(Player.position);
+    MY3.camera.rotation.copy(Player.rotation);
+    MY3.camera.position.y += ORBIT_HEIGHT;
+    MY3.camera.position.z += ORBIT_DISTANCE * Math.cos(orbitCounter);
+    MY3.camera.position.x += ORBIT_DISTANCE * Math.sin(orbitCounter);
+    MY3.camera.lookAt(Player.position);
+    orbitCounter += (ORBIT_SPEED * timeDeltaMillis);
   }
 };

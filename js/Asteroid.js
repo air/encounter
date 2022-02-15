@@ -1,21 +1,23 @@
 import { log, error, panic } from '/js/UTIL.js';
+import * as THREE from '/lib/three.module.js'
+import * as C64 from '/js/C64.js'
+import * as Player from '/js/Player.js'
+import * as Warp from '/js/Warp.js'
 
-var Asteroid = {};
+export const RADIUS = 60;
+export const GEOMETRY = new THREE.SphereGeometry(RADIUS, 16, 16);
+export const BASE_MATERIAL = new THREE.MeshBasicMaterial({ color : C64.white });
 
-Asteroid.RADIUS = 60;
-Asteroid.GEOMETRY = new THREE.SphereGeometry(Asteroid.RADIUS, 16, 16);
-Asteroid.BASE_MATERIAL = new THREE.MeshBasicMaterial({ color : C64.white });
-
-Asteroid.newInstance = function()
+export function newInstance()
 {
-  var material = Asteroid.BASE_MATERIAL.clone();
-  material.color = new THREE.Color(Asteroid.generateColor());
-  var newAsteroid = new THREE.Mesh(Asteroid.GEOMETRY, material);
+  var material = BASE_MATERIAL.clone();
+  material.color = new THREE.Color(generateColor());
+  var newAsteroid = new THREE.Mesh(GEOMETRY, material);
   return newAsteroid;
 };
 
 // anything but black
-Asteroid.generateColor = function()
+export function generateColor()
 {
   var color = C64.black;
   while (color === C64.black)
@@ -25,9 +27,9 @@ Asteroid.generateColor = function()
   return color;
 };
 
-Asteroid.collideWithPlayer = function(asteroidPosition)
+export function collideWithPlayer(asteroidPosition)
 {
-  if (MY3.doCirclesCollide(asteroidPosition, Asteroid.RADIUS, Player.position, Player.RADIUS))
+  if (MY3.doCirclesCollide(asteroidPosition, RADIUS, Player.position, Player.RADIUS))
   {
     log('player hit asteroid in warp');
     Player.wasHit();

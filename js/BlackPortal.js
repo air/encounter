@@ -2,95 +2,95 @@ import { log, error, panic } from '/js/UTIL.js';
 import * as Portal from '/js/Portal.js'
 import * as THREE from '/lib/three.module.js'
 import * as C64 from '/js/C64.js'
+import * as MY3 from '/js/MY3.js'
 
-var BlackPortal = Object.create(Portal);
-
-BlackPortal.MATERIAL = new THREE.MeshBasicMaterial({ color: C64.black });
-
+export const MATERIAL = new THREE.MeshBasicMaterial({ color: C64.black });
 // additional states for black portals
-BlackPortal.STATE_WAITING_TO_SPAWN = 'waitingToSpawn';
-BlackPortal.STATE_WAITING_FOR_PLAYER = 'waitingForPlayer';
-BlackPortal.STATE_PLAYER_ENTERED = 'playerEntered';
+export const STATE_WAITING_TO_SPAWN = 'waitingToSpawn';
+export const STATE_WAITING_FOR_PLAYER = 'waitingForPlayer';
+export const STATE_PLAYER_ENTERED = 'playerEntered';
 
-// additional state for black portals
-BlackPortal.wasOpenedAt = null;
-BlackPortal.spawnTimerStartedAt = null;
-
-BlackPortal.init = function()
+export class BlackPortal extends Portal
 {
-  BlackPortal.mesh = new THREE.Mesh(BlackPortal.GEOMETRY, BlackPortal.MATERIAL);
-};
-
-// dummy actor update, we handle updates as a top-level State
-BlackPortal.getActorUpdateFunction = function()
-{
-  var update = function(){};
-  return update;
-};
-
-BlackPortal.startSpawnTimer = function()
-{
-  log('started portal spawn timer');
-  BlackPortal.spawnTimerStartedAt = clock.oldTime;
-  BlackPortal.state = BlackPortal.STATE_WAITING_TO_SPAWN;
-};
-
-BlackPortal.spawnIfReady = function()
-{
-  if ((clock.oldTime - BlackPortal.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
+  constructor()
   {
-    var location = Grid.randomLocationCloseToPlayer(Encounter.PORTAL_SPAWN_DISTANCE_MAX);
-    BlackPortal.spawn(location);
+    super();
+    this.mesh = new THREE.Mesh(Portal.GEOMETRY, MATERIAL);
+    // additional state for black portals
+    this.wasOpenedAt = null;
+    this.spawnTimerStartedAt = null;
   }
-};
 
-BlackPortal.updateWaitingForPlayer = function(timeDeltaMillis)
-{
-  if (Player.position.distanceTo(BlackPortal.mesh.position) < 70)
+  startSpawnTimer()
   {
-    BlackPortal.state = BlackPortal.STATE_PLAYER_ENTERED;
-    // Portal cleanup is done in Warp
-  }
-  else if ((clock.oldTime - BlackPortal.wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS)
+    log('started portal spawn timer');
+    this.spawnTimerStartedAt = MY3.clock.oldTime;
+    this.state = STATE_WAITING_TO_SPAWN;
+  };
+
+  spawnIfReady()
   {
-    log('player failed to enter portal, closing');
-    BlackPortal.startClosing();
-  }
-};
+    if ((MY3.clock.oldTime - this.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
+    {
+      var location = Grid.randomLocationCloseToPlayer(Encounter.PORTAL_SPAWN_DISTANCE_MAX);
+      this.spawn(location);
+    }
+  };
 
-BlackPortal.opened = function()
-{
-  BlackPortal.wasOpenedAt = clock.oldTime;
-  BlackPortal.state = BlackPortal.STATE_WAITING_FOR_PLAYER;
-};
-
-BlackPortal.closed = function()
-{
-  State.resetEnemyCounter();
-  State.setupWaitForEnemy();
-};
-
-BlackPortal.update = function(timeDeltaMillis)
-{
-  switch (BlackPortal.state)
+  updateWaitingForPlayer(timeDeltaMillis)
   {
-    case BlackPortal.STATE_WAITING_TO_SPAWN:
-      BlackPortal.spawnIfReady();
-      break;
-    case BlackPortal.STATE_OPENING:
-      BlackPortal.updateOpening(timeDeltaMillis);
-      break;
-    case BlackPortal.STATE_WAITING_FOR_PLAYER:
-      BlackPortal.updateWaitingForPlayer(timeDeltaMillis);
-      break;
-    case BlackPortal.STATE_PLAYER_ENTERED:
-      BlackPortal.state = null; // lifecycle of this portal is over, despite being open
-      State.setupWarp();
-      break;
-    case BlackPortal.STATE_CLOSING:
-      BlackPortal.updateClosing(timeDeltaMillis);
-      break;
-    default:
-      panic('unknown BlackPortal state: ' + BlackPortal.state);
+    if (Player.position.distanceTo(this.mesh.position) < 70)
+    {
+      this.state = STATE_PLAYER_ENTERED;
+      // Portal cleanup is done in Warp
+    }
+    else if ((MY3.clock.oldTime - this.wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS)
+    {
+      log('player failed to enter portal, closing');
+      this.startClosing();
+    }
+  };
+
+  opened()
+  {
+    this.wasOpenedAt = MY3.clock.oldTime;
+    this.state = STATE_WAITING_FOR_PLAYER;
+  };
+
+  closed()
+  {
+    State.resetEnemyCounter();
+    State.setupWaitForEnemy();
+  };
+
+  update(timeDeltaMillis)
+  {
+    switch (this.state)
+    {
+      case STATE_WAITING_TO_SPAWN:
+        this.spawnIfReady();
+        break;
+      case Portal.STATE_OPENING:
+        this.updateOpening(timeDeltaMillis);
+        break;
+      case STATE_WAITING_FOR_PLAYER:
+        this.updateWaitingForPlayer(timeDeltaMillis);
+        break;
+      case STATE_PLAYER_ENTERED:
+        this.state = null; // lifecycle of this portal is over, despite being open
+        State.setupWarp();
+        break;
+      case Portal.STATE_CLOSING:
+        this.updateClosing(timeDeltaMillis);
+        break;
+      default:
+        panic('unknown BlackPortal state: ' + this.state);
+    }
   }
-};
+
+  // dummy actor update, we handle updates as a top-level State
+  getActorUpdateFunction()
+  {
+    return function(){};
+  }
+}

@@ -1,13 +1,13 @@
 import { log, error, panic } from '/js/UTIL.js';
+import * as Grid from '/js/Grid.js'
+import * as Display from '/js/Display.js'
+import * as Radar from '/js/Radar.js'
+import * as Indicators from '/js/Indicators.js'
+import * as MY3 from '/js/MY3.js'
+import * as Keys from '/js/Keys.js'
+import * as State from '/js/State.js'
 
-var Attract = {};
-
-Attract.init = function()
-{
-  // no op
-};
-
-Attract.show = function()
+export function show()
 {
   Grid.removeFromScene();
   Display.removeFromScene();
@@ -16,7 +16,7 @@ Attract.show = function()
   MY3.threeDiv.style.display = 'none';
 };
 
-Attract.hide = function()
+export function hide = function()
 {
   Grid.addToScene();
   Display.addToScene();
@@ -25,7 +25,7 @@ Attract.hide = function()
   MY3.threeDiv.style.display = 'block';
 };
 
-Attract.update = function()
+export function update()
 {
   if (Keys.shooting)
   {

@@ -11,8 +11,6 @@ import * as Camera from '/js/Camera.js'
 import * as Controls from '/js/Controls.js'
 import * as Touch from '/js/Touch.js'
 import * as Radar from '/js/Radar.js'
-import * as Portal from '/js/Portal.js'
-import * as WhitePortal from '/js/WhitePortal.js'
 import * as BlackPortal from '/js/BlackPortal.js'
 import * as Warp from '/js/Warp.js'
 import * as GUI from '/js/GUI.js'
@@ -40,7 +38,6 @@ export var score = 0;
 // called once at startup. Go into our first state
 export function init()
 {
-  Attract.init();
   Grid.init();  // reads the camera draw distance and sizes the Grid.viewport
   Ground.init();
   Sound.init();
@@ -51,9 +48,6 @@ export function init()
   Controls.init();
   Touch.init(); // FIXME depends on Controls.init
   Radar.init();
-  Portal.init();
-  WhitePortal.init();
-  BlackPortal.init();
   Warp.init();
   GUI.init(); // depends on Controls.init
   Indicators.init();
@@ -195,7 +189,7 @@ export function updatePlayerHitInCombat(timeDeltaMillis)
 {
   Display.updateShieldLossStatic();
 
-  if (clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
+  if (MY3.clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Display.hideShieldLossStatic();
     Indicators.reset();
@@ -207,7 +201,7 @@ export function updatePlayerHitInCombat(timeDeltaMillis)
 
 export function updateGameOver(timeDeltaMillis)
 {
-  if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
+  if (Keys.shooting && MY3.clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Display.hideShieldLossStatic();
     Keys.shooting = false;
