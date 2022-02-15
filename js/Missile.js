@@ -1,4 +1,7 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as THREE from '/lib/three.module.js'
+import * as C64 from '/js/C64.js'
+import * as Radar from '/js/Radar.js'
 
 // Used by Enemy.js.
 
@@ -55,7 +58,7 @@ Missile.setupStrafeTweens = function()
 
   leftToRight.chain(rightToLeft);
   rightToLeft.chain(leftToRight);
-  
+
   Missile.strafeTweenLoop = leftToRight;
 };
 
@@ -66,7 +69,7 @@ Missile.update = function(timeDeltaMillis)
   Missile.mesh.translateX(Missile.strafeOffset);
 
   MY3.rotateObjectToLookAt(Missile.mesh, Player.position);
-  
+
   var actualMoveSpeed = timeDeltaMillis * Missile.MOVEMENT_SPEED;
     Missile.mesh.translateZ(-actualMoveSpeed);
 

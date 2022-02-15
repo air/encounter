@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // A ShotSpawner is a visible Mesh that generates a bunch of Shots
 

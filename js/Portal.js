@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // Prototype for BlackPortal (where player enters warp) and WhitePortal (where enemies warp in).
 
@@ -30,10 +30,10 @@ Portal.spawn = function(location)
   {
     panic('spawn requires location');
   }
-  
+
   this.spawnedAt = clock.oldTime;
   this.state = Portal.STATE_OPENING;
-  
+
   // FIXME this is temporary
   // TODO use tween chaining for the left/right then up/down opening phases!
   this.mesh.position.set(location.x, Obelisk.HEIGHT / 2, location.z);
@@ -42,7 +42,7 @@ Portal.spawn = function(location)
   this.actor = new Actor(this.mesh, this.getActorUpdateFunction(), Radar.TYPE_PORTAL);
   State.actors.add(this.actor);
   log('portal spawned');
-  
+
   var tween = new TWEEN.Tween(this.mesh.scale).to({ y: 1.0 }, Portal.TIME_TO_ANIMATE_OPENING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
   tween.onComplete(function()

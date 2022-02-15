@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // Cyan/grey saucer firing three successive shots with windup sound.
 

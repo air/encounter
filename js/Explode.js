@@ -1,4 +1,7 @@
-'use strict';
+import * as THREE from '/lib/three.module.js'
+import * as C64 from '/js/C64.js'
+import FlickeringBasicMaterial from '/js/FlickeringBasicMaterial.js';
+import { log, error, panic } from '/js/UTIL.js';
 
 // An exploding enemy generates flying gibs.
 

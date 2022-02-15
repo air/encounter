@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // Yellow/grey saucer firing 10 consecutive shots with no warning.
 

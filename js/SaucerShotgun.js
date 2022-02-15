@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // Lightgreen saucer that fires a shotgun blast of 3 shots with no warning.
 

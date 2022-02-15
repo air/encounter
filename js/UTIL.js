@@ -1,13 +1,9 @@
-'use strict';
-
-var UTIL = {};
-
 //=============================================================================
 // HTML/CSS
 //=============================================================================
 
 // converts the string e.g. '#ff6699' to numeric 16737945
-UTIL.convertSixDigitCssRgbToNumeric = function(cssSixDigitColour)
+export function convertSixDigitCssRgbToNumeric(cssSixDigitColour)
 {
   var hexString = '0x' + cssSixDigitColour.split('#')[1];
   return eval(hexString);
@@ -16,10 +12,10 @@ UTIL.convertSixDigitCssRgbToNumeric = function(cssSixDigitColour)
 //=============================================================================
 // maths
 //=============================================================================
-UTIL.TO_RADIANS = Math.PI / 180;
-UTIL.TO_DEGREES = 180 / Math.PI;
+export const TO_RADIANS = Math.PI / 180;
+export const TO_DEGREES = 180 / Math.PI;
 
-UTIL.random = function(min, max)
+export function random(min, max)
 {
   // handle a single arg to mean 'between 0 and arg'
   if (max === undefined)
@@ -40,7 +36,7 @@ UTIL.random = function(min, max)
   }
 };
 
-UTIL.randomFromArray = function(array)
+export function randomFromArray(array)
 {
   var diceRoll = UTIL.random(1, array.length) - 1; // adjust to be array index
   return array[diceRoll];
@@ -49,7 +45,7 @@ UTIL.randomFromArray = function(array)
 //=============================================================================
 // logging
 //=============================================================================
-function log(msg, object)
+export function log(msg, object)
 {
   console.log(Math.floor(window.performance.now()) + ' ' + msg);
   if (object)
@@ -58,12 +54,12 @@ function log(msg, object)
   }
 }
 
-function error(msg)
+export function error(msg)
 {
   console.error(Math.floor(window.performance.now()) + ' ' + msg);
 }
 
-function panic(msg, object)
+export function panic(msg, object)
 {
   console.error(msg);
   if (object)
@@ -76,7 +72,7 @@ function panic(msg, object)
 //=============================================================================
 // touch and mobile
 //=============================================================================
-UTIL.platformSupportsTouch = function()
+export function platformSupportsTouch()
 {
   // FIXME returns false positive on Windows 8
   return 'ontouchstart' in window;

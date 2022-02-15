@@ -1,4 +1,6 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as C64 from '/js/C64.js'
+import * as Enemy from '/js/Enemy.js'
 
 var Level = {};
 

@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // Keys.js covers the keys that are NOT associated with movement (which can change).
 

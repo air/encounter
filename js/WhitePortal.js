@@ -1,4 +1,7 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as Portal from '/js/Portal.js'
+import * as THREE from '/lib/three.module.js'
+import * as C64 from '/js/C64.js'
 
 var WhitePortal = Object.create(Portal);
 

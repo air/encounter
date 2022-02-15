@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
 

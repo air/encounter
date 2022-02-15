@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // FIXME import
 //import { BufferGeometryUtils } from './lib/BufferGeometryUtils.js';

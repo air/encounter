@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // The first enemy, a yellow saucer firing one shot with windup sound.
 

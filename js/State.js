@@ -1,26 +1,44 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as Actors from '/js/Actors.js'
+import * as Attract from '/js/Attract.js'
+import * as Grid from '/js/Grid.js'
+import * as Ground from '/js/Ground.js'
+import * as Sound from '/js/Sound.js'
+import * as Display from '/js/Display.js'
+import * as Player from '/js/Player.js'
+import * as Missile from '/js/Missile.js'
+import * as Camera from '/js/Camera.js'
+import * as Controls from '/js/Controls.js'
+import * as Touch from '/js/Touch.js'
+import * as Radar from '/js/Radar.js'
+import * as Portal from '/js/Portal.js'
+import * as WhitePortal from '/js/WhitePortal.js'
+import * as BlackPortal from '/js/BlackPortal.js'
+import * as Warp from '/js/Warp.js'
+import * as GUI from '/js/GUI.js'
+import * as Indicators from '/js/Indicators.js'
+import * as Explode from '/js/Explode.js'
+import * as Level from '/js/Level.js'
 
-var State = {};
+export const ATTRACT = 'attract';
+export const WAIT_FOR_ENEMY = 'waitForEnemy';
+export const COMBAT = 'combat';
+export const WAIT_FOR_PORTAL = 'waitForPortal';
+export const WARP = 'warp';
+export const PLAYER_HIT = 'playerHit';
+export const GAME_OVER = 'gameOver';
+export var current = null;
 
-State.ATTRACT = 'attract';
-State.WAIT_FOR_ENEMY = 'waitForEnemy';
-State.COMBAT = 'combat';
-State.WAIT_FOR_PORTAL = 'waitForPortal';
-State.WARP = 'warp';
-State.PLAYER_HIT = 'playerHit';
-State.GAME_OVER = 'gameOver';
-State.current = null;
+export var actors = new Actors.ActorList();
 
-State.actors = new Actors();
+export var enemiesRemaining = null;
 
-State.enemiesRemaining = null;
+export var isPaused = false;
 
-State.isPaused = false;
-
-State.score = 0;
+export var score = 0;
 
 // called once at startup. Go into our first state
-State.init = function()
+export function init()
 {
   Attract.init();
   Grid.init();  // reads the camera draw distance and sizes the Grid.viewport
@@ -42,12 +60,12 @@ State.init = function()
   Explode.init();
   Level.init();
 
-  State.setupAttract();
+  setupAttract();
 };
 
 // Setup a new combat level, either on game start or moving out of warp.
 // Level number is optional; by default rely on the state in Level.
-State.initLevel = function(levelNumber)
+export function initLevel(levelNumber)
 {
   if (levelNumber)
   {
@@ -64,116 +82,116 @@ State.initLevel = function(levelNumber)
   Grid.reset();
   Enemy.reset();
   Indicators.reset();
-  State.actors.reset();
+  actors.reset();
 
-  State.resetEnemyCounter();
+  resetEnemyCounter();
 };
 
-State.resetEnemyCounter = function()
+export function resetEnemyCounter()
 {
-  State.enemiesRemaining = Level.current.enemyCount;
+  enemiesRemaining = Level.current.enemyCount;
 };
 
-State.setupAttract = function()
+export function setupAttract()
 {
-  State.current = State.ATTRACT;
-  log('State: ' + State.current);
+  current = ATTRACT;
+  log('State: ' + current);
   Attract.show();
 };
 
-State.setupWaitForEnemy = function()
+export function setupWaitForEnemy()
 {
-  State.current = State.WAIT_FOR_ENEMY;
-  log('State: ' + State.current);
+  current = WAIT_FOR_ENEMY;
+  log('State: ' + current);
 
   Display.update();
   Enemy.startSpawnTimer();
 };
 
-State.setupWaitForPortal = function()
+export function setupWaitForPortal()
 {
-  State.current = State.WAIT_FOR_PORTAL;
-  log('State: ' + State.current);
+  current = WAIT_FOR_PORTAL;
+  log('State: ' + current);
 
   Display.update();
   BlackPortal.startSpawnTimer();
 };
 
-State.setupCombat = function()
+export function setupCombat()
 {
-  State.current = State.COMBAT;
-  log('State: ' + State.current);
+  current = COMBAT;
+  log('State: ' + current);
 };
 
-State.setupPlayerHitInCombat = function()
+export function setupPlayerHitInCombat()
 {
-  State.current = State.PLAYER_HIT;
-  log('State: ' + State.current);
+  current = PLAYER_HIT;
+  log('State: ' + current);
 
   Display.showShieldLossStatic();
 
   if (Player.shieldsLeft < 0)
   {
-    State.setupGameOver();
+    setupGameOver();
   }
 };
 
-State.setupGameOver = function()
+export function setupGameOver()
 {
-  State.current = State.GAME_OVER;
-  log('State: ' + State.current);
+  current = GAME_OVER;
+  log('State: ' + current);
   Display.setText('GAME OVER. PRESS FIRE');
 };
 
-State.setupWarp = function()
+export function setupWarp()
 {
-  State.current = State.WARP;
-  log('State: ' + State.current);
+  current = WARP;
+  log('State: ' + current);
 
   Warp.setup();
 };
 
-State.enemyKilled = function()
+export function enemyKilled()
 {
   log('enemy destroyed');
-  State.enemiesRemaining -= 1;
-  if (State.enemiesRemaining > 0)
+  enemiesRemaining -= 1;
+  if (enemiesRemaining > 0)
   {
-    State.setupWaitForEnemy();
+    setupWaitForEnemy();
   }
   else
   {
-    State.setupWaitForPortal();
+    setupWaitForPortal();
   }
 };
 
-State.updateWaitForEnemy = function(timeDeltaMillis)
+export function updateWaitForEnemy(timeDeltaMillis)
 {
-  State.performNormalLevelUpdates(timeDeltaMillis);
+  performNormalLevelUpdates(timeDeltaMillis);
 
   Enemy.spawnIfReady();
   Radar.update();
 };
 
-State.updateWaitForPortal = function(timeDeltaMillis)
+export function updateWaitForPortal(timeDeltaMillis)
 {
-  State.performNormalLevelUpdates(timeDeltaMillis);
+  performNormalLevelUpdates(timeDeltaMillis);
 
   BlackPortal.update(timeDeltaMillis);
   Radar.update();
   TWEEN.update();
 };
 
-State.updateCombat = function(timeDeltaMillis)
+export function updateCombat(timeDeltaMillis)
 {
-  State.performNormalLevelUpdates(timeDeltaMillis);
+  performNormalLevelUpdates(timeDeltaMillis);
 
   Radar.update();
   Indicators.update(); // needed for flickering effects only
   TWEEN.update(); // white portal animations
 };
 
-State.updatePlayerHitInCombat = function(timeDeltaMillis)
+export function updatePlayerHitInCombat(timeDeltaMillis)
 {
   Display.updateShieldLossStatic();
 
@@ -181,64 +199,64 @@ State.updatePlayerHitInCombat = function(timeDeltaMillis)
   {
     Display.hideShieldLossStatic();
     Indicators.reset();
-    State.actors.reset();
+    actors.reset();
     Player.isAlive = true;
-    State.setupWaitForEnemy();
+    setupWaitForEnemy();
   }
 };
 
-State.updateGameOver = function(timeDeltaMillis)
+export function updateGameOver(timeDeltaMillis)
 {
   if (Keys.shooting && clock.oldTime > (Player.timeOfDeath + Encounter.PLAYER_DEATH_TIMEOUT_MS))
   {
     Display.hideShieldLossStatic();
     Keys.shooting = false;
-    State.setupAttract();
+    setupAttract();
   }
 };
 
-State.performNormalLevelUpdates = function(timeDeltaMillis)
+function performNormalLevelUpdates(timeDeltaMillis)
 {
   Controls.current.update(timeDeltaMillis);
   Player.update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
   Grid.update();
 
-  // update non-Player game State.actors
-  if (!State.isPaused)
+  // update non-Player game actors
+  if (!isPaused)
   {
-    State.actors.update(timeDeltaMillis);
+    actors.update(timeDeltaMillis);
     Controls.interpretKeys(timeDeltaMillis);
   }
 };
 
 // called from util.js
-function update(timeDeltaMillis)
+export function update(timeDeltaMillis)
 {
-  switch (State.current)
+  switch (current)
   {
-    case State.ATTRACT:
+    case ATTRACT:
       Attract.update(timeDeltaMillis);
       break;
-    case State.COMBAT:
-      State.updateCombat(timeDeltaMillis);
+    case COMBAT:
+      updateCombat(timeDeltaMillis);
       break;
-    case State.WAIT_FOR_PORTAL:
-      State.updateWaitForPortal(timeDeltaMillis);
+    case WAIT_FOR_PORTAL:
+      updateWaitForPortal(timeDeltaMillis);
       break;
-    case State.WAIT_FOR_ENEMY:
-      State.updateWaitForEnemy(timeDeltaMillis);
+    case WAIT_FOR_ENEMY:
+      updateWaitForEnemy(timeDeltaMillis);
       break;
-    case State.WARP:
+    case WARP:
       Warp.update(timeDeltaMillis);
       break;
-    case State.PLAYER_HIT:
-      State.updatePlayerHitInCombat(timeDeltaMillis);
+    case PLAYER_HIT:
+      updatePlayerHitInCombat(timeDeltaMillis);
       break;
-    case State.GAME_OVER:
-      State.updateGameOver(timeDeltaMillis);
+    case GAME_OVER:
+      updateGameOver(timeDeltaMillis);
       break;
     default:
-      panic('unknown state: ', State.current);
+      panic('unknown state: ', current);
   }
 }

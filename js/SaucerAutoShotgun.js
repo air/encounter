@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // Lightgrey saucer firing 3 consecutive shotgun blasts with no warning.
 

@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // Saucer is an abstract type. Derived objects must implement:
 // - shoot()

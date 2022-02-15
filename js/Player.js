@@ -1,10 +1,14 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as THREE from '/lib/three.module.js'
+import * as MY3 from '/js/MY3.js'
+import * as C64 from '/js/C64.js'
+import * as Radar from '/js/Radar.js'
 
 var Player = new THREE.Mesh(); // initially a default mesh, we'll define this in init()
 
 Player.RADIUS = 40;
 Player.GEOMETRY = new THREE.SphereGeometry(Player.RADIUS, 8, 4);
-Player.MATERIAL = MATS.wireframe.clone();
+Player.MATERIAL = MY3.MATS.wireframe.clone();
 Player.SHOT_MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
 
 Player.radarType = Radar.TYPE_PLAYER;
@@ -19,7 +23,7 @@ Player.timeOfDeath = null;  // timestamp when we died, for a delay before going 
 Player.init = function()
 {
   // actually set up this Mesh using our materials
-  THREE.Mesh.call(Player, Player.GEOMETRY, Player.MATERIAL); 
+  THREE.Mesh.call(Player, Player.GEOMETRY, Player.MATERIAL);
 
   // FIXME for debug purposes player can move in pause mode - uncomment to fix this.
   //State.actors.add(playerMesh);

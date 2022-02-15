@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // SimpleControls.js handles movement only. For other functions see Keys.js
 // Adapted from THREE.FirstPersonControls
@@ -109,7 +109,7 @@ var SimpleControls = function(controlledObject)
     {
       this.object.translateZ(- actualMoveSpeed);
     }
-    
+
     if (this.moveBackward)
     {
       this.object.translateZ(actualMoveSpeed);

@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 var Touch = {};
 
@@ -19,7 +19,7 @@ Touch.init = function()
   {
     return;
   }
-  
+
   // disable dragging
   // FIXME this shouldn't be needed but we go a few px off bottom of screen, which enables drag
   document.addEventListener('touchmove', function(event) {

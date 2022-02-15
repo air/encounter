@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 // Gamma-corrected RGB values from http://www.pepto.de/projects/colorvic/
 

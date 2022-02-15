@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 var Controls = {};
 
@@ -39,7 +39,7 @@ Controls.useWarpControls = function()
   Controls.current = new SimpleControls(Player);
   Controls.current.movementSpeed = 0;
   Controls.current.turnSpeed = Encounter.TURN_SPEED;
-  Controls.current.accelerationFixed = true; 
+  Controls.current.accelerationFixed = true;
 };
 
 Controls.interpretKeys = function(timeDeltaMillis)

@@ -1,4 +1,5 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as THREE from '/lib/three.module.js'
 
 // An Actor has
 // - an Object3D for the scene
@@ -8,48 +9,49 @@
 // - object3D.shotType
 // FIXME are we in fact always storing Meshes, not Object3Ds?
 // ---------------------------------------------------------------------------
-var Actor = function(object3D, updateFunction, radarType)
+export class Actor
 {
-  if (!(object3D instanceof THREE.Object3D))
+  constructor(object3D, updateFunction, radarType)
   {
-    panic('object3D must be an Object3D');
-  }
-  else if (typeof updateFunction !== 'function')
-  {
-    panic('updateFunction must be a function');
+    if (!(object3D instanceof THREE.Object3D))
+    {
+      panic('object3D must be an Object3D');
+    }
+    else if (typeof updateFunction !== 'function')
+    {
+      panic('updateFunction must be a function');
+    }
+
+    this.object3D = object3D;
+    this.update = updateFunction;
+    this.radarType = radarType;
   }
 
-  this.object3D = object3D;
-  this.update = updateFunction;
-  this.radarType = radarType;
-};
-
-Actor.prototype = {
-  getObject3D: function()
+  getObject3D()
   {
     return this.object3D;
-  },
+  }
 
-  getRadarType: function()
+  getRadarType()
   {
     return this.radarType;
-  },
+  }
 
-  update: function()
+  update()
   {
     panic('prototype update should always be overridden', this);
-  },
+  }
 };
 
-// Actors is a strongly typed Array of Actor objects. Each Actor is placed in the scene.
-// ---------------------------------------------------------------------------
-var Actors = function()
+// ActorList is a strongly typed Array of Actor objects. Each Actor is placed in the scene.
+export class ActorList
 {
-  this.list = [];
-};
+  constructor()
+  {
+    this.list = [];
+  }
 
-Actors.prototype = {
-  add: function(actor)
+  add(actor)
   {
     if (!(actor instanceof Actor))
     {
@@ -58,9 +60,9 @@ Actors.prototype = {
 
     this.list.push(actor);
     scene.add(actor.getObject3D());
-  },
+  }
 
-  remove: function(actor)
+  remove(actor)
   {
     if (!(actor instanceof Actor))
     {
@@ -76,30 +78,30 @@ Actors.prototype = {
       panic('actor not in list', actor);
     }
     scene.remove(actor.getObject3D());
-  },
+  }
 
-  reset: function()
+  reset()
   {
     while (this.list.length > 0)
     {
       var actor = this.list.pop();
       scene.remove(actor.getObject3D());
     }
-  },
+  }
 
-  update: function(timeDeltaMillis)
+  update(timeDeltaMillis)
   {
     for (var i = 0; i < this.list.length; i++)
     {
       this.list[i].update(timeDeltaMillis);
     }
-  },
+  }
 
-  dump: function()
+  dump()
   {
     for (var i = 0; i<this.list.length; i++)
     {
       console.log(this.list[i]);
     }
   }
-};
+}

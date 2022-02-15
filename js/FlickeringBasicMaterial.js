@@ -1,9 +1,10 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as THREE from '/lib/three.module.js'
 
 // constructor. Pass an array of colors (hex numbers), and the number of frames to display each.
 // fun example:
 // new FlickeringBasicMaterial(MY3.COLORMAP_BASE16.map(function(col) { return Number(col[1]); }), 1);
-class FlickeringBasicMaterial extends THREE.MeshBasicMaterial
+export default class FlickeringBasicMaterial extends THREE.MeshBasicMaterial
 {
   constructor (hexArray, framesForEach) {
     if ( !(hexArray instanceof Array) )

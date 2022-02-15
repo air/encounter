@@ -1,8 +1,8 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 var Timer = {};
 
-// TODO merge with 'clock' in util.js and maybe THREE.Clock 
+// TODO merge with 'clock' in util.js and maybe THREE.Clock
 
 Timer.countdowns = {};
 

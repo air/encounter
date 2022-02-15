@@ -1,4 +1,5 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as UTIL from '/js/UTIL.js'
 
 // FIXME Camera and camera is confusing
 

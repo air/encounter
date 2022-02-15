@@ -1,4 +1,4 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
 
 var Attract = {};
 
@@ -43,6 +43,6 @@ Attract.update = function()
     State.initLevel(Keys.levelRequested);
     Attract.hide();
     Keys.levelRequested = null;
-    State.setupWaitForEnemy(); 
+    State.setupWaitForEnemy();
   }
 };

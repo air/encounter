@@ -1,16 +1,7 @@
-'use strict';
+import { log, error, panic } from '/js/UTIL.js';
+import * as THREE from '/lib/three.module.js';
 
-var MY3 = {};
-
-MY3.threeDiv = null;  // div containing the renderer
-
-//=============================================================================
-// setup for server-side testing
-//=============================================================================
-if (typeof require === 'function') // test for nodejs environment
-{
-  var THREE = require('three');
-}
+export var threeDiv = null;  // div containing the renderer
 
 if (window === undefined)
 {
@@ -21,26 +12,26 @@ if (window === undefined)
 //=============================================================================
 // runtime environment
 //=============================================================================
-var WIDTH = window.innerWidth;
-var HEIGHT = window.innerHeight;
-var HALFWIDTH = window.innerWidth / 2;
-var HALFHEIGHT = window.innerHeight / 2;
+export var WIDTH = window.innerWidth;
+export var HEIGHT = window.innerHeight;
+export var HALFWIDTH = window.innerWidth / 2;
+export var HALFHEIGHT = window.innerHeight / 2;
 
 //=============================================================================
 // constants
 //=============================================================================
-MY3.X_AXIS = new THREE.Vector3(1,0,0);
-MY3.Y_AXIS = new THREE.Vector3(0,1,0);
-MY3.Z_AXIS = new THREE.Vector3(0,0,1);
+export const X_AXIS = new THREE.Vector3(1,0,0);
+export const Y_AXIS = new THREE.Vector3(0,1,0);
+export const Z_AXIS = new THREE.Vector3(0,0,1);
 
 //=============================================================================
 // global objects
 //=============================================================================
 // rendering objects
-var renderer, camera, scene;
+export var renderer, camera, scene;
 
 // timing - pass autoStart to start the clock the next time it's called
-var clock = new THREE.Clock(true);
+export var clock = new THREE.Clock(true);
 clock.multiplier = 1000; // expose this so we can manipulate it for fun times
 
 // stats - choose either rstats or threestats
@@ -52,7 +43,7 @@ clock.multiplier = 1000; // expose this so we can manipulate it for fun times
 //=============================================================================
 // optional argument: far - draw distance, defaults to 10,000
 // optional argument: zIndex - for the div containing the canvas, defaults to 10
-MY3.init3d = function(far, zIndex)
+export function init3d(far, zIndex)
 {
   var VIEW_ANGLE = 45; // degrees not radians
   var ASPECT = WIDTH / HEIGHT;
@@ -66,15 +57,15 @@ MY3.init3d = function(far, zIndex)
   scene.add(camera);
   renderer.setSize(WIDTH, HEIGHT); // size of canvas element
   renderer.shadowMap.enabled = true;
-  MY3.threeDiv = document.createElement('div');
-  MY3.threeDiv.id = 'threejs';
-  MY3.threeDiv.style.position = 'absolute';
-  MY3.threeDiv.style.zIndex = theZIndex;
-  MY3.threeDiv.appendChild(renderer.domElement); // adds canvas element
-  document.body.appendChild(MY3.threeDiv);
+  threeDiv = document.createElement('div');
+  threeDiv.id = 'threejs';
+  threeDiv.style.position = 'absolute';
+  threeDiv.style.zIndex = theZIndex;
+  threeDiv.appendChild(renderer.domElement); // adds canvas element
+  document.body.appendChild(threeDiv);
 };
 
-MY3.addHelpers = function()
+export function addHelpers()
 {
   var axis = new THREE.AxisHelper(300);
   scene.add(axis);
@@ -83,7 +74,7 @@ MY3.addHelpers = function()
 };
 
 // Basic FPS counter from THREE
-MY3.newThreeStats = function()
+export function newThreeStats()
 {
   var STATS = new Stats();
   STATS.domElement.style.position = 'absolute';
@@ -95,7 +86,7 @@ MY3.newThreeStats = function()
 };
 
 // Use a more advanced stats counter. Requires 'renderer' to exist
-MY3.setupRStats = function()
+export function setupRStats()
 {
   // three.js plugin
   // threestats = new threeStats(renderer); // when restoring, don't forget plugins: below
@@ -118,7 +109,7 @@ MY3.setupRStats = function()
 //=============================================================================
 // core animation loop
 //=============================================================================
-MY3.render = function()
+export function render()
 {
   // rstats('frame').start();
   // rstats('FPS').frame();
@@ -131,7 +122,7 @@ MY3.render = function()
 
 // You need to implement the global function update(timeDeltaMillis).
 // This function calls MY3.render().
-MY3.startAnimationLoop = function()
+export function startAnimationLoop()
 {
   requestAnimationFrame(MY3.startAnimationLoop);
 
@@ -139,21 +130,21 @@ MY3.startAnimationLoop = function()
   update(clock.getDelta() * clock.multiplier);
   // rstats('engine').end();
 
-  MY3.render();
+  this.render();
 };
 
 //=============================================================================
 // maths
 //=============================================================================
 // true if the vector length is within a small delta of 1
-MY3.isVectorNormalised = function(vector)
+export function isVectorNormalised(vector)
 {
   var diff = Math.abs(1 - vector.length());
   return (diff < 0.01);
 };
 
 // pass in two Vector3s and their radii. Y axis is ignored.
-MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
+export function doCirclesCollide(position1, radius1, position2, radius2)
 {
   if (position2 === undefined)
   {
@@ -171,7 +162,7 @@ MY3.doCirclesCollide = function(position1, radius1, position2, radius2)
 };
 
 // pass in two Vector2s, returns a Vector2
-MY3.lineMidpoint = function(p1, p2)
+export function lineMidpoint(p1, p2)
 {
   var x = Math.min(p1.x, p2.x) + Math.abs( (p1.x - p2.x) / 2 );
   var y = Math.min(p1.y, p2.y) + Math.abs( (p1.y - p2.y) / 2 );
@@ -183,7 +174,7 @@ MY3.lineMidpoint = function(p1, p2)
 // 90 along negative X axis
 // 180 along positive Z axis
 // -90 along positive X axis
-MY3.yRotationToDegrees = function(object)
+export function yRotationToDegrees(object)
 {
   if (object.rotation === undefined) {
     return (object.y * UTIL.TO_DEGREES) % 360;
@@ -193,7 +184,7 @@ MY3.yRotationToDegrees = function(object)
 };
 
 // pass in an object3D, get the .rotation as the unit vector of X and Z
-MY3.objectRotationAsUnitVector = function(object)
+export function objectRotationAsUnitVector(object)
 {
   // 1. sin expects radians
   // 2. have to adjust the signs to match three.js orientation
@@ -204,7 +195,7 @@ MY3.objectRotationAsUnitVector = function(object)
 };
 
 // returns rotation in radians, suitable for object.rotation
-MY3.randomDirection = function()
+export function randomDirection()
 {
   return Math.random() * 2 * Math.PI;
 };
@@ -214,7 +205,7 @@ MY3.randomDirection = function()
 // 90 along negative X axis
 // 180 along positive Z axis
 // -90 along positive X axis
-MY3.vectorToRotation = function(vector)
+export function vectorToRotation(vector)
 {
   // we need atan2 to get all quadrants
   // atan2 rotates to the X axis (+Z for us) - so invert the values to get a rotation to -Z axis
@@ -222,7 +213,7 @@ MY3.vectorToRotation = function(vector)
 };
 
 // TODO if lookAt were fully understood we wouldn't need this?
-MY3.rotateObjectToLookAt = function(object, point)
+export function rotateObjectToLookAt(object, point)
 {
   var vectorDelta = new THREE.Vector3();
   vectorDelta.subVectors(point, object.position);
@@ -233,20 +224,20 @@ MY3.rotateObjectToLookAt = function(object, point)
 //=============================================================================
 // mouse controls
 //=============================================================================
-var MOUSE = {};
+export var MOUSE = {};
 
 // capture mouse moves into MOUSE
-MY3.mousePositionHandler = function(event)
+export function mousePositionHandler(event)
 {
   MOUSE.x = event.clientX;
   MOUSE.y = event.clientY;
 };
 
 // Add mouse listener, init mouse to the center
-MY3.initMouseHandler = function()
+export function initMouseHandler()
 {
   // capture mouse moves
-  document.addEventListener('mousemove', MY3.mousePositionHandler, false);
+  document.addEventListener('mousemove', mousePositionHandler, false);
   MOUSE.x = HALFWIDTH;
   MOUSE.y = HALFHEIGHT;
 };
@@ -255,71 +246,69 @@ MY3.initMouseHandler = function()
 // 3D objects
 //=============================================================================
 // a THREE.Line coloured with a gradient from red to blue
-// TODO remove OO nonsense
-MY3.Line = function(startPos, endPos)
+export class Line extends THREE.Line
 {
-  var lineGeometry = new THREE.Geometry();
-  lineGeometry.vertices.push(startPos);
-  lineGeometry.vertices.push(endPos);
-  lineGeometry.colors.push(new THREE.Color( 0xff0000 ));
-  lineGeometry.colors.push(new THREE.Color( 0x0000ff ));
-  THREE.Line.call(this, lineGeometry, MATS.lineVertex); // super constructor
-};
-MY3.Line.prototype = Object.create(THREE.Line.prototype);
-MY3.Line.prototype.setEnd = function(position)
-{
-  // no op - will this animate/update correctly if we change the geometry?
-};
+  constructor(startPos, endPos)
+  {
+    var lineGeometry = new THREE.BufferGeometry();
+    lineGeometry.vertices.push(startPos);
+    lineGeometry.vertices.push(endPos);
+    lineGeometry.colors.push(new THREE.Color( 0xff0000 ));
+    lineGeometry.colors.push(new THREE.Color( 0x0000ff ));
+    super(lineGeometry, MATS.lineVertex); // super constructor
+  }
+
+  setEnd(position)
+  {
+    // no op - will this animate/update correctly if we change the geometry?
+  }
+}
 
 // FIXME pointing at a normalized vector doesn't work?
-// TODO remove OO nonsense
 // 1. Point along a normalized vector, or
 // 2. Point at another arbitrary position if the pointAt arg is present
 // default length is 200
-MY3.Pointer = function(position, direction, length, pointAt)
+export class Pointer extends THREE.Line
 {
-  if (length === undefined)
+  constructor(position, direction, length = 200, pointAt)
   {
-    length = 200;
-  }
-
-  var lineGeometry = new THREE.Geometry();
-  if (pointAt === undefined)
-  {
-    // 1. use a normal vector
-    if (!MY3.isVectorNormalised(direction))
+    var lineGeometry = new THREE.Geometry();
+    if (pointAt === undefined)
     {
-      throw('direction must be a normal, length: ' + direction.length());
+      // 1. use a normal vector
+      if (!isVectorNormalised(direction))
+      {
+        throw('direction must be a normal, length: ' + direction.length());
+      }
+      var endPoint = direction.clone().multiplyScalar(length);
+      endPoint.add(position);
+
+      lineGeometry.vertices.push(position);
+      lineGeometry.vertices.push(endPoint);
+      lineGeometry.colors.push(new THREE.Color( 0x00aa00 ));
+      lineGeometry.colors.push(new THREE.Color( 0xffffff ));
+      super(lineGeometry, MATS.lineVertex); // super constructor
     }
-    var endPoint = direction.clone().multiplyScalar(length);
-    endPoint.add(position);
+    else
+    {
+      // 2. point at something
+      // first create at the origin with our length pointing 'forward'
+      lineGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
+      lineGeometry.vertices.push(new THREE.Vector3(0, 0, length));
+      lineGeometry.colors.push(new THREE.Color( 0x00aa00 ));
+      lineGeometry.colors.push(new THREE.Color( 0xffffff ));
 
-    lineGeometry.vertices.push(position);
-    lineGeometry.vertices.push(endPoint);
-    lineGeometry.colors.push(new THREE.Color( 0x00aa00 ));
-    lineGeometry.colors.push(new THREE.Color( 0xffffff ));
-    THREE.Line.call(this, lineGeometry, MATS.lineVertex); // super constructor
-  }
-  else
-  {
-    // 2. point at something
-    // first create at the origin with our length pointing 'forward'
-    lineGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
-    lineGeometry.vertices.push(new THREE.Vector3(0, 0, length));
-    lineGeometry.colors.push(new THREE.Color( 0x00aa00 ));
-    lineGeometry.colors.push(new THREE.Color( 0xffffff ));
-
-    THREE.Line.call(this, lineGeometry, MATS.lineVertex); // super constructor
-    // then move and rotate
-    this.position.copy(position);
-    this.lookAt(direction);
+      super(lineGeometry, MATS.lineVertex); // super constructor
+      // then move and rotate
+      this.position.copy(position);
+      this.lookAt(direction);
+    }
   }
 };
-MY3.Pointer.prototype = Object.create(THREE.Line.prototype);
 
 // Create a marker sphere at a location with a material
 // mat is optional, default is wireframe
-MY3.markerAt = function(x, y, z, mat)
+export function markerAt(x, y, z, mat)
 {
   if (!mat) {
     mat = MATS.normal;
@@ -333,7 +322,7 @@ MY3.markerAt = function(x, y, z, mat)
 
 // Display some text as a 2D quad
 // text will appear to top left of point, facing the camera
-MY3.textAt = function(x, y, z, text)
+export function textAt(x, y, z, text)
 {
   // make a canvas...
   var c = document.createElement('canvas');
@@ -357,7 +346,7 @@ MY3.textAt = function(x, y, z, text)
 //=============================================================================
 // materials
 //=============================================================================
-var MATS = {};
+export var MATS = {};
 MATS.red = new THREE.MeshLambertMaterial({ color : 0xDD0000 });
 MATS.blue = new THREE.MeshLambertMaterial({ color : 0x0000DD });
 MATS.green = new THREE.MeshLambertMaterial({ color : 0x00DD00 });
@@ -377,7 +366,7 @@ MATS.lineVertex = new THREE.LineBasicMaterial( { vertexColors: THREE.VertexColor
 //   colorTable = colorTable.changeColorMap('base16'); // Lut is pretty broken - this.mapname will be wrong
 
 // From http://chriskempson.github.io/base16/
-MY3.COLORMAP_BASE16 = [
+export const COLORMAP_BASE16 = [
   [0.00, '0x151515'],
   [0.07, '0x202020'],
   [0.13, '0x303030'],
