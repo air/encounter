@@ -17,7 +17,7 @@ export function newInstance()
 };
 
 // anything but black
-export function generateColor()
+function generateColor()
 {
   var color = C64.black;
   while (color === C64.black)

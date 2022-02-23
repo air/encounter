@@ -1,6 +1,6 @@
 # TODO
   - Black/White Portal instantiation is broken, they are singletons kind of
-  - can all .init()s go away?
+  - check use of init() - use on Singletons
   - fix undefined errors - looks like some cases where truthy check isn't appropriate (might never have been defined at all)
   - FPS drops over time after 1-2min (possibly due to sound errors?)
   - Vertically center the 3D view into whatever the viewport is. Adjust for dashboard if on/off.

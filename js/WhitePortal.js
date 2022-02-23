@@ -7,10 +7,10 @@ import * as Encounter from '/js/Encounter.js'
 import * as Radar from '/js/Radar.js'
 import * as Enemy from '/js/Enemy.js'
 
-export const MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
-
 export class WhitePortal extends Portal
 {
+  static MATERIAL = new THREE.MeshBasicMaterial({ color: C64.white });
+
   constructor()
   {
     super();

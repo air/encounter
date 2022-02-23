@@ -16,7 +16,7 @@ export function show()
   MY3.threeDiv.style.display = 'none';
 };
 
-export function hide = function()
+export function hide()
 {
   Grid.addToScene();
   Display.addToScene();

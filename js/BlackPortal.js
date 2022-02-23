@@ -4,14 +4,13 @@ import * as THREE from '/lib/three.module.js'
 import * as C64 from '/js/C64.js'
 import * as MY3 from '/js/MY3.js'
 
-export const MATERIAL = new THREE.MeshBasicMaterial({ color: C64.black });
-// additional states for black portals
-export const STATE_WAITING_TO_SPAWN = 'waitingToSpawn';
-export const STATE_WAITING_FOR_PLAYER = 'waitingForPlayer';
-export const STATE_PLAYER_ENTERED = 'playerEntered';
-
 export class BlackPortal extends Portal
 {
+  static MATERIAL = new THREE.MeshBasicMaterial({ color: C64.black });
+  static STATE_WAITING_TO_SPAWN = 'waitingToSpawn';
+  static STATE_WAITING_FOR_PLAYER = 'waitingForPlayer';
+  static STATE_PLAYER_ENTERED = 'playerEntered';
+
   constructor()
   {
     super();

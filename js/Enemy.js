@@ -1,50 +1,51 @@
 import { log, error, panic } from '/js/UTIL.js';
+import * as State from '/js/State.js'
+import * as MY3 from '/js/MY3.js'
+import * as Encounter from '/js/Encounter.js'
+import * as Level from '/js/Level.js'
+import * as UTIL from '/js/UTIL.js'
 
-// Top-level class for Enemy-related stuff.
+export var current = null; // reference to current enemy object, whatever that is
+export var isAlive = false;
+export var isFirstOnLevel = null; // is this the first enemy on the level? If so the type is not random
 
-var Enemy = {};
+var spawnTimerStartedAt = null;
 
-Enemy.current = null; // reference to current enemy object, whatever that is
-Enemy.isAlive = false;
-Enemy.isFirstOnLevel = null; // is this the first enemy on the level? If so it's not random
+export const TYPE_SAUCER_SINGLE = 'saucerSingle';
+export const TYPE_SAUCER_TRIPLE = 'saucerTriple';
+export const TYPE_SAUCER_CHAINGUN = 'saucerChaingun';
+export const TYPE_SAUCER_SHOTGUN = 'saucerShotgun';
+export const TYPE_SAUCER_AUTOSHOTGUN = 'saucerAutoShotgun';
+export const TYPE_MISSILE = 'missile';
 
-Enemy.spawnTimerStartedAt = null;
-
-Enemy.TYPE_SAUCER_SINGLE = 'saucerSingle';
-Enemy.TYPE_SAUCER_TRIPLE = 'saucerTriple';
-Enemy.TYPE_SAUCER_CHAINGUN = 'saucerChaingun';
-Enemy.TYPE_SAUCER_SHOTGUN = 'saucerShotgun';
-Enemy.TYPE_SAUCER_AUTOSHOTGUN = 'saucerAutoShotgun';
-Enemy.TYPE_MISSILE = 'missile';
-
-Enemy.reset = function()
+export function reset()
 {
-  Enemy.isFirstOnLevel = true;
+  isFirstOnLevel = true;
 };
 
-Enemy.startSpawnTimer = function()
+export function startSpawnTimer()
 {
   log('started enemy spawn timer');
-  Enemy.spawnTimerStartedAt = MY3.clock.oldTime;
+  spawnTimerStartedAt = MY3.clock.oldTime;
 };
 
-Enemy.spawnIfReady = function()
+export function spawnIfReady()
 {
-  if ((MY3.clock.oldTime - Enemy.spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
+  if ((MY3.clock.oldTime - spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS)
   {
-    Enemy.spawn();
+    spawn();
     State.setupCombat();
   }
 };
 
-Enemy.spawn = function()
+export function spawn()
 {
   var type = null;
 
-  if (Enemy.isFirstOnLevel)
+  if (isFirstOnLevel)
   {
     type = Level.current.firstEnemy;
-    Enemy.isFirstOnLevel = false;
+    isFirstOnLevel = false;
     log('using first enemy for level ' + Level.number + ': ' + type);
   }
   else
@@ -53,11 +54,11 @@ Enemy.spawn = function()
     log('spawn table generated enemy: ' + type);
   }
 
-  if (type === Enemy.TYPE_MISSILE)
+  if (type === TYPE_MISSILE)
   {
-    Enemy.current = Missile.spawn();
-    State.actors.add(Enemy.current.actor);
-    Enemy.isAlive = true;
+    current = Missile.spawn();
+    State.actors.add(current.actor);
+    isAlive = true;
   }
   else
   {
@@ -65,57 +66,57 @@ Enemy.spawn = function()
   }
 };
 
-Enemy.spawnGivenTypeAt = function(type, location)
+export function spawnGivenTypeAt(type, location)
 {
   switch (type)
   {
-    case Enemy.TYPE_MISSILE:
+    case TYPE_MISSILE:
       log('warn: missile spawned in spawnGivenTypeAt, ignoring location parameter')
-      Enemy.current = Missile.spawn();
+      current = Missile.spawn();
       break;
-    case Enemy.TYPE_SAUCER_SINGLE:
-      Enemy.current = new SaucerSingle(location);
+    case TYPE_SAUCER_SINGLE:
+      current = new SaucerSingle(location);
       break;
-    case Enemy.TYPE_SAUCER_TRIPLE:
-      Enemy.current = new SaucerTriple(location);
+    case TYPE_SAUCER_TRIPLE:
+      current = new SaucerTriple(location);
       break;
-    case Enemy.TYPE_SAUCER_CHAINGUN:
-      Enemy.current = new SaucerChaingun(location);
+    case TYPE_SAUCER_CHAINGUN:
+      current = new SaucerChaingun(location);
       break;
-    case Enemy.TYPE_SAUCER_SHOTGUN:
-      Enemy.current = new SaucerShotgun(location);
+    case TYPE_SAUCER_SHOTGUN:
+      current = new SaucerShotgun(location);
       break;
-    case Enemy.TYPE_SAUCER_AUTOSHOTGUN:
-      Enemy.current = new SaucerAutoShotgun(location);
+    case TYPE_SAUCER_AUTOSHOTGUN:
+      current = new SaucerAutoShotgun(location);
       break;
     default:
       panic('unknown enemy type: ' + type);
   }
 
-  State.actors.add(Enemy.current.actor);
-  Enemy.isAlive = true;
+  State.actors.add(current.actor);
+  isAlive = true;
   Indicators.setYellow(true);
 };
 
 // enemy is hit and destroyed, but the explosion still has to play out
-Enemy.destroyed = function()
+export function destroyed()
 {
   Sound.playerKilled();
-  Enemy.isAlive = false;
+  isAlive = false;
 
-  State.actors.remove(Enemy.current.actor);
+  State.actors.remove(current.actor);
 
   // if this enemy has a destroyed() decorator, invoke it
-  if (typeof(Enemy.current.destroyed) === 'function')
+  if (typeof(current.destroyed) === 'function')
   {
-    Enemy.current.destroyed.call();
+    current.destroyed.call();
   }
 
-  Explode.at(Enemy.current.mesh.position);
+  Explode.at(current.mesh.position);
 };
 
 // explosion has finished animating
-Enemy.cleared = function()
+export function cleared()
 {
   State.enemyKilled();
 };
