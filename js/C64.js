@@ -59,24 +59,24 @@ export const lightgreen = palette[13];
 export const lightblue = palette[14];
 export const lightgrey = palette[15];
 
-var css = {};
-css.black = cssPalette[0];
-css.white = cssPalette[1];
-css.red = cssPalette[2];
-css.cyan = cssPalette[3];
-css.purple = cssPalette[4];
-css.green = cssPalette[5];
-css.blue = cssPalette[6];
-css.yellow = cssPalette[7];
-css.orange = cssPalette[8];
-css.brown = cssPalette[9];
-css.lightred = cssPalette[10];
-css.darkgrey = cssPalette[11];
-css.grey = cssPalette[12];
-css.lightgreen = cssPalette[13];
-css.lightblue = cssPalette[14];
-css.lightgrey = cssPalette[15];
-export const css;
+export const css = {
+  black = cssPalette[0],
+  white = cssPalette[1],
+  red = cssPalette[2],
+  cyan = cssPalette[3],
+  purple = cssPalette[4],
+  green = cssPalette[5],
+  blue = cssPalette[6],
+  yellow = cssPalette[7],
+  orange = cssPalette[8],
+  brown = cssPalette[9],
+  lightred = cssPalette[10],
+  darkgrey = cssPalette[11],
+  grey = cssPalette[12],
+  lightgreen = cssPalette[13],
+  lightblue = cssPalette[14],
+  lightgrey = cssPalette[15]
+};
 
 export function randomColour()
 {
