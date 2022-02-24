@@ -48,7 +48,7 @@ export function init()
       var zPos = rowIndex * SPACING;
       // update the template mesh and merge it into Grid
       obeliskMesh.position.set(new THREE.Vector3(xPos, Obelisk.HEIGHT / 2, zPos));
-      geometry = THREE.BufferGeometryUtils.mergeBufferGeometries([geometry, obeliskMesh.geometry]);
+      geometry = BufferGeometryUtils.mergeBufferGeometries([geometry, obeliskMesh.geometry]);
     }
   }
 
