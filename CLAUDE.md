@@ -19,6 +19,9 @@ This game was written many years ago and uses an ancient version of three.js, an
 npm test          # Run Mocha tests
 ```
 
+## Local Testing Notes
+- For testing, a local http server can be used by opening: http://localhost:8000/index-modules.html
+
 ## Architecture Overview
 
 ### Core Game Structure

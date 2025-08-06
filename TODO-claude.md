@@ -51,9 +51,9 @@ export default { countdown };
 
 ### Step 1: Convert Timer.js
 - [x] Analyze dependencies (only needs UTIL.log)
-- [ ] Create `js/modules/Timer.js`
-- [ ] Convert to ES6 module syntax
-- [ ] Test import in main.js
+- [x] Create `js/modules/Timer.js`
+- [x] Convert to ES6 module syntax
+- [x] Test import in main.js
 
 ### Step 2: Convert Sound.js  
 - [x] Analyze dependencies (self-contained)
