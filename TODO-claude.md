@@ -57,9 +57,9 @@ export default { countdown };
 
 ### Step 2: Convert Sound.js  
 - [x] Analyze dependencies (self-contained)
-- [ ] Create `js/modules/Sound.js`
-- [ ] Convert to ES6 module syntax
-- [ ] Ensure jsfxr compatibility
+- [x] Create `js/modules/Sound.js`
+- [x] Convert to ES6 module syntax
+- [x] Ensure jsfxr compatibility
 
 ### Step 3: Convert Level.js
 - [x] Analyze dependencies (needs C64, Enemy refs)
