@@ -19,16 +19,6 @@ This game was written many years ago and uses an ancient version of three.js, an
 npm test          # Run Mocha tests
 ```
 
-### Linting
-```bash
-npm run lint      # Run JSHint via Gulp
-gulp lint         # Alternative way to run linting
-```
-
-### Local Development
-- Open `index.html` in a web browser to run the game
-- No build process required - all dependencies are included via CDN or lib/ directory
-
 ## Architecture Overview
 
 ### Core Game Structure
@@ -90,3 +80,7 @@ gulp lint         # Alternative way to run linting
 - Tests located in test/ directory
 - Focus on core systems: MY3.js, Physics.js
 - Uses mocha.opts configuration for test reporter settings
+
+## Code Writing Guidelines
+
+- When leaving comments in the code for something to do later, always prefix it with CLAUDE-TODO: so we know it's a comment for Claude, not for the developer
