@@ -10,6 +10,8 @@ This is a WebGL recreation of the classic 1983 Commodore 64 game "Encounter" usi
 
 This game was written many years ago and uses an ancient version of three.js, and does not use ES6 modules. Our goal is to update the game to have better encapsulation with modules - probably doing this first before attempting a three.js upgrade - and then once that's done tackle the tricky work of upgrading to three.js latest.
 
+**See TODO-claude.md for the detailed ES6 module conversion plan and current progress.**
+
 ## Development Commands
 
 ### Testing
