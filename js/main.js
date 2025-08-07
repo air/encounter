@@ -1,7 +1,7 @@
 'use strict';
 
 // Import utility modules
-import { log, random } from './modules/UTIL.js';
+import { log, random, platformSupportsTouch } from './modules/UTIL.js';
 import * as C64 from './modules/C64.js';
 import Timer from './modules/Timer.js';
 import Sound from './modules/Sound.js';
@@ -20,6 +20,10 @@ import ShotSpawner from './modules/ShotSpawner.js';
 import Explode from './modules/Explode.js';
 import { Actor, Actors } from './modules/Actors.js';
 import Attract from './modules/Attract.js';
+import Camera from './modules/Camera.js';
+import GUI from './modules/GUI.js';
+import Controls from './modules/Controls.js';
+import Touch from './modules/Touch.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -112,6 +116,28 @@ log('Created Actors system with test Actor - list length: ' + testActors.list.le
 log('Attract module loaded - init function ready');
 Attract.init();
 log('Attract module initialized successfully');
+
+// Test Camera module
+log('Camera module loaded - Camera modes available: ' + Camera.MODE_FIRST_PERSON + ', ' + Camera.MODE_CHASE);
+log('Camera constants - Chase distance: ' + Camera.CHASE_DISTANCE + ', Chase height: ' + Camera.CHASE_HEIGHT);
+Camera.init();
+log('Camera module initialized with orthographic camera for top-down view');
+
+// Test GUI module (mostly commented out debug interface)
+log('GUI module loaded - debug interface for dat.gui (currently disabled)');
+GUI.init();
+log('GUI module initialized (no-op since dat.gui is commented out)');
+
+// Test Controls module
+log('Controls module loaded - control systems for player movement');
+Controls.init();
+log('Controls module initialized with Encounter controls (movement speed: ' + Encounter.MOVEMENT_SPEED + ')');
+log('Current control system ready: ' + (Controls.current ? Controls.current.constructor.name : 'none'));
+
+// Test Touch module (mobile controls)
+log('Touch module loaded - mobile touch controls for d-pad and fire button');
+Touch.init();
+log('Touch module initialized - ' + (platformSupportsTouch() ? 'mobile controls active' : 'desktop mode, touch controls skipped'));
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
