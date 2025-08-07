@@ -4,28 +4,24 @@
 Convert the classic WebGL Encounter game from global script loading to ES6 modules for better encapsulation, preparing for eventual Three.js upgrade.
 
 ## Current Status
-- ✅ **C64.js** and **UTIL.js** converted to `js/modules/`
-- ✅ **main.js** set up with basic module imports
+- ✅ **Batch 1 Complete**: C64.js, UTIL.js, Timer.js, Sound.js, Level.js converted
+- ✅ **Batch 2 Complete**: Keys.js, Display.js, Indicators.js converted
+- ✅ **main.js** set up with all converted module imports
 - ✅ **index-modules.html** configured for ES6 modules
-- ✅ Dependency analysis completed
+- ✅ All modules include placeholder dependencies with CLAUDE-TODO comments
 
 ## Next Conversion Batch (Immediate)
 
-### Files to Convert (Priority Order):
-1. **Timer.js** → `js/modules/Timer.js`
-   - Dependencies: Only `log()` from UTIL
-   - No THREE.js usage
-   - Simple countdown timer functionality
+### Batch 3 - Core Game Systems:
+1. **State.js** → `js/modules/State.js`
+   - Central game orchestrator (attract mode, playing, paused, etc.)
+   - Dependencies: Most other modules (requires careful dependency injection)
+   - Critical for actual game loop functionality
 
-2. **Sound.js** → `js/modules/Sound.js` 
-   - Dependencies: None (uses jsfxr and WebAudio directly)
-   - No THREE.js usage
-   - Self-contained audio system
-
-3. **Level.js** → `js/modules/Level.js`
-   - Dependencies: C64 colors, Enemy constants
-   - No THREE.js usage
-   - Core game data structure
+2. **Simple THREE.js Objects** (to be selected):
+   - Start with objects that have minimal interdependencies
+   - Candidates: basic geometry/material utilities
+   - Prepare for actual 3D rendering integration
 
 ## Conversion Requirements
 
@@ -49,29 +45,41 @@ export default { countdown };
 
 ## Implementation Steps
 
-### Step 1: Convert Timer.js
+### Step 1: Convert Timer.js (COMPLETED)
 - [x] Analyze dependencies (only needs UTIL.log)
 - [x] Create `js/modules/Timer.js`
 - [x] Convert to ES6 module syntax
 - [x] Test import in main.js
 
-### Step 2: Convert Sound.js  
+### Step 2: Convert Sound.js (COMPLETED)
 - [x] Analyze dependencies (self-contained)
 - [x] Create `js/modules/Sound.js`
 - [x] Convert to ES6 module syntax
 - [x] Ensure jsfxr compatibility
 
-### Step 3: Convert Level.js
+### Step 3: Convert Level.js (COMPLETED)
 - [x] Analyze dependencies (needs C64, Enemy refs)
 - [x] Create `js/modules/Level.js`
 - [x] Import C64 module
 - [x] Handle Enemy references (temporary constants with CLAUDE-TODO)
 
-### Step 4: Integration
+### Step 4: Batch 1 Integration (COMPLETED)
 - [x] Update main.js to import new modules
 - [x] Initialize modules in correct order
 - [x] Test functionality in index-modules.html
 - [x] Verify game still works
+
+### Step 5: Convert Batch 2 Modules (COMPLETED)
+- [x] Convert Keys.js with placeholder dependencies
+- [x] Convert Display.js with DOM manipulation functions
+- [x] Convert Indicators.js with canvas-based UI
+- [x] Update main.js to import and test Batch 2 modules
+
+### Step 6: Next Phase - State.js and Game Loop (PENDING)
+- [ ] Analyze State.js dependencies and circular references
+- [ ] Design dependency injection pattern for State.js
+- [ ] Convert State.js to ES6 module
+- [ ] Test basic game state management
 
 ## Dependency Analysis Results
 
@@ -95,10 +103,10 @@ export default { countdown };
 
 ## Future Batch Planning
 
-### Batch 2 (After Current):
-- Keys.js (input handling)
-- Display.js (UI overlay)  
-- Indicators.js (UI components)
+### Batch 2 (COMPLETED):
+- ✅ Keys.js (input handling with placeholder dependencies)
+- ✅ Display.js (UI overlay with DOM element creation)  
+- ✅ Indicators.js (UI components with canvas-based indicators)
 
 ### Batch 3:
 - State.js (requires careful dependency injection)
