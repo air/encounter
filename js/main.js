@@ -6,6 +6,9 @@ import * as C64 from './modules/C64.js';
 import Timer from './modules/Timer.js';
 import Sound from './modules/Sound.js';
 import Level from './modules/Level.js';
+import Keys from './modules/Keys.js';
+import Display from './modules/Display.js';
+import Indicators from './modules/Indicators.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -26,6 +29,16 @@ log('Sound module loaded and tested with sound playback');
 Level.init();
 log('Level module loaded - Current level: ' + Level.getNumber());
 log('First level sky color: ' + Level.getCurrent().skyColor);
+
+// Test Batch 2 modules
+Keys.init();
+log('Keys module loaded and event listeners initialized');
+
+Display.init();
+log('Display module loaded and UI elements created');
+
+Indicators.init();
+log('Indicators module loaded and canvas initialized');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
