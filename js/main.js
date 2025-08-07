@@ -11,6 +11,7 @@ import Display from './modules/Display.js';
 import Indicators from './modules/Indicators.js';
 import Encounter from './modules/Encounter.js';
 import Obelisk from './modules/Obelisk.js';
+import SimpleControls from './modules/SimpleControls.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -49,6 +50,12 @@ log('Player movement speed: ' + Encounter.MOVEMENT_SPEED);
 // Test Obelisk module
 log('Obelisk constants loaded - Height: ' + Obelisk.HEIGHT + ', Radius: ' + Obelisk.RADIUS);
 log('Camera height calculated as: ' + Encounter.CAMERA_HEIGHT);
+
+// Test SimpleControls module (constructor function)
+log('SimpleControls constructor loaded - type: ' + typeof SimpleControls);
+if (typeof SimpleControls === 'function') {
+  log('SimpleControls is ready for instantiation');
+}
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
