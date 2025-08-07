@@ -5,6 +5,7 @@ import { log, random } from './modules/UTIL.js';
 import * as C64 from './modules/C64.js';
 import Timer from './modules/Timer.js';
 import Sound from './modules/Sound.js';
+import Level from './modules/Level.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -21,8 +22,14 @@ Sound.init();
 Sound.playerShoot(); // Test playing a sound
 log('Sound module loaded and tested with sound playback');
 
+// Test Level module
+Level.init();
+log('Level module loaded - Current level: ' + Level.getNumber());
+log('First level sky color: ' + Level.getCurrent().skyColor);
+
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
+// IMPORTANT: in the current state we are not actually loading or testing the game loop
 
 // TODO: Convert remaining files to modules
 console.log('Main.js: Basic module system initialized');
