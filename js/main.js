@@ -12,6 +12,7 @@ import Indicators from './modules/Indicators.js';
 import Encounter from './modules/Encounter.js';
 import Obelisk from './modules/Obelisk.js';
 import SimpleControls from './modules/SimpleControls.js';
+import Physics from './modules/Physics.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -56,6 +57,10 @@ log('SimpleControls constructor loaded - type: ' + typeof SimpleControls);
 if (typeof SimpleControls === 'function') {
   log('SimpleControls is ready for instantiation');
 }
+
+// Test Physics module
+log('Physics module loaded with collision detection functions');
+log('Available functions: isCloseToAnObelisk, isCollidingWithObelisk, etc.');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
