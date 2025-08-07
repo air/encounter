@@ -9,6 +9,8 @@ import Level from './modules/Level.js';
 import Keys from './modules/Keys.js';
 import Display from './modules/Display.js';
 import Indicators from './modules/Indicators.js';
+import Encounter from './modules/Encounter.js';
+import Obelisk from './modules/Obelisk.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -39,6 +41,14 @@ log('Display module loaded and UI elements created');
 
 Indicators.init();
 log('Indicators module loaded and canvas initialized');
+
+// Test Encounter module (constants)
+log('Encounter constants loaded - Draw distance: ' + Encounter.DRAW_DISTANCE);
+log('Player movement speed: ' + Encounter.MOVEMENT_SPEED);
+
+// Test Obelisk module
+log('Obelisk constants loaded - Height: ' + Obelisk.HEIGHT + ', Radius: ' + Obelisk.RADIUS);
+log('Camera height calculated as: ' + Encounter.CAMERA_HEIGHT);
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
