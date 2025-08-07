@@ -17,6 +17,9 @@ import MY3 from './modules/MY3.js';
 import Asteroid from './modules/Asteroid.js';
 import Shot from './modules/Shot.js';
 import ShotSpawner from './modules/ShotSpawner.js';
+import Explode from './modules/Explode.js';
+import { Actor, Actors } from './modules/Actors.js';
+import Attract from './modules/Attract.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -89,6 +92,26 @@ log('ShotSpawner module loaded - constructor function ready');
 var spawnerPosition = new window.THREE.Vector3(100, 50, 100);
 var testShotSpawner = new ShotSpawner(spawnerPosition);
 log('Created test shot spawner at position with rotation');
+
+// Test Explode module
+log('Explode module loaded - Explosion effects with ' + Explode.NUMBER_OF_GIBS + ' gibs');
+log('Explosion lifetime: ' + Explode.LIFETIME_MS + 'ms with ' + Explode.MATERIAL_PHASES.length + ' material phases');
+Explode.init();
+log('Explode module initialized with gib particles');
+
+// Test Actors module
+log('Actors module loaded - Actor and Actors constructor functions ready');
+var testActors = new Actors();
+var testObject3D = new window.THREE.Object3D();
+var testUpdateFunction = function(deltaTime) { console.log('Actor update called'); };
+var testActor = new Actor(testObject3D, testUpdateFunction, 'test');
+testActors.add(testActor);
+log('Created Actors system with test Actor - list length: ' + testActors.list.length);
+
+// Test Attract module
+log('Attract module loaded - init function ready');
+Attract.init();
+log('Attract module initialized successfully');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach

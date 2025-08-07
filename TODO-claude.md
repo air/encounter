@@ -3,25 +3,30 @@
 ## Project Goal
 Convert the classic WebGL Encounter game from global script loading to ES6 modules for better encapsulation, preparing for eventual Three.js upgrade.
 
-## Current Status
-- ✅ **Batch 1 Complete**: C64.js, UTIL.js, Timer.js, Sound.js, Level.js converted
-- ✅ **Batch 2 Complete**: Keys.js, Display.js, Indicators.js converted
-- ✅ **main.js** set up with all converted module imports
+## Current Status - 18 Modules Converted
+- ✅ **Batch 1 Complete**: C64.js, UTIL.js, Timer.js, Sound.js, Level.js
+- ✅ **Batch 2 Complete**: Keys.js, Display.js, Indicators.js  
+- ✅ **Batch 3 Complete**: Encounter.js, Obelisk.js, SimpleControls.js
+- ✅ **Batch 4 Complete**: Physics.js, MY3.js, Asteroid.js
+- ✅ **Batch 5 Complete**: Shot.js, ShotSpawner.js, Explode.js, Actors.js
+- ✅ **main.js** set up with all converted module imports and testing
 - ✅ **index-modules.html** configured for ES6 modules
 - ✅ All modules include placeholder dependencies with CLAUDE-TODO comments
 
 ## Next Conversion Batch (Immediate)
 
-### Batch 3 - Core Game Systems:
-1. **State.js** → `js/modules/State.js`
-   - Central game orchestrator (attract mode, playing, paused, etc.)
-   - Dependencies: Most other modules (requires careful dependency injection)
-   - Critical for actual game loop functionality
+### Batch 6 - Remaining Modules:
 
-2. **Simple THREE.js Objects** (to be selected):
-   - Start with objects that have minimal interdependencies
-   - Candidates: basic geometry/material utilities
-   - Prepare for actual 3D rendering integration
+**Current Targets** (dependency analysis needed):
+- Ground.js (depends on C64✅, UTIL✅, Grid, THREE.js)
+- Grid.js (depends on UTIL✅, Obelisk✅, Physics✅, THREE.js)  
+- Camera.js (depends on SimpleControls✅, Encounter✅, THREE.js)
+- Touch.js (self-contained, mobile controls)
+
+**Complex Modules** (later phases):
+- State.js (central orchestrator, touches everything)
+- Player.js (game object, heavy dependencies)
+- Enemy.js (game object, heavy dependencies)
 
 ## Conversion Requirements
 
