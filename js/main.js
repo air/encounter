@@ -13,6 +13,7 @@ import Encounter from './modules/Encounter.js';
 import Obelisk from './modules/Obelisk.js';
 import SimpleControls from './modules/SimpleControls.js';
 import Physics from './modules/Physics.js';
+import MY3 from './modules/MY3.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -61,6 +62,11 @@ if (typeof SimpleControls === 'function') {
 // Test Physics module
 log('Physics module loaded with collision detection functions');
 log('Available functions: isCloseToAnObelisk, isCollidingWithObelisk, etc.');
+
+// Test MY3 module
+log('MY3 module loaded - THREE.js utility wrapper');
+log('Available math functions: vectorToRotation, objectRotationAsUnitVector, etc.');
+log('MY3 constants - X_AXIS: ' + JSON.stringify({x: MY3.X_AXIS.x, y: MY3.X_AXIS.y, z: MY3.X_AXIS.z}));
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach

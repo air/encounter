@@ -2,20 +2,11 @@
 
 import * as Obelisk from './Obelisk.js';
 
+import * as MY3 from './MY3.js';
+
 // CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
 const Grid = {
   SPACING: 200 // Placeholder value - should match original
-};
-
-const MY3 = {
-  objectRotationAsUnitVector: (obj) => {
-    console.log('MY3.objectRotationAsUnitVector called');
-    return new window.THREE.Vector3(0, 0, -1); // Placeholder
-  },
-  vectorToRotation: (vec) => {
-    console.log('MY3.vectorToRotation called');
-    return 0; // Placeholder
-  }
 };
 
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
