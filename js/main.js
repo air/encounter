@@ -14,6 +14,9 @@ import Obelisk from './modules/Obelisk.js';
 import SimpleControls from './modules/SimpleControls.js';
 import Physics from './modules/Physics.js';
 import MY3 from './modules/MY3.js';
+import Asteroid from './modules/Asteroid.js';
+import Shot from './modules/Shot.js';
+import ShotSpawner from './modules/ShotSpawner.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -67,6 +70,25 @@ log('Available functions: isCloseToAnObelisk, isCollidingWithObelisk, etc.');
 log('MY3 module loaded - THREE.js utility wrapper');
 log('Available math functions: vectorToRotation, objectRotationAsUnitVector, etc.');
 log('MY3 constants - X_AXIS: ' + JSON.stringify({x: MY3.X_AXIS.x, y: MY3.X_AXIS.y, z: MY3.X_AXIS.z}));
+
+// Test Asteroid module
+log('Asteroid module loaded - Radius: ' + Asteroid.RADIUS);
+log('Generated asteroid color: ' + Asteroid.generateColor());
+var testAsteroid = Asteroid.newInstance();
+log('Created test asteroid mesh with geometry and material');
+
+// Test Shot module
+log('Shot module loaded - Radius: ' + Shot.RADIUS + ', Height: ' + Shot.HEIGHT);
+var testDirection = new window.THREE.Vector3(0, 0, -1); // Forward direction
+var testPosition = new window.THREE.Vector3(0, 0, 0);
+var testShot = Shot.newMeshInstance(testPosition, testDirection);
+log('Created test shot mesh with position and direction');
+
+// Test ShotSpawner module
+log('ShotSpawner module loaded - constructor function ready');
+var spawnerPosition = new window.THREE.Vector3(100, 50, 100);
+var testShotSpawner = new ShotSpawner(spawnerPosition);
+log('Created test shot spawner at position with rotation');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
