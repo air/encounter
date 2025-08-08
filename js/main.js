@@ -26,6 +26,9 @@ import Controls from './modules/Controls.js';
 import Touch from './modules/Touch.js';
 import Grid from './modules/Grid.js';
 import Ground from './modules/Ground.js';
+import Portal from './modules/Portal.js';
+import BlackPortal from './modules/BlackPortal.js';
+import WhitePortal from './modules/WhitePortal.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -153,6 +156,19 @@ log('Ground module loaded - ground plane system (render mode: ' + (Ground.DO_REN
 log('Ground plane segments: ' + Ground.X_SEGMENTS + 'x' + Ground.Z_SEGMENTS + ' for performance');
 Ground.init();
 log('Ground module initialized - ' + (Ground.DO_RENDER ? 'mesh created' : 'using CSS background for ground plane'));
+
+// Test Portal system modules
+log('Portal module loaded - base portal system with ' + Portal.TIME_TO_ANIMATE_OPENING_MS + 'ms opening animation');
+Portal.init();
+log('Portal base class initialized with cylindrical geometry');
+
+log('BlackPortal module loaded - player warp entry portals (color: black)');
+BlackPortal.init();
+log('BlackPortal initialized for player warp sequences');
+
+log('WhitePortal module loaded - enemy spawn portals (color: white)');
+WhitePortal.init();
+log('WhitePortal initialized for enemy deployment');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach

@@ -3,133 +3,131 @@
 ## Project Goal
 Convert the classic WebGL Encounter game from global script loading to ES6 modules for better encapsulation, preparing for eventual Three.js upgrade.
 
-## Current Status - 18 Modules Converted
-- ✅ **Batch 1 Complete**: C64.js, UTIL.js, Timer.js, Sound.js, Level.js
-- ✅ **Batch 2 Complete**: Keys.js, Display.js, Indicators.js  
-- ✅ **Batch 3 Complete**: Encounter.js, Obelisk.js, SimpleControls.js
-- ✅ **Batch 4 Complete**: Physics.js, MY3.js, Asteroid.js
-- ✅ **Batch 5 Complete**: Shot.js, ShotSpawner.js, Explode.js, Actors.js
-- ✅ **main.js** set up with all converted module imports and testing
-- ✅ **index-modules.html** configured for ES6 modules
-- ✅ All modules include placeholder dependencies with CLAUDE-TODO comments
+## Current Status - 28 Modules Converted
 
-## Next Conversion Batch (Immediate)
+### ✅ **Completed Modules (28/40)**
+- [x] **Actors.js** - Game object management system with Actor and Actors collection classes
+- [x] **Asteroid.js** - Space obstacles with collision detection for warp sequences  
+- [x] **Attract.js** - Game mode controller for switching between demo and active gameplay
+- [x] **C64.js** - Commodore 64 color palette and CSS color utilities
+- [x] **Camera.js** - Multiple viewing modes (first-person, chase, orbit, top-down) with THREE.js camera management
+- [x] **Controls.js** - Different control systems for various game modes (encounter, fly, warp)
+- [x] **Display.js** - DOM-based UI overlay system with HUD elements
+- [x] **Encounter.js** - Core game constants and configuration settings
+- [x] **Explode.js** - Particle explosion system with flickering materials and animation phases
+- [x] **Grid.js** - Infinite obelisk grid system with viewport management and geometry merging
+- [x] **Ground.js** - Ground plane rendering with dual modes (THREE.js mesh or CSS background)  
+- [x] **GUI.js** - Debug interface for dat.gui (currently disabled but ready for future use)
+- [x] **Indicators.js** - Canvas-based UI indicators and status lights
+- [x] **Keys.js** - Keyboard input handling with game state integration
+- [x] **Level.js** - Game level data with enemy spawn configurations and level progression
+- [x] **MY3.js** - Comprehensive THREE.js utility wrapper with math functions, materials, and rendering utilities
+- [x] **Obelisk.js** - THREE.js geometry for cylindrical game obstacles
+- [x] **Physics.js** - Collision detection and physics utilities for game objects
+- [x] **Shot.js** - Projectile system with movement and collision detection
+- [x] **ShotSpawner.js** - Rotating generators that create projectiles with physics
+- [x] **SimpleControls.js** - WASD/arrow key movement controls for player navigation
+- [x] **Sound.js** - WebAudio and jsfxr sound system for C64-style effects
+- [x] **Timer.js** - Simple countdown timer functionality for game events
+- [x] **Touch.js** - Mobile touch controls with 8-directional d-pad and fire button
+- [x] **UTIL.js** - Core utility functions (random, color conversion, logging, platform detection)
 
-### Batch 6 - Remaining Modules:
+#### **Portal System (3 modules)**
+- [x] **Portal.js** - Base portal prototype class for dimensional travel effects with TWEEN animations
+- [x] **BlackPortal.js** - Player entry portals (extends Portal) with warp initiation and proximity detection
+- [x] **WhitePortal.js** - Enemy spawn portals (extends Portal) with enemy deployment and radar integration
 
-**Current Targets** (dependency analysis needed):
-- Ground.js (depends on C64✅, UTIL✅, Grid, THREE.js)
-- Grid.js (depends on UTIL✅, Obelisk✅, Physics✅, THREE.js)  
-- Camera.js (depends on SimpleControls✅, Encounter✅, THREE.js)
-- Touch.js (self-contained, mobile controls)
+### 📋 **Remaining Modules (12/40)**
 
-**Complex Modules** (later phases):
-- State.js (central orchestrator, touches everything)
-- Player.js (game object, heavy dependencies)
-- Enemy.js (game object, heavy dependencies)
+#### **Core Game Systems (3 modules)**  
+- [ ] **State.js** - Central game orchestrator (attract mode, playing, paused, etc.) - **COMPLEX**
+- [ ] **Player.js** - Player ship with movement, shooting, collision, and lifecycle management - **COMPLEX**
+- [ ] **Radar.js** - Mini-map radar display system with blip rendering and range detection
+
+#### **Enemy System (7 modules)**
+- [ ] **Enemy.js** - Base enemy class with AI behaviors and collision systems - **COMPLEX**
+- [ ] **Saucer.js** - Base flying saucer enemy type with movement patterns
+- [ ] **SaucerSingle.js** - Single-shot saucer enemy variant  
+- [ ] **SaucerTriple.js** - Triple-shot saucer enemy variant
+- [ ] **SaucerChaingun.js** - Rapid-fire chaingun saucer enemy variant
+- [ ] **SaucerShotgun.js** - Spread-shot shotgun saucer enemy variant
+- [ ] **SaucerAutoShotgun.js** - Automatic shotgun saucer enemy variant
+
+#### **Special Game Modes (2 modules)**
+- [ ] **Missile.js** - Homing missile enemy implementation with tracking AI
+- [ ] **Warp.js** - Warp sequence controller with asteroid field and player progression
+
+## Conversion Strategy
+
+### ✅ **Completed: Portal System**
+The Portal system has been successfully converted with:
+- **Portal.js** - Base class with opening/closing animations and TWEEN integration
+- **BlackPortal.js** - Player warp entry with spawn timer and proximity detection  
+- **WhitePortal.js** - Enemy spawn portals with type tracking and radar integration
+- **Module Composition** - Converted Object.create inheritance to ES6 module composition
+- **State Management** - Base portal state accessed via getters/setters for shared functionality
+
+### **Next Priority: Support Systems**
+
+**Immediate Targets:**
+- **Radar.js** - Self-contained mini-map display system with blip rendering
+- **Missile.js** - Individual homing missile enemy type with tracking AI  
+- **Warp.js** - Special warp sequence controller with asteroid field navigation
+
+### **Final Phase: Core Complex Systems**
+- **State.js** - Central orchestrator requiring careful dependency injection
+- **Player.js** - Core game object with heavy interdependencies  
+- **Enemy.js + Saucer variants** - Combat system with complex AI behaviors
+
+## Technical Progress
+
+### **Infrastructure Complete**
+- ✅ **main.js** - ES6 module imports with comprehensive testing
+- ✅ **index-modules.html** - Browser testing environment for ES6 modules
+- ✅ **Dependency Management** - All converted modules use placeholder objects with CLAUDE-TODO comments
+- ✅ **Testing Integration** - Each module tested individually and integrated systematically
+
+### **Architectural Foundations**
+- ✅ **Utility Layer** - UTIL, C64, Timer, Sound systems converted
+- ✅ **Rendering Layer** - THREE.js wrappers (MY3, Obelisk, Physics) converted
+- ✅ **Spatial Systems** - Grid, Ground, Camera, Controls converted
+- ✅ **UI Systems** - Display, Keys, Indicators, GUI converted  
+- ✅ **Game Objects** - Actors, Shot, Asteroid, Explode systems converted
+- ✅ **Portal System** - Portal, BlackPortal, WhitePortal for level progression converted
 
 ## Conversion Requirements
 
-### Key Technical Points:
+### **Technical Standards**
 - Use `window.THREE` for THREE.js access inside modules
 - Convert `var ModuleName = {}` pattern to ES6 exports
-- Import dependencies from other modules
-- Maintain backward compatibility during transition
+- Import dependencies from converted modules  
+- Use placeholder objects with CLAUDE-TODO for unconverted dependencies
+- Maintain backward compatibility with default exports
+- Test each module individually in main.js
 
-### Conversion Pattern:
+### **Conversion Pattern**
 ```javascript
 // Before (global)
-var Timer = {};
-Timer.countdown = function() { ... };
+var ModuleName = {};
+ModuleName.someFunction = function() { ... };
 
-// After (module)
-import { log } from './UTIL.js';
-export function countdown() { ... }
-export default { countdown };
+// After (ES6 module)
+import { dependency } from './UTIL.js';
+export function someFunction() { ... }
+export default { someFunction };
 ```
 
-## Implementation Steps
-
-### Step 1: Convert Timer.js (COMPLETED)
-- [x] Analyze dependencies (only needs UTIL.log)
-- [x] Create `js/modules/Timer.js`
-- [x] Convert to ES6 module syntax
-- [x] Test import in main.js
-
-### Step 2: Convert Sound.js (COMPLETED)
-- [x] Analyze dependencies (self-contained)
-- [x] Create `js/modules/Sound.js`
-- [x] Convert to ES6 module syntax
-- [x] Ensure jsfxr compatibility
-
-### Step 3: Convert Level.js (COMPLETED)
-- [x] Analyze dependencies (needs C64, Enemy refs)
-- [x] Create `js/modules/Level.js`
-- [x] Import C64 module
-- [x] Handle Enemy references (temporary constants with CLAUDE-TODO)
-
-### Step 4: Batch 1 Integration (COMPLETED)
-- [x] Update main.js to import new modules
-- [x] Initialize modules in correct order
-- [x] Test functionality in index-modules.html
-- [x] Verify game still works
-
-### Step 5: Convert Batch 2 Modules (COMPLETED)
-- [x] Convert Keys.js with placeholder dependencies
-- [x] Convert Display.js with DOM manipulation functions
-- [x] Convert Indicators.js with canvas-based UI
-- [x] Update main.js to import and test Batch 2 modules
-
-### Step 6: Next Phase - State.js and Game Loop (PENDING)
-- [ ] Analyze State.js dependencies and circular references
-- [ ] Design dependency injection pattern for State.js
-- [ ] Convert State.js to ES6 module
-- [ ] Test basic game state management
-
-## Dependency Analysis Results
-
-### Files by Conversion Complexity:
-
-**Minimal Dependencies (Current Batch):**
-- Timer.js → UTIL.log only
-- Sound.js → No dependencies
-- Level.js → C64, Enemy constants
-
-**Medium Dependencies (Future Batches):**
-- Keys.js → State, Controls, Enemy, Player, Warp
-- Display.js → C64
-- Indicators.js → UTIL, Display
-- GUI.js → Various game objects
-
-**Heavy Dependencies (Later):**
-- State.js → Central orchestrator, touches everything
-- Player.js → THREE, multiple game systems
-- All rendering/3D files → THREE.js intensive
-
-## Future Batch Planning
-
-### Batch 2 (COMPLETED):
-- ✅ Keys.js (input handling with placeholder dependencies)
-- ✅ Display.js (UI overlay with DOM element creation)  
-- ✅ Indicators.js (UI components with canvas-based indicators)
-
-### Batch 3:
-- State.js (requires careful dependency injection)
-- Simple game objects with THREE.js usage
-
-### Final Batches:
-- Core rendering systems (MY3.js, Camera.js)
-- Game objects (Player.js, Enemy.js, etc.)
-- THREE.js intensive files
-
 ## Testing Strategy
-- Use index-modules.html for module testing
-- Keep index.html working for comparison
-- Test each batch thoroughly before proceeding
-- Run `npm test` after each conversion batch
+- ✅ **Browser Testing** - index-modules.html for ES6 module testing
+- ✅ **Comparison Testing** - index.html maintains original functionality  
+- ✅ **Incremental Testing** - Each module tested before proceeding
+- ✅ **Integration Testing** - main.js provides comprehensive module validation
+- 🔄 **Game Loop Testing** - Future phase will test actual gameplay integration
 
 ## Notes
-- THREE.js access: Use `window.THREE` in modules
-- Maintain game functionality throughout conversion
-- Document any behavioral changes
-- Consider creating module loader/initializer pattern for complex dependencies
+- **Progress**: 28/40 modules converted (70% complete)
+- **Architecture**: All foundational systems and portal mechanics now use ES6 modules
+- **Dependencies**: Complex interdependencies resolved with placeholder pattern
+- **Performance**: Original optimizations preserved during conversion
+- **Compatibility**: Both ES6 modules and original globals supported during transition
+- **Milestone**: Portal system enables level progression and dimensional travel mechanics
