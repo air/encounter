@@ -24,6 +24,8 @@ import Camera from './modules/Camera.js';
 import GUI from './modules/GUI.js';
 import Controls from './modules/Controls.js';
 import Touch from './modules/Touch.js';
+import Grid from './modules/Grid.js';
+import Ground from './modules/Ground.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -138,6 +140,19 @@ log('Current control system ready: ' + (Controls.current ? Controls.current.cons
 log('Touch module loaded - mobile touch controls for d-pad and fire button');
 Touch.init();
 log('Touch module initialized - ' + (platformSupportsTouch() ? 'mobile controls active' : 'desktop mode, touch controls skipped'));
+
+// Test Grid module (infinite obelisk grid system)
+log('Grid module loaded - infinite obelisk grid with viewport system');
+log('Grid constants - Spacing: ' + Grid.SPACING + ', Draw distance based sizing');
+Grid.init();
+log('Grid module initialized with ' + Grid.getObelisksPerSide() + ' obelisks per side');
+log('Grid viewport size: ' + Grid.getSizeSquare() + ' units square');
+
+// Test Ground module (ground plane rendering)
+log('Ground module loaded - ground plane system (render mode: ' + (Ground.DO_RENDER ? 'THREE.js mesh' : 'CSS div') + ')');
+log('Ground plane segments: ' + Ground.X_SEGMENTS + 'x' + Ground.Z_SEGMENTS + ' for performance');
+Ground.init();
+log('Ground module initialized - ' + (Ground.DO_RENDER ? 'mesh created' : 'using CSS background for ground plane'));
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
