@@ -32,6 +32,7 @@ import WhitePortal from './modules/WhitePortal.js';
 import Radar from './modules/Radar.js';
 import Missile from './modules/Missile.js';
 import Warp from './modules/Warp.js';
+import Enemy from './modules/Enemy.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -194,6 +195,13 @@ log('Warp constants - Max speed: ' + Warp.MAX_SPEED + ', Total duration: ' + (Wa
 log('Warp states available: ' + Warp.STATE_ACCELERATE + ', ' + Warp.STATE_CRUISE + ', ' + Warp.STATE_DECELERATE);
 Warp.init();
 log('Warp module initialized (asteroids created at runtime)');
+
+// Test Enemy module (base enemy class and spawning system)
+log('Enemy module loaded - base enemy class with spawn management');
+log('Enemy types - Missile: ' + Enemy.TYPE_MISSILE + ', Single: ' + Enemy.TYPE_SAUCER_SINGLE + ', Triple: ' + Enemy.TYPE_SAUCER_TRIPLE);
+log('Enemy types - Chaingun: ' + Enemy.TYPE_SAUCER_CHAINGUN + ', Shotgun: ' + Enemy.TYPE_SAUCER_SHOTGUN + ', AutoShotgun: ' + Enemy.TYPE_SAUCER_AUTOSHOTGUN);
+Enemy.reset();
+log('Enemy module initialized with spawn system ready');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
