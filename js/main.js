@@ -30,6 +30,7 @@ import Portal from './modules/Portal.js';
 import BlackPortal from './modules/BlackPortal.js';
 import WhitePortal from './modules/WhitePortal.js';
 import Radar from './modules/Radar.js';
+import Missile from './modules/Missile.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -177,6 +178,13 @@ log('Radar constants - Range: ' + Radar.RANGE + ' units, Blip radius: ' + Radar.
 log('Radar types available: ' + Radar.TYPE_ENEMY + ', ' + Radar.TYPE_PORTAL + ', ' + Radar.TYPE_SHOT);
 Radar.init();
 log('Radar module initialized with octagonal canvas and crosshairs');
+
+// Test Missile module (homing missile enemy)
+log('Missile module loaded - homing missile with tracking AI');
+log('Missile constants - Radius: ' + Missile.RADIUS + ', Movement speed: ' + Missile.MOVEMENT_SPEED);
+log('Missile strafe - Max offset: ' + Missile.STRAFE_MAX_OFFSET + ', Time: ' + Missile.STRAFE_TIME_MILLIS + 'ms');
+Missile.init();
+log('Missile module initialized with sphere geometry and strafe tweens');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
