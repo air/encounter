@@ -264,6 +264,11 @@ export function updateShieldLossStatic() {
   Ground.setColor(C64.randomCssColour());
 }
 
+// Getter for horizonDiv
+export function getHorizonDiv() {
+  return horizonDiv;
+}
+
 // Export default object for backward compatibility
 export default {
   ZINDEX_SKY,
@@ -286,5 +291,6 @@ export default {
   setHorizonColour,
   showShieldLossStatic,
   hideShieldLossStatic,
-  updateShieldLossStatic
+  updateShieldLossStatic,
+  getHorizonDiv
 };

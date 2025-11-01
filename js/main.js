@@ -31,6 +31,7 @@ import BlackPortal from './modules/BlackPortal.js';
 import WhitePortal from './modules/WhitePortal.js';
 import Radar from './modules/Radar.js';
 import Missile from './modules/Missile.js';
+import Warp from './modules/Warp.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -185,6 +186,14 @@ log('Missile constants - Radius: ' + Missile.RADIUS + ', Movement speed: ' + Mis
 log('Missile strafe - Max offset: ' + Missile.STRAFE_MAX_OFFSET + ', Time: ' + Missile.STRAFE_TIME_MILLIS + 'ms');
 Missile.init();
 log('Missile module initialized with sphere geometry and strafe tweens');
+
+// Test Warp module (warp sequence controller)
+log('Warp module loaded - warp sequence with asteroid field navigation');
+log('Warp timing - Accelerate: ' + Warp.TIME_ACCELERATING_MS + 'ms, Cruise: ' + Warp.TIME_CRUISING_MS + 'ms, Decelerate: ' + Warp.TIME_DECELERATING_MS + 'ms');
+log('Warp constants - Max speed: ' + Warp.MAX_SPEED + ', Total duration: ' + (Warp.TIME_ACCELERATING_MS + Warp.TIME_CRUISING_MS + Warp.TIME_DECELERATING_MS) + 'ms');
+log('Warp states available: ' + Warp.STATE_ACCELERATE + ', ' + Warp.STATE_CRUISE + ', ' + Warp.STATE_DECELERATE);
+Warp.init();
+log('Warp module initialized (asteroids created at runtime)');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
