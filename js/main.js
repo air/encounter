@@ -29,6 +29,7 @@ import Ground from './modules/Ground.js';
 import Portal from './modules/Portal.js';
 import BlackPortal from './modules/BlackPortal.js';
 import WhitePortal from './modules/WhitePortal.js';
+import Radar from './modules/Radar.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -42,7 +43,7 @@ log('Timer module loaded and tested');
 
 // Test Sound module
 Sound.init();
-Sound.playerShoot(); // Test playing a sound
+//Sound.playerShoot(); // Test playing a sound - disabled for now, won't play a sound until user interaction
 log('Sound module loaded and tested with sound playback');
 
 // Test Level module
@@ -81,7 +82,7 @@ log('Available functions: isCloseToAnObelisk, isCollidingWithObelisk, etc.');
 // Test MY3 module
 log('MY3 module loaded - THREE.js utility wrapper');
 log('Available math functions: vectorToRotation, objectRotationAsUnitVector, etc.');
-log('MY3 constants - X_AXIS: ' + JSON.stringify({x: MY3.X_AXIS.x, y: MY3.X_AXIS.y, z: MY3.X_AXIS.z}));
+log('MY3 constants - X_AXIS: ' + JSON.stringify({ x: MY3.X_AXIS.x, y: MY3.X_AXIS.y, z: MY3.X_AXIS.z }));
 
 // Test Asteroid module
 log('Asteroid module loaded - Radius: ' + Asteroid.RADIUS);
@@ -112,7 +113,7 @@ log('Explode module initialized with gib particles');
 log('Actors module loaded - Actor and Actors constructor functions ready');
 var testActors = new Actors();
 var testObject3D = new window.THREE.Object3D();
-var testUpdateFunction = function(deltaTime) { console.log('Actor update called'); };
+var testUpdateFunction = function (deltaTime) { console.log('Actor update called'); };
 var testActor = new Actor(testObject3D, testUpdateFunction, 'test');
 testActors.add(testActor);
 log('Created Actors system with test Actor - list length: ' + testActors.list.length);
@@ -169,6 +170,13 @@ log('BlackPortal initialized for player warp sequences');
 log('WhitePortal module loaded - enemy spawn portals (color: white)');
 WhitePortal.init();
 log('WhitePortal initialized for enemy deployment');
+
+// Test Radar module (mini-map radar display system)
+log('Radar module loaded - mini-map radar with ' + Radar.RESOLUTION_X + 'x' + Radar.RESOLUTION_Z + ' canvas');
+log('Radar constants - Range: ' + Radar.RANGE + ' units, Blip radius: ' + Radar.BLIP_RADIUS);
+log('Radar types available: ' + Radar.TYPE_ENEMY + ', ' + Radar.TYPE_PORTAL + ', ' + Radar.TYPE_SHOT);
+Radar.init();
+log('Radar module initialized with octagonal canvas and crosshairs');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach

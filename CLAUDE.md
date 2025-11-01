@@ -12,6 +12,14 @@ This game was written many years ago and uses an ancient version of three.js, an
 
 **See TODO-claude.md for the detailed ES6 module conversion plan and current progress.**
 
+## ES6 Module Conversion Guidelines
+
+### File Locations
+- **Original source code**: Located in `js/` directory
+- **Converted ES6 modules**: Write to `js/modules/` directory
+- **Strategy**: Leave originals intact for comparison and backward compatibility
+- **Example**: Convert `js/Radar.js` → write to `js/modules/Radar.js`
+
 ## Development Commands
 
 ### Testing
