@@ -1,11 +1,6 @@
 'use strict';
 
-import * as UTIL from './UTIL.js';
-
-// CLAUDE-TODO: Mock panic function until we have proper error handling module
-function panic(msg, value) {
-  throw new Error(msg + (value ? ': ' + value : ''));
-}
+import { TO_DEGREES, panic } from './UTIL.js';
 
 let threeDiv = null;  // div containing the renderer
 
@@ -78,6 +73,26 @@ export function newThreeStats() {
   return STATS;
 }
 
+// Use a more advanced stats counter. Requires 'renderer' to exist
+export function setupRStats() {
+  // three.js plugin
+  // threestats = new threeStats(renderer); // when restoring, don't forget plugins: below
+  // FIXME I hacked rStats.extras.js to remove the alarm at 1000 renderer.info.render.faces
+
+  // base rstats
+  var settings = {
+    CSSPath: 'lib/',
+    values: {
+      frame: { caption: 'Render time (ms)', over: 16 },
+      fps: { caption: 'FPS', below: 30 },
+      engine: { caption: 'Engine time (ms)', over: 5 }
+    },
+    groups: [ { caption: 'Performance', values: [ 'engine', 'frame', 'fps' ] } ],
+    // plugins: [threestats]
+  };
+  rstats = new rStats(settings);
+}
+
 //=============================================================================
 // core animation loop
 //=============================================================================
@@ -129,9 +144,9 @@ export function lineMidpoint(p1, p2) {
 // Pass an object with a .rotation, or a Vector3. Will mod 360.
 export function yRotationToDegrees(object) {
   if (object.rotation === undefined) {
-    return (object.y * UTIL.TO_DEGREES) % 360;
+    return (object.y * TO_DEGREES) % 360;
   } else {
-    return (object.rotation.y * UTIL.TO_DEGREES) % 360;
+    return (object.rotation.y * TO_DEGREES) % 360;
   }
 }
 
@@ -200,6 +215,50 @@ Line.prototype = Object.create(window.THREE.Line.prototype);
 Line.prototype.setEnd = function(position) {
   // no op - will this animate/update correctly if we change the geometry?
 };
+
+// FIXME pointing at a normalized vector doesn't work?
+// 1. Point along a normalized vector, or
+// 2. Point at another arbitrary position if the pointAt arg is present
+// default length is 200
+export function Pointer(position, direction, length, pointAt) {
+  if (length === undefined)
+  {
+    length = 200;
+  }
+
+  var lineGeometry = new window.THREE.Geometry();
+  if (pointAt === undefined)
+  {
+    // 1. use a normal vector
+    if (!isVectorNormalised(direction))
+    {
+      throw('direction must be a normal, length: ' + direction.length());
+    }
+    var endPoint = direction.clone().multiplyScalar(length);
+    endPoint.add(position);
+
+    lineGeometry.vertices.push(position);
+    lineGeometry.vertices.push(endPoint);
+    lineGeometry.colors.push(new window.THREE.Color( 0x00aa00 ));
+    lineGeometry.colors.push(new window.THREE.Color( 0xffffff ));
+    window.THREE.Line.call(this, lineGeometry, MATS.lineVertex); // super constructor
+  }
+  else
+  {
+    // 2. point at something
+    // first create at the origin with our length pointing 'forward'
+    lineGeometry.vertices.push(new window.THREE.Vector3(0, 0, 0));
+    lineGeometry.vertices.push(new window.THREE.Vector3(0, 0, length));
+    lineGeometry.colors.push(new window.THREE.Color( 0x00aa00 ));
+    lineGeometry.colors.push(new window.THREE.Color( 0xffffff ));
+
+    window.THREE.Line.call(this, lineGeometry, MATS.lineVertex); // super constructor
+    // then move and rotate
+    this.position.copy(position);
+    this.lookAt(direction);
+  }
+}
+Pointer.prototype = Object.create(window.THREE.Line.prototype);
 
 // Create a marker sphere at a location with a material
 // mat is optional, default is wireframe
@@ -338,6 +397,7 @@ export default {
   init3d,
   addHelpers,
   newThreeStats,
+  setupRStats,
   render,
   startAnimationLoop,
   isVectorNormalised,
@@ -351,6 +411,7 @@ export default {
   mousePositionHandler,
   initMouseHandler,
   Line,
+  Pointer,
   markerAt,
   textAt,
   FlickeringBasicMaterial,
