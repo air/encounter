@@ -93,6 +93,10 @@ log('MY3 module loaded - THREE.js utility wrapper');
 log('Available math functions: vectorToRotation, objectRotationAsUnitVector, etc.');
 log('MY3 constants - X_AXIS: ' + JSON.stringify({ x: MY3.X_AXIS.x, y: MY3.X_AXIS.y, z: MY3.X_AXIS.z }));
 
+// Initialize the 3D environment (needed for scene-dependent tests like Actors)
+MY3.init3d();
+log('MY3.init3d() called - scene, camera, renderer initialized');
+
 // Test Asteroid module
 log('Asteroid module loaded - Radius: ' + Asteroid.RADIUS);
 log('Generated asteroid color: ' + Asteroid.generateColor());
