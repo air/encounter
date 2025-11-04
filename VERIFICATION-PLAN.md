@@ -41,7 +41,7 @@ For each converted module, we will:
 - [x] 15. Shot.js ✅ FIXED
 
 ### Batch 3 - Game Objects (Modules 16-19)
-- [ ] 16. ShotSpawner.js
+- [x] 16. ShotSpawner.js ✅ VERIFIED & FIXED (restored original update() logic, removed refactored spawnShotIfNeeded() method, fixed variable names)
 - [ ] 17. Explode.js
 - [ ] 18. Actors.js
 - [ ] 19. Attract.js
