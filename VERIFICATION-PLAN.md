@@ -44,7 +44,7 @@ For each converted module, we will:
 - [x] 16. ShotSpawner.js ✅ VERIFIED & FIXED (restored original update() logic, removed refactored spawnShotIfNeeded() method, fixed variable names, replaced Radar placeholder with import)
 - [x] 17. Explode.js ✅ VERIFIED & FIXED (replaced mock log with UTIL import, replaced Radar placeholder with import, restored Gib.MATERIAL reference, fixed Explode object reference, replaced Actor/Enemy placeholders with imports)
 - [x] 18. Actors.js ✅ VERIFIED & FIXED (replaced mock panic with UTIL import, replaced mock scene with MY3.getScene() calls)
-- [ ] 19. Attract.js
+- [x] 19. Attract.js ✅ VERIFIED & FIXED (replaced Grid/Radar placeholders with imports, fixed MY3.threeDiv to use getThreeDiv())
 
 ### Batch 4 - Controls & Camera (Modules 20-23)
 - [ ] 20. Camera.js

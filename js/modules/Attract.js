@@ -1,23 +1,15 @@
 'use strict';
 
+import * as Grid from './Grid.js';
+import * as Radar from './Radar.js';
 import Display from './Display.js';
 import Indicators from './Indicators.js';
-import * as MY3 from './MY3.js';
+import { getThreeDiv } from './MY3.js';
 import Keys from './Keys.js';
 import Level from './Level.js';
 import { log } from './UTIL.js';
 
 // CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const Grid = {
-  removeFromScene: () => console.log('Grid.removeFromScene called'),
-  addToScene: () => console.log('Grid.addToScene called')
-};
-
-const Radar = {
-  removeFromScene: () => console.log('Radar.removeFromScene called'),
-  addToScene: () => console.log('Radar.addToScene called')
-};
-
 const Player = {
   resetShieldsLeft: () => console.log('Player.resetShieldsLeft called')
 };
@@ -36,7 +28,7 @@ export function show() {
   Display.removeFromScene();
   Radar.removeFromScene();
   Indicators.removeFromScene();
-  MY3.threeDiv.style.display = 'none';
+  getThreeDiv().style.display = 'none';
 }
 
 export function hide() {
@@ -44,7 +36,7 @@ export function hide() {
   Display.addToScene();
   Radar.addToScene();
   Indicators.addToScene();
-  MY3.threeDiv.style.display = 'block';
+  getThreeDiv().style.display = 'block';
 }
 
 export function update() {
