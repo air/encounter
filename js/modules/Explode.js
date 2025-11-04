@@ -2,10 +2,11 @@
 
 import * as C64 from './C64.js';
 import * as MY3 from './MY3.js';
-import * as UTIL from './UTIL.js';
+import { TO_RADIANS, log } from './UTIL.js';
 import * as Physics from './Physics.js';
 import * as Obelisk from './Obelisk.js';
 import Sound from './Sound.js';
+import { TYPE_NONE, TYPE_PORTAL } from './Radar.js';
 
 // CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
 const State = {
@@ -30,26 +31,16 @@ const Actor = function(object3D, updateFunction, radarType) {
   this.radarType = radarType;
 };
 
-const Radar = {
-  TYPE_NONE: 'none',
-  TYPE_PORTAL: 'portal'
-};
-
-function log(msg) {
-  console.log(msg);
-}
-
 // An exploding enemy generates flying gibs.
+
+// An Explode is a dummy object, just serving as an anchor for gibs
+const Explode = new window.THREE.Object3D();
 export const NUMBER_OF_GIBS = 8;
+let gibs = [];
 export const FLICKER_FRAMES = 2; // when flickering, show each colour for this many frames
 export const LIFETIME_MS = 2200;
-
 let ageMillis = 0;
 let actor = null;
-let gibs = [];
-
-// Create the main Explode object as THREE.Object3D
-const explodeObject = new window.THREE.Object3D();
 
 export const MATERIAL_PHASES = [
   {
@@ -122,21 +113,21 @@ export function update(timeDeltaMillis) {
 
 // there will only ever be eight Gibs, so we can reuse them
 export function init() {
-  actor = new Actor(explodeObject, update, Radar.TYPE_NONE);
+  actor = new Actor(Explode, update, TYPE_NONE);
 
   for (var i = 0; i < NUMBER_OF_GIBS; i++)
   {
     gibs[i] = Gib.newInstance();
     // rotate the Gib parent objects to radiate out evenly
     var startingAngle = 360 / NUMBER_OF_GIBS;
-    gibs[i].rotateOnAxis(MY3.Y_AXIS, i * startingAngle * UTIL.TO_RADIANS);
+    gibs[i].rotateOnAxis(MY3.Y_AXIS, i * startingAngle * TO_RADIANS);
   }
 }
 
 // location must have an x and z
 export function at(location) {
   log('sploding at location ' + Math.floor(location.x) + ', ' + Math.floor(location.z));
-  explodeObject.position.copy(location);  // not strictly necessary
+  Explode.position.copy(location);  // not strictly necessary
   ageMillis = 0;
   State.actors.add(actor);
 
@@ -163,9 +154,9 @@ Gib.OFFSET_FROM_CENTER = 0; // spawn this far away from the point of explosion
 // 2. A diamond mesh child that spins in place.
 Gib.newInstance = function() {
   var newGib = new window.THREE.Object3D();
-  newGib.radarType = Radar.TYPE_PORTAL; // in the original this is TYPE_NONE
+  newGib.radarType = TYPE_PORTAL; // in the original this is TYPE_NONE
 
-  var gibMesh = new window.THREE.Mesh(Gib.GEOMETRY, MATERIAL_PHASES[0].material);
+  var gibMesh = new window.THREE.Mesh(Gib.GEOMETRY, Gib.MATERIAL);
   gibMesh.scale.x = Gib.SCALE_X;
   gibMesh.scale.y = Gib.SCALE_Y;
 
@@ -216,25 +207,18 @@ Gib.collideWithPlayer = function(gib) {
   }
 };
 
-// Getters for module state
-export function getAgeMillis() { return ageMillis; }
-export function getActor() { return actor; }
-export function getGibs() { return gibs; }
-export function getExplodeObject() { return explodeObject; }
-
 // Export default object for backward compatibility
 export default {
   NUMBER_OF_GIBS,
+  gibs,
   FLICKER_FRAMES,
   LIFETIME_MS,
+  ageMillis,
+  actor,
   MATERIAL_PHASES,
   animateMaterial,
   cleanUp,
   update,
   init,
-  at,
-  getAgeMillis,
-  getActor,
-  getGibs,
-  getExplodeObject
+  at
 };

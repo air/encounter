@@ -3,11 +3,7 @@
 import * as C64 from './C64.js';
 import * as UTIL from './UTIL.js';
 import * as Shot from './Shot.js';
-
-// CLAUDE-TODO: Replace with actual Radar import when Radar.js is converted to ES6 module
-const Radar = {
-  TYPE_ENEMY: 'enemy'
-};
+import { TYPE_ENEMY } from './Radar.js';
 
 // CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
@@ -33,7 +29,7 @@ export default function ShotSpawner(location) {
   this.lastShotAt = 0;
   this.position.copy(location);
   this.setRotationDegreesPerSecond(-45);
-  this.radarType = Radar.TYPE_ENEMY;
+  this.radarType = TYPE_ENEMY;
 }
 
 ShotSpawner.prototype = Object.create(window.THREE.Mesh.prototype); // inheritance style from THREE
