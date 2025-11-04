@@ -33,6 +33,12 @@ import Radar from './modules/Radar.js';
 import Missile from './modules/Missile.js';
 import Warp from './modules/Warp.js';
 import Enemy from './modules/Enemy.js';
+import Saucer from './modules/Saucer.js';
+import SaucerSingle from './modules/SaucerSingle.js';
+import SaucerTriple from './modules/SaucerTriple.js';
+import SaucerChaingun from './modules/SaucerChaingun.js';
+import SaucerShotgun from './modules/SaucerShotgun.js';
+import SaucerAutoShotgun from './modules/SaucerAutoShotgun.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -202,6 +208,17 @@ log('Enemy types - Missile: ' + Enemy.TYPE_MISSILE + ', Single: ' + Enemy.TYPE_S
 log('Enemy types - Chaingun: ' + Enemy.TYPE_SAUCER_CHAINGUN + ', Shotgun: ' + Enemy.TYPE_SAUCER_SHOTGUN + ', AutoShotgun: ' + Enemy.TYPE_SAUCER_AUTOSHOTGUN);
 Enemy.reset();
 log('Enemy module initialized with spawn system ready');
+
+// Test Saucer modules (base class and 5 variants)
+log('Saucer module loaded - base flying saucer enemy with AI states');
+log('Saucer constants - Radius: ' + Saucer.RADIUS + ', Movement speed: ' + Saucer.MOVEMENT_SPEED);
+log('Saucer states - Waiting: ' + Saucer.STATE_WAITING + ', Moving: ' + Saucer.STATE_MOVING + ', Shooting: ' + Saucer.STATE_SHOOTING);
+log('SaucerSingle loaded - yellow saucer, 1 shot with windup');
+log('SaucerTriple loaded - cyan/grey flickering saucer, 3 shots');
+log('SaucerChaingun loaded - yellow/grey flickering saucer, 10 shots, no windup');
+log('SaucerShotgun loaded - lightgreen saucer, 3-shot spread, no windup');
+log('SaucerAutoShotgun loaded - lightgrey saucer, 3 consecutive 3-shot spreads, no windup');
+log('All Saucer enemy variants initialized successfully');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach

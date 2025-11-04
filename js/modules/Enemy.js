@@ -12,6 +12,11 @@ import { playerKilled as Sound_playerKilled } from './Sound.js';
 import { at as Explode_at } from './Explode.js';
 import { setYellow as Indicators_setYellow } from './Indicators.js';
 import { TIME_TO_SPAWN_ENEMY_MS } from './Encounter.js';
+import { SaucerSingle } from './SaucerSingle.js';
+import { SaucerTriple } from './SaucerTriple.js';
+import { SaucerChaingun } from './SaucerChaingun.js';
+import { SaucerShotgun } from './SaucerShotgun.js';
+import { SaucerAutoShotgun } from './SaucerAutoShotgun.js';
 
 // CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
@@ -23,32 +28,6 @@ const State = {
 // CLAUDE-TODO: Replace with actual clock reference when main game loop is modularized
 const clock = {
   oldTime: 0
-};
-
-// CLAUDE-TODO: Replace with actual Saucer imports when Saucer variants are converted to ES6 modules
-const SaucerSingle = function(location) {
-  this.actor = null;
-  this.mesh = { position: { x: 0, y: 0, z: 0 } };
-};
-
-const SaucerTriple = function(location) {
-  this.actor = null;
-  this.mesh = { position: { x: 0, y: 0, z: 0 } };
-};
-
-const SaucerChaingun = function(location) {
-  this.actor = null;
-  this.mesh = { position: { x: 0, y: 0, z: 0 } };
-};
-
-const SaucerShotgun = function(location) {
-  this.actor = null;
-  this.mesh = { position: { x: 0, y: 0, z: 0 } };
-};
-
-const SaucerAutoShotgun = function(location) {
-  this.actor = null;
-  this.mesh = { position: { x: 0, y: 0, z: 0 } };
 };
 
 // Enemy type constants

@@ -20,6 +20,11 @@ This game was written many years ago and uses an ancient version of three.js, an
 - **Strategy**: Leave originals intact for comparison and backward compatibility
 - **Example**: Convert `js/Radar.js` → write to `js/modules/Radar.js`
 
+### Git Commit Workflow
+- **IMPORTANT**: Do NOT make git commits until the user has tested and validated the code changes
+- After completing conversions, stage the files but wait for user approval before committing
+- Only create commits when the user explicitly says "commit" or "ok commit"
+
 ## Development Commands
 
 ### Testing
