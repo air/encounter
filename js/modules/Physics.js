@@ -1,13 +1,8 @@
 'use strict';
 
 import * as Obelisk from './Obelisk.js';
-
+import * as Grid from './Grid.js';
 import * as MY3 from './MY3.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const Grid = {
-  SPACING: 200 // Placeholder value - should match original
-};
 
 // FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
 
