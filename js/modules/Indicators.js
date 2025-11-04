@@ -1,20 +1,14 @@
 'use strict';
 
 import * as C64 from './C64.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const UTIL = {
-  platformSupportsTouch: () => 'ontouchstart' in window || navigator.maxTouchPoints > 0
-};
-
-const Display = {
-  ZINDEX_INDICATORS: '7'
-};
+import { platformSupportsTouch } from './UTIL.js';
+import { ZINDEX_INDICATORS } from './Display.js';
 
 // sizes all in pixels
-export const WIDTH = 200;
+// Note: WIDTH and X_SEPARATION are mutable (adjusted for touch) so not exported as constants
+let WIDTH = 200;
 export const HEIGHT = 50;
-export const X_SEPARATION = 300;
+let X_SEPARATION = 300;
 export const Y_SEPARATION = 25;
 export const BORDER_WIDTH = 6; // black border around lights
 
@@ -34,7 +28,7 @@ let yellow = false;
 let blue = false;
 
 export function init() {
-  if (UTIL.platformSupportsTouch())
+  if (platformSupportsTouch())
   {
     adjustForTouch();
   }
@@ -43,7 +37,7 @@ export function init() {
   centredDiv.id = 'centredLightsDiv';
   centredDiv.style.cssText = CSS_CENTRED_DIV;
   // set the z-index for all the indicator divs in the parent div
-  centredDiv.style.zIndex = Display.ZINDEX_INDICATORS;
+  centredDiv.style.zIndex = ZINDEX_INDICATORS;
 
   // figure out how big our draw area is for the lights
   var width = (WIDTH * 2) + X_SEPARATION;
@@ -89,10 +83,8 @@ function initBorders() {
 }
 
 function adjustForTouch() {
-  // Note: This modifies the exported constants, which isn't ideal
-  // CLAUDE-TODO: Consider making these configurable rather than modifying exports
-  // WIDTH = 50;
-  // X_SEPARATION = 230;
+  WIDTH = 50;
+  X_SEPARATION = 230;
 }
 
 export function addToScene() {
@@ -186,9 +178,7 @@ export function getBlue() {
 
 // Export default object for backward compatibility
 export default {
-  WIDTH,
   HEIGHT,
-  X_SEPARATION,
   Y_SEPARATION,
   BORDER_WIDTH,
   CSS_CENTRED_DIV,

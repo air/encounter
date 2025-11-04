@@ -1,37 +1,24 @@
 'use strict';
 
 import * as C64 from './C64.js';
+import { panic } from './UTIL.js';
+import { getNumber as Level_getNumber, getCurrent as Level_getCurrent } from './Level.js';
+import { setColor as Ground_setColor } from './Ground.js';
 
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
+// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
   current: null,
   COMBAT: 'combat',
-  WAIT_FOR_ENEMY: 'wait_for_enemy', 
+  WAIT_FOR_ENEMY: 'wait_for_enemy',
   WAIT_FOR_PORTAL: 'wait_for_portal',
   score: 0,
   enemiesRemaining: 0
 };
 
-const Level = {
-  number: 1,
-  current: {
-    skyColor: C64.css.lightblue,
-    horizonColor: C64.css.blue,
-    groundColor: C64.css.green
-  }
-};
-
+// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
   shieldsLeft: 3
 };
-
-const Ground = {
-  setColor: (color) => console.log('Ground.setColor called with:', color)
-};
-
-function panic(msg, value) {
-  console.error(msg, value);
-}
 
 export const ZINDEX_SKY = '1';
 export const ZINDEX_GROUND = '2';
@@ -207,7 +194,7 @@ export function update() {
     case State.WAIT_FOR_ENEMY:
     case State.WAIT_FOR_PORTAL:
       score.innerHTML = ('0000000' + State.score).slice(-7);
-      level.innerHTML = 'L' + Level.number;
+      level.innerHTML = 'L' + Level_getNumber();
       enemies.innerHTML = 'E' + ('00' + State.enemiesRemaining).slice(-2);
       shields.innerHTML = 'S' + Player.shieldsLeft;
       break;
@@ -249,19 +236,19 @@ export function setHorizonColour(cssColour) {
 export function showShieldLossStatic() {
   setSkyColour(C64.css.white);
   setHorizonColour(C64.css.white);
-  Ground.setColor(C64.css.white);
+  Ground_setColor(C64.css.white);
 }
 
 export function hideShieldLossStatic() {
-  setSkyColour(Level.current.skyColor);
-  setHorizonColour(Level.current.horizonColor);
-  Ground.setColor(Level.current.groundColor);
+  setSkyColour(Level_getCurrent().skyColor);
+  setHorizonColour(Level_getCurrent().horizonColor);
+  Ground_setColor(Level_getCurrent().groundColor);
 }
 
 export function updateShieldLossStatic() {
   setSkyColour(C64.randomCssColour());
   setHorizonColour(C64.randomCssColour());
-  Ground.setColor(C64.randomCssColour());
+  Ground_setColor(C64.randomCssColour());
 }
 
 // Getter for horizonDiv
