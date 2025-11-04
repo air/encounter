@@ -1,83 +1,170 @@
-'use strict';
+/**
+ * Shot.js - Projectile system for both player and enemy shots
+ * Handles shot creation, movement, collision detection, and cleanup
+ */
 
-import * as C64 from './C64.js';
-import * as MY3 from './MY3.js';
-import * as Physics from './Physics.js';
-import * as Obelisk from './Obelisk.js';
-import Sound from './Sound.js';
+import { FlickeringBasicMaterial, doCirclesCollide } from './MY3.js';
+import { isCloseToAnObelisk, isCollidingWithObelisk, bounceObjectOutOfIntersectingCircle } from './Physics.js';
+import { RADIUS as OBELISK_RADIUS } from './Obelisk.js';
+import { shotBounce as Sound_shotBounce } from './Sound.js';
+import { SHOT_SPEED } from './Encounter.js';
+import { TYPE_SHOT as RADAR_TYPE_SHOT } from './Radar.js';
+import { Actor } from './Actors.js';
+import { setBlue as Indicators_setBlue } from './Indicators.js';
+import { getIsAlive as Enemy_getIsAlive, getCurrent as Enemy_getCurrent, destroyed as Enemy_destroyed } from './Enemy.js';
 
-export const RADIUS = 3;
-export const HEIGHT = 6;
-// radius, height, segments, heightSegments
-export const GEOMETRY = new window.THREE.CylinderGeometry(RADIUS, RADIUS, HEIGHT, 8, 1, false);
-export const MATERIAL = new window.THREE.MeshBasicMaterial({ color : C64.white });
+// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
+const Player = {
+  position: { x: 0, y: 0, z: 0 },
+  RADIUS: 30,
+  wasHit: () => {},
+  shotsInFlight: 0
+};
 
-let shotType = null; // 'player' or 'enemy' // FIXME use constants instead of literals
-let speed = 1.5; // default
-let direction = null; // will be updated by the firer
+// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
+const State = {
+  actors: {
+    remove: () => {},
+    list: []
+  },
+  setupPlayerHitInCombat: () => {}
+};
 
-// move the shot forward by (speed * timeDeltaMillis) in the direction it's pointing
-export function update(timeDeltaMillis) {
-  // FIXME direction should always be normalised because a non-normalized direction modifies the length of the move
-  if (this.direction !== null && this.direction !== undefined)
-  {
-    var movement = this.direction.clone();
-    movement.multiplyScalar(this.speed * timeDeltaMillis);
-    this.position.add(movement);
-  }
+// Constants
+export const RADIUS = 40;
+export const OFFSET_FROM_SHOOTER = 120; // created this far in front of you
+export const CAN_TRAVEL = 16000; // TODO confirm
+export const GEOMETRY = new window.THREE.SphereGeometry(RADIUS, 16, 16);
 
-  // bounce off obelisks
-  if (Physics.isCollidingWithObelisk(this.position, RADIUS))
-  {
-    Sound.shotBounce();
-    Physics.bounceObjectOutOfIntersectingCircle(
-      Physics.isCollidingWithObelisk(this.position, RADIUS),
-      Obelisk.RADIUS, this, RADIUS);
+export const TYPE_PLAYER = 'playerShot';
+export const TYPE_ENEMY = 'enemyShot';
 
-    // recalculate direction after bouncing, to support further collisions on the same frame
-    this.direction = MY3.objectRotationAsUnitVector(this);
+/**
+ * Create a new shot fired by the shooterObject
+ * @param {Object} shooterObject - The object firing the shot (Player or Enemy)
+ * @param {THREE.Vector3} shooterPosition - Position to spawn shot from
+ * @param {THREE.Euler} shooterRotation - Rotation of the shooter
+ * @param {THREE.Material} material - Material for the shot mesh
+ * @returns {THREE.Mesh} The shot mesh with actor attached
+ */
+export function newInstance(shooterObject, shooterPosition, shooterRotation, material) {
+  const newShot = new window.THREE.Mesh(GEOMETRY, material);
+
+  newShot.shotType = (shooterObject === Player ? TYPE_PLAYER : TYPE_ENEMY);
+
+  newShot.radarType = RADAR_TYPE_SHOT;
+
+  newShot.position.copy(shooterPosition);
+  newShot.rotation.copy(shooterRotation);
+  newShot.translateZ(-OFFSET_FROM_SHOOTER);
+
+  newShot.hasTravelled = 0;
+
+  // update is a closure passed over to Actor and invoked there, so we need 'self' to track the owning object
+  const self = newShot;
+  const update = function(timeDeltaMillis) {
+    if (self.material instanceof FlickeringBasicMaterial) {
+      self.material.tick();
+    }
+
+    // move the shot
+    const actualMoveSpeed = timeDeltaMillis * SHOT_SPEED;
+    self.translateZ(-actualMoveSpeed);
+    self.hasTravelled += actualMoveSpeed;
+
+    // expire an aging shot based on distance travelled
+    if (self.hasTravelled > CAN_TRAVEL) {
+      cleanUpDeadShot(self);
+    }
+    else {
+      collideWithObelisks(self);
+      collideWithShips(self);
+    }
+  };
+
+  newShot.actor = new Actor(newShot, update, newShot.radarType);
+
+  return newShot;
+}
+
+/**
+ * Check and handle collision with obelisks
+ * @param {THREE.Mesh} shot - The shot object to check
+ */
+function collideWithObelisks(shot) {
+  // if an obelisk is close (fast check), do a detailed collision check
+  if (isCloseToAnObelisk(shot.position, RADIUS)) {
+    // check for precise collision
+    const collidePosition = isCollidingWithObelisk(shot.position, RADIUS);
+    // if we get a return value we have work to do
+    if (collidePosition) {
+      // we have a collision, bounce
+      bounceObjectOutOfIntersectingCircle(collidePosition, OBELISK_RADIUS, shot, RADIUS);
+      Sound_shotBounce();
+    }
   }
 }
 
-// return a Mesh for a single Shot
-export function newMeshInstance(position, directionVector) {
-  var mesh = new window.THREE.Mesh(GEOMETRY, MATERIAL);
-  if (position)
-  {
-    mesh.position.copy(position);
+/**
+ * Check and handle collision with ships (player or enemy)
+ * @param {THREE.Mesh} shot - The shot object to check
+ */
+function collideWithShips(shot) {
+  // kill the player
+  if (shot.shotType === TYPE_ENEMY && doCirclesCollide(shot.position, RADIUS, Player.position, Player.RADIUS)) {
+    Player.wasHit();
+    State.setupPlayerHitInCombat();
   }
-
-  // copy the Shot functions onto the mesh
-  mesh.update = update;
-  mesh.direction = directionVector.clone(); // FIXME it's the caller's responsibility to ensure this is normalised
-  mesh.speed = speed;
-
-  return mesh;
+  // kill the enemy
+  if (shot.shotType === TYPE_PLAYER && Enemy_getIsAlive() && doCirclesCollide(shot.position, RADIUS, Enemy_getCurrent().mesh.position, Enemy_getCurrent().RADIUS)) {
+    Enemy_destroyed();
+    // remove the shot
+    cleanUpDeadShot(shot);
+  }
 }
 
-// Getters and setters for module state
-export function getShotType() { return shotType; }
-export function setShotType(type) { shotType = type; }
-export function getSpeed() { return speed; }
-export function setSpeed(newSpeed) { speed = newSpeed; }
-export function getDirection() { return direction; }
-export function setDirection(newDirection) { direction = newDirection; }
+/**
+ * For use with Array.every() where the Array contains Actor objects
+ * FIXME use instanceof Shot here for sanity
+ * @param {Actor} element - Actor element to check
+ * @param {number} index - Array index
+ * @param {Array} array - The array
+ * @returns {boolean} True if not an enemy shot
+ */
+export function isNotEnemyShot(element, index, array) {
+  if (element.getObject3D().shotType === TYPE_ENEMY) {
+    return false;
+  }
+  else { // it's a Player shot or shotType is undefined
+    return true;
+  }
+}
+
+/**
+ * Clean up a dead shot
+ * @param {THREE.Mesh} shot - The shot to clean up
+ */
+function cleanUpDeadShot(shot) {
+  State.actors.remove(shot.actor);
+
+  if (shot.shotType === TYPE_PLAYER) {
+    Player.shotsInFlight -= 1;
+  }
+  else { // if this was the last enemy shot cleaned up, no enemy shots remain so kill the blue light
+    if (State.actors.list.every(isNotEnemyShot)) {
+      Indicators_setBlue(false);
+    }
+  }
+}
 
 // Export default object for backward compatibility
 export default {
   RADIUS,
-  HEIGHT,
+  OFFSET_FROM_SHOOTER,
+  CAN_TRAVEL,
   GEOMETRY,
-  MATERIAL,
-  shotType: () => shotType,
-  speed: () => speed,
-  direction: () => direction,
-  update,
-  newMeshInstance,
-  getShotType,
-  setShotType,
-  getSpeed,
-  setSpeed,
-  getDirection,
-  setDirection
+  TYPE_PLAYER,
+  TYPE_ENEMY,
+  newInstance,
+  isNotEnemyShot
 };

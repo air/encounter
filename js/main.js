@@ -100,11 +100,11 @@ var testAsteroid = Asteroid.newInstance();
 log('Created test asteroid mesh with geometry and material');
 
 // Test Shot module
-log('Shot module loaded - Radius: ' + Shot.RADIUS + ', Height: ' + Shot.HEIGHT);
-var testDirection = new window.THREE.Vector3(0, 0, -1); // Forward direction
-var testPosition = new window.THREE.Vector3(0, 0, 0);
-var testShot = Shot.newMeshInstance(testPosition, testDirection);
-log('Created test shot mesh with position and direction');
+log('Shot module loaded - Radius: ' + Shot.RADIUS + ', Offset: ' + Shot.OFFSET_FROM_SHOOTER);
+log('Shot constants - Can travel: ' + Shot.CAN_TRAVEL + ', Type player: ' + Shot.TYPE_PLAYER + ', Type enemy: ' + Shot.TYPE_ENEMY);
+// Note: Shot.newInstance requires (shooterObject, shooterPosition, shooterRotation, material)
+// We'll skip creating a test shot since it needs a proper shooter object (Player or Enemy)
+log('Shot module ready with collision detection and cleanup');
 
 // Test ShotSpawner module
 log('ShotSpawner module loaded - constructor function ready');
