@@ -7,6 +7,8 @@ import * as Physics from './Physics.js';
 import * as Obelisk from './Obelisk.js';
 import Sound from './Sound.js';
 import { TYPE_NONE, TYPE_PORTAL } from './Radar.js';
+import { Actor } from './Actors.js';
+import { cleared as Enemy_cleared } from './Enemy.js';
 
 // CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
 const State = {
@@ -16,19 +18,9 @@ const State = {
   }
 };
 
-const Enemy = {
-  cleared: () => console.log('Enemy.cleared called')
-};
-
 const Player = {
   position: { x: 0, y: 0, z: 0 },
   RADIUS: 30
-};
-
-const Actor = function(object3D, updateFunction, radarType) {
-  this.object3D = object3D;
-  this.update = updateFunction;
-  this.radarType = radarType;
 };
 
 // An exploding enemy generates flying gibs.
@@ -96,7 +88,7 @@ export function cleanUp() {
   });
 
   // animation is finished, move the State onward
-  Enemy.cleared();
+  Enemy_cleared();
 }
 
 export function update(timeDeltaMillis) {
