@@ -23,7 +23,6 @@ This game was written many years ago and uses an ancient version of three.js, an
 ### Git Commit Workflow
 - **IMPORTANT**: Do NOT make git commits until the user has tested and validated the code changes
 - After completing conversions, stage the files but wait for user approval before committing
-- Only create commits when the user explicitly says "commit" or "ok commit"
 
 ## Development Commands
 
@@ -100,3 +99,4 @@ npm test          # Run Mocha tests
 ## Code Writing Guidelines
 
 - When leaving comments in the code for something to do later, always prefix it with CLAUDE-TODO: so we know it's a comment for Claude, not for the developer
+- when refactoring the JS files, it's absolutely critical to keep all the functions and constants without changing their values! don't drop or change any values since they are all critical to the functioning of the game. when you update a file (say from js/Shot.js to js/modules/Shot.js) compare the 'before' and 'after' to verify everything was ported over.
