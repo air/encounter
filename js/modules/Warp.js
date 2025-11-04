@@ -288,8 +288,9 @@ function restoreLevel() {
   State.setupWaitForEnemy();
 }
 
-// Getters for module state
+// Getters and setters for module state
 export function getState() { return state; }
+export function setState(newState) { state = newState; }
 export function getEnteredAt() { return enteredAt; }
 export function getAsteroids() { return asteroids; }
 
@@ -305,12 +306,14 @@ export default {
   STATE_PLAYER_HIT,
   STATE_WAIT_TO_EXIT,
   get state() { return state; },
+  set state(newState) { state = newState; },
   get enteredAt() { return enteredAt; },
   get asteroids() { return asteroids; },
   init,
   setup,
   update,
   getState,
+  setState,
   getEnteredAt,
   getAsteroids
 };

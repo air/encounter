@@ -1,17 +1,14 @@
 'use strict';
 
 import * as C64 from './C64.js';
-
-// CLAUDE-TODO: These Enemy constants should be imported from Enemy module when it's converted
-// For now, we'll define them here to maintain functionality
-const Enemy = {
-  TYPE_MISSILE: 'missile',
-  TYPE_SAUCER_SINGLE: 'saucer_single', 
-  TYPE_SAUCER_TRIPLE: 'saucer_triple',
-  TYPE_SAUCER_CHAINGUN: 'saucer_chaingun',
-  TYPE_SAUCER_SHOTGUN: 'saucer_shotgun',
-  TYPE_SAUCER_AUTOSHOTGUN: 'saucer_autoshotgun'
-};
+import {
+  TYPE_MISSILE,
+  TYPE_SAUCER_SINGLE,
+  TYPE_SAUCER_TRIPLE,
+  TYPE_SAUCER_CHAINGUN,
+  TYPE_SAUCER_SHOTGUN,
+  TYPE_SAUCER_AUTOSHOTGUN
+} from './Enemy.js';
 
 let number = null;  // not to be changed directly, use functions
 let current = null; // reference to current level data object
@@ -23,12 +20,12 @@ export const data = [
     horizonColor : C64.css.blue,
     groundColor : C64.css.green,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_SINGLE,
+    firstEnemy : TYPE_SAUCER_SINGLE,
     enemyCount : 4,
     spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_SINGLE,
-      Enemy.TYPE_SAUCER_TRIPLE,
+      TYPE_MISSILE,
+      TYPE_SAUCER_SINGLE,
+      TYPE_SAUCER_TRIPLE,
     ]
   },
   // level 2
@@ -37,14 +34,14 @@ export const data = [
     horizonColor : C64.css.black,
     groundColor : C64.css.brown,
     obeliskColor : C64.green,
-    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
+    firstEnemy : TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_SINGLE,
-      Enemy.TYPE_SAUCER_TRIPLE,
-      Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN
+      TYPE_MISSILE,
+      TYPE_SAUCER_SINGLE,
+      TYPE_SAUCER_TRIPLE,
+      TYPE_SAUCER_CHAINGUN,
+      TYPE_SAUCER_SHOTGUN
     ]
   },
   // level 3
@@ -53,14 +50,14 @@ export const data = [
     horizonColor : C64.css.blue,
     groundColor : C64.css.lightred,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
+    firstEnemy : TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_TRIPLE,
-      Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN,
-      Enemy.TYPE_SAUCER_AUTOSHOTGUN
+      TYPE_MISSILE,
+      TYPE_SAUCER_TRIPLE,
+      TYPE_SAUCER_CHAINGUN,
+      TYPE_SAUCER_SHOTGUN,
+      TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // level 4
@@ -69,14 +66,14 @@ export const data = [
     horizonColor : C64.css.black,
     groundColor : C64.css.red,
     obeliskColor : C64.purple,
-    firstEnemy : Enemy.TYPE_SAUCER_AUTOSHOTGUN,
+    firstEnemy : TYPE_SAUCER_AUTOSHOTGUN,
     enemyCount : 6,
     spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_TRIPLE,
-      Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN,
-      Enemy.TYPE_SAUCER_AUTOSHOTGUN
+      TYPE_MISSILE,
+      TYPE_SAUCER_TRIPLE,
+      TYPE_SAUCER_CHAINGUN,
+      TYPE_SAUCER_SHOTGUN,
+      TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // level 5
@@ -85,14 +82,14 @@ export const data = [
     horizonColor : C64.css.blue,
     groundColor : C64.css.grey,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_CHAINGUN,
+    firstEnemy : TYPE_SAUCER_CHAINGUN,
     enemyCount : 6,
     spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_TRIPLE,
-      Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN,
-      Enemy.TYPE_SAUCER_AUTOSHOTGUN
+      TYPE_MISSILE,
+      TYPE_SAUCER_TRIPLE,
+      TYPE_SAUCER_CHAINGUN,
+      TYPE_SAUCER_SHOTGUN,
+      TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // level 6
@@ -101,14 +98,14 @@ export const data = [
     horizonColor : C64.css.lightred,
     groundColor : C64.css.brown,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
+    firstEnemy : TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_TRIPLE,
-      Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN,
-      Enemy.TYPE_SAUCER_AUTOSHOTGUN
+      TYPE_MISSILE,
+      TYPE_SAUCER_TRIPLE,
+      TYPE_SAUCER_CHAINGUN,
+      TYPE_SAUCER_SHOTGUN,
+      TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // level 7
@@ -117,14 +114,14 @@ export const data = [
     horizonColor : C64.css.black,
     groundColor : C64.css.lightblue,
     obeliskColor : C64.blue,
-    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
+    firstEnemy : TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_TRIPLE,
-      Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN,
-      Enemy.TYPE_SAUCER_AUTOSHOTGUN
+      TYPE_MISSILE,
+      TYPE_SAUCER_TRIPLE,
+      TYPE_SAUCER_CHAINGUN,
+      TYPE_SAUCER_SHOTGUN,
+      TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
   // level 8
@@ -133,14 +130,14 @@ export const data = [
     horizonColor : C64.css.orange,
     groundColor : C64.css.red,
     obeliskColor : C64.black,
-    firstEnemy : Enemy.TYPE_SAUCER_TRIPLE,
+    firstEnemy : TYPE_SAUCER_TRIPLE,
     enemyCount : 6,
     spawnTable : [
-      Enemy.TYPE_MISSILE,
-      Enemy.TYPE_SAUCER_TRIPLE,
-      Enemy.TYPE_SAUCER_CHAINGUN,
-      Enemy.TYPE_SAUCER_SHOTGUN,
-      Enemy.TYPE_SAUCER_AUTOSHOTGUN
+      TYPE_MISSILE,
+      TYPE_SAUCER_TRIPLE,
+      TYPE_SAUCER_CHAINGUN,
+      TYPE_SAUCER_SHOTGUN,
+      TYPE_SAUCER_AUTOSHOTGUN
     ]
   },
 ];

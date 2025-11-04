@@ -2,44 +2,27 @@
 
 // Keys.js covers the keys that are NOT associated with movement (which can change).
 
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-// For now, we'll define placeholder objects to maintain functionality
+import { error } from './UTIL.js';
+import { getCurrent as Controls_getCurrent, useFlyControls, useEncounterControls } from './Controls.js';
+import SimpleControls from './SimpleControls.js';
+import { getIsAlive as Enemy_getIsAlive, destroyed as Enemy_destroyed } from './Enemy.js';
+import { STATE_WAIT_TO_EXIT as Warp_STATE_WAIT_TO_EXIT, setState as Warp_setState } from './Warp.js';
+
+// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
   current: null,
   ATTRACT: 'attract',
-  COMBAT: 'combat', 
+  COMBAT: 'combat',
   WAIT_FOR_ENEMY: 'wait_for_enemy',
   WARP: 'warp',
   isPaused: false,
-  setupPlayerHitInCombat: () => console.log('State.setupPlayerHitInCombat called')
+  setupPlayerHitInCombat: () => {}
 };
 
-const Controls = {
-  current: null,
-  useFlyControls: () => console.log('Controls.useFlyControls called'),
-  useEncounterControls: () => console.log('Controls.useEncounterControls called')
-};
-
-const SimpleControls = function() {}; // Placeholder constructor
-
-const Enemy = {
-  isAlive: false,
-  destroyed: () => console.log('Enemy.destroyed called')
-};
-
+// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
-  wasHit: () => console.log('Player.wasHit called')
+  wasHit: () => {}
 };
-
-const Warp = {
-  state: null,
-  STATE_WAIT_TO_EXIT: 'wait_to_exit'
-};
-
-// For error logging - assuming this is from UTIL but we'll define locally for now
-function error(msg) {
-  console.error(msg);
-}
 
 // is the user pressing fire right now?
 let shooting = false;
@@ -49,13 +32,13 @@ let levelRequested = null;
 
 // toggle between normal and flying controls
 export function switchControls() {
-  if (Controls.current instanceof SimpleControls)
+  if (Controls_getCurrent() instanceof SimpleControls)
   {
-    Controls.useFlyControls();
+    useFlyControls();
   }
   else
   {
-    Controls.useEncounterControls();
+    useEncounterControls();
   }
 }
 
@@ -81,14 +64,14 @@ export function keyUp(event) {
       State.isPaused = !State.isPaused;
       break;
     case 75: // k
-      if (State.current === State.COMBAT && Enemy.isAlive)
+      if (State.current === State.COMBAT && Enemy_getIsAlive())
       {
-        Enemy.destroyed();
+        Enemy_destroyed();
         error('cheat: killer!');
       }
       else if (State.current === State.WARP)
       {
-        Warp.state = Warp.STATE_WAIT_TO_EXIT;
+        Warp_setState(Warp_STATE_WAIT_TO_EXIT);
         error('cheat: skipper!');
       }
       break;
