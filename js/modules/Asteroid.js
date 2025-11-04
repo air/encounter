@@ -1,7 +1,8 @@
 'use strict';
 
 import * as C64 from './C64.js';
-import * as UTIL from './UTIL.js';
+import { randomFromArray } from './UTIL.js';
+import { log } from './UTIL.js';
 import * as MY3 from './MY3.js';
 
 // CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
@@ -15,11 +16,6 @@ const Warp = {
   state: null,
   STATE_PLAYER_HIT: 'player_hit'
 };
-
-// Mock log function (should eventually come from UTIL or be globally available)
-function log(msg) {
-  console.log(msg);
-}
 
 export const RADIUS = 60;
 export const GEOMETRY = new window.THREE.SphereGeometry(RADIUS, 16, 16);
@@ -37,7 +33,7 @@ export function generateColor() {
   var color = C64.black;
   while (color === C64.black)
   {
-    color = UTIL.randomFromArray(C64.palette);
+    color = randomFromArray(C64.palette);
   }
   return color;
 }
