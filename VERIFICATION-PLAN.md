@@ -30,12 +30,12 @@ For each converted module, we will:
 - [x] 6. Keys.js ✅ VERIFIED & FIXED (removed 5 improper placeholders, added proper imports)
 - [x] 7. Display.js ✅ VERIFIED (getHorizonDiv() added for encapsulation, Level functions used correctly)
 - [x] 8. Indicators.js ✅ VERIFIED (WIDTH/X_SEPARATION correctly mutable, getter functions added for encapsulation)
-- [ ] 9. Encounter.js
+- [x] 9. Encounter.js ✅ VERIFIED (initialization calls correctly commented out)
 
 ### Batch 2 - Core Systems (Modules 10-15)
-- [ ] 10. Obelisk.js
-- [ ] 11. SimpleControls.js
-- [ ] 12. Physics.js
+- [x] 10. Obelisk.js ✅ VERIFIED
+- [x] 11. SimpleControls.js ✅ VERIFIED
+- [x] 12. Physics.js ✅ VERIFIED & FIXED (removed Grid placeholder with wrong SPACING value 200, added proper import for correct value 1000)
 - [ ] 13. MY3.js
 - [ ] 14. Asteroid.js
 - [x] 15. Shot.js ✅ FIXED
