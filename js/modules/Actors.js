@@ -1,15 +1,7 @@
 'use strict';
 
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-function panic(msg, value) {
-  throw new Error(msg + (value ? ': ' + value : ''));
-}
-
-// Mock scene object until we have proper scene management
-const scene = {
-  add: (object3D) => console.log('Scene.add called with:', object3D.constructor.name),
-  remove: (object3D) => console.log('Scene.remove called with:', object3D.constructor.name)
-};
+import { panic } from './UTIL.js';
+import { getScene } from './MY3.js';
 
 // An Actor has
 // - an Object3D for the scene
@@ -60,7 +52,7 @@ Actors.prototype = {
     }
 
     this.list.push(actor);
-    scene.add(actor.getObject3D());
+    getScene().add(actor.getObject3D());
   },
 
   remove: function(actor) {
@@ -77,14 +69,14 @@ Actors.prototype = {
     {
       panic('actor not in list', actor);
     }
-    scene.remove(actor.getObject3D());
+    getScene().remove(actor.getObject3D());
   },
 
   reset: function() {
     while (this.list.length > 0)
     {
       var actor = this.list.pop();
-      scene.remove(actor.getObject3D());
+      getScene().remove(actor.getObject3D());
     }
   },
 
