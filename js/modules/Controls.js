@@ -1,6 +1,6 @@
 'use strict';
 
-import * as UTIL from './UTIL.js';
+import { TO_RADIANS } from './UTIL.js';
 import SimpleControls from './SimpleControls.js';
 import Encounter from './Encounter.js';
 import Keys from './Keys.js';
@@ -12,8 +12,8 @@ const Player = {
   shoot: () => console.log('Player.shoot called')
 };
 
-let current = null;
-let shootingAllowed = true;
+export let current = null;
+export let shootingAllowed = true;
 
 export function init() {
   useEncounterControls();
@@ -25,8 +25,8 @@ export function useFlyControls() {
   current.movementSpeed = 2.0;
   current.lookSpeed = 0.0001;
   current.constrainVertical = false; // default false
-  current.verticalMin = 45 * UTIL.TO_RADIANS;
-  current.verticalMax = 135 * UTIL.TO_RADIANS;
+  current.verticalMin = 45 * TO_RADIANS;
+  current.verticalMax = 135 * TO_RADIANS;
 }
 
 export function useEncounterControls() {
@@ -45,7 +45,7 @@ export function useWarpControls() {
   current = new SimpleControls(Player);
   current.movementSpeed = 0;
   current.turnSpeed = Encounter.TURN_SPEED;
-  current.accelerationFixed = true; 
+  current.accelerationFixed = true;
 }
 
 export function interpretKeys(timeDeltaMillis) {
@@ -54,25 +54,13 @@ export function interpretKeys(timeDeltaMillis) {
   }
 }
 
-// Getters and setters for module state
-export function getCurrent() { return current; }
-export function setCurrent(newCurrent) { current = newCurrent; }
-export function getShootingAllowed() { return shootingAllowed; }
-export function setShootingAllowed(allowed) { shootingAllowed = allowed; }
-
 // Export default object for backward compatibility
 export default {
-  get current() { return current; },
-  set current(value) { current = value; },
-  get shootingAllowed() { return shootingAllowed; },
-  set shootingAllowed(value) { shootingAllowed = value; },
+  current,
+  shootingAllowed,
   init,
   useFlyControls,
   useEncounterControls,
   useWarpControls,
-  interpretKeys,
-  getCurrent,
-  setCurrent,
-  getShootingAllowed,
-  setShootingAllowed
+  interpretKeys
 };
