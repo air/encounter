@@ -1,16 +1,17 @@
 'use strict';
 
 import { log, platformSupportsTouch } from './UTIL.js';
-import Controls from './Controls.js';
+import { current as Controls_current } from './Controls.js';
 import Keys from './Keys.js';
 
-const CONTROLS_CSS_NOFILL = 'opacity:0.1; z-index: 11000; border-style: dashed; border-width: 1px';
-const CONTROLS_CSS = 'background-color: red; ' + CONTROLS_CSS_NOFILL;
-const DPAD_BUTTON_WIDTH_PERCENT = 18;
-const DPAD_BUTTON_HEIGHT_PERCENT = 12;
+export const CONTROLS_CSS_NOFILL = 'opacity:0.1; z-index: 11000; border-style: dashed; border-width: 1px';
+export const CONTROLS_CSS = 'background-color: red; ' + CONTROLS_CSS_NOFILL;
+export const DPAD_BUTTON_WIDTH_PERCENT = 18;
+export const DPAD_BUTTON_HEIGHT_PERCENT = 12;
 
-let dpad = {}; // map of dpad control objects
-let fireButton = null;
+export let dpad = {}; // map of dpad control objects
+export let fireButton = null;
+
 let lastDPadPressed = null;
 
 export function init() {
@@ -30,69 +31,69 @@ export function init() {
   // pass our id, along with our press() and unpress() functions.
   // we need to do this eight times in all.
   dpad['upleft'] = createDPadButton('upleft', function() {
-    Controls.current.moveForward = true;
-    Controls.current.turnLeft = true;
+    Controls_current.moveForward = true;
+    Controls_current.turnLeft = true;
   }, function() {
-    Controls.current.moveForward = false;
-    Controls.current.turnLeft = false;
+    Controls_current.moveForward = false;
+    Controls_current.turnLeft = false;
   });
   dpad['upleft'].style.bottom = (DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
 
   dpad['up'] = createDPadButton('up', function() {
-    Controls.current.moveForward = true;
+    Controls_current.moveForward = true;
   },
   function() {
-    Controls.current.moveForward = false;
+    Controls_current.moveForward = false;
   });
   dpad['up'].style.bottom = (DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
   dpad['up'].style.left = DPAD_BUTTON_WIDTH_PERCENT + '%';
 
   dpad['upright'] = createDPadButton('upright', function() {
-    Controls.current.moveForward = true;
-    Controls.current.turnRight = true;
+    Controls_current.moveForward = true;
+    Controls_current.turnRight = true;
   }, function() {
-    Controls.current.moveForward = false;
-    Controls.current.turnRight = false;
+    Controls_current.moveForward = false;
+    Controls_current.turnRight = false;
   });
   dpad['upright'].style.bottom = (DPAD_BUTTON_HEIGHT_PERCENT * 2) + '%';
   dpad['upright'].style.left = (DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
 
   dpad['left'] = createDPadButton('left', function() {
-    Controls.current.turnLeft = true;
+    Controls_current.turnLeft = true;
   }, function() {
-    Controls.current.turnLeft = false;
+    Controls_current.turnLeft = false;
   });
   dpad['left'].style.bottom = DPAD_BUTTON_HEIGHT_PERCENT + '%';
 
   dpad['right'] = createDPadButton('right', function() {
-    Controls.current.turnRight = true;
+    Controls_current.turnRight = true;
   }, function() {
-    Controls.current.turnRight = false;
+    Controls_current.turnRight = false;
   });
   dpad['right'].style.bottom = DPAD_BUTTON_HEIGHT_PERCENT + '%';
   dpad['right'].style.left = (DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
 
   dpad['downleft'] = createDPadButton('downleft', function() {
-    Controls.current.moveBackward = true;
-    Controls.current.turnLeft = true;
+    Controls_current.moveBackward = true;
+    Controls_current.turnLeft = true;
   }, function() {
-    Controls.current.moveBackward = false;
-    Controls.current.turnLeft = false;
+    Controls_current.moveBackward = false;
+    Controls_current.turnLeft = false;
   });
 
   dpad['down'] = createDPadButton('down', function() {
-    Controls.current.moveBackward = true;
+    Controls_current.moveBackward = true;
   }, function() {
-    Controls.current.moveBackward = false;
+    Controls_current.moveBackward = false;
   });
   dpad['down'].style.left= DPAD_BUTTON_WIDTH_PERCENT + '%';
 
   dpad['downright'] = createDPadButton('downright', function() {
-    Controls.current.moveBackward = true;
-    Controls.current.turnRight = true;
+    Controls_current.moveBackward = true;
+    Controls_current.turnRight = true;
   }, function() {
-    Controls.current.moveBackward = false;
-    Controls.current.turnRight = false;
+    Controls_current.moveBackward = false;
+    Controls_current.turnRight = false;
   });
   dpad['downright'].style.left = (DPAD_BUTTON_WIDTH_PERCENT * 2) + '%';
 
@@ -218,22 +219,14 @@ function initFireButton() {
   document.body.appendChild(fireButton);
 }
 
-// Getters for module state
-export function getDpad() { return dpad; }
-export function getFireButton() { return fireButton; }
-export function getLastDPadPressed() { return lastDPadPressed; }
-
 // Export default object for backward compatibility
 export default {
   CONTROLS_CSS_NOFILL,
   CONTROLS_CSS,
   DPAD_BUTTON_WIDTH_PERCENT,
   DPAD_BUTTON_HEIGHT_PERCENT,
-  get dpad() { return dpad; },
-  get fireButton() { return fireButton; },
-  get lastDPadPressed() { return lastDPadPressed; },
-  init,
-  getDpad,
-  getFireButton,
-  getLastDPadPressed
+  dpad,
+  fireButton,
+  lastDPadPressed,
+  init
 };
