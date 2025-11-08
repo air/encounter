@@ -39,6 +39,7 @@ import SaucerTriple from './modules/SaucerTriple.js';
 import SaucerChaingun from './modules/SaucerChaingun.js';
 import SaucerShotgun from './modules/SaucerShotgun.js';
 import SaucerAutoShotgun from './modules/SaucerAutoShotgun.js';
+import Player from './modules/Player.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -224,6 +225,19 @@ log('SaucerChaingun loaded - yellow/grey flickering saucer, 10 shots, no windup'
 log('SaucerShotgun loaded - lightgreen saucer, 3-shot spread, no windup');
 log('SaucerAutoShotgun loaded - lightgrey saucer, 3 consecutive 3-shot spreads, no windup');
 log('All Saucer enemy variants initialized successfully');
+
+// Test Player module
+log('Player module loaded - player ship with movement, shooting, and collision');
+log('Player constants - Radius: ' + Player.RADIUS);
+log('Player geometry loaded with ' + Player.GEOMETRY.vertices.length + ' vertices');
+log('Player shot material color: #' + Player.SHOT_MATERIAL.color.getHexString());
+Player.init();
+log('Player module initialized as THREE.Mesh with wireframe material');
+log('Player radar type: ' + Player.getRadarType());
+Player.resetShieldsLeft();
+log('Player shields reset to: ' + Player.getShieldsLeft());
+Player.resetPosition();
+log('Player position reset to grid start: ' + Player.getPosition().x + ', ' + Player.getPosition().y + ', ' + Player.getPosition().z);
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach

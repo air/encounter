@@ -16,6 +16,7 @@ import { setShooting as Keys_setShooting } from './Keys.js';
 import { random } from './UTIL.js';
 import { log, panic } from './UTIL.js';
 import { PLAYER_DEATH_TIMEOUT_MS } from './Encounter.js';
+import { getClock } from './MY3.js';
 
 // CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
@@ -34,11 +35,6 @@ const Player = {
   timeOfDeath: 0,
   isAlive: true,
   awardBonusShield: () => {}
-};
-
-// CLAUDE-TODO: Replace with actual clock reference when main game loop is modularized
-const clock = {
-  oldTime: 0
 };
 
 // CLAUDE-TODO: Replace with actual scene reference when MY3/rendering is fully modularized
@@ -88,7 +84,7 @@ export function setup() {
   State.actors.reset();
   useWarpControls();
 
-  enteredAt = clock.oldTime;
+  enteredAt = getClock().oldTime;
 
   state = STATE_ACCELERATE;
   log('warp: accelerating');
@@ -197,7 +193,7 @@ function updateAccelerate(timeDeltaMillis) {
   updateMovement(timeDeltaMillis);
   createAsteroidsInFrontOfPlayer(timeDeltaMillis);
 
-  if ((clock.oldTime - enteredAt) > TIME_ACCELERATING_MS) {
+  if ((getClock().oldTime - enteredAt) > TIME_ACCELERATING_MS) {
     state = STATE_CRUISE;
     log('warp: cruising');
   }
@@ -211,7 +207,7 @@ function updateCruise(timeDeltaMillis) {
   updateMovement(timeDeltaMillis);
   createAsteroidsInFrontOfPlayer(timeDeltaMillis);
 
-  if ((clock.oldTime - enteredAt - TIME_ACCELERATING_MS) > TIME_CRUISING_MS) {
+  if ((getClock().oldTime - enteredAt - TIME_ACCELERATING_MS) > TIME_CRUISING_MS) {
     state = STATE_DECELERATE;
     log('warp: decelerating');
 
@@ -232,7 +228,7 @@ function updateDecelerate(timeDeltaMillis) {
   updateMovement(timeDeltaMillis);
   // don't create new asteroids in deceleration phase
 
-  if ((clock.oldTime - enteredAt - TIME_ACCELERATING_MS - TIME_CRUISING_MS) > TIME_DECELERATING_MS) {
+  if ((getClock().oldTime - enteredAt - TIME_ACCELERATING_MS - TIME_CRUISING_MS) > TIME_DECELERATING_MS) {
     state = STATE_WAIT_TO_EXIT;
     log('warp: waiting to exit');
   }
@@ -250,7 +246,7 @@ function updatePlayerHit() {
     removeAsteroidsFromScene();  // FIXME asteroids disappear, will be replaced by death fuzz
     State.setupGameOver();
   }
-  else if (clock.oldTime > (Player.timeOfDeath + PLAYER_DEATH_TIMEOUT_MS)) {
+  else if (getClock().oldTime > (Player.timeOfDeath + PLAYER_DEATH_TIMEOUT_MS)) {
     Keys_setShooting(false);
     Player.isAlive = true;
     restoreLevel();

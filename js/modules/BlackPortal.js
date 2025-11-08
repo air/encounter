@@ -5,6 +5,7 @@ import * as C64 from './C64.js';
 import Encounter from './Encounter.js';
 import { randomLocationCloseToPlayer as Grid_randomLocationCloseToPlayer } from './Grid.js';
 import { log, panic } from './UTIL.js';
+import { getClock } from './MY3.js';
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
@@ -16,11 +17,6 @@ const State = {
   resetEnemyCounter: () => {},
   setupWaitForEnemy: () => {},
   setupWarp: () => {}
-};
-
-// CLAUDE-TODO: Replace with actual clock reference when main game loop is modularized
-const clock = {
-  oldTime: 0
 };
 
 // BlackPortal extends Portal functionality
@@ -47,12 +43,12 @@ export function getActorUpdateFunction() {
 
 export function startSpawnTimer() {
   log('started portal spawn timer');
-  spawnTimerStartedAt = clock.oldTime;
+  spawnTimerStartedAt = getClock().oldTime;
   Portal.state = STATE_WAITING_TO_SPAWN;
 }
 
 export function spawnIfReady() {
-  if ((clock.oldTime - spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS) {
+  if ((getClock().oldTime - spawnTimerStartedAt) > Encounter.TIME_TO_SPAWN_ENEMY_MS) {
     var location = Grid_randomLocationCloseToPlayer(Encounter.PORTAL_SPAWN_DISTANCE_MAX);
     Portal.spawn.call({ mesh: Portal.mesh, spawnedAt: Portal.spawnedAt, state: Portal.state, actor: null, getActorUpdateFunction });
   }
@@ -62,14 +58,14 @@ export function updateWaitingForPlayer(timeDeltaMillis) {
   if (Player.position.distanceTo(Portal.mesh.position) < 70) {
     Portal.state = STATE_PLAYER_ENTERED;
     // Portal cleanup is done in Warp
-  } else if ((clock.oldTime - wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS) {
+  } else if ((getClock().oldTime - wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS) {
     log('player failed to enter portal, closing');
     Portal.startClosing.call({ mesh: Portal.mesh, state: Portal.state, closeStartedAt: Portal.closeStartedAt });
   }
 }
 
 export function opened() {
-  wasOpenedAt = clock.oldTime;
+  wasOpenedAt = getClock().oldTime;
   Portal.state = STATE_WAITING_FOR_PLAYER;
 }
 

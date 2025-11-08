@@ -4,17 +4,13 @@ import * as C64 from './C64.js';
 import * as UTIL from './UTIL.js';
 import * as Shot from './Shot.js';
 import { TYPE_ENEMY } from './Radar.js';
+import { getClock } from './MY3.js';
 
 // CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
   actors: {
     add: (actor) => console.log('State.actors.add called with:', actor)
   }
-};
-
-// CLAUDE-TODO: Replace with actual clock import when converted to ES6 module
-const clock = {
-  oldTime: 0
 };
 
 // A ShotSpawner is a visible Mesh that generates a bunch of Shots
@@ -43,7 +39,7 @@ ShotSpawner.prototype.update = function(t) {
   var rotateRadians = t * this.ROTATE_RADIANS_PER_MS;
   this.rotateOnAxis(new window.THREE.Vector3(0,1,0), rotateRadians);
 
-  var timeNow = clock.oldTime;
+  var timeNow = getClock().oldTime;
   var millisSinceLastShot = timeNow - this.lastShotAt;
   if (millisSinceLastShot > this.SHOT_INTERVAL_MILLIS)
   {

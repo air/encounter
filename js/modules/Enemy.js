@@ -17,17 +17,13 @@ import { SaucerTriple } from './SaucerTriple.js';
 import { SaucerChaingun } from './SaucerChaingun.js';
 import { SaucerShotgun } from './SaucerShotgun.js';
 import { SaucerAutoShotgun } from './SaucerAutoShotgun.js';
+import { getClock } from './MY3.js';
 
 // CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
   actors: { add: () => {}, remove: () => {} },
   setupCombat: () => {},
   enemyKilled: () => {}
-};
-
-// CLAUDE-TODO: Replace with actual clock reference when main game loop is modularized
-const clock = {
-  oldTime: 0
 };
 
 // Enemy type constants
@@ -56,14 +52,14 @@ export function reset() {
  */
 export function startSpawnTimer() {
   log('started enemy spawn timer');
-  spawnTimerStartedAt = clock.oldTime;
+  spawnTimerStartedAt = getClock().oldTime;
 }
 
 /**
  * Check if spawn timer has elapsed and spawn if ready
  */
 export function spawnIfReady() {
-  if ((clock.oldTime - spawnTimerStartedAt) > TIME_TO_SPAWN_ENEMY_MS) {
+  if ((getClock().oldTime - spawnTimerStartedAt) > TIME_TO_SPAWN_ENEMY_MS) {
     spawn();
     State.setupCombat();
   }

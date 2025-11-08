@@ -4,6 +4,7 @@ import * as Obelisk from './Obelisk.js';
 import { Actor } from './Actors.js';
 import { log, panic } from './UTIL.js';
 import { TYPE_PORTAL as Radar_TYPE_PORTAL } from './Radar.js';
+import { getClock } from './MY3.js';
 
 // CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
@@ -11,11 +12,6 @@ const State = {
     add: () => {},
     remove: () => {}
   }
-};
-
-// CLAUDE-TODO: Replace with actual clock reference when main game loop is modularized
-const clock = {
-  oldTime: 0
 };
 
 // Prototype for BlackPortal (where player enters warp) and WhitePortal (where enemies warp in).
@@ -49,7 +45,7 @@ export function spawn(location) {
     panic('spawn requires location');
   }
 
-  spawnedAt = clock.oldTime;
+  spawnedAt = getClock().oldTime;
   state = STATE_OPENING;
 
   // FIXME this is temporary
@@ -72,7 +68,7 @@ export function spawn(location) {
 export function startClosing() {
   log('starting to close portal');
   state = STATE_CLOSING;
-  closeStartedAt = clock.oldTime;
+  closeStartedAt = getClock().oldTime;
 
   var tween = new window.TWEEN.Tween(mesh.scale).to({ y: 0.01 }, TIME_TO_ANIMATE_CLOSING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
@@ -87,14 +83,14 @@ export function removeFromScene() {
 }
 
 export function updateOpening(timeDeltaMillis) {
-  if ((clock.oldTime - spawnedAt) > TIME_TO_ANIMATE_OPENING_MS) {
+  if ((getClock().oldTime - spawnedAt) > TIME_TO_ANIMATE_OPENING_MS) {
     log('portal opened');
     opened();  // custom behaviour
   }
 }
 
 export function updateClosing(timeDeltaMillis) {
-  if ((clock.oldTime - closeStartedAt) > TIME_TO_ANIMATE_CLOSING_MS) {
+  if ((getClock().oldTime - closeStartedAt) > TIME_TO_ANIMATE_CLOSING_MS) {
     log('portal closed');
     state = null;
     removeFromScene();

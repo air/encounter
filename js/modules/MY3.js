@@ -395,6 +395,7 @@ export default {
   X_AXIS,
   Y_AXIS,
   Z_AXIS,
+  MATS,
   init3d,
   addHelpers,
   newThreeStats,
