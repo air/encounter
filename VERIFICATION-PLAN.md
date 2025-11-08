@@ -48,7 +48,7 @@ For each converted module, we will:
 
 ### Batch 4 - Controls & Camera (Modules 20-23)
 - [x] 20. Camera.js ✅ VERIFIED & FIXED (replaced Grid/scene placeholders with imports, added MY3.setCamera() for camera switching, removed extra getter/setter functions)
-- [ ] 21. GUI.js
+- [x] 21. GUI.js ✅ VERIFIED & FIXED (replaced Keys/Camera/clock placeholders with imports, removed extra getter/setter functions, exported gui property)
 - [ ] 22. Controls.js
 - [ ] 23. Touch.js
 
