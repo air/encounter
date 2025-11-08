@@ -2,43 +2,20 @@
 
 import * as Obelisk from './Obelisk.js';
 import { Actor } from './Actors.js';
-import { log } from './UTIL.js';
+import { log, panic } from './UTIL.js';
+import { TYPE_PORTAL as Radar_TYPE_PORTAL } from './Radar.js';
 
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
+// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
 const State = {
   actors: {
-    add: (actor) => console.log('State.actors.add called'),
-    remove: (actor) => console.log('State.actors.remove called')
+    add: () => {},
+    remove: () => {}
   }
 };
 
-const Radar = {
-  TYPE_PORTAL: 'portal'
-};
-
+// CLAUDE-TODO: Replace with actual clock reference when main game loop is modularized
 const clock = {
   oldTime: 0
-};
-
-// Mock TWEEN until available
-const TWEEN = {
-  Tween: function(object) {
-    this.object = object;
-    this.to = function(target, duration) {
-      console.log('TWEEN.to called:', target, duration);
-      return this;
-    };
-    this.onComplete = function(callback) {
-      console.log('TWEEN.onComplete called');
-      // Simulate completion after a brief delay for testing
-      setTimeout(callback, 100);
-      return this;
-    };
-    this.start = function() {
-      console.log('TWEEN.start called');
-      return this;
-    };
-  }
 };
 
 // Prototype for BlackPortal (where player enters warp) and WhitePortal (where enemies warp in).
@@ -50,13 +27,14 @@ export const TIME_TO_ANIMATE_OPENING_MS = 4000;
 export const TIME_TO_ANIMATE_CLOSING_MS = 3000;
 
 // prototype state
-let GEOMETRY = null;
+export let GEOMETRY = null;
 
 // state to be shadowed in derived objects
-let mesh = null;
-let state = null;
-let spawnedAt = null;
-let closeStartedAt = null;
+export let mesh = null;
+export let state = null;
+export let spawnedAt = null;
+export let closeStartedAt = null;
+let actor = null;
 
 export function init() {
   GEOMETRY = new window.THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
@@ -64,22 +42,22 @@ export function init() {
 
 export function spawn(location) {
   if (location === undefined) {
-    throw new Error('spawn requires location');
+    panic('spawn requires location');
   }
-  
+
   spawnedAt = clock.oldTime;
   state = STATE_OPENING;
-  
+
   // FIXME this is temporary
   // TODO use tween chaining for the left/right then up/down opening phases!
   mesh.position.set(location.x, Obelisk.HEIGHT / 2, location.z);
   mesh.scale.y = 0.01;
 
-  const actor = new Actor(mesh, getActorUpdateFunction(), Radar.TYPE_PORTAL);
+  actor = new Actor(mesh, getActorUpdateFunction(), Radar_TYPE_PORTAL);
   State.actors.add(actor);
   log('portal spawned');
-  
-  var tween = new TWEEN.Tween(mesh.scale).to({ y: 1.0 }, TIME_TO_ANIMATE_OPENING_MS);
+
+  var tween = new window.TWEEN.Tween(mesh.scale).to({ y: 1.0 }, TIME_TO_ANIMATE_OPENING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
   tween.onComplete(function() {
     log('portal opening tween complete');
@@ -92,7 +70,7 @@ export function startClosing() {
   state = STATE_CLOSING;
   closeStartedAt = clock.oldTime;
 
-  var tween = new TWEEN.Tween(mesh.scale).to({ y: 0.01 }, TIME_TO_ANIMATE_CLOSING_MS);
+  var tween = new window.TWEEN.Tween(mesh.scale).to({ y: 0.01 }, TIME_TO_ANIMATE_CLOSING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
   tween.onComplete(function() {
     log('portal closing tween complete');
@@ -101,9 +79,7 @@ export function startClosing() {
 }
 
 export function removeFromScene() {
-  // CLAUDE-TODO: Need to track actor reference properly
-  // State.actors.remove(this.actor);
-  console.log('Portal.removeFromScene called');
+  State.actors.remove(actor);
 }
 
 export function updateOpening(timeDeltaMillis) {
@@ -127,7 +103,7 @@ export function opened() {
 }
 
 export function closed() {
-  // default no op - to be overridden by derived classes
+  // default no op
 }
 
 // This should be overridden by derived classes
@@ -137,17 +113,6 @@ export function getActorUpdateFunction() {
   };
 }
 
-// Getters and setters for module state
-export function getGeometry() { return GEOMETRY; }
-export function getMesh() { return mesh; }
-export function setMesh(newMesh) { mesh = newMesh; }
-export function getState() { return state; }
-export function setState(newState) { state = newState; }
-export function getSpawnedAt() { return spawnedAt; }
-export function setSpawnedAt(time) { spawnedAt = time; }
-export function getCloseStartedAt() { return closeStartedAt; }
-export function setCloseStartedAt(time) { closeStartedAt = time; }
-
 // Export default object for backward compatibility
 export default {
   STATE_OPENING,
@@ -155,6 +120,7 @@ export default {
   TIME_TO_ANIMATE_OPENING_MS,
   TIME_TO_ANIMATE_CLOSING_MS,
   get GEOMETRY() { return GEOMETRY; },
+  set GEOMETRY(value) { GEOMETRY = value; },
   get mesh() { return mesh; },
   set mesh(value) { mesh = value; },
   get state() { return state; },
@@ -171,14 +137,5 @@ export default {
   updateClosing,
   opened,
   closed,
-  getActorUpdateFunction,
-  getGeometry,
-  getMesh,
-  setMesh,
-  getState,
-  setState,
-  getSpawnedAt,
-  setSpawnedAt,
-  getCloseStartedAt,
-  setCloseStartedAt
+  getActorUpdateFunction
 };
