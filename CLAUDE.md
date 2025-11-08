@@ -100,10 +100,23 @@ npm test          # Run Mocha tests
 - All dependencies vendored in lib/ directory
 
 ## Testing
+
+### Mocha Tests (Limited Coverage)
+- **IMPORTANT**: The mocha tests (`npm test`) only cover 2 files: **MY3.js** and **Physics.js**
+- Tests validate:
+  - MY3.FlickeringBasicMaterial constructor
+  - MY3.vectorToRotation() function
+  - Physics.moveCircleOutOfStaticCircle() function
+  - Physics.bounceObjectOutOfIntersectingCircle() function
+- **Only run `npm test` if you modified MY3.js or Physics.js**
+- For all other modules, manual browser testing is the only validation
+
+### Manual Browser Testing (Required for Everything)
 - Mocha test framework with Chai assertions
 - Tests located in test/ directory
 - Focus on core systems: MY3.js, Physics.js
 - Uses mocha.opts configuration for test reporter settings
+- **Manual browser testing at http://localhost:8000/index-modules.html is REQUIRED for validating all other modules**
 
 ## Code Writing Guidelines
 
