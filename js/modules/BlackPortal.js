@@ -36,7 +36,7 @@ let wasOpenedAt = null;
 let spawnTimerStartedAt = null;
 
 export function init() {
-  Portal.mesh = new window.THREE.Mesh(Portal.GEOMETRY, MATERIAL);
+  Portal.setMesh(new window.THREE.Mesh(Portal.GEOMETRY, MATERIAL));
 }
 
 // dummy actor update, we handle updates as a top-level State
@@ -101,6 +101,10 @@ export function update(timeDeltaMillis) {
   }
 }
 
+export function removeFromScene() {
+  Portal.removeFromScene.call({ actor: null });
+}
+
 // Export default object for backward compatibility
 export default {
   MATERIAL,
@@ -122,5 +126,6 @@ export default {
   updateWaitingForPlayer,
   opened,
   closed,
-  update
+  update,
+  removeFromScene
 };

@@ -22,7 +22,16 @@ This game was written many years ago and uses an ancient version of three.js, an
 
 ### Git Commit Workflow
 - **IMPORTANT**: Do NOT make git commits until the user has tested and validated the code changes
-- After completing conversions, stage the files but wait for user approval before committing
+- **IMPORTANT**: Do NOT attempt `git push` - the user will handle pushing to GitHub
+- After completing conversions or fixes, the workflow is:
+  1. Make the code changes
+  2. Run `npm test` to ensure basic tests pass (but recognize these tests are minimal and don't validate real functionality)
+  3. **STOP and WAIT** for the user to manually test in the browser at http://localhost:8000/index-modules.html
+  4. User will check the Chrome console for errors and test actual game functionality
+  5. **Only after user confirms "ok" or "looks good"**, then stage files with `git add` and commit with `git commit`
+  6. User will handle `git push` separately
+- The mocha tests are NOT sufficient signal to commit - they barely exercise the code
+- Manual browser testing is REQUIRED before every commit
 
 ## Development Commands
 

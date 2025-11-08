@@ -20,7 +20,7 @@ let enemyTypeIncoming = null;
 let actor = null;
 
 export function init() {
-  Portal.mesh = new window.THREE.Mesh(Portal.GEOMETRY, MATERIAL);
+  Portal.setMesh(new window.THREE.Mesh(Portal.GEOMETRY, MATERIAL));
 }
 
 export function getActorUpdateFunction() {

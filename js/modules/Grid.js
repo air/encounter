@@ -198,6 +198,8 @@ export function update() {
 // Getters for module state
 export function getSizeSquare() { return SIZE_SQUARE; }
 export function getMesh() { return mesh; }
+export function getViewport() { return viewport; }
+export function getObelisksPerSide() { return OBELISKS_PER_SIDE; }
 
 // Export default object for backward compatibility
 export default {
@@ -220,5 +222,7 @@ export default {
   reset,
   update,
   getSizeSquare,
-  getMesh
+  getMesh,
+  getViewport,
+  getObelisksPerSide
 };

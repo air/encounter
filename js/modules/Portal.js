@@ -40,6 +40,10 @@ export function init() {
   GEOMETRY = new window.THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
 }
 
+export function setMesh(newMesh) {
+  mesh = newMesh;
+}
+
 export function spawn(location) {
   if (location === undefined) {
     panic('spawn requires location');
@@ -130,6 +134,7 @@ export default {
   get closeStartedAt() { return closeStartedAt; },
   set closeStartedAt(value) { closeStartedAt = value; },
   init,
+  setMesh,
   spawn,
   startClosing,
   removeFromScene,

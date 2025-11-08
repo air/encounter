@@ -5,7 +5,7 @@
  */
 
 import { TYPE_ENEMY } from './Radar.js';
-import { MOVEMENT_SPEED, CAMERA_HEIGHT, ENEMY_SPAWN_DISTANCE_MAX, MISSILE_SPAWN_DISTANCE_MIN } from './Encounter.js';
+import { MOVEMENT_SPEED as ENCOUNTER_MOVEMENT_SPEED, CAMERA_HEIGHT, ENEMY_SPAWN_DISTANCE_MAX, MISSILE_SPAWN_DISTANCE_MIN } from './Encounter.js';
 import { cyan } from './C64.js';
 import { randomLocationCloseToPlayer } from './Grid.js';
 import { rotateObjectToLookAt, doCirclesCollide } from './MY3.js';
