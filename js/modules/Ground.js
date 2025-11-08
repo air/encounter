@@ -3,15 +3,7 @@
 import * as C64 from './C64.js';
 import { convertSixDigitCssRgbToNumeric, TO_RADIANS } from './UTIL.js';
 import Display from './Display.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const Grid = {
-  SIZE_SQUARE: 10000,  // placeholder value
-  mesh: {
-    add: (object) => console.log('Grid.mesh.add called with Ground')
-  },
-  addToScene: () => console.log('Grid.addToScene called')
-};
+import { getSizeSquare, mesh as Grid_mesh, addToScene as Grid_addToScene } from './Grid.js';
 
 // Ground plane setup - initially a default mesh, we'll define this in init()
 const groundMesh = new window.THREE.Mesh(); // initially a default mesh, we'll define this in init()
@@ -32,24 +24,24 @@ export function init() {
     return;
   }
 
-  GEOMETRY = new window.THREE.PlaneGeometry(Grid.SIZE_SQUARE, Grid.SIZE_SQUARE, X_SEGMENTS, Z_SEGMENTS);
+  GEOMETRY = new window.THREE.PlaneGeometry(getSizeSquare(), getSizeSquare(), X_SEGMENTS, Z_SEGMENTS);
 
   // actually set up this Mesh using our materials
-  window.THREE.Mesh.call(groundMesh, GEOMETRY, MATERIAL); 
-  
+  window.THREE.Mesh.call(groundMesh, GEOMETRY, MATERIAL);
+
   // plane inits as a wall on X axis facing the positive Z space, turn away to make a floor
   groundMesh.rotation.x = -90 * TO_RADIANS;
 
   // plane is anchored at its centre
-  groundMesh.position.x = Grid.SIZE_SQUARE / 2;
-  groundMesh.position.z = Grid.SIZE_SQUARE / 2;
+  groundMesh.position.x = getSizeSquare() / 2;
+  groundMesh.position.z = getSizeSquare() / 2;
 
   // zero Y is ground
   groundMesh.position.y = 0;
 
   // Ground is a child Object3D of the Grid. All movement and on/off are handled in the Grid API.
-  Grid.mesh.add(groundMesh);
-  Grid.addToScene();
+  Grid_mesh.add(groundMesh);
+  Grid_addToScene();
 }
 
 // Pass a CSS colour string, e.g. C64.css.white
@@ -62,10 +54,6 @@ export function setColor(cssColor) {
   }
 }
 
-// Getters for module state
-export function getGeometry() { return GEOMETRY; }
-export function getGroundMesh() { return groundMesh; }
-
 // Export default object for backward compatibility
 export default {
   DO_RENDER,
@@ -74,7 +62,5 @@ export default {
   MATERIAL,
   get GEOMETRY() { return GEOMETRY; },
   init,
-  setColor,
-  getGeometry,
-  getGroundMesh
+  setColor
 };
