@@ -3,24 +3,26 @@
 import Encounter from './Encounter.js';
 import * as Obelisk from './Obelisk.js';
 import * as Physics from './Physics.js';
-import { log, random } from './UTIL.js';
+import { log, random, panic } from './UTIL.js';
 import Level from './Level.js';
 import Display from './Display.js';
 import Ground from './Ground.js';
+import { getScene, getCamera } from './MY3.js';
 
+// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
   position: { x: 0, y: 0, z: 0 },
   RADIUS: 30
 };
 
-// Mock scene and camera globals until proper initialization
+// CLAUDE-TODO: Replace with actual scene/camera references when main game loop is modularized
 const scene = {
-  add: (object) => console.log('Scene.add called with Grid mesh'),
-  remove: (object) => console.log('Scene.remove called with Grid mesh')
+  add: (object) => getScene().add(object),
+  remove: (object) => getScene().remove(object)
 };
 
 const camera = {
-  far: 3000  // placeholder draw distance
+  get far() { return getCamera().far; }
 };
 
 // the Grid is:
@@ -145,7 +147,7 @@ export function randomLocationCloseToPlayer(maxDistance, minDistance) {
 // FIXME brute force alert!
 export function randomLocationCloseToPoint(point, maxDistance) {
   if (point.x === undefined) {
-    throw new Error('point must have an x: ' + point);
+    panic('point must have an x:', point);
   }
   
   var location = null;
@@ -161,8 +163,8 @@ export function reset() {
   mesh.position.x = viewport.min.x;
   mesh.position.z = viewport.min.y; // note that Y in the Vector2 represents Z
 
-  mesh.material.color = new window.THREE.Color(Level.getCurrent().obeliskColor);
-  Ground.setColor(Level.getCurrent().groundColor);
+  mesh.material.color = new window.THREE.Color(Level.current.obeliskColor);
+  Ground.setColor(Level.current.groundColor);
 }
 
 // When the player moves close to the edge of the grid, translate it seamlessly.
@@ -195,13 +197,6 @@ export function update() {
 
 // Getters for module state
 export function getSizeSquare() { return SIZE_SQUARE; }
-export function getObelisksPerSide() { return OBELISKS_PER_SIDE; }
-export function getTriggerDistance() { return TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE; }
-export function getViewport() { return viewport; }
-export function getGeometry() { return geometry; }
-export function getMesh() { return mesh; }
-export function getIsActive() { return isActive; }
-export function setIsActive(active) { isActive = active; }
 
 // Export default object for backward compatibility
 export default {
@@ -223,12 +218,5 @@ export default {
   randomLocationCloseToPoint,
   reset,
   update,
-  getSizeSquare,
-  getObelisksPerSide,
-  getTriggerDistance,
-  getViewport,
-  getGeometry,
-  getMesh,
-  getIsActive,
-  setIsActive
+  getSizeSquare
 };
