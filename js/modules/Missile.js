@@ -37,7 +37,7 @@ export const MESH_SCALE_X = 0.6; // TODO improve shape
 export const radarType = TYPE_ENEMY;
 
 // Player speed is Encounter.MOVEMENT_SPEED
-export const MISSILE_MOVEMENT_SPEED = 1.8;
+export const MOVEMENT_SPEED = 1.8;
 
 export const STRAFE_MAX_OFFSET = 50; // how far the missile will strafe away from a direct line to the player
 export const STRAFE_TIME_MILLIS = 1100; // time to sweep from one side to the other
@@ -76,24 +76,25 @@ export function spawn() {
   strafeOffset = -STRAFE_MAX_OFFSET; // start at one side for simplicity
   strafeTweenLoop.start();
 
-  return { mesh, actor, update, destroyed, radarType };
+  // Return the default export for chaining (mimics original behavior)
+  return Missile;
 }
 
 /**
  * Set up an infinitely looping tween going back and forth between offsets
  */
 function setupStrafeTweens() {
-  const missileState = { strafeOffset: -STRAFE_MAX_OFFSET };
+  // Create a proxy object that will be used by TWEEN
+  const missileProxy = {
+    get strafeOffset() { return strafeOffset; },
+    set strafeOffset(value) { strafeOffset = value; }
+  };
 
-  const leftToRight = new window.TWEEN.Tween(missileState).to({ strafeOffset: STRAFE_MAX_OFFSET }, STRAFE_TIME_MILLIS);
-  const rightToLeft = new window.TWEEN.Tween(missileState).to({ strafeOffset: -STRAFE_MAX_OFFSET }, STRAFE_TIME_MILLIS);
+  const leftToRight = new window.TWEEN.Tween(missileProxy).to({ strafeOffset: STRAFE_MAX_OFFSET }, STRAFE_TIME_MILLIS);
+  const rightToLeft = new window.TWEEN.Tween(missileProxy).to({ strafeOffset: -STRAFE_MAX_OFFSET }, STRAFE_TIME_MILLIS);
 
   leftToRight.chain(rightToLeft);
   rightToLeft.chain(leftToRight);
-
-  // Update closure to keep strafeOffset in sync
-  leftToRight.onUpdate(() => { strafeOffset = missileState.strafeOffset; });
-  rightToLeft.onUpdate(() => { strafeOffset = missileState.strafeOffset; });
 
   strafeTweenLoop = leftToRight;
 }
@@ -109,7 +110,7 @@ export function update(timeDeltaMillis) {
 
   rotateObjectToLookAt(mesh, Player.position);
 
-  const actualMoveSpeed = timeDeltaMillis * MISSILE_MOVEMENT_SPEED;
+  const actualMoveSpeed = timeDeltaMillis * MOVEMENT_SPEED;
   mesh.translateZ(-actualMoveSpeed);
 
   // if an obelisk is close (fast check), do a detailed collision check
@@ -141,29 +142,28 @@ export function destroyed() {
   strafeTweenLoop.stop();
 }
 
-// Getters for module state
-export function getMesh() { return mesh; }
-export function getActor() { return actor; }
-export function getStrafeOffset() { return strafeOffset; }
-
 // Default export for backward compatibility
-export default {
+const Missile = {
   RADIUS,
   GEOMETRY,
   MATERIAL,
   MESH_SCALE_X,
   radarType,
-  MOVEMENT_SPEED: MISSILE_MOVEMENT_SPEED,
+  MOVEMENT_SPEED,
   STRAFE_MAX_OFFSET,
   STRAFE_TIME_MILLIS,
   get mesh() { return mesh; },
+  set mesh(value) { mesh = value; },
   get actor() { return actor; },
+  set actor(value) { actor = value; },
   get strafeOffset() { return strafeOffset; },
+  set strafeOffset(value) { strafeOffset = value; },
+  get strafeTweenLoop() { return strafeTweenLoop; },
+  set strafeTweenLoop(value) { strafeTweenLoop = value; },
   init,
   spawn,
   update,
-  destroyed,
-  getMesh,
-  getActor,
-  getStrafeOffset
+  destroyed
 };
+
+export default Missile;
