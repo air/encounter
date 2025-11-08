@@ -47,9 +47,6 @@ async function testBrowser() {
       timeout: 30000
     });
 
-    // Wait a bit for any async initialization
-    await page.waitForTimeout(2000);
-
     // Check for errors
     const hasErrors = pageErrors.length > 0 ||
       consoleMessages.some(msg => msg.type === 'error');
