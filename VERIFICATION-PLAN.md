@@ -57,9 +57,9 @@ For each converted module, we will:
 - [x] 25. Ground.js ✅ VERIFIED & FIXED (replaced Grid placeholder with proper imports, removed extra getter functions)
 
 ### Batch 6 - Portals (Modules 26-28)
-- [ ] 26. Portal.js
-- [ ] 27. BlackPortal.js
-- [ ] 28. WhitePortal.js
+- [x] 26. Portal.js ✅ VERIFIED & FIXED (restored panic(), used window.TWEEN, exported state variables, kept getActorUpdateFunction() for derived classes)
+- [x] 27. BlackPortal.js ✅ VERIFIED & FIXED (used Portal state directly, removed state sync, restored panic(), imported Radar/Grid properly)
+- [x] 28. WhitePortal.js ✅ VERIFIED & FIXED (used Portal state directly, removed state sync, restored panic(), imported Radar/Grid properly)
 
 ### Batch 7 - Support Systems (Modules 29-31)
 - [ ] 29. Radar.js
