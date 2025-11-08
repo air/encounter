@@ -8,7 +8,7 @@ import { removeFromScene as BlackPortal_removeFromScene } from './BlackPortal.js
 import { removeFromScene as Grid_removeFromScene, addToScene as Grid_addToScene } from './Grid.js';
 import { setSkyColour, getHorizonDiv, updateShieldLossStatic } from './Display.js';
 import { css as C64css } from './C64.js';
-import { useWarpControls, getCurrent as Controls_getCurrent, interpretKeys } from './Controls.js';
+import { useWarpControls, current as Controls_current, interpretKeys } from './Controls.js';
 import { newInstance as Asteroid_newInstance, collideWithPlayer as Asteroid_collideWithPlayer } from './Asteroid.js';
 import { update as Camera_update } from './Camera.js';
 import { nextLevel } from './Level.js';
@@ -94,7 +94,7 @@ export function setup() {
   log('warp: accelerating');
 
   // set up acceleration phase
-  const tween = new window.TWEEN.Tween(Controls_getCurrent()).to({ movementSpeed: MAX_SPEED }, TIME_ACCELERATING_MS);
+  const tween = new window.TWEEN.Tween(Controls_current).to({ movementSpeed: MAX_SPEED }, TIME_ACCELERATING_MS);
   //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
   tween.onComplete(function() {
     log('acceleration tween complete');
@@ -154,7 +154,7 @@ function checkCollisions() {
  */
 function updateMovement(timeDeltaMillis) {
   window.TWEEN.update();
-  Controls_getCurrent().update(timeDeltaMillis);
+  Controls_current.update(timeDeltaMillis);
   Player.update(timeDeltaMillis);
   Camera_update(timeDeltaMillis);
   interpretKeys(timeDeltaMillis);
@@ -215,7 +215,7 @@ function updateCruise(timeDeltaMillis) {
     state = STATE_DECELERATE;
     log('warp: decelerating');
 
-    const tween = new window.TWEEN.Tween(Controls_getCurrent()).to({ movementSpeed: 0 }, TIME_DECELERATING_MS);
+    const tween = new window.TWEEN.Tween(Controls_current).to({ movementSpeed: 0 }, TIME_DECELERATING_MS);
     //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
     tween.onComplete(function() {
       log('acceleration tween complete');

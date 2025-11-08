@@ -3,7 +3,7 @@
 // Keys.js covers the keys that are NOT associated with movement (which can change).
 
 import { error } from './UTIL.js';
-import { getCurrent as Controls_getCurrent, useFlyControls, useEncounterControls } from './Controls.js';
+import { current as Controls_current, useFlyControls, useEncounterControls } from './Controls.js';
 import SimpleControls from './SimpleControls.js';
 import { getIsAlive as Enemy_getIsAlive, destroyed as Enemy_destroyed } from './Enemy.js';
 import { STATE_WAIT_TO_EXIT as Warp_STATE_WAIT_TO_EXIT, setState as Warp_setState } from './Warp.js';
@@ -32,7 +32,7 @@ let levelRequested = null;
 
 // toggle between normal and flying controls
 export function switchControls() {
-  if (Controls_getCurrent() instanceof SimpleControls)
+  if (Controls_current instanceof SimpleControls)
   {
     useFlyControls();
   }
