@@ -62,8 +62,8 @@ For each converted module, we will:
 - [x] 28. WhitePortal.js ✅ VERIFIED & FIXED (used Portal state directly, removed state sync, restored panic(), imported Radar/Grid properly)
 
 ### Batch 7 - Support Systems (Modules 29-31)
-- [ ] 29. Radar.js
-- [ ] 30. Missile.js
+- [x] 29. Radar.js ✅ VERIFIED & FIXED (added getters/setters for showObelisks/showShots, already well-converted with good encapsulation)
+- [x] 30. Missile.js ✅ VERIFIED & FIXED (restored MOVEMENT_SPEED name, fixed tween setup with proxy object, fixed spawn() return value, added strafeTweenLoop to exports)
 - [ ] 31. Warp.js
 
 ### Batch 8 - Enemy System (Modules 32-38)
