@@ -25,13 +25,12 @@ This game was written many years ago and uses an ancient version of three.js, an
 - **IMPORTANT**: Do NOT attempt `git push` - the user will handle pushing to GitHub
 - After completing conversions or fixes, the workflow is:
   1. Make the code changes
-  2. Run `npm test` to ensure basic tests pass (but recognize these tests are minimal and don't validate real functionality)
-  3. **STOP and WAIT** for the user to manually test in the browser at http://localhost:8000/index-modules.html
-  4. User will check the Chrome console for errors and test actual game functionality
-  5. **Only after user confirms "ok" or "looks good"**, then stage files with `git add` and commit with `git commit`
-  6. User will handle `git push` separately
-- The mocha tests are NOT sufficient signal to commit - they barely exercise the code
-- Manual browser testing is REQUIRED before every commit
+  2. Run `npm run test:browser` to check for browser errors (uses Puppeteer to load the app and capture console output)
+  3. **STOP and WAIT** for the user to confirm if manual testing is needed or if the Puppeteer output is sufficient
+  4. **Only after user confirms "ok" or "looks good"**, then stage files with `git add` and commit with `git commit`
+  5. User will handle `git push` separately
+- Browser testing with Puppeteer captures console errors automatically
+- Manual browser testing may still be needed for visual/interactive validation
 
 ## Development Commands
 
