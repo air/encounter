@@ -53,8 +53,8 @@ For each converted module, we will:
 - [x] 23. Touch.js ✅ VERIFIED & FIXED (exported constants and state variables, removed extra getter functions, fixed Controls.current import)
 
 ### Batch 5 - World & Grid (Modules 24-25)
-- [ ] 24. Grid.js
-- [ ] 25. Ground.js
+- [x] 24. Grid.js ✅ VERIFIED & FIXED (replaced scene/camera placeholders with MY3 imports, fixed panic() call, fixed Level.current, removed extra getter functions)
+- [x] 25. Ground.js ✅ VERIFIED & FIXED (replaced Grid placeholder with proper imports, removed extra getter functions)
 
 ### Batch 6 - Portals (Modules 26-28)
 - [ ] 26. Portal.js
