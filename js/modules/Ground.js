@@ -3,7 +3,7 @@
 import * as C64 from './C64.js';
 import { convertSixDigitCssRgbToNumeric, TO_RADIANS } from './UTIL.js';
 import Display from './Display.js';
-import { getSizeSquare, mesh as Grid_mesh, addToScene as Grid_addToScene } from './Grid.js';
+import { getSizeSquare, getMesh as Grid_getMesh, addToScene as Grid_addToScene } from './Grid.js';
 
 // Ground plane setup - initially a default mesh, we'll define this in init()
 const groundMesh = new window.THREE.Mesh(); // initially a default mesh, we'll define this in init()
@@ -40,7 +40,7 @@ export function init() {
   groundMesh.position.y = 0;
 
   // Ground is a child Object3D of the Grid. All movement and on/off are handled in the Grid API.
-  Grid_mesh.add(groundMesh);
+  Grid_getMesh().add(groundMesh);
   Grid_addToScene();
 }
 

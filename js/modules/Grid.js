@@ -197,6 +197,7 @@ export function update() {
 
 // Getters for module state
 export function getSizeSquare() { return SIZE_SQUARE; }
+export function getMesh() { return mesh; }
 
 // Export default object for backward compatibility
 export default {
@@ -218,5 +219,6 @@ export default {
   randomLocationCloseToPoint,
   reset,
   update,
-  getSizeSquare
+  getSizeSquare,
+  getMesh
 };
