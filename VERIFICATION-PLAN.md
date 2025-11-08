@@ -47,7 +47,7 @@ For each converted module, we will:
 - [x] 19. Attract.js ✅ VERIFIED & FIXED (replaced Grid/Radar placeholders with imports, fixed MY3.threeDiv to use getThreeDiv())
 
 ### Batch 4 - Controls & Camera (Modules 20-23)
-- [ ] 20. Camera.js
+- [x] 20. Camera.js ✅ VERIFIED & FIXED (replaced Grid/scene placeholders with imports, added MY3.setCamera() for camera switching, removed extra getter/setter functions)
 - [ ] 21. GUI.js
 - [ ] 22. Controls.js
 - [ ] 23. Touch.js

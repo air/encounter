@@ -384,6 +384,7 @@ export const COLORMAP_BASE16 = [
 // Getter functions for private variables
 export function getRenderer() { return renderer; }
 export function getCamera() { return camera; }
+export function setCamera(newCamera) { camera = newCamera; }
 export function getScene() { return scene; }
 export function getClock() { return clock; }
 export function getThreeDiv() { return threeDiv; }
@@ -418,6 +419,7 @@ export default {
   COLORMAP_BASE16,
   getRenderer,
   getCamera,
+  setCamera,
   getScene,
   getClock,
   getThreeDiv
