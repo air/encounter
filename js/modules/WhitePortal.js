@@ -6,11 +6,7 @@ import Encounter from './Encounter.js';
 import { randomLocationCloseToPlayer as Grid_randomLocationCloseToPlayer } from './Grid.js';
 import { log, panic } from './UTIL.js';
 import { TYPE_PORTAL as Radar_TYPE_PORTAL, TYPE_NONE as Radar_TYPE_NONE } from './Radar.js';
-
-// CLAUDE-TODO: Replace with actual Enemy import when Enemy.js is converted to ES6 module
-const Enemy = {
-  spawnGivenTypeAt: () => {}
-};
+import { spawnGivenTypeAt as Enemy_spawnGivenTypeAt } from './Enemy.js';
 
 // WhitePortal extends Portal functionality
 export const MATERIAL = new window.THREE.MeshBasicMaterial({ color: C64.white });
@@ -49,7 +45,7 @@ export function spawnForEnemy(enemyType) {
 }
 
 export function opened() {
-  Enemy.spawnGivenTypeAt(enemyTypeIncoming, Portal.mesh.position);
+  Enemy_spawnGivenTypeAt(enemyTypeIncoming, Portal.mesh.position);
   actor.radarType = Radar_TYPE_NONE;
   Portal.startClosing.call({ mesh: Portal.mesh, state: Portal.state, closeStartedAt: Portal.closeStartedAt });
 }

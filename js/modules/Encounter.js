@@ -22,12 +22,6 @@ export const PLAYER_INITIAL_ROTATION = 0.259;
 export const PLAYER_DEATH_TIMEOUT_MS = 2000; // time before you can play once being hit
 export const PLAYER_MAX_SHIELDS = 9; // from instruction manual
 
-// CLAUDE-TODO: These initialization calls should be handled elsewhere when modules are properly initialized
-// For now, commenting out the actual game initialization to prevent errors
-// MY3.init3d(DRAW_DISTANCE * 3, Display.ZINDEX_CANVAS);
-// State.init();
-// MY3.startAnimationLoop();
-
 // Export default object for backward compatibility
 export default {
   DRAW_DISTANCE,

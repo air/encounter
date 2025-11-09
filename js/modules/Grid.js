@@ -10,20 +10,10 @@ import Ground from './Ground.js';
 import { getScene, getCamera } from './MY3.js';
 import { getPosition as Player_getPosition, RADIUS as Player_RADIUS } from './Player.js';
 
-// CLAUDE-TODO: Replace with actual scene/camera references when main game loop is modularized
-const scene = {
-  add: (object) => getScene().add(object),
-  remove: (object) => getScene().remove(object)
-};
-
-const camera = {
-  get far() { return getCamera().far; }
-};
-
 // the Grid is:
-// - sized depending on camera.far (set in Encounter.js, see Encounter.DRAW_DISTANCE)
+// - sized depending on getCamera().far (set in Encounter.js, see Encounter.DRAW_DISTANCE)
 // - a single mesh of NxN obelisks
-// - always a square, big enough to contain a circle of radius camera.far
+// - always a square, big enough to contain a circle of radius getCamera().far
 // - parent to the Ground plane
 // - a 2D viewport of fixed size looking down on an infinite grid, snapped to Grid.SPACING
 
@@ -69,8 +59,8 @@ export function init() {
 function calculateConstants() {
   // 1. Size the grid.
   // see how many SPACING intervals we need to cover 2x the draw distance, round that up, and multiply back to absolute size
-  SIZE_SQUARE = Math.ceil((camera.far * 2) / SPACING) * SPACING;
-  log('draw distance is ' + camera.far + ' so the grid viewport is a square of side ' + SIZE_SQUARE);
+  SIZE_SQUARE = Math.ceil((getCamera().far * 2) / SPACING) * SPACING;
+  log('draw distance is ' + getCamera().far + ' so the grid viewport is a square of side ' + SIZE_SQUARE);
 
   // 2. How many obelisks on a side?
   OBELISKS_PER_SIDE = (SIZE_SQUARE / SPACING) + 1;
@@ -91,7 +81,7 @@ function calculateConstants() {
 
 // also takes care of Ground plane
 export function addToScene() {
-  scene.add(mesh); // includes a child Ground object if Ground.DO_RENDER
+  getScene().add(mesh); // includes a child Ground object if Ground.DO_RENDER
   if (!Ground.DO_RENDER) {
     Display.groundDiv.style.display = 'block';
   }
@@ -101,7 +91,7 @@ export function addToScene() {
 
 // also takes care of Ground plane
 export function removeFromScene() {
-  scene.remove(mesh); // includes a child Ground object if Ground.DO_RENDER
+  getScene().remove(mesh); // includes a child Ground object if Ground.DO_RENDER
   if (!Ground.DO_RENDER) {
     Display.groundDiv.style.display = 'none';
   }

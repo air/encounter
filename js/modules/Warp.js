@@ -16,15 +16,9 @@ import { setShooting as Keys_setShooting } from './Keys.js';
 import { random } from './UTIL.js';
 import { log, panic } from './UTIL.js';
 import { PLAYER_DEATH_TIMEOUT_MS } from './Encounter.js';
-import { getClock } from './MY3.js';
+import { getClock, getScene } from './MY3.js';
 import { getActors, setupGameOver, initLevel, setupWaitForEnemy } from './State.js';
 import { getPosition as Player_getPosition, getRotation as Player_getRotation, update as Player_update, getShieldsLeft as Player_getShieldsLeft, getTimeOfDeath as Player_getTimeOfDeath, setIsAlive as Player_setIsAlive, awardBonusShield as Player_awardBonusShield } from './Player.js';
-
-// CLAUDE-TODO: Replace with actual scene reference when MY3/rendering is fully modularized
-const scene = {
-  add: () => {},
-  remove: () => {}
-};
 
 // Timing constants
 export const TIME_ACCELERATING_MS = 9000; // measured
@@ -86,7 +80,7 @@ export function setup() {
  */
 function removeAsteroidsFromScene() {
   asteroids.forEach(function(asteroid) {
-    scene.remove(asteroid);
+    getScene().remove(asteroid);
   });
   // forget this round's asteroids
   asteroids = [];
@@ -104,7 +98,7 @@ function createAsteroidsInFrontOfPlayer(timeDeltaMillis) {
   asteroid.rotation.copy(Player_getRotation());
   asteroid.translateZ(-15000); // FIXME adjust this
   asteroid.translateX(random(-15000, 15000)); // FIXME adjust this
-  scene.add(asteroid);
+  getScene().add(asteroid);
   asteroids.push(asteroid);
 }
 
