@@ -15,7 +15,8 @@ import { getActors } from './State.js';
 // Player constants
 export const RADIUS = 40;
 export const GEOMETRY = new window.THREE.SphereGeometry(RADIUS, 8, 4);
-export const MATERIAL = MY3.MATS.wireframe.clone();
+// Note: MATERIAL is initialized in init() to avoid circular dependency (MY3 -> State -> Player -> MY3)
+export let MATERIAL = null;
 export const SHOT_MATERIAL = new window.THREE.MeshBasicMaterial({ color: C64_white });
 
 // Player instance - initially a default mesh, we'll define this in init()
@@ -62,6 +63,9 @@ export function getTimeOfDeath() {
 export function init() {
   // Initialize radarType here to avoid circular dependency at module load time
   radarType = Radar_TYPE_PLAYER;
+
+  // Initialize MATERIAL here to avoid circular dependency (MY3 -> State -> Player -> MY3)
+  MATERIAL = MY3.MATS.wireframe.clone();
 
   // actually set up this Mesh using our materials
   window.THREE.Mesh.call(player, GEOMETRY, MATERIAL);
