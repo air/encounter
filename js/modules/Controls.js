@@ -50,8 +50,9 @@ export function interpretKeys(timeDeltaMillis) {
 
 // Export default object for backward compatibility
 export default {
-  current,
-  shootingAllowed,
+  get current() { return current; },
+  get shootingAllowed() { return shootingAllowed; },
+  set shootingAllowed(value) { shootingAllowed = value; },
   init,
   useFlyControls,
   useEncounterControls,
