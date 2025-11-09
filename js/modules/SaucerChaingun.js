@@ -9,16 +9,13 @@ import { rotateObjectToLookAt } from './MY3.js';
 import { newInstance as Shot_newInstance } from './Shot.js';
 import { enemyShoot as Sound_enemyShoot } from './Sound.js';
 import { log } from './UTIL.js';
+import { getActors } from './State.js';
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
   position: { x: 0, y: 0, z: 0 }
 };
 
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: { add: () => {} }
-};
 
 // Type constants
 export const FLICKER_FRAMES = 3; // when flickering, show each colour for this many frames
@@ -48,7 +45,7 @@ SaucerChaingun.prototype.shoot = function() {
   Sound_enemyShoot();
   rotateObjectToLookAt(this.mesh, Player.position);
   const shot = Shot_newInstance(this, this.mesh.position, this.mesh.rotation, SHOT_MATERIAL);
-  State.actors.add(shot.actor);
+  getActors().add(shot.actor);
 };
 
 // Default export for backward compatibility

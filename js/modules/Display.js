@@ -4,16 +4,8 @@ import * as C64 from './C64.js';
 import { panic } from './UTIL.js';
 import { getNumber as Level_getNumber, getCurrent as Level_getCurrent } from './Level.js';
 import { setColor as Ground_setColor } from './Ground.js';
+import { getCurrent, COMBAT, WAIT_FOR_ENEMY, WAIT_FOR_PORTAL, getScore, getEnemiesRemaining } from './State.js';
 
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  current: null,
-  COMBAT: 'combat',
-  WAIT_FOR_ENEMY: 'wait_for_enemy',
-  WAIT_FOR_PORTAL: 'wait_for_portal',
-  score: 0,
-  enemiesRemaining: 0
-};
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
@@ -188,18 +180,18 @@ function initText() {
 }
 
 export function update() {
-  switch (State.current)
+  switch (getCurrent())
   {
-    case State.COMBAT:
-    case State.WAIT_FOR_ENEMY:
-    case State.WAIT_FOR_PORTAL:
-      score.innerHTML = ('0000000' + State.score).slice(-7);
+    case COMBAT:
+    case WAIT_FOR_ENEMY:
+    case WAIT_FOR_PORTAL:
+      score.innerHTML = ('0000000' + getScore()).slice(-7);
       level.innerHTML = 'L' + Level_getNumber();
-      enemies.innerHTML = 'E' + ('00' + State.enemiesRemaining).slice(-2);
+      enemies.innerHTML = 'E' + ('00' + getEnemiesRemaining()).slice(-2);
       shields.innerHTML = 'S' + Player.shieldsLeft;
       break;
     default:
-      panic('unknown state: ', State.current);
+      panic('unknown state: ', getCurrent());
   }
 }
 

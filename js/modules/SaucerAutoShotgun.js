@@ -9,16 +9,13 @@ import { rotateObjectToLookAt } from './MY3.js';
 import { newInstance as Shot_newInstance } from './Shot.js';
 import { enemyShoot as Sound_enemyShoot } from './Sound.js';
 import { log } from './UTIL.js';
+import { getActors } from './State.js';
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
   position: { x: 0, y: 0, z: 0 }
 };
 
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: { add: () => {} }
-};
 
 // Type constants
 export const MATERIAL = new window.THREE.MeshBasicMaterial({ color: lightgrey });
@@ -57,9 +54,9 @@ SaucerAutoShotgun.prototype.shoot = function() {
   this.mesh.rotation.y += (SHOT_SPREAD * 2);
   const shotLeft = Shot_newInstance(this, this.mesh.position, this.mesh.rotation, SHOT_MATERIAL);
 
-  State.actors.add(shotMiddle.actor);
-  State.actors.add(shotRight.actor);
-  State.actors.add(shotLeft.actor);
+  getActors().add(shotMiddle.actor);
+  getActors().add(shotRight.actor);
+  getActors().add(shotLeft.actor);
 };
 
 // Default export for backward compatibility

@@ -7,17 +7,8 @@ import { current as Controls_current, useFlyControls, useEncounterControls } fro
 import SimpleControls from './SimpleControls.js';
 import { getIsAlive as Enemy_getIsAlive, destroyed as Enemy_destroyed } from './Enemy.js';
 import { STATE_WAIT_TO_EXIT as Warp_STATE_WAIT_TO_EXIT, setState as Warp_setState } from './Warp.js';
+import { getCurrent, ATTRACT, COMBAT, WAIT_FOR_ENEMY, WARP, getIsPaused, setIsPaused, setupPlayerHitInCombat } from './State.js';
 
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  current: null,
-  ATTRACT: 'attract',
-  COMBAT: 'combat',
-  WAIT_FOR_ENEMY: 'wait_for_enemy',
-  WARP: 'warp',
-  isPaused: false,
-  setupPlayerHitInCombat: () => {}
-};
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
@@ -45,7 +36,7 @@ export function switchControls() {
 // handle non-repeating keypresses.
 export function keyUp(event) {
   // number keys on the title screen
-  if (event.keyCode >=49 && event.keyCode <= 56 && State.current === State.ATTRACT)
+  if (event.keyCode >=49 && event.keyCode <= 56 && getCurrent() === ATTRACT)
   {
     levelRequested = (event.keyCode - 48);
     return;
@@ -61,26 +52,26 @@ export function keyUp(event) {
       shooting = false;
       break;
     case 80: // p
-      State.isPaused = !State.isPaused;
+      setIsPaused(!getIsPaused());
       break;
     case 75: // k
-      if (State.current === State.COMBAT && Enemy_getIsAlive())
+      if (getCurrent() === COMBAT && Enemy_getIsAlive())
       {
         Enemy_destroyed();
         error('cheat: killer!');
       }
-      else if (State.current === State.WARP)
+      else if (getCurrent() === WARP)
       {
         Warp_setState(Warp_STATE_WAIT_TO_EXIT);
         error('cheat: skipper!');
       }
       break;
     case 85: // u
-      if (State.current === State.COMBAT || State.current === State.WAIT_FOR_ENEMY)
+      if (getCurrent() === COMBAT || getCurrent() === WAIT_FOR_ENEMY)
       {
         error('cheat: suicide');
         Player.wasHit();
-        State.setupPlayerHitInCombat();
+        setupPlayerHitInCombat();
       }
   }
 }

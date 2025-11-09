@@ -7,16 +7,12 @@ import { ZINDEX_RADAR } from './Display.js';
 import { css as C64css, randomCssColour } from './C64.js';
 import { SPACING as Grid_SPACING, getViewport } from './Grid.js';
 import { panic } from './UTIL.js';
+import { getActors } from './State.js';
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
   position: { x: 0, z: 0 },
   rotation: { y: 0 }
-};
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: { list: [] }
 };
 
 // Constants
@@ -226,30 +222,30 @@ export function update() {
   }
 
   // render all actors as blips
-  for (let i = 0; i < State.actors.list.length; i++) {
+  for (let i = 0; i < getActors().list.length; i++) {
     // set the colour by actor type
-    const type = State.actors.list[i].radarType;
+    const type = getActors().list[i].radarType;
 
     switch (type) {
       case TYPE_ENEMY:
         canvasContext.fillStyle = C64css.yellow;
-        render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
+        render(getActors().list[i].getObject3D().position.x, getActors().list[i].getObject3D().position.z);
         break;
       case TYPE_SHOT:
         if (showShots) {
           canvasContext.fillStyle = C64css.orange;
-          render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
+          render(getActors().list[i].getObject3D().position.x, getActors().list[i].getObject3D().position.z);
         }
         break;
       case TYPE_PORTAL:
         canvasContext.fillStyle = randomCssColour();
-        render(State.actors.list[i].getObject3D().position.x, State.actors.list[i].getObject3D().position.z);
+        render(getActors().list[i].getObject3D().position.x, getActors().list[i].getObject3D().position.z);
         break;
       case TYPE_NONE:
         // no op
         break;
       default:
-        panic('unknown .radarType ' + type + ' for actor ' + State.actors.list[i]);
+        panic('unknown .radarType ' + type + ' for actor ' + getActors().list[i]);
     }
   }
 }

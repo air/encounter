@@ -12,6 +12,7 @@ import { TYPE_SHOT as RADAR_TYPE_SHOT } from './Radar.js';
 import { Actor } from './Actors.js';
 import { setBlue as Indicators_setBlue } from './Indicators.js';
 import { getIsAlive as Enemy_getIsAlive, getCurrent as Enemy_getCurrent, destroyed as Enemy_destroyed } from './Enemy.js';
+import { getActors, setupPlayerHitInCombat } from './State.js';
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
@@ -19,15 +20,6 @@ const Player = {
   RADIUS: 30,
   wasHit: () => {},
   shotsInFlight: 0
-};
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: {
-    remove: () => {},
-    list: []
-  },
-  setupPlayerHitInCombat: () => {}
 };
 
 // Constants
@@ -113,7 +105,7 @@ function collideWithShips(shot) {
   // kill the player
   if (shot.shotType === TYPE_ENEMY && doCirclesCollide(shot.position, RADIUS, Player.position, Player.RADIUS)) {
     Player.wasHit();
-    State.setupPlayerHitInCombat();
+    setupPlayerHitInCombat();
   }
   // kill the enemy
   if (shot.shotType === TYPE_PLAYER && Enemy_getIsAlive() && doCirclesCollide(shot.position, RADIUS, Enemy_getCurrent().mesh.position, Enemy_getCurrent().RADIUS)) {
@@ -145,13 +137,13 @@ export function isNotEnemyShot(element, index, array) {
  * @param {THREE.Mesh} shot - The shot to clean up
  */
 function cleanUpDeadShot(shot) {
-  State.actors.remove(shot.actor);
+  getActors().remove(shot.actor);
 
   if (shot.shotType === TYPE_PLAYER) {
     Player.shotsInFlight -= 1;
   }
   else { // if this was the last enemy shot cleaned up, no enemy shots remain so kill the blue light
-    if (State.actors.list.every(isNotEnemyShot)) {
+    if (getActors().list.every(isNotEnemyShot)) {
       Indicators_setBlue(false);
     }
   }
