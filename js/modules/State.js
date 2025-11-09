@@ -224,9 +224,9 @@ export function updatePlayerHitInCombat(timeDeltaMillis) {
 }
 
 export function updateGameOver(timeDeltaMillis) {
-  if (Keys.shooting && getClock().oldTime > (Player_getTimeOfDeath() + Encounter.PLAYER_DEATH_TIMEOUT_MS)) {
+  if (Keys.getShooting() && getClock().oldTime > (Player_getTimeOfDeath() + Encounter.PLAYER_DEATH_TIMEOUT_MS)) {
     Display.hideShieldLossStatic();
-    Keys.shooting = false;
+    Keys.setShooting(false);
     setupAttract();
   }
 }

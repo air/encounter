@@ -32,20 +32,20 @@ export function hide() {
 }
 
 export function update() {
-  if (Keys.shooting) {
+  if (Keys.getShooting()) {
     Level.resetToBeginning();
     Player_resetShieldsLeft();
     State_initLevel();
-    Keys.shooting = false;
+    Keys.setShooting(false);
 
     hide();
     State_setupWaitForEnemy();
-  } else if (Keys.levelRequested > 0) {
-    log('requested start on level ' + Keys.levelRequested);
-    State_initLevel(Keys.levelRequested);
+  } else if (Keys.getLevelRequested() > 0) {
+    log('requested start on level ' + Keys.getLevelRequested());
+    State_initLevel(Keys.getLevelRequested());
     hide();
-    Keys.levelRequested = null;
-    State_setupWaitForEnemy(); 
+    Keys.setLevelRequested(null);
+    State_setupWaitForEnemy();
   }
 }
 

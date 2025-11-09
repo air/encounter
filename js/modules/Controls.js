@@ -43,7 +43,7 @@ export function useWarpControls() {
 }
 
 export function interpretKeys(timeDeltaMillis) {
-  if (Keys.shooting && shootingAllowed) {
+  if (Keys.getShooting() && shootingAllowed) {
     Player_shoot();
   }
 }

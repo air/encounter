@@ -197,10 +197,10 @@ function initFireButton() {
   fireButton.style.right = '0px';
 
   fireButton.press = function() {
-    Keys.shooting = true;
+    Keys.setShooting(true);
   };
   fireButton.unpress = function() {
-    Keys.shooting = false;
+    Keys.setShooting(false);
   };
 
   fireButton.addEventListener('touchstart', function(event) {
