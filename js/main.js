@@ -40,6 +40,7 @@ import SaucerChaingun from './modules/SaucerChaingun.js';
 import SaucerShotgun from './modules/SaucerShotgun.js';
 import SaucerAutoShotgun from './modules/SaucerAutoShotgun.js';
 import Player from './modules/Player.js';
+import State from './modules/State.js';
 
 // Test that our modules are working
 log('ES6 modules loaded successfully');
@@ -238,6 +239,14 @@ Player.resetShieldsLeft();
 log('Player shields reset to: ' + Player.getShieldsLeft());
 Player.resetPosition();
 log('Player position reset to grid start: ' + Player.getPosition().x + ', ' + Player.getPosition().y + ', ' + Player.getPosition().z);
+
+// Test State module (FINAL MODULE - 40/40!)
+log('State module loaded - central game orchestrator');
+log('State constants - ATTRACT: ' + State.ATTRACT + ', COMBAT: ' + State.COMBAT + ', WARP: ' + State.WARP);
+log('State current: ' + State.getCurrent() + ' (null before init)');
+log('State actors system: ' + (State.getActors() ? 'ready' : 'not ready'));
+log('State module ready - will be initialized by game loop');
+log('🎉 ALL 40 MODULES CONVERTED TO ES6! 🎉');
 
 // For now, we'll import the rest as global scripts
 // This will be our incremental migration approach
