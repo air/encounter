@@ -3,6 +3,7 @@
 import * as C64 from './C64.js';
 import { convertSixDigitCssRgbToNumeric, TO_RADIANS } from './UTIL.js';
 import Display from './Display.js';
+import { getGroundDiv } from './Display.js';
 import { getSizeSquare, getMesh as Grid_getMesh, addToScene as Grid_addToScene } from './Grid.js';
 
 // Ground plane setup - initially a default mesh, we'll define this in init()
@@ -50,7 +51,7 @@ export function setColor(cssColor) {
     var numericColor = convertSixDigitCssRgbToNumeric(cssColor);
     groundMesh.material.color = new window.THREE.Color(numericColor);
   } else {
-    Display.groundDiv.style.backgroundColor = cssColor;
+    getGroundDiv().style.backgroundColor = cssColor;
   }
 }
 

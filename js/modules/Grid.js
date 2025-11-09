@@ -6,6 +6,7 @@ import * as Physics from './Physics.js';
 import { log, random, panic } from './UTIL.js';
 import Level from './Level.js';
 import Display from './Display.js';
+import { getGroundDiv } from './Display.js';
 import Ground from './Ground.js';
 import { getScene, getCamera } from './MY3.js';
 import { getPosition as Player_getPosition, RADIUS as Player_RADIUS } from './Player.js';
@@ -83,7 +84,7 @@ function calculateConstants() {
 export function addToScene() {
   getScene().add(mesh); // includes a child Ground object if Ground.DO_RENDER
   if (!Ground.DO_RENDER) {
-    Display.groundDiv.style.display = 'block';
+    getGroundDiv().style.display = 'block';
   }
 
   isActive = true;
@@ -93,7 +94,7 @@ export function addToScene() {
 export function removeFromScene() {
   getScene().remove(mesh); // includes a child Ground object if Ground.DO_RENDER
   if (!Ground.DO_RENDER) {
-    Display.groundDiv.style.display = 'none';
+    getGroundDiv().style.display = 'none';
   }
 
   isActive = false;

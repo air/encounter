@@ -243,6 +243,11 @@ export function getHorizonDiv() {
   return horizonDiv;
 }
 
+// Getter for groundDiv
+export function getGroundDiv() {
+  return groundDiv;
+}
+
 // Export default object for backward compatibility
 export default {
   ZINDEX_SKY,
@@ -266,5 +271,6 @@ export default {
   showShieldLossStatic,
   hideShieldLossStatic,
   updateShieldLossStatic,
-  getHorizonDiv
+  getHorizonDiv,
+  getGroundDiv
 };
