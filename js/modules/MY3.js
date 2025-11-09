@@ -327,7 +327,8 @@ export function FlickeringBasicMaterial(hexArray, framesForEach) {
     panic('framesForEach undefined');
   }
 
-  window.THREE.MeshBasicMaterial.call(this);
+  // Call parent constructor with empty options to avoid setValues issues
+  window.THREE.MeshBasicMaterial.call(this, {});
 
   // config. Create Color objects out of the hex values
   this.colorArray = hexArray.map(function(color) { return new window.THREE.Color(color); });
