@@ -6,17 +6,11 @@ import Encounter from './Encounter.js';
 import { randomLocationCloseToPlayer as Grid_randomLocationCloseToPlayer } from './Grid.js';
 import { log, panic } from './UTIL.js';
 import { getClock } from './MY3.js';
+import { resetEnemyCounter, setupWaitForEnemy, setupWarp } from './State.js';
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
   position: { x: 0, y: 0, z: 0, distanceTo: () => 0 }
-};
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  resetEnemyCounter: () => {},
-  setupWaitForEnemy: () => {},
-  setupWarp: () => {}
 };
 
 // BlackPortal extends Portal functionality
@@ -70,8 +64,8 @@ export function opened() {
 }
 
 export function closed() {
-  State.resetEnemyCounter();
-  State.setupWaitForEnemy();
+  resetEnemyCounter();
+  setupWaitForEnemy();
 }
 
 export function update(timeDeltaMillis) {
@@ -87,7 +81,7 @@ export function update(timeDeltaMillis) {
       break;
     case STATE_PLAYER_ENTERED:
       Portal.state = null; // lifecycle of this portal is over, despite being open
-      State.setupWarp();
+      setupWarp();
       break;
     case Portal.STATE_CLOSING:
       Portal.updateClosing.call({ closeStartedAt: Portal.closeStartedAt, state: Portal.state, removeFromScene: Portal.removeFromScene, closed }, timeDeltaMillis);

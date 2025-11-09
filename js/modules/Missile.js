@@ -15,17 +15,13 @@ import { playerCollideObelisk } from './Sound.js';
 import { setRed } from './Indicators.js';
 import { log } from './UTIL.js';
 import { Actor } from './Actors.js';
+import { setupPlayerHitInCombat } from './State.js';
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
   position: { x: 0, y: 0, z: 0, distanceTo: () => 0 },
   RADIUS: 30,
   wasHit: () => {}
-};
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  setupPlayerHitInCombat: () => {}
 };
 
 // Constants
@@ -129,7 +125,7 @@ export function update(timeDeltaMillis) {
   // collide and kill the player
   if (doCirclesCollide(mesh.position, RADIUS, Player.position, Player.RADIUS)) {
     Player.wasHit();
-    State.setupPlayerHitInCombat();
+    setupPlayerHitInCombat();
   }
 }
 

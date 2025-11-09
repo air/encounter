@@ -18,13 +18,7 @@ import { SaucerChaingun } from './SaucerChaingun.js';
 import { SaucerShotgun } from './SaucerShotgun.js';
 import { SaucerAutoShotgun } from './SaucerAutoShotgun.js';
 import { getClock } from './MY3.js';
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: { add: () => {}, remove: () => {} },
-  setupCombat: () => {},
-  enemyKilled: () => {}
-};
+import { getActors, setupCombat, enemyKilled } from './State.js';
 
 // Enemy type constants
 export const TYPE_SAUCER_SINGLE = 'saucerSingle';
@@ -61,7 +55,7 @@ export function startSpawnTimer() {
 export function spawnIfReady() {
   if ((getClock().oldTime - spawnTimerStartedAt) > TIME_TO_SPAWN_ENEMY_MS) {
     spawn();
-    State.setupCombat();
+    setupCombat();
   }
 }
 
@@ -84,7 +78,7 @@ export function spawn() {
 
   if (type === TYPE_MISSILE) {
     current = Missile_spawn();
-    State.actors.add(current.actor);
+    getActors().add(current.actor);
     isAlive = true;
   }
   else {
@@ -122,7 +116,7 @@ export function spawnGivenTypeAt(type, location) {
       panic('unknown enemy type: ' + type);
   }
 
-  State.actors.add(current.actor);
+  getActors().add(current.actor);
   isAlive = true;
   Indicators_setYellow(true);
 }
@@ -134,7 +128,7 @@ export function destroyed() {
   Sound_playerKilled();
   isAlive = false;
 
-  State.actors.remove(current.actor);
+  getActors().remove(current.actor);
 
   // if this enemy has a destroyed() decorator, invoke it
   if (typeof(current.destroyed) === 'function') {
@@ -148,7 +142,7 @@ export function destroyed() {
  * Explosion has finished animating
  */
 export function cleared() {
-  State.enemyKilled();
+  enemyKilled();
 }
 
 // Getters for module state

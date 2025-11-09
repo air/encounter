@@ -17,14 +17,7 @@ import { random } from './UTIL.js';
 import { log, panic } from './UTIL.js';
 import { PLAYER_DEATH_TIMEOUT_MS } from './Encounter.js';
 import { getClock } from './MY3.js';
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: { reset: () => {} },
-  setupGameOver: () => {},
-  initLevel: () => {},
-  setupWaitForEnemy: () => {}
-};
+import { getActors, setupGameOver, initLevel, setupWaitForEnemy } from './State.js';
 
 // CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
 const Player = {
@@ -81,7 +74,7 @@ export function setup() {
   setSkyColour(C64css.black);
   getHorizonDiv().style.display = 'none';
 
-  State.actors.reset();
+  getActors().reset();
   useWarpControls();
 
   enteredAt = getClock().oldTime;
@@ -244,7 +237,7 @@ function updatePlayerHit() {
   if (Player.shieldsLeft < 0) {
     state = null;
     removeAsteroidsFromScene();  // FIXME asteroids disappear, will be replaced by death fuzz
-    State.setupGameOver();
+    setupGameOver();
   }
   else if (getClock().oldTime > (Player.timeOfDeath + PLAYER_DEATH_TIMEOUT_MS)) {
     Keys_setShooting(false);
@@ -275,13 +268,13 @@ function updateWaitToExit(timeDeltaMillis) {
 function restoreLevel() {
   removeAsteroidsFromScene();
 
-  State.initLevel();  // does all the heavy lifting of state reset
+  initLevel();  // does all the heavy lifting of state reset
 
   // restore the elements we selectively hid earlier
   getHorizonDiv().style.display = 'block';
   Grid_addToScene();
 
-  State.setupWaitForEnemy();
+  setupWaitForEnemy();
 }
 
 // Getters and setters for module state
