@@ -95,9 +95,9 @@ log('MY3 module loaded - THREE.js utility wrapper');
 log('Available math functions: vectorToRotation, objectRotationAsUnitVector, etc.');
 log('MY3 constants - X_AXIS: ' + JSON.stringify({ x: MY3.X_AXIS.x, y: MY3.X_AXIS.y, z: MY3.X_AXIS.z }));
 
-// Initialize the 3D environment (needed for scene-dependent tests like Actors)
-MY3.init3d();
-log('MY3.init3d() called - scene, camera, renderer initialized');
+// Initialize the 3D environment with proper draw distance and z-index
+MY3.init3d(Encounter.DRAW_DISTANCE * 3, Display.ZINDEX_CANVAS);
+log('MY3.init3d() called with draw distance: ' + (Encounter.DRAW_DISTANCE * 3) + ', z-index: ' + Display.ZINDEX_CANVAS);
 log('scene object: ', MY3.getScene());
 
 // Test Asteroid module
@@ -245,12 +245,21 @@ log('State module loaded - central game orchestrator');
 log('State constants - ATTRACT: ' + State.ATTRACT + ', COMBAT: ' + State.COMBAT + ', WARP: ' + State.WARP);
 log('State current: ' + State.getCurrent() + ' (null before init)');
 log('State actors system: ' + (State.getActors() ? 'ready' : 'not ready'));
-log('State module ready - will be initialized by game loop');
 log('🎉 ALL 40 MODULES CONVERTED TO ES6! 🎉');
 
-// For now, we'll import the rest as global scripts
-// This will be our incremental migration approach
-// IMPORTANT: in the current state we are not actually loading or testing the game loop
+// ============================================================================
+// GAME INITIALIZATION - Start the actual game!
+// ============================================================================
+log('');
+log('Starting game initialization...');
 
-// TODO: Convert remaining files to modules
-console.log('Main.js: Basic module system initialized');
+// Initialize game state (sets up all systems and starts in ATTRACT mode)
+State.init();
+log('State.init() completed - game systems initialized');
+log('Current game state: ' + State.getCurrent());
+
+// Start the animation/render loop
+MY3.startAnimationLoop();
+log('MY3.startAnimationLoop() started - game is now running!');
+log('🎮 GAME STARTED! 🎮');
+log('');
