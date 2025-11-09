@@ -106,8 +106,8 @@ export function init() {
 
 // Export default object for backward compatibility
 export default {
-  shooting: () => shooting,
-  levelRequested: () => levelRequested,
+  get shooting() { return shooting; },
+  get levelRequested() { return levelRequested; },
   switchControls,
   keyUp,
   keyDown,

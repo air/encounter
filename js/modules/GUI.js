@@ -46,7 +46,7 @@ export function addCameraControls() {
 
 // Export default object for backward compatibility
 export default {
-  gui,
+  get gui() { return gui; },
   init,
   addGeneralControls,
   addPlayerControls,

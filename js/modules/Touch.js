@@ -225,8 +225,8 @@ export default {
   CONTROLS_CSS,
   DPAD_BUTTON_WIDTH_PERCENT,
   DPAD_BUTTON_HEIGHT_PERCENT,
-  dpad,
-  fireButton,
-  lastDPadPressed,
+  get dpad() { return dpad; },
+  get fireButton() { return fireButton; },
+  get lastDPadPressed() { return lastDPadPressed; },
   init
 };

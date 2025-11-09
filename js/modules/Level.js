@@ -176,8 +176,8 @@ export function getCurrent() {
 // Export default object for backward compatibility
 export default {
   data,
-  number: () => number,
-  current: () => current,
+  get number() { return number; },
+  get current() { return current; },
   init,
   nextLevel,
   resetToBeginning,

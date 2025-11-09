@@ -21,7 +21,7 @@ export function countdownFinished(name) {
 
 // Export default object for backward compatibility
 export default {
-  countdowns,
+  get countdowns() { return countdowns; },
   createRepeatableCountdown,
   startCountdown,
   countdownFinished
