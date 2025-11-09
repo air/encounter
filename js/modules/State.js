@@ -168,7 +168,7 @@ export function setupPlayerHitInCombat() {
 export function setupGameOver() {
   current = GAME_OVER;
   log('State: ' + current);
-  Display.setText('GAME OVER. PRESS FIRE');
+  // Display.setText('GAME OVER. PRESS FIRE'); // FIXME: setText doesn't exist in Display module
 }
 
 export function setupWarp() {
