@@ -9,19 +9,8 @@ import Sound from './Sound.js';
 import { TYPE_NONE, TYPE_PORTAL } from './Radar.js';
 import { Actor } from './Actors.js';
 import { cleared as Enemy_cleared } from './Enemy.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const State = {
-  actors: {
-    add: (actor) => console.log('State.actors.add called'),
-    remove: (actor) => console.log('State.actors.remove called')
-  }
-};
-
-const Player = {
-  position: { x: 0, y: 0, z: 0 },
-  RADIUS: 30
-};
+import { getActors } from './State.js';
+import { getPosition as Player_getPosition, RADIUS as Player_RADIUS } from './Player.js';
 
 // An exploding enemy generates flying gibs.
 
@@ -82,9 +71,9 @@ export function animateMaterial() {
 
 export function cleanUp() {
   log('cleaning up explosion');
-  State.actors.remove(actor);
+  getActors().remove(actor);
   gibs.forEach(function(gib) {
-    State.actors.remove(gib.actor);
+    getActors().remove(gib.actor);
   });
 
   // animation is finished, move the State onward
@@ -121,13 +110,13 @@ export function at(location) {
   log('sploding at location ' + Math.floor(location.x) + ', ' + Math.floor(location.z));
   Explode.position.copy(location);  // not strictly necessary
   ageMillis = 0;
-  State.actors.add(actor);
+  getActors().add(actor);
 
   // reset gib locations and add them to actors
   gibs.forEach(function(gib) {
     gib.position.copy(location);
     gib.translateZ(-Gib.OFFSET_FROM_CENTER);
-    State.actors.add(gib.actor);
+    getActors().add(gib.actor);
   });
 }
 
@@ -191,10 +180,10 @@ Gib.collideWithObelisks = function(gib) {
 };
 
 Gib.collideWithPlayer = function(gib) {
-  if (MY3.doCirclesCollide(gib.position, Gib.RADIUS, Player.position, Player.RADIUS))
+  if (MY3.doCirclesCollide(gib.position, Gib.RADIUS, Player_getPosition(), Player_RADIUS))
   {
     // move the gib out of the player
-    Physics.moveCircleOutOfStaticCircle(Player.position, Player.RADIUS, gib.position, Gib.RADIUS);
+    Physics.moveCircleOutOfStaticCircle(Player_getPosition(), Player_RADIUS, gib.position, Gib.RADIUS);
     Sound.playerCollideObelisk();
   }
 };

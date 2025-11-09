@@ -4,13 +4,7 @@ import { TO_RADIANS } from './UTIL.js';
 import SimpleControls from './SimpleControls.js';
 import Encounter from './Encounter.js';
 import Keys from './Keys.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const Player = {
-  position: { x: 0, y: 0, z: 0 },
-  rotation: { x: 0, y: 0, z: 0 },
-  shoot: () => console.log('Player.shoot called')
-};
+import { player as Player, shoot as Player_shoot } from './Player.js';
 
 export let current = null;
 export let shootingAllowed = true;
@@ -50,7 +44,7 @@ export function useWarpControls() {
 
 export function interpretKeys(timeDeltaMillis) {
   if (Keys.shooting && shootingAllowed) {
-    Player.shoot();
+    Player_shoot();
   }
 }
 

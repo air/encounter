@@ -4,18 +4,8 @@ import * as C64 from './C64.js';
 import { randomFromArray } from './UTIL.js';
 import { log } from './UTIL.js';
 import * as MY3 from './MY3.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const Player = {
-  position: { x: 0, y: 0, z: 0 },
-  RADIUS: 30,
-  wasHit: () => console.log('Player.wasHit called')
-};
-
-const Warp = {
-  state: null,
-  STATE_PLAYER_HIT: 'player_hit'
-};
+import { getPosition as Player_getPosition, RADIUS as Player_RADIUS, wasHit as Player_wasHit } from './Player.js';
+import { STATE_PLAYER_HIT as Warp_STATE_PLAYER_HIT, setState as Warp_setState } from './Warp.js';
 
 export const RADIUS = 60;
 export const GEOMETRY = new window.THREE.SphereGeometry(RADIUS, 16, 16);
@@ -39,11 +29,11 @@ export function generateColor() {
 }
 
 export function collideWithPlayer(asteroidPosition) {
-  if (MY3.doCirclesCollide(asteroidPosition, RADIUS, Player.position, Player.RADIUS))
+  if (MY3.doCirclesCollide(asteroidPosition, RADIUS, Player_getPosition(), Player_RADIUS))
   {
     log('player hit asteroid in warp');
-    Player.wasHit();
-    Warp.state = Warp.STATE_PLAYER_HIT;
+    Player_wasHit();
+    Warp_setState(Warp_STATE_PLAYER_HIT);
   }
 }
 

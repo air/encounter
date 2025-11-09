@@ -3,12 +3,7 @@
 import { TO_RADIANS } from './UTIL.js';
 import { X_AXIS, getCamera, setCamera, getScene } from './MY3.js';
 import { getSizeSquare } from './Grid.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const Player = {
-  position: { x: 0, y: 0, z: 0 },
-  rotation: { x: 0, y: 0, z: 0 }
-};
+import { getPosition as Player_getPosition, getRotation as Player_getRotation } from './Player.js';
 
 // FIXME Camera and camera is confusing
 
@@ -66,8 +61,8 @@ export function update(timeDeltaMillis) {
   if (mode === MODE_TOP_DOWN)
   {
     camera = orthoCamera;
-    camera.position.x = Player.position.x;
-    camera.position.z = Player.position.z;
+    camera.position.x = Player_getPosition().x;
+    camera.position.z = Player_getPosition().z;
   }
   else
   {
@@ -78,29 +73,29 @@ export function update(timeDeltaMillis) {
 
   if (mode === MODE_FIRST_PERSON)
   {
-    camera.position.copy(Player.position);
-    camera.rotation.copy(Player.rotation);
+    camera.position.copy(Player_getPosition());
+    camera.rotation.copy(Player_getRotation());
   }
   else if (mode === MODE_CHASE)
   {
-    camera.position.copy(Player.position);
-    camera.rotation.copy(Player.rotation);
+    camera.position.copy(Player_getPosition());
+    camera.rotation.copy(Player_getRotation());
 
     camera.position.y += CHASE_HEIGHT;
     // could have used translateZ() instead here I think, after a pushMatrix() - see Shot constructor
-    camera.position.z += CHASE_DISTANCE * Math.cos(Player.rotation.y);
-    camera.position.x += CHASE_DISTANCE * Math.sin(Player.rotation.y);
+    camera.position.z += CHASE_DISTANCE * Math.cos(Player_getRotation().y);
+    camera.position.x += CHASE_DISTANCE * Math.sin(Player_getRotation().y);
 
     camera.rotateOnAxis(X_AXIS, CHASE_ANGLE_DOWN);
   }
   else if (mode === MODE_ORBIT)
   {
-    camera.position.copy(Player.position);
-    camera.rotation.copy(Player.rotation);
+    camera.position.copy(Player_getPosition());
+    camera.rotation.copy(Player_getRotation());
     camera.position.y += ORBIT_HEIGHT;
     camera.position.z += ORBIT_DISTANCE * Math.cos(orbitCounter);
     camera.position.x += ORBIT_DISTANCE * Math.sin(orbitCounter);
-    camera.lookAt(Player.position);
+    camera.lookAt(Player_getPosition());
     orbitCounter += (ORBIT_SPEED * timeDeltaMillis);
   }
 }

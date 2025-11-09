@@ -3,12 +3,7 @@
 import * as Keys from './Keys.js';
 import * as Camera from './Camera.js';
 import { getClock } from './MY3.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const Player = {
-  position: { x: 0, y: 0, z: 0 },
-  rotation: { x: 0, y: 0, z: 0 }
-};
+import { player as Player } from './Player.js';
 
 // var global = Function('return this')(); // http://stackoverflow.com/questions/3277182/how-to-get-the-global-object-in-javascript
 

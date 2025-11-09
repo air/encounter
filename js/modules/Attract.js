@@ -8,16 +8,8 @@ import { getThreeDiv } from './MY3.js';
 import Keys from './Keys.js';
 import Level from './Level.js';
 import { log } from './UTIL.js';
-
-// CLAUDE-TODO: These dependencies should be imported from their respective modules when converted
-const Player = {
-  resetShieldsLeft: () => console.log('Player.resetShieldsLeft called')
-};
-
-const State = {
-  initLevel: (level) => console.log('State.initLevel called with level:', level),
-  setupWaitForEnemy: () => console.log('State.setupWaitForEnemy called')
-};
+import { resetShieldsLeft as Player_resetShieldsLeft } from './Player.js';
+import { initLevel as State_initLevel, setupWaitForEnemy as State_setupWaitForEnemy } from './State.js';
 
 export function init() {
   // no op
@@ -42,18 +34,18 @@ export function hide() {
 export function update() {
   if (Keys.shooting) {
     Level.resetToBeginning();
-    Player.resetShieldsLeft();
-    State.initLevel();
+    Player_resetShieldsLeft();
+    State_initLevel();
     Keys.shooting = false;
 
     hide();
-    State.setupWaitForEnemy();
+    State_setupWaitForEnemy();
   } else if (Keys.levelRequested > 0) {
     log('requested start on level ' + Keys.levelRequested);
-    State.initLevel(Keys.levelRequested);
+    State_initLevel(Keys.levelRequested);
     hide();
     Keys.levelRequested = null;
-    State.setupWaitForEnemy(); 
+    State_setupWaitForEnemy(); 
   }
 }
 
