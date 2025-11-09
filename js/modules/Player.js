@@ -22,7 +22,8 @@ export const SHOT_MATERIAL = new window.THREE.MeshBasicMaterial({ color: C64_whi
 export let player = new window.THREE.Mesh();
 
 // Player state
-export let radarType = Radar_TYPE_PLAYER;
+// Note: radarType is initialized in init() to avoid circular dependency (State -> Player -> Radar -> State)
+export let radarType = null;
 export let lastTimeFired = null;
 export let shotsInFlight = null;
 export let shieldsLeft = null;
@@ -59,6 +60,9 @@ export function getTimeOfDeath() {
 }
 
 export function init() {
+  // Initialize radarType here to avoid circular dependency at module load time
+  radarType = Radar_TYPE_PLAYER;
+
   // actually set up this Mesh using our materials
   window.THREE.Mesh.call(player, GEOMETRY, MATERIAL);
 

@@ -7,7 +7,7 @@ import Grid from './Grid.js';
 import Ground from './Ground.js';
 import Sound from './Sound.js';
 import Display from './Display.js';
-import Player from './Player.js';
+import { init as Player_init, resetPosition as Player_resetPosition, getShieldsLeft as Player_getShieldsLeft, getTimeOfDeath as Player_getTimeOfDeath, setIsAlive as Player_setIsAlive, update as Player_update } from './Player.js';
 import Missile from './Missile.js';
 import Camera from './Camera.js';
 import Controls from './Controls.js';
@@ -83,7 +83,7 @@ export function init() {
   Ground.init();
   Sound.init();
   Display.init();
-  Player.init();
+  Player_init();
   Missile.init();
   Camera.init();
   Controls.init();
@@ -114,7 +114,7 @@ export function initLevel(levelNumber) {
 
   Camera.useFirstPersonMode();
   Controls.useEncounterControls();
-  Player.resetPosition();
+  Player_resetPosition();
   Grid.reset();
   Enemy.reset();
   Indicators.reset();
@@ -160,7 +160,7 @@ export function setupPlayerHitInCombat() {
 
   Display.showShieldLossStatic();
 
-  if (Player.getShieldsLeft() < 0) {
+  if (Player_getShieldsLeft() < 0) {
     setupGameOver();
   }
 }
@@ -214,17 +214,17 @@ export function updateCombat(timeDeltaMillis) {
 export function updatePlayerHitInCombat(timeDeltaMillis) {
   Display.updateShieldLossStatic();
 
-  if (getClock().oldTime > (Player.getTimeOfDeath() + Encounter.PLAYER_DEATH_TIMEOUT_MS)) {
+  if (getClock().oldTime > (Player_getTimeOfDeath() + Encounter.PLAYER_DEATH_TIMEOUT_MS)) {
     Display.hideShieldLossStatic();
     Indicators.reset();
     actors.reset();
-    Player.setIsAlive(true);
+    Player_setIsAlive(true);
     setupWaitForEnemy();
   }
 }
 
 export function updateGameOver(timeDeltaMillis) {
-  if (Keys.shooting && getClock().oldTime > (Player.getTimeOfDeath() + Encounter.PLAYER_DEATH_TIMEOUT_MS)) {
+  if (Keys.shooting && getClock().oldTime > (Player_getTimeOfDeath() + Encounter.PLAYER_DEATH_TIMEOUT_MS)) {
     Display.hideShieldLossStatic();
     Keys.shooting = false;
     setupAttract();
@@ -233,7 +233,7 @@ export function updateGameOver(timeDeltaMillis) {
 
 export function performNormalLevelUpdates(timeDeltaMillis) {
   Controls.current.update(timeDeltaMillis);
-  Player.update(timeDeltaMillis);
+  Player_update(timeDeltaMillis);
   Camera.update(timeDeltaMillis);
   Grid.update();
 
