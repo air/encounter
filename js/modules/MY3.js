@@ -327,8 +327,13 @@ export function FlickeringBasicMaterial(hexArray, framesForEach) {
     panic('framesForEach undefined');
   }
 
-  // Call parent constructor with empty options to avoid setValues issues
-  window.THREE.MeshBasicMaterial.call(this, {});
+  // Don't call parent constructor - instead create a proper instance
+  // and copy properties to this
+  const baseMaterial = new window.THREE.MeshBasicMaterial();
+  Object.setPrototypeOf(this, FlickeringBasicMaterial.prototype);
+
+  // Copy all properties from the base material to this
+  Object.assign(this, baseMaterial);
 
   // config. Create Color objects out of the hex values
   this.colorArray = hexArray.map(function(color) { return new window.THREE.Color(color); });
@@ -341,6 +346,7 @@ export function FlickeringBasicMaterial(hexArray, framesForEach) {
 }
 
 FlickeringBasicMaterial.prototype = Object.create(window.THREE.MeshBasicMaterial.prototype);
+FlickeringBasicMaterial.prototype.constructor = FlickeringBasicMaterial;
 
 FlickeringBasicMaterial.prototype.tick = function() {
   this.frameCounter += 1;
