@@ -3,7 +3,7 @@
 import { TO_RADIANS } from './UTIL.js';
 import { X_AXIS, getCamera, setCamera, getScene } from './MY3.js';
 import { getSizeSquare } from './Grid.js';
-import { getPosition as Player_getPosition, getRotation as Player_getRotation } from './Player.js';
+import { getPosition as Player_getPosition, getRotation as Player_getRotation, player as Player } from './Player.js';
 
 // FIXME Camera and camera is confusing
 
