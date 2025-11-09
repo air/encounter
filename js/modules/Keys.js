@@ -8,12 +8,7 @@ import SimpleControls from './SimpleControls.js';
 import { getIsAlive as Enemy_getIsAlive, destroyed as Enemy_destroyed } from './Enemy.js';
 import { STATE_WAIT_TO_EXIT as Warp_STATE_WAIT_TO_EXIT, setState as Warp_setState } from './Warp.js';
 import { getCurrent, ATTRACT, COMBAT, WAIT_FOR_ENEMY, WARP, getIsPaused, setIsPaused, setupPlayerHitInCombat } from './State.js';
-
-
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  wasHit: () => {}
-};
+import { wasHit as Player_wasHit } from './Player.js';
 
 // is the user pressing fire right now?
 let shooting = false;
@@ -70,7 +65,7 @@ export function keyUp(event) {
       if (getCurrent() === COMBAT || getCurrent() === WAIT_FOR_ENEMY)
       {
         error('cheat: suicide');
-        Player.wasHit();
+        Player_wasHit();
         setupPlayerHitInCombat();
       }
   }

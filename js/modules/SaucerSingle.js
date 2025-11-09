@@ -10,11 +10,7 @@ import { newInstance as Shot_newInstance } from './Shot.js';
 import { enemyShoot as Sound_enemyShoot } from './Sound.js';
 import { log } from './UTIL.js';
 import { getActors } from './State.js';
-
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  position: { x: 0, y: 0, z: 0 }
-};
+import { getPosition as Player_getPosition } from './Player.js';
 
 // Type constants
 export const MATERIAL = new window.THREE.MeshBasicMaterial({ color: yellow });
@@ -35,7 +31,7 @@ export const SaucerSingle = function(location) {
 SaucerSingle.prototype = Object.create(Saucer.prototype);
 
 SaucerSingle.prototype.shoot = function() {
-  rotateObjectToLookAt(this.mesh, Player.position);
+  rotateObjectToLookAt(this.mesh, Player_getPosition());
   Sound_enemyShoot();
   const shot = Shot_newInstance(this, this.mesh.position, this.mesh.rotation, SHOT_MATERIAL);
   getActors().add(shot.actor);

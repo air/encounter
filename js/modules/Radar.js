@@ -8,12 +8,7 @@ import { css as C64css, randomCssColour } from './C64.js';
 import { SPACING as Grid_SPACING, getViewport } from './Grid.js';
 import { panic } from './UTIL.js';
 import { getActors } from './State.js';
-
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  position: { x: 0, z: 0 },
-  rotation: { y: 0 }
-};
+import { getPosition as Player_getPosition, getRotation as Player_getRotation } from './Player.js';
 
 // Constants
 export const RESOLUTION_X = 200;
@@ -141,12 +136,12 @@ function translatePositionByRange(xPos, zPos) {
  */
 export function render(worldx, worldz, blipSize) {
   // translate so player is at origin
-  const xRelativeToPlayer = worldx - Player.position.x;
-  const zRelativeToPlayer = worldz - Player.position.z;
+  const xRelativeToPlayer = worldx - Player_getPosition().x;
+  const zRelativeToPlayer = worldz - Player_getPosition().z;
 
   // rotate, http://en.wikipedia.org/wiki/Rotation_(mathematics)#Matrix_algebra
-  const x = (xRelativeToPlayer * Math.cos(Player.rotation.y)) - (zRelativeToPlayer * Math.sin(Player.rotation.y));
-  const z = (xRelativeToPlayer * Math.sin(Player.rotation.y)) + (zRelativeToPlayer * Math.cos(Player.rotation.y));
+  const x = (xRelativeToPlayer * Math.cos(Player_getRotation().y)) - (zRelativeToPlayer * Math.sin(Player_getRotation().y));
+  const z = (xRelativeToPlayer * Math.sin(Player_getRotation().y)) + (zRelativeToPlayer * Math.cos(Player_getRotation().y));
 
   // scale for radar range
   const radarPos = translatePositionByRange(x, z);
@@ -163,8 +158,8 @@ function renderRadarObelisks() {
   canvasContext.fillStyle = C64css.darkgrey;
 
   // start at player position and move to bottom right of radar range
-  const xStart = Player.position.x - (RANGE / 2);
-  const zStart = Player.position.z - (RANGE / 2);
+  const xStart = Player_getPosition().x - (RANGE / 2);
+  const zStart = Player_getPosition().z - (RANGE / 2);
 
   // starting at that point, find the first line of obelisks that we have to render
   const firstXLine = Math.ceil(xStart / Grid_SPACING) * Grid_SPACING;

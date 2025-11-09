@@ -7,11 +7,7 @@ import { randomLocationCloseToPlayer as Grid_randomLocationCloseToPlayer } from 
 import { log, panic } from './UTIL.js';
 import { getClock } from './MY3.js';
 import { resetEnemyCounter, setupWaitForEnemy, setupWarp } from './State.js';
-
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  position: { x: 0, y: 0, z: 0, distanceTo: () => 0 }
-};
+import { getPosition as Player_getPosition } from './Player.js';
 
 // BlackPortal extends Portal functionality
 export const MATERIAL = new window.THREE.MeshBasicMaterial({ color: C64.black });
@@ -49,7 +45,7 @@ export function spawnIfReady() {
 }
 
 export function updateWaitingForPlayer(timeDeltaMillis) {
-  if (Player.position.distanceTo(Portal.mesh.position) < 70) {
+  if (Player_getPosition().distanceTo(Portal.mesh.position) < 70) {
     Portal.state = STATE_PLAYER_ENTERED;
     // Portal cleanup is done in Warp
   } else if ((getClock().oldTime - wasOpenedAt) > Encounter.TIME_TO_ENTER_PORTAL_MS) {

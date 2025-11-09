@@ -8,12 +8,7 @@ import Level from './Level.js';
 import Display from './Display.js';
 import Ground from './Ground.js';
 import { getScene, getCamera } from './MY3.js';
-
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  position: { x: 0, y: 0, z: 0 },
-  RADIUS: 30
-};
+import { getPosition as Player_getPosition, RADIUS as Player_RADIUS } from './Player.js';
 
 // CLAUDE-TODO: Replace with actual scene/camera references when main game loop is modularized
 const scene = {
@@ -117,7 +112,7 @@ export function removeFromScene() {
 // start in the viewport centre or offset to avoid a collision if OBELISKS_PER_SIDE is even
 export function playerStartLocation() {
   var position = new window.THREE.Vector3(SIZE_SQUARE / 2, Encounter.CAMERA_HEIGHT, SIZE_SQUARE / 2);
-  if (Physics.isCloseToAnObelisk(position, Player.RADIUS)) {
+  if (Physics.isCloseToAnObelisk(position, Player_RADIUS)) {
     position.x += SPACING / 2;
     position.z += SPACING / 2; 
   }
@@ -137,8 +132,8 @@ export function randomLocation() {
 export function randomLocationCloseToPlayer(maxDistance, minDistance) {
   var location = null;
   do {
-    location = randomLocationCloseToPoint(Player.position, maxDistance);
-  } while (location.distanceTo(Player.position) < minDistance);
+    location = randomLocationCloseToPoint(Player_getPosition(), maxDistance);
+  } while (location.distanceTo(Player_getPosition()) < minDistance);
   return location;
 }
 
@@ -178,15 +173,15 @@ export function update() {
   var minThresholdX = viewport.min.x + TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;
   var minThresholdZ = viewport.min.y + TRIGGER_DISTANCE_FROM_VIEWPORT_EDGE;
 
-  if (Player.position.x > maxThresholdX) {
+  if (Player_getPosition().x > maxThresholdX) {
     viewport.translate(new window.THREE.Vector2(SPACING, 0));
-  } else if (Player.position.x < minThresholdX) {
+  } else if (Player_getPosition().x < minThresholdX) {
     viewport.translate(new window.THREE.Vector2(-SPACING, 0));
   }
 
-  if (Player.position.z > maxThresholdZ) {
+  if (Player_getPosition().z > maxThresholdZ) {
     viewport.translate(new window.THREE.Vector2(0, SPACING));
-  } else if (Player.position.z < minThresholdZ) {
+  } else if (Player_getPosition().z < minThresholdZ) {
     viewport.translate(new window.THREE.Vector2(0, -SPACING));
   }
 

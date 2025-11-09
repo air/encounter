@@ -18,17 +18,7 @@ import { log, panic } from './UTIL.js';
 import { PLAYER_DEATH_TIMEOUT_MS } from './Encounter.js';
 import { getClock } from './MY3.js';
 import { getActors, setupGameOver, initLevel, setupWaitForEnemy } from './State.js';
-
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  position: { x: 0, y: 0, z: 0, copy: () => {} },
-  rotation: { x: 0, y: 0, z: 0, copy: () => {} },
-  update: () => {},
-  shieldsLeft: 0,
-  timeOfDeath: 0,
-  isAlive: true,
-  awardBonusShield: () => {}
-};
+import { getPosition as Player_getPosition, getRotation as Player_getRotation, update as Player_update, getShieldsLeft as Player_getShieldsLeft, getTimeOfDeath as Player_getTimeOfDeath, setIsAlive as Player_setIsAlive, awardBonusShield as Player_awardBonusShield } from './Player.js';
 
 // CLAUDE-TODO: Replace with actual scene reference when MY3/rendering is fully modularized
 const scene = {
@@ -110,8 +100,8 @@ function createAsteroidsInFrontOfPlayer(timeDeltaMillis) {
   // TODO set ASTEROIDS_CREATED_PER_SECOND and tween it according to phase
   // otherwise we are 1. more dense when going slow and 2. FPS will affect difficulty
   const asteroid = Asteroid_newInstance();
-  asteroid.position.copy(Player.position);
-  asteroid.rotation.copy(Player.rotation);
+  asteroid.position.copy(Player_getPosition());
+  asteroid.rotation.copy(Player_getRotation());
   asteroid.translateZ(-15000); // FIXME adjust this
   asteroid.translateX(random(-15000, 15000)); // FIXME adjust this
   scene.add(asteroid);
@@ -144,7 +134,7 @@ function checkCollisions() {
 function updateMovement(timeDeltaMillis) {
   window.TWEEN.update();
   Controls_current.update(timeDeltaMillis);
-  Player.update(timeDeltaMillis);
+  Player_update(timeDeltaMillis);
   Camera_update(timeDeltaMillis);
   interpretKeys(timeDeltaMillis);
   checkCollisions();
@@ -234,14 +224,14 @@ function updateDecelerate(timeDeltaMillis) {
 function updatePlayerHit() {
   updateShieldLossStatic();
 
-  if (Player.shieldsLeft < 0) {
+  if (Player_getShieldsLeft() < 0) {
     state = null;
     removeAsteroidsFromScene();  // FIXME asteroids disappear, will be replaced by death fuzz
     setupGameOver();
   }
-  else if (getClock().oldTime > (Player.timeOfDeath + PLAYER_DEATH_TIMEOUT_MS)) {
+  else if (getClock().oldTime > (Player_getTimeOfDeath() + PLAYER_DEATH_TIMEOUT_MS)) {
     Keys_setShooting(false);
-    Player.isAlive = true;
+    Player_setIsAlive(true);
     restoreLevel();
   }
 }
@@ -255,7 +245,7 @@ function updateWaitToExit(timeDeltaMillis) {
   // TODO proper warp exit
   log('warp ended successfully');
   nextLevel();
-  Player.awardBonusShield();
+  Player_awardBonusShield();
 
   state = null;
   restoreLevel();

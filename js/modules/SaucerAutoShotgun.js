@@ -11,10 +11,6 @@ import { enemyShoot as Sound_enemyShoot } from './Sound.js';
 import { log } from './UTIL.js';
 import { getActors } from './State.js';
 
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  position: { x: 0, y: 0, z: 0 }
-};
 
 
 // Type constants
@@ -45,7 +41,7 @@ SaucerAutoShotgun.prototype.shoot = function() {
   Sound_enemyShoot();
 
   // shot 1 directly at player
-  rotateObjectToLookAt(this.mesh, Player.position);
+  rotateObjectToLookAt(this.mesh, Player_getPosition());
   const shotMiddle = Shot_newInstance(this, this.mesh.position, this.mesh.rotation, SHOT_MATERIAL);
   // shot 2 to the right of target
   this.mesh.rotation.y -= SHOT_SPREAD;

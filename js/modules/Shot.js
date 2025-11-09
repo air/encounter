@@ -13,14 +13,7 @@ import { Actor } from './Actors.js';
 import { setBlue as Indicators_setBlue } from './Indicators.js';
 import { getIsAlive as Enemy_getIsAlive, getCurrent as Enemy_getCurrent, destroyed as Enemy_destroyed } from './Enemy.js';
 import { getActors, setupPlayerHitInCombat } from './State.js';
-
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  position: { x: 0, y: 0, z: 0 },
-  RADIUS: 30,
-  wasHit: () => {},
-  shotsInFlight: 0
-};
+import { getPosition as Player_getPosition, RADIUS as Player_RADIUS, wasHit as Player_wasHit, decrementShotsInFlight as Player_decrementShotsInFlight } from './Player.js';
 
 // Constants
 export const RADIUS = 40;
@@ -103,8 +96,8 @@ function collideWithObelisks(shot) {
  */
 function collideWithShips(shot) {
   // kill the player
-  if (shot.shotType === TYPE_ENEMY && doCirclesCollide(shot.position, RADIUS, Player.position, Player.RADIUS)) {
-    Player.wasHit();
+  if (shot.shotType === TYPE_ENEMY && doCirclesCollide(shot.position, RADIUS, Player_getPosition(), Player_RADIUS)) {
+    Player_wasHit();
     setupPlayerHitInCombat();
   }
   // kill the enemy
@@ -140,7 +133,7 @@ function cleanUpDeadShot(shot) {
   getActors().remove(shot.actor);
 
   if (shot.shotType === TYPE_PLAYER) {
-    Player.shotsInFlight -= 1;
+    Player_decrementShotsInFlight();
   }
   else { // if this was the last enemy shot cleaned up, no enemy shots remain so kill the blue light
     if (getActors().list.every(isNotEnemyShot)) {

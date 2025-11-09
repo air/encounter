@@ -16,13 +16,7 @@ import { setRed } from './Indicators.js';
 import { log } from './UTIL.js';
 import { Actor } from './Actors.js';
 import { setupPlayerHitInCombat } from './State.js';
-
-// CLAUDE-TODO: Replace with actual Player import when Player.js is converted to ES6 module
-const Player = {
-  position: { x: 0, y: 0, z: 0, distanceTo: () => 0 },
-  RADIUS: 30,
-  wasHit: () => {}
-};
+import { getPosition as Player_getPosition, RADIUS as Player_RADIUS, wasHit as Player_wasHit } from './Player.js';
 
 // Constants
 export const RADIUS = 50; // FIXME collides at this radius but doesn't appear it
@@ -66,7 +60,7 @@ export function spawn() {
 
   const spawnPoint = randomLocationCloseToPlayer(ENEMY_SPAWN_DISTANCE_MAX, MISSILE_SPAWN_DISTANCE_MIN);
   spawnPoint.y = CAMERA_HEIGHT;
-  log('spawning missile at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z + ', distance ' + Math.floor(Player.position.distanceTo(spawnPoint)));
+  log('spawning missile at ' + spawnPoint.x + ', ' + spawnPoint.y + ', ' + spawnPoint.z + ', distance ' + Math.floor(Player_getPosition().distanceTo(spawnPoint)));
   mesh.position.copy(spawnPoint);
 
   strafeOffset = -STRAFE_MAX_OFFSET; // start at one side for simplicity
@@ -104,7 +98,7 @@ export function update(timeDeltaMillis) {
 
   mesh.translateX(strafeOffset);
 
-  rotateObjectToLookAt(mesh, Player.position);
+  rotateObjectToLookAt(mesh, Player_getPosition());
 
   const actualMoveSpeed = timeDeltaMillis * MOVEMENT_SPEED;
   mesh.translateZ(-actualMoveSpeed);
@@ -123,8 +117,8 @@ export function update(timeDeltaMillis) {
 
   // offset to the side
   // collide and kill the player
-  if (doCirclesCollide(mesh.position, RADIUS, Player.position, Player.RADIUS)) {
-    Player.wasHit();
+  if (doCirclesCollide(mesh.position, RADIUS, Player_getPosition(), Player_RADIUS)) {
+    Player_wasHit();
     setupPlayerHitInCombat();
   }
 }
