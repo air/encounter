@@ -5,14 +5,7 @@ import { Actor } from './Actors.js';
 import { log, panic } from './UTIL.js';
 import { TYPE_PORTAL as Radar_TYPE_PORTAL } from './Radar.js';
 import { getClock } from './MY3.js';
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: {
-    add: () => {},
-    remove: () => {}
-  }
-};
+import { getActors } from './State.js';
 
 // Prototype for BlackPortal (where player enters warp) and WhitePortal (where enemies warp in).
 
@@ -54,7 +47,7 @@ export function spawn(location) {
   mesh.scale.y = 0.01;
 
   actor = new Actor(mesh, getActorUpdateFunction(), Radar_TYPE_PORTAL);
-  State.actors.add(actor);
+  getActors().add(actor);
   log('portal spawned');
 
   var tween = new window.TWEEN.Tween(mesh.scale).to({ y: 1.0 }, TIME_TO_ANIMATE_OPENING_MS);
@@ -79,7 +72,7 @@ export function startClosing() {
 }
 
 export function removeFromScene() {
-  State.actors.remove(actor);
+  getActors().remove(actor);
 }
 
 export function updateOpening(timeDeltaMillis) {

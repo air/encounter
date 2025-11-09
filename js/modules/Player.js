@@ -10,13 +10,7 @@ import { playerCollideObelisk as Sound_playerCollideObelisk, playerKilled as Sou
 import { newInstance as Shot_newInstance } from './Shot.js';
 import { log } from './UTIL.js';
 import MY3, { getClock } from './MY3.js';
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: {
-    add: () => {}
-  }
-};
+import { getActors } from './State.js';
 
 // Player constants
 export const RADIUS = 40;
@@ -60,6 +54,10 @@ export function getShotsInFlight() {
   return shotsInFlight;
 }
 
+export function getTimeOfDeath() {
+  return timeOfDeath;
+}
+
 export function init() {
   // actually set up this Mesh using our materials
   window.THREE.Mesh.call(player, GEOMETRY, MATERIAL);
@@ -67,7 +65,7 @@ export function init() {
   player.radarType = radarType;
 
   // FIXME for debug purposes player can move in pause mode - uncomment to fix this.
-  //State.actors.add(player);
+  //getActors().add(player);
 }
 
 export function resetPosition() {
@@ -120,7 +118,7 @@ export function shoot() {
       var shot = Shot_newInstance(player, player.position, player.rotation, SHOT_MATERIAL);
       shotsInFlight += 1;
       lastTimeFired = now;
-      State.actors.add(shot.actor);
+      getActors().add(shot.actor);
     }
   }
 }
@@ -171,6 +169,7 @@ export default {
   getIsAlive,
   getShieldsLeft,
   getShotsInFlight,
+  getTimeOfDeath,
   init,
   resetPosition,
   resetShieldsLeft,

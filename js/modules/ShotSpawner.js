@@ -5,13 +5,7 @@ import * as UTIL from './UTIL.js';
 import * as Shot from './Shot.js';
 import { TYPE_ENEMY } from './Radar.js';
 import { getClock } from './MY3.js';
-
-// CLAUDE-TODO: Replace with actual State import when State.js is converted to ES6 module
-const State = {
-  actors: {
-    add: (actor) => console.log('State.actors.add called with:', actor)
-  }
-};
+import { getActors } from './State.js';
 
 // A ShotSpawner is a visible Mesh that generates a bunch of Shots
 
@@ -44,7 +38,7 @@ ShotSpawner.prototype.update = function(t) {
   if (millisSinceLastShot > this.SHOT_INTERVAL_MILLIS)
   {
     var shot = Shot.newInstance(this, this.position, this.rotation, SHOT_MATERIAL);
-    State.actors.add(shot);
+    getActors().add(shot);
 
     this.lastShotAt = timeNow;
   }
