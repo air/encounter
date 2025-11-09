@@ -1,6 +1,7 @@
 'use strict';
 
 import { TO_DEGREES, panic } from './UTIL.js';
+import { update as State_update } from './State.js';
 
 let threeDiv = null;  // div containing the renderer
 
@@ -100,11 +101,10 @@ export function render() {
   renderer.render(scene, camera);
 }
 
-// You need to implement the global function update(timeDeltaMillis).
-// This function calls render().
+// Main animation loop - calls State.update() and render()
 export function startAnimationLoop() {
   requestAnimationFrame(startAnimationLoop);
-  update(clock.getDelta() * clock.multiplier);
+  State_update(clock.getDelta() * clock.multiplier);
   render();
 }
 
