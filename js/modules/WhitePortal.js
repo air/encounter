@@ -39,8 +39,12 @@ export function spawnForEnemy(enemyType) {
   enemyTypeIncoming = enemyType;
   log('spawning white portal with enemy type: ' + enemyTypeIncoming);
 
+  // FIXME: Awkward loss of inheritance from ES6 conversion. Old code used Object.create(Portal)
+  // so WhitePortal.spawn() would automatically use WhitePortal's own mesh/state/actor via 'this'.
+  // Now we manually bind context with .call() which is fragile and loses the elegant prototype chain.
+  // Consider refactoring Portal/WhitePortal/BlackPortal to use proper ES6 classes or composition pattern.
   var location = Grid_randomLocationCloseToPlayer(Encounter.ENEMY_SPAWN_DISTANCE_MAX);
-  Portal.spawn.call({ mesh: Portal.mesh, spawnedAt: Portal.spawnedAt, state: Portal.state, actor, getActorUpdateFunction });
+  Portal.spawn.call({ mesh: Portal.mesh, spawnedAt: Portal.spawnedAt, state: Portal.state, actor, getActorUpdateFunction }, location);
   Portal.mesh.radarType = Radar_TYPE_PORTAL;
 }
 
