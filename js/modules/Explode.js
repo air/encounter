@@ -152,11 +152,6 @@ Gib.newInstance = function() {
     newGib.translateZ(-Gib.SPEED * timeDeltaMillis);
     newGib.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
 
-    // collision with the player
-    if (Physics.doCirclesCollide(Player_getPosition(), Player_RADIUS, newGib.position, Gib.RADIUS)) {
-      Sound.gibHitPlayer();
-    }
-
     // collision with obelisks
     if (Physics.isCloseToAnObelisk(newGib.position, Gib.RADIUS)) {
       // check for precise collision
@@ -164,9 +159,15 @@ Gib.newInstance = function() {
       // if we get a return there is work to do
       if (collidePosition) {
         // we have a collision, move the gib out
-        Physics.bounceObjectOutOfIntersectingCircle(collidePosition, Obelisk.RADIUS, newGib.position, Gib.RADIUS);
-        Sound.gibBounce();
+        Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, newGib.position, Gib.RADIUS);
       }
+    }
+
+    // collision with the player
+    if (MY3.doCirclesCollide(Player_getPosition(), Player_RADIUS, newGib.position, Gib.RADIUS)) {
+      // move the gib out of the player
+      Physics.moveCircleOutOfStaticCircle(Player_getPosition(), Player_RADIUS, newGib.position, Gib.RADIUS);
+      Sound.playerCollideObelisk();
     }
   }
 
