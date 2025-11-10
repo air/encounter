@@ -7,7 +7,7 @@ import { TYPE_PORTAL as Radar_TYPE_PORTAL } from './Radar.js';
 import { getClock } from './MY3.js';
 import { getActors } from './State.js';
 
-// Prototype for BlackPortal (where player enters warp) and WhitePortal (where enemies warp in).
+// Portal base class for BlackPortal (where player enters warp) and WhitePortal (where enemies warp in).
 
 export const STATE_OPENING = 'opening';
 export const STATE_CLOSING = 'closing';
@@ -15,121 +15,95 @@ export const STATE_CLOSING = 'closing';
 export const TIME_TO_ANIMATE_OPENING_MS = 4000;
 export const TIME_TO_ANIMATE_CLOSING_MS = 3000;
 
-// prototype state
-export let GEOMETRY = null;
+export class Portal {
+  static GEOMETRY = null;
 
-// state to be shadowed in derived objects
-export let mesh = null;
-export let state = null;
-export let spawnedAt = null;
-export let closeStartedAt = null;
-let actor = null;
-
-export function init() {
-  GEOMETRY = new window.THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
-}
-
-export function setMesh(newMesh) {
-  mesh = newMesh;
-}
-
-export function spawn(location) {
-  if (location === undefined) {
-    panic('spawn requires location');
+  constructor(mesh) {
+    this.mesh = mesh;
+    this.state = null;
+    this.spawnedAt = null;
+    this.closeStartedAt = null;
+    this.actor = null;
   }
 
-  spawnedAt = getClock().oldTime;
-  state = STATE_OPENING;
+  static init() {
+    Portal.GEOMETRY = new window.THREE.CylinderGeometry(40, 40, 100, 16, 1, false);
+  }
 
-  // FIXME this is temporary
-  // TODO use tween chaining for the left/right then up/down opening phases!
-  mesh.position.set(location.x, Obelisk.HEIGHT / 2, location.z);
-  mesh.scale.y = 0.01;
+  spawn(location) {
+    if (location === undefined) {
+      panic('spawn requires location');
+    }
 
-  actor = new Actor(mesh, getActorUpdateFunction(), Radar_TYPE_PORTAL);
-  getActors().add(actor);
-  log('portal spawned');
+    this.spawnedAt = getClock().oldTime;
+    this.state = STATE_OPENING;
 
-  var tween = new window.TWEEN.Tween(mesh.scale).to({ y: 1.0 }, TIME_TO_ANIMATE_OPENING_MS);
-  //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
-  tween.onComplete(function() {
-    log('portal opening tween complete');
-  });
-  tween.start();
-}
+    // FIXME this is temporary
+    // TODO use tween chaining for the left/right then up/down opening phases!
+    this.mesh.position.set(location.x, Obelisk.HEIGHT / 2, location.z);
+    this.mesh.scale.y = 0.01;
 
-export function startClosing() {
-  log('starting to close portal');
-  state = STATE_CLOSING;
-  closeStartedAt = getClock().oldTime;
+    this.actor = new Actor(this.mesh, this.getActorUpdateFunction(), Radar_TYPE_PORTAL);
+    getActors().add(this.actor);
+    log('portal spawned');
 
-  var tween = new window.TWEEN.Tween(mesh.scale).to({ y: 0.01 }, TIME_TO_ANIMATE_CLOSING_MS);
-  //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
-  tween.onComplete(function() {
-    log('portal closing tween complete');
-  });
-  tween.start();
-}
+    const tween = new window.TWEEN.Tween(this.mesh.scale).to({ y: 1.0 }, TIME_TO_ANIMATE_OPENING_MS);
+    //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
+    tween.onComplete(() => {
+      log('portal opening tween complete');
+    });
+    tween.start();
+  }
 
-export function removeFromScene() {
-  getActors().remove(actor);
-}
+  startClosing() {
+    log('starting to close portal');
+    this.state = STATE_CLOSING;
+    this.closeStartedAt = getClock().oldTime;
 
-export function updateOpening(timeDeltaMillis) {
-  if ((getClock().oldTime - spawnedAt) > TIME_TO_ANIMATE_OPENING_MS) {
-    log('portal opened');
-    opened();  // custom behaviour
+    const tween = new window.TWEEN.Tween(this.mesh.scale).to({ y: 0.01 }, TIME_TO_ANIMATE_CLOSING_MS);
+    //tween.easing(TWEEN.Easing.Linear.None); // reference http://sole.github.io/tween.js/examples/03_graphs.html
+    tween.onComplete(() => {
+      log('portal closing tween complete');
+    });
+    tween.start();
+  }
+
+  removeFromScene() {
+    getActors().remove(this.actor);
+  }
+
+  updateOpening(timeDeltaMillis) {
+    if ((getClock().oldTime - this.spawnedAt) > TIME_TO_ANIMATE_OPENING_MS) {
+      log('portal opened');
+      this.opened();  // custom behaviour - override in subclass
+    }
+  }
+
+  updateClosing(timeDeltaMillis) {
+    if ((getClock().oldTime - this.closeStartedAt) > TIME_TO_ANIMATE_CLOSING_MS) {
+      log('portal closed');
+      this.state = null;
+      this.removeFromScene();
+      this.closed();  // custom behaviour - override in subclass
+    }
+  }
+
+  // Override in subclasses
+  opened() {
+    // default no-op
+  }
+
+  // Override in subclasses
+  closed() {
+    // default no-op
+  }
+
+  // Override in subclasses - this should never be called in production
+  getActorUpdateFunction() {
+    return (timeDeltaMillis) => {
+      console.log('Portal base update function called - this should be overridden!');
+    };
   }
 }
 
-export function updateClosing(timeDeltaMillis) {
-  if ((getClock().oldTime - closeStartedAt) > TIME_TO_ANIMATE_CLOSING_MS) {
-    log('portal closed');
-    state = null;
-    removeFromScene();
-    closed();  // custom behaviour
-  }
-}
-
-export function opened() {
-  // default no op - to be overridden by derived classes
-}
-
-export function closed() {
-  // default no op
-}
-
-// This should be overridden by derived classes
-export function getActorUpdateFunction() {
-  return function() {
-    console.log('Portal base update function called');
-  };
-}
-
-// Export default object for backward compatibility
-export default {
-  STATE_OPENING,
-  STATE_CLOSING,
-  TIME_TO_ANIMATE_OPENING_MS,
-  TIME_TO_ANIMATE_CLOSING_MS,
-  get GEOMETRY() { return GEOMETRY; },
-  set GEOMETRY(value) { GEOMETRY = value; },
-  get mesh() { return mesh; },
-  set mesh(value) { mesh = value; },
-  get state() { return state; },
-  set state(value) { state = value; },
-  get spawnedAt() { return spawnedAt; },
-  set spawnedAt(value) { spawnedAt = value; },
-  get closeStartedAt() { return closeStartedAt; },
-  set closeStartedAt(value) { closeStartedAt = value; },
-  init,
-  setMesh,
-  spawn,
-  startClosing,
-  removeFromScene,
-  updateOpening,
-  updateClosing,
-  opened,
-  closed,
-  getActorUpdateFunction
-};
+export default Portal;
