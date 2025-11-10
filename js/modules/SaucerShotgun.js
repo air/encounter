@@ -10,6 +10,7 @@ import { newInstance as Shot_newInstance } from './Shot.js';
 import { enemyShoot as Sound_enemyShoot } from './Sound.js';
 import { log } from './UTIL.js';
 import { getActors } from './State.js';
+import { getPosition as Player_getPosition } from './Player.js';
 
 
 
