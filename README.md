@@ -20,6 +20,15 @@ Build status: [![Build Status](https://travis-ci.org/air/encounter.svg)](https:/
 
 Follow the devlog at http://aaronbell.com.
 
+## Code Structure
+
+The game has been modernized to use **ES6 modules** for better code organization and maintainability:
+- **Active codebase**: `js/modules/` directory with ES6 imports/exports
+- **Entry point**: `js/main.js` loaded via `index.html`
+- **Legacy version**: Original pre-ES6 code preserved in `js/` directory, accessible via `index-legacy.html`
+
+To run locally, start an HTTP server (e.g., `python3 -m http.server 8000`) and open `http://localhost:8000/index.html`
+
 ## Cool stuff
 
 - On mobile, the touchscreen controller is hand-written to allow smooth transition between d-pad positions without lifting your thumb. Read more at http://www.aaronbell.com/mobile-touch-controls-from-scratch/

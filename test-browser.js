@@ -2,7 +2,7 @@
 
 /**
  * Browser test using Puppeteer
- * Loads the ES6 modules version and captures console output
+ * Loads the game and captures console output
  */
 
 const puppeteer = require('puppeteer');
@@ -41,8 +41,8 @@ async function testBrowser() {
 
   try {
     // Navigate to the app
-    console.log('\nLoading http://localhost:8000/index-modules.html...\n');
-    await page.goto('http://localhost:8000/index-modules.html', {
+    console.log('\nLoading http://localhost:8000/index.html...\n');
+    await page.goto('http://localhost:8000/index.html', {
       waitUntil: 'networkidle2',
       timeout: 30000
     });

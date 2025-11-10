@@ -17,10 +17,10 @@ The ES6 module conversion is **COMPLETE**! All 40+ game modules have been succes
 The ES6 module conversion has been successfully completed! All modules are now using proper ES6 imports/exports.
 
 ### File Locations
-- **Original source code**: Located in `js/` directory (kept for reference)
-- **ES6 modules**: Located in `js/modules/` directory
-- **Active codebase**: Use `index-modules.html` which loads from `js/modules/`
-- **Legacy version**: `index.html` still loads old `js/` files for comparison
+- **Active codebase**: `js/modules/` directory with ES6 imports/exports
+- **Entry point**: `js/main.js` loaded by `index.html`
+- **Legacy code**: Original pre-ES6 code in `js/` directory (kept for reference)
+- **Legacy HTML**: `index-legacy.html` loads the old non-module code
 
 ### Key Patterns Established
 - Named exports for functions and constants
@@ -50,7 +50,9 @@ npm test          # Run Mocha tests
 ```
 
 ## Local Testing Notes
-- For testing, a local http server can be used by opening: http://localhost:8000/index-modules.html
+- Start an HTTP server: `python3 -m http.server 8000`
+- Open `http://localhost:8000/index.html` (ES6 modules version)
+- Or open `http://localhost:8000/index-legacy.html` (legacy pre-ES6 version)
 
 ## Architecture Overview
 
