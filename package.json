@@ -5,7 +5,7 @@
   "description": "Recreating the 80s C64 classic in WebGL.",
   "scripts": {
     "test": "mocha",
-    "lint": "gulp lint"
+    "test:browser": "node test-browser.js"
   },
   "repository": {
     "type": "git",
@@ -18,12 +18,10 @@
     "threejs"
   ],
   "devDependencies": {
-    "gulp": ">3.6.2",
-    "gulp-jshint": ">1.5.5",
-    "gulp-concat": ">2.2.0",
+    "chai": ">1.9.1",
     "mocha": ">1.18.2",
-    "three": "~0.58.10",
-    "chai": ">1.9.1"
+    "puppeteer": "^24.29.1",
+    "three": "~0.58.10"
   },
   "license": "CC-BY-NC-SA-3.0",
   "engines": {
