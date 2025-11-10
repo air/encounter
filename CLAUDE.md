@@ -8,17 +8,27 @@ This is a WebGL recreation of the classic 1983 Commodore 64 game "Encounter" usi
 
 ## What we are working on
 
-This game was written many years ago and uses an ancient version of three.js, and does not use ES6 modules. Our goal is to update the game to have better encapsulation with modules - probably doing this first before attempting a three.js upgrade - and then once that's done tackle the tricky work of upgrading to three.js latest.
+The ES6 module conversion is **COMPLETE**! All 40+ game modules have been successfully converted from the old global namespace pattern to proper ES6 modules with imports/exports. The game is fully functional in `index-modules.html`.
 
-**See TODO-claude.md for the detailed ES6 module conversion plan and current progress.**
+**Current focus**: Code cleanup, refactoring, and improvements to the ES6 codebase. The Three.js upgrade will come later.
 
-## ES6 Module Conversion Guidelines
+## ES6 Module Conversion - COMPLETED ✓
+
+The ES6 module conversion has been successfully completed! All modules are now using proper ES6 imports/exports.
 
 ### File Locations
-- **Original source code**: Located in `js/` directory
-- **Converted ES6 modules**: Write to `js/modules/` directory
-- **Strategy**: Leave originals intact for comparison and backward compatibility
-- **Example**: Convert `js/Radar.js` → write to `js/modules/Radar.js`
+- **Original source code**: Located in `js/` directory (kept for reference)
+- **ES6 modules**: Located in `js/modules/` directory
+- **Active codebase**: Use `index-modules.html` which loads from `js/modules/`
+- **Legacy version**: `index.html` still loads old `js/` files for comparison
+
+### Key Patterns Established
+- Named exports for functions and constants
+- Default exports for backward compatibility where needed
+- Getter/setter patterns for mutable module state
+- ES6 classes for Portal/WhitePortal/BlackPortal inheritance
+- Prototype-based inheritance for Saucer variants (working well)
+- Careful module initialization order to handle dependencies
 
 ### Git Commit Workflow
 - **IMPORTANT**: Do NOT make git commits until the user has tested and validated the code changes
