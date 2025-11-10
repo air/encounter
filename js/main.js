@@ -121,9 +121,9 @@ log('Created test shot spawner at position with rotation');
 
 // Test Explode module
 log('Explode module loaded - Explosion effects with ' + Explode.NUMBER_OF_GIBS + ' gibs');
-log('Explosion lifetime: ' + Explode.LIFETIME_MS + 'ms with ' + Explode.MATERIAL_PHASES.length + ' material phases');
 Explode.init();
 log('Explode module initialized with gib particles');
+log('Explosion lifetime: ' + Explode.LIFETIME_MS + 'ms with ' + Explode.MATERIAL_PHASES.length + ' material phases');
 
 // Test Actors module
 log('Actors module loaded - Actor and Actors constructor functions ready');

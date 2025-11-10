@@ -23,28 +23,8 @@ export const LIFETIME_MS = 2200;
 let ageMillis = 0;
 let actor = null;
 
-export const MATERIAL_PHASES = [
-  {
-    untilAgeMillis: 600,
-    material: new window.THREE.MeshBasicMaterial({ color: C64.white })
-  },
-  {
-    untilAgeMillis: 1100,
-    material: new MY3.FlickeringBasicMaterial([C64.yellow, C64.white], FLICKER_FRAMES)
-  },
-  {
-    untilAgeMillis: 1600,
-    material: new MY3.FlickeringBasicMaterial([C64.lightred, C64.yellow], FLICKER_FRAMES)
-  },
-  {
-    untilAgeMillis: 2000,
-    material: new MY3.FlickeringBasicMaterial([C64.brown, C64.lightred], FLICKER_FRAMES)
-  },
-  {
-    untilAgeMillis: LIFETIME_MS,
-    material: new MY3.FlickeringBasicMaterial([C64.black, C64.brown], FLICKER_FRAMES)
-  }
-];
+// Material phases - initialized in init() to ensure FlickeringBasicMaterial is available
+export let MATERIAL_PHASES = null;
 
 export function animateMaterial() {
   // step through phase array until the age falls into range
@@ -94,6 +74,30 @@ export function update(timeDeltaMillis) {
 
 // there will only ever be eight Gibs, so we can reuse them
 export function init() {
+  // Initialize materials here, after MY3.FlickeringBasicMaterial is available
+  MATERIAL_PHASES = [
+    {
+      untilAgeMillis: 600,
+      material: new window.THREE.MeshBasicMaterial({ color: C64.white })
+    },
+    {
+      untilAgeMillis: 1100,
+      material: new MY3.FlickeringBasicMaterial([C64.yellow, C64.white], FLICKER_FRAMES)
+    },
+    {
+      untilAgeMillis: 1600,
+      material: new MY3.FlickeringBasicMaterial([C64.lightred, C64.yellow], FLICKER_FRAMES)
+    },
+    {
+      untilAgeMillis: 2000,
+      material: new MY3.FlickeringBasicMaterial([C64.brown, C64.lightred], FLICKER_FRAMES)
+    },
+    {
+      untilAgeMillis: LIFETIME_MS,
+      material: new MY3.FlickeringBasicMaterial([C64.black, C64.brown], FLICKER_FRAMES)
+    }
+  ];
+
   actor = new Actor(Explode, update, TYPE_NONE);
 
   for (var i = 0; i < NUMBER_OF_GIBS; i++)
@@ -137,66 +141,45 @@ Gib.newInstance = function() {
   var newGib = new window.THREE.Object3D();
   newGib.radarType = TYPE_PORTAL; // in the original this is TYPE_NONE
 
-  var gibMesh = new window.THREE.Mesh(Gib.GEOMETRY, Gib.MATERIAL);
-  gibMesh.scale.x = Gib.SCALE_X;
-  gibMesh.scale.y = Gib.SCALE_Y;
+  // the diamond mesh
+  newGib.mesh = new window.THREE.Mesh(Gib.GEOMETRY);
+  newGib.mesh.scale.x = Gib.SCALE_X;
+  newGib.mesh.scale.y = Gib.SCALE_Y;
+  newGib.add(newGib.mesh);
 
-  newGib.add(gibMesh);
-  newGib.mesh = gibMesh;  // provide an explicit ref to first and only child
-
-  var self = newGib;
-  // update is a closure passed to Actor, so we need 'self' for gib state
-  var update = function(timeDeltaMillis)
+  function gibUpdate(timeDeltaMillis)
   {
-    // move the parent
-    var actualMoveSpeed = timeDeltaMillis * Gib.SPEED;
-    self.translateZ(-actualMoveSpeed);
+    newGib.translateZ(-Gib.SPEED * timeDeltaMillis);
+    newGib.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
 
-    // rotate the child
-    self.mesh.rotateOnAxis(MY3.Y_AXIS, Gib.ROTATE_SPEED * timeDeltaMillis);
+    // collision with the player
+    if (Physics.doCirclesCollide(Player_getPosition(), Player_RADIUS, newGib.position, Gib.RADIUS)) {
+      Sound.gibHitPlayer();
+    }
 
-    Gib.collideWithObelisks(self);
-    Gib.collideWithPlayer(self);
-  };
-
-  newGib.actor = new Actor(newGib, update, newGib.radarType);
-
-  return newGib;
-};
-
-Gib.collideWithObelisks = function(gib) {
-  // if an obelisk is close (fast check), do a detailed collision check
-  if (Physics.isCloseToAnObelisk(gib.position, Gib.RADIUS))
-  {
-    // check for precise collision
-    var collidePosition = Physics.isCollidingWithObelisk(gib.position, Gib.RADIUS);
-    // if we get a return value we have work to do
-    if (collidePosition)
-    {
-      // we have a collision, move the gib out
-      Physics.moveCircleOutOfStaticCircle(collidePosition, Obelisk.RADIUS, gib.position, Gib.RADIUS);
+    // collision with obelisks
+    if (Physics.isCloseToAnObelisk(newGib.position, Gib.RADIUS)) {
+      // check for precise collision
+      var collidePosition = Physics.isCollidingWithObelisk(newGib.position, Gib.RADIUS);
+      // if we get a return there is work to do
+      if (collidePosition) {
+        // we have a collision, move the gib out
+        Physics.bounceObjectOutOfIntersectingCircle(collidePosition, Obelisk.RADIUS, newGib.position, Gib.RADIUS);
+        Sound.gibBounce();
+      }
     }
   }
-};
 
-Gib.collideWithPlayer = function(gib) {
-  if (MY3.doCirclesCollide(gib.position, Gib.RADIUS, Player_getPosition(), Player_RADIUS))
-  {
-    // move the gib out of the player
-    Physics.moveCircleOutOfStaticCircle(Player_getPosition(), Player_RADIUS, gib.position, Gib.RADIUS);
-    Sound.playerCollideObelisk();
-  }
+  newGib.actor = new Actor(newGib, gibUpdate, TYPE_PORTAL);
+  return newGib;
 };
 
 // Export default object for backward compatibility
 export default {
   NUMBER_OF_GIBS,
-  gibs,
   FLICKER_FRAMES,
   LIFETIME_MS,
-  ageMillis,
-  actor,
-  MATERIAL_PHASES,
+  get MATERIAL_PHASES() { return MATERIAL_PHASES; },
   animateMaterial,
   cleanUp,
   update,
