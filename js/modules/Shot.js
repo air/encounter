@@ -13,7 +13,7 @@ import { Actor } from './Actors.js';
 import { setBlue as Indicators_setBlue } from './Indicators.js';
 import { getIsAlive as Enemy_getIsAlive, getCurrent as Enemy_getCurrent, destroyed as Enemy_destroyed } from './Enemy.js';
 import { getActors, setupPlayerHitInCombat } from './State.js';
-import { getPosition as Player_getPosition, RADIUS as Player_RADIUS, wasHit as Player_wasHit, decrementShotsInFlight as Player_decrementShotsInFlight } from './Player.js';
+import { getPosition as Player_getPosition, RADIUS as Player_RADIUS, wasHit as Player_wasHit, decrementShotsInFlight as Player_decrementShotsInFlight, player as Player } from './Player.js';
 
 // Constants
 export const RADIUS = 40;
