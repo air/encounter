@@ -19,7 +19,7 @@
   ],
   "devDependencies": {
     "chai": ">1.9.1",
-    "mocha": ">1.18.2",
+    "mocha": ">11.7.1",
     "puppeteer": "^24.29.1",
     "three": "~0.58.10"
   },
