@@ -18,7 +18,7 @@ One man's mission to remake this amazing Commodore 64 game in WebGL.
 
 Build status: [![Build Status](https://travis-ci.org/air/encounter.svg)](https://travis-ci.org/air/encounter)
 
-Follow the devlog at http://aaronbell.com.
+Follow the devlog at [http://aaronbell.com](https://www.aaronbell.com/collected-encounter-devlogs/)
 
 ## Code Structure
 
