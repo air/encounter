@@ -48,7 +48,8 @@ export function init() {
       var zPos = rowIndex * SPACING;
       // update the template mesh and merge it into Grid
       obeliskMesh.position.set(xPos, Obelisk.HEIGHT / 2, zPos);
-      window.THREE.GeometryUtils.merge(geometry, obeliskMesh);
+      obeliskMesh.updateMatrix();
+      geometry.merge(obeliskMesh.geometry, obeliskMesh.matrix);
     }
   }
 
