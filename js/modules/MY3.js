@@ -204,11 +204,17 @@ export function initMouseHandler() {
 //=============================================================================
 // a THREE.Line coloured with a gradient from red to blue
 export function Line(startPos, endPos) {
-  var lineGeometry = new window.THREE.Geometry();
-  lineGeometry.vertices.push(startPos);
-  lineGeometry.vertices.push(endPos);
-  lineGeometry.colors.push(new window.THREE.Color( 0xff0000 ));
-  lineGeometry.colors.push(new window.THREE.Color( 0x0000ff ));
+  var lineGeometry = new window.THREE.BufferGeometry();
+  var positions = new Float32Array([
+    startPos.x, startPos.y, startPos.z,
+    endPos.x, endPos.y, endPos.z
+  ]);
+  var colors = new Float32Array([
+    1, 0, 0, // red
+    0, 0, 1  // blue
+  ]);
+  lineGeometry.setAttribute('position', new window.THREE.BufferAttribute(positions, 3));
+  lineGeometry.setAttribute('color', new window.THREE.BufferAttribute(colors, 3));
   window.THREE.Line.call(this, lineGeometry, MATS.lineVertex); // super constructor
 }
 Line.prototype = Object.create(window.THREE.Line.prototype);
@@ -226,7 +232,7 @@ export function Pointer(position, direction, length, pointAt) {
     length = 200;
   }
 
-  var lineGeometry = new window.THREE.Geometry();
+  var lineGeometry = new window.THREE.BufferGeometry();
   if (pointAt === undefined)
   {
     // 1. use a normal vector
@@ -237,20 +243,32 @@ export function Pointer(position, direction, length, pointAt) {
     var endPoint = direction.clone().multiplyScalar(length);
     endPoint.add(position);
 
-    lineGeometry.vertices.push(position);
-    lineGeometry.vertices.push(endPoint);
-    lineGeometry.colors.push(new window.THREE.Color( 0x00aa00 ));
-    lineGeometry.colors.push(new window.THREE.Color( 0xffffff ));
+    var positions = new Float32Array([
+      position.x, position.y, position.z,
+      endPoint.x, endPoint.y, endPoint.z
+    ]);
+    var colors = new Float32Array([
+      0, 0.667, 0, // green
+      1, 1, 1      // white
+    ]);
+    lineGeometry.setAttribute('position', new window.THREE.BufferAttribute(positions, 3));
+    lineGeometry.setAttribute('color', new window.THREE.BufferAttribute(colors, 3));
     window.THREE.Line.call(this, lineGeometry, MATS.lineVertex); // super constructor
   }
   else
   {
     // 2. point at something
     // first create at the origin with our length pointing 'forward'
-    lineGeometry.vertices.push(new window.THREE.Vector3(0, 0, 0));
-    lineGeometry.vertices.push(new window.THREE.Vector3(0, 0, length));
-    lineGeometry.colors.push(new window.THREE.Color( 0x00aa00 ));
-    lineGeometry.colors.push(new window.THREE.Color( 0xffffff ));
+    var positions = new Float32Array([
+      0, 0, 0,
+      0, 0, length
+    ]);
+    var colors = new Float32Array([
+      0, 0.667, 0, // green
+      1, 1, 1      // white
+    ]);
+    lineGeometry.setAttribute('position', new window.THREE.BufferAttribute(positions, 3));
+    lineGeometry.setAttribute('color', new window.THREE.BufferAttribute(colors, 3));
 
     window.THREE.Line.call(this, lineGeometry, MATS.lineVertex); // super constructor
     // then move and rotate

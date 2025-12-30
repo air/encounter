@@ -38,22 +38,25 @@ export function init() {
 
   viewport = new window.THREE.Box2(new window.THREE.Vector2(0,0), new window.THREE.Vector2(SIZE_SQUARE, SIZE_SQUARE));
 
-  geometry = new window.THREE.Geometry();
-  var obeliskMesh = Obelisk.newMeshInstance(); // just need one of these as a cookie cutter
+  // Use InstancedMesh for better performance with many copies of the same geometry
+  var obeliskMesh = Obelisk.newMeshInstance();
+  var instanceCount = OBELISKS_PER_SIDE * OBELISKS_PER_SIDE;
 
-  // one-time loop to set up geometry
+  mesh = new window.THREE.InstancedMesh(obeliskMesh.geometry, Obelisk.MATERIAL, instanceCount);
+
+  // Set up each instance's matrix
+  var matrix = new window.THREE.Matrix4();
+  var instanceIndex = 0;
   for (var rowIndex = 0; rowIndex < OBELISKS_PER_SIDE; rowIndex++) {
     for (var colIndex = 0; colIndex < OBELISKS_PER_SIDE; colIndex++) {
       var xPos = colIndex * SPACING;
       var zPos = rowIndex * SPACING;
-      // update the template mesh and merge it into Grid
-      obeliskMesh.position.set(xPos, Obelisk.HEIGHT / 2, zPos);
-      obeliskMesh.updateMatrix();
-      geometry.merge(obeliskMesh.geometry, obeliskMesh.matrix);
+      matrix.makeTranslation(xPos, Obelisk.HEIGHT / 2, zPos);
+      mesh.setMatrixAt(instanceIndex, matrix);
+      instanceIndex++;
     }
   }
-
-  mesh = new window.THREE.Mesh(geometry, Obelisk.MATERIAL);
+  mesh.instanceMatrix.needsUpdate = true;
 
   // the final bit of setup for parent/child is delegated to Ground.init(), some unlovely coupling
 }

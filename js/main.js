@@ -153,7 +153,7 @@ log('GUI module initialized (no-op since dat.gui is commented out)');
 // Test Player module (MUST be before Controls.init which references Player.position)
 log('Player module loaded - player ship with movement, shooting, and collision');
 log('Player constants - Radius: ' + Player.RADIUS);
-log('Player geometry loaded with ' + Player.GEOMETRY.vertices.length + ' vertices');
+log('Player geometry loaded with ' + (Player.GEOMETRY.attributes.position.count) + ' vertices');
 log('Player shot material color: #' + Player.SHOT_MATERIAL.color.getHexString());
 Player.init();
 log('Player module initialized as THREE.Mesh with wireframe material');
