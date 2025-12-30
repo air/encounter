@@ -258,6 +258,9 @@ State.init();
 log('State.init() completed - game systems initialized');
 log('Current game state: ' + State.getCurrent());
 
+// Connect MY3 animation loop to State update system
+MY3.setUpdateCallback(State.update);
+
 // Start the animation/render loop
 MY3.startAnimationLoop();
 log('MY3.startAnimationLoop() started - game is now running!');

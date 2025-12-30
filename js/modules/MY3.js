@@ -1,7 +1,6 @@
 'use strict';
 
 import { TO_DEGREES, panic } from './UTIL.js';
-import { update as State_update } from './State.js';
 
 let threeDiv = null;  // div containing the renderer
 
@@ -101,10 +100,20 @@ export function render() {
   renderer.render(scene, camera);
 }
 
-// Main animation loop - calls State.update() and render()
+// Optional update callback for the animation loop
+let updateCallback = null;
+
+// Set the update callback that will be called each frame
+export function setUpdateCallback(callback) {
+  updateCallback = callback;
+}
+
+// Main animation loop - calls optional update callback and render()
 export function startAnimationLoop() {
   requestAnimationFrame(startAnimationLoop);
-  State_update(clock.getDelta() * clock.multiplier);
+  if (updateCallback) {
+    updateCallback(clock.getDelta() * clock.multiplier);
+  }
   render();
 }
 
@@ -426,6 +435,7 @@ export default {
   newThreeStats,
   setupRStats,
   render,
+  setUpdateCallback,
   startAnimationLoop,
   isVectorNormalised,
   doCirclesCollide,

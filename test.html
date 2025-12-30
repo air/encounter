@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Three.js Test Scene</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #000000;
+}
+</style>
+</head>
+<body>
+  <!-- External libraries (non-module) -->
+  <script src="node_modules/three/build/three.js"></script>
+
+  <!-- Main ES6 module entry point -->
+  <script type="module">
+    import * as MY3 from './js/modules/MY3.js';
+
+    // Expose MY3 to global scope for console access
+    window.MY3 = MY3;
+
+    // Initialize 3D renderer, camera, and scene
+    MY3.init3d();
+
+    // Add axes helper (red=X, green=Y, blue=Z)
+    MY3.addHelpers();
+
+    // Position camera to see the axes
+    const camera = MY3.getCamera();
+    camera.position.set(500, 500, 500);
+    camera.lookAt(0, 0, 0);
+
+    // Start animation loop (no update callback, just render)
+    MY3.startAnimationLoop();
+
+    console.log('Test scene loaded - you should see axes helpers (red=X, green=Y, blue=Z)');
+    console.log('MY3 is available in the console as window.MY3');
+  </script>
+</body>
+</html>
