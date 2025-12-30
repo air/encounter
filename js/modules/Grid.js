@@ -47,7 +47,7 @@ export function init() {
       var xPos = colIndex * SPACING;
       var zPos = rowIndex * SPACING;
       // update the template mesh and merge it into Grid
-      obeliskMesh.position = new window.THREE.Vector3(xPos, Obelisk.HEIGHT / 2, zPos);
+      obeliskMesh.position.set(xPos, Obelisk.HEIGHT / 2, zPos);
       window.THREE.GeometryUtils.merge(geometry, obeliskMesh);
     }
   }

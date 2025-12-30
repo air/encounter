@@ -19,8 +19,8 @@ export const GEOMETRY = new window.THREE.SphereGeometry(RADIUS, 8, 4);
 export let MATERIAL = null;
 export const SHOT_MATERIAL = new window.THREE.MeshBasicMaterial({ color: C64_white });
 
-// Player instance - initially a default mesh, we'll define this in init()
-export let player = new window.THREE.Mesh();
+// Player instance - initially null, created in init()
+export let player = null;
 
 // Player state
 // Note: radarType is initialized in init() to avoid circular dependency (State -> Player -> Radar -> State)
@@ -67,8 +67,8 @@ export function init() {
   // Initialize MATERIAL here to avoid circular dependency (MY3 -> State -> Player -> MY3)
   MATERIAL = MY3.MATS.wireframe.clone();
 
-  // actually set up this Mesh using our materials
-  window.THREE.Mesh.call(player, GEOMETRY, MATERIAL);
+  // Create the player mesh
+  player = new window.THREE.Mesh(GEOMETRY, MATERIAL);
 
   player.radarType = radarType;
 

@@ -6,8 +6,8 @@ import Display from './Display.js';
 import { getGroundDiv } from './Display.js';
 import { getSizeSquare, getMesh as Grid_getMesh, addToScene as Grid_addToScene } from './Grid.js';
 
-// Ground plane setup - initially a default mesh, we'll define this in init()
-const groundMesh = new window.THREE.Mesh(); // initially a default mesh, we'll define this in init()
+// Ground plane setup - initially null, created in init()
+let groundMesh = null;
 
 // The Ground plane is faked but we can turn on a real one if need be - looks better in e.g. flight mode.
 export const DO_RENDER = false;
@@ -27,8 +27,8 @@ export function init() {
 
   GEOMETRY = new window.THREE.PlaneGeometry(getSizeSquare(), getSizeSquare(), X_SEGMENTS, Z_SEGMENTS);
 
-  // actually set up this Mesh using our materials
-  window.THREE.Mesh.call(groundMesh, GEOMETRY, MATERIAL);
+  // Create the ground mesh
+  groundMesh = new window.THREE.Mesh(GEOMETRY, MATERIAL);
 
   // plane inits as a wall on X axis facing the positive Z space, turn away to make a floor
   groundMesh.rotation.x = -90 * TO_RADIANS;

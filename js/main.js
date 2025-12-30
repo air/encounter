@@ -150,6 +150,19 @@ log('GUI module loaded - debug interface for dat.gui (currently disabled)');
 GUI.init();
 log('GUI module initialized (no-op since dat.gui is commented out)');
 
+// Test Player module (MUST be before Controls.init which references Player.position)
+log('Player module loaded - player ship with movement, shooting, and collision');
+log('Player constants - Radius: ' + Player.RADIUS);
+log('Player geometry loaded with ' + Player.GEOMETRY.vertices.length + ' vertices');
+log('Player shot material color: #' + Player.SHOT_MATERIAL.color.getHexString());
+Player.init();
+log('Player module initialized as THREE.Mesh with wireframe material');
+log('Player radar type: ' + Player.getRadarType());
+Player.resetShieldsLeft();
+log('Player shields reset to: ' + Player.getShieldsLeft());
+Player.resetPosition();
+log('Player position reset to grid start: ' + Player.getPosition().x + ', ' + Player.getPosition().y + ', ' + Player.getPosition().z);
+
 // Test Controls module
 log('Controls module loaded - control systems for player movement');
 Controls.init();
@@ -226,19 +239,6 @@ log('SaucerChaingun loaded - yellow/grey flickering saucer, 10 shots, no windup'
 log('SaucerShotgun loaded - lightgreen saucer, 3-shot spread, no windup');
 log('SaucerAutoShotgun loaded - lightgrey saucer, 3 consecutive 3-shot spreads, no windup');
 log('All Saucer enemy variants initialized successfully');
-
-// Test Player module
-log('Player module loaded - player ship with movement, shooting, and collision');
-log('Player constants - Radius: ' + Player.RADIUS);
-log('Player geometry loaded with ' + Player.GEOMETRY.vertices.length + ' vertices');
-log('Player shot material color: #' + Player.SHOT_MATERIAL.color.getHexString());
-Player.init();
-log('Player module initialized as THREE.Mesh with wireframe material');
-log('Player radar type: ' + Player.getRadarType());
-Player.resetShieldsLeft();
-log('Player shields reset to: ' + Player.getShieldsLeft());
-Player.resetPosition();
-log('Player position reset to grid start: ' + Player.getPosition().x + ', ' + Player.getPosition().y + ', ' + Player.getPosition().z);
 
 // Test State module (FINAL MODULE - 40/40!)
 log('State module loaded - central game orchestrator');

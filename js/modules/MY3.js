@@ -47,7 +47,7 @@ export function init3d(far, zIndex) {
   scene = new window.THREE.Scene();
   scene.add(camera);
   renderer.setSize(WIDTH, HEIGHT); // size of canvas element
-  renderer.shadowMapEnabled = true;
+  renderer.shadowMap.enabled = true;
   threeDiv = document.createElement('div');
   threeDiv.id = 'threejs';
   threeDiv.style.position = 'absolute';
