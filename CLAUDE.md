@@ -8,26 +8,117 @@ This is a WebGL recreation of the classic 1983 Commodore 64 game "Encounter" usi
 
 ## What we are working on
 
-The ES6 module conversion is **COMPLETE**! All 40+ game modules have been successfully converted from the old global namespace pattern to proper ES6 modules with imports/exports. The game is fully functional in `index-modules.html`.
+### Three.js Migration Plan
 
-**Current focus**: Code cleanup, refactoring, and improvements to the ES6 codebase. The Three.js upgrade will come later.
+**Goal**: Upgrade from Three.js r58 (0.58.10) to latest (0.182.0)
 
-## ES6 Module Conversion - COMPLETED ✓
+**Strategy**: Incremental upgrades in chunks of ~10 versions to manage API changes and deprecation warnings effectively.
 
-The ES6 module conversion has been successfully completed! All modules are now using proper ES6 imports/exports.
+**Current Status**: Phase 0 - Preparing to migrate from vendored lib/ to npm package
+
+#### Migration Phases
+
+**Phase 0: Switch to npm-managed Three.js** (CURRENT)
+- Install three@0.58.10 from npm
+- Update index.html to use npm package instead of lib/three.min.js
+- Verify game works identically with npm version
+- Test all functionality
+- ✅ Commit when validated
+
+**Phase 1: 0.58 → 0.66** (skipping 0.59-0.65, not published to npm)
+- Update package.json to three@0.66.97 (latest in 0.66.x)
+- Fix breaking changes (see migration guide lines 743-751 for r58→r59 changes)
+- Key changes to watch:
+  - Object3D.rotation now THREE.Euler (was Vector3)
+  - Object3D.useQuaternion removed (quaternions now default)
+  - Geometry → BoxGeometry (r65→r66)
+- Test all functionality
+- ✅ Commit when validated
+
+**Phase 2: 0.66 → 0.77**
+- Approximately 11 versions forward
+- Focus on incremental API changes
+- Test and commit when validated
+
+**Phase 3: 0.77 → 0.87**
+- 10 version jump
+- Test and commit when validated
+
+**Phase 4: 0.87 → 0.97**
+- 10 version jump
+- Test and commit when validated
+
+**Phase 5: 0.97 → 0.107**
+- 10 version jump
+- Test and commit when validated
+
+**Phase 6: 0.107 → 0.117**
+- 10 version jump
+- Major change: WebGL 2 by default (r117→r118)
+- Test and commit when validated
+
+**Phase 7: 0.117 → 0.127**
+- 10 version jump
+- Major change: ES6 classes for core components (r127→r128)
+- Test and commit when validated
+
+**Phase 8: 0.127 → 0.137**
+- 10 version jump
+- Major change: Color management updates
+- Test and commit when validated
+
+**Phase 9: 0.137 → 0.147**
+- 10 version jump
+- Test and commit when validated
+
+**Phase 10: 0.147 → 0.152**
+- 5 version jump (smaller due to major color space changes)
+- Major change: outputEncoding → outputColorSpace (r151→r152)
+- Test and commit when validated
+
+**Phase 11: 0.152 → 0.162**
+- 10 version jump
+- Major change: WebGL 1 support removed (r162→r163)
+- Test and commit when validated
+
+**Phase 12: 0.162 → 0.172**
+- 10 version jump
+- Test and commit when validated
+
+**Phase 13: 0.172 → 0.182**
+- Final 10 version jump to latest
+- Test and commit when validated
+
+#### Testing Requirements Per Phase
+- Manual browser testing at http://localhost:8000/index.html is **REQUIRED**
+- Run `npm test` only if MY3.js or Physics.js were modified
+- Verify:
+  - Game loads without console errors
+  - Attract mode renders correctly
+  - Player movement works
+  - Enemies spawn and move
+  - Shooting works
+  - Collisions work
+  - Level transitions work
+  - Sound effects play
+
+#### Notes
+- Each phase must be tested and validated by user before committing
+- Breaking changes documented in `three-migration-guide.md`
+- Focus on one phase at a time
+- Don't proceed to next phase until current is working
+
+See `three-migration-guide.md` for detailed API changes between versions.
 
 ### File Locations
 - **Active codebase**: `js/modules/` directory with ES6 imports/exports
 - **Entry point**: `js/main.js` loaded by `index.html`
-- **Legacy code**: Original pre-ES6 code in `js/` directory (kept for reference)
-- **Legacy HTML**: `index-legacy.html` loads the old non-module code
 
 ### Key Patterns Established
 - Named exports for functions and constants
 - Default exports for backward compatibility where needed
 - Getter/setter patterns for mutable module state
-- ES6 classes for Portal/WhitePortal/BlackPortal inheritance
-- Prototype-based inheritance for Saucer variants (working well)
+- ES6 classes for Portal/WhitePortal/BlackPortal inheritance, and Saucer variants
 - Careful module initialization order to handle dependencies
 
 ### Git Commit Workflow
@@ -35,12 +126,9 @@ The ES6 module conversion has been successfully completed! All modules are now u
 - **IMPORTANT**: Do NOT attempt `git push` - the user will handle pushing to GitHub
 - After completing conversions or fixes, the workflow is:
   1. Make the code changes
-  2. Run `npm run test:browser` to check for browser errors (uses Puppeteer to load the app and capture console output)
-  3. **STOP and WAIT** for the user to confirm if manual testing is needed or if the Puppeteer output is sufficient
-  4. **Only after user confirms "ok" or "looks good"**, then stage files with `git add` and commit with `git commit`
-  5. User will handle `git push` separately
-- Browser testing with Puppeteer captures console errors automatically
-- Manual browser testing may still be needed for visual/interactive validation
+  2. **STOP and WAIT** for the user to confirm via manual testing
+  3. **Only after user confirms "ok" or "looks good"**, then stage files with `git add` and commit with `git commit`
+  4. User will handle `git push` separately
 
 ## Development Commands
 
@@ -48,11 +136,6 @@ The ES6 module conversion has been successfully completed! All modules are now u
 ```bash
 npm test          # Run Mocha tests
 ```
-
-## Local Testing Notes
-- Start an HTTP server: `python3 -m http.server 8000`
-- Open `http://localhost:8000/index.html` (ES6 modules version)
-- Or open `http://localhost:8000/index-legacy.html` (legacy pre-ES6 version)
 
 ## Architecture Overview
 
@@ -92,7 +175,6 @@ npm test          # Run Mocha tests
 ### Game Constants
 - All timing and gameplay values defined in Encounter.js
 - Movement speed, turn speed, shot intervals carefully tuned to match C64 original
-- Draw distance and performance settings configurable
 
 ### State Management
 - Game uses a centralized State object for mode switching
@@ -123,13 +205,8 @@ npm test          # Run Mocha tests
 - For all other modules, manual browser testing is the only validation
 
 ### Manual Browser Testing (Required for Everything)
-- Mocha test framework with Chai assertions
-- Tests located in test/ directory
-- Focus on core systems: MY3.js, Physics.js
-- Uses mocha.opts configuration for test reporter settings
-- **Manual browser testing at http://localhost:8000/index-modules.html is REQUIRED for validating all other modules**
+- **Manual browser testing at http://localhost:8000/index.html is REQUIRED for validating all other modules**
 
 ## Code Writing Guidelines
 
 - When leaving comments in the code for something to do later, always prefix it with CLAUDE-TODO: so we know it's a comment for Claude, not for the developer
-- when refactoring the JS files, it's absolutely critical to keep all the functions and constants without changing their values! don't drop or change any values since they are all critical to the functioning of the game. when you update a file (say from js/Shot.js to js/modules/Shot.js) compare the 'before' and 'after' to verify everything was ported over.
