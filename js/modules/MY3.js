@@ -57,7 +57,7 @@ export function init3d(far, zIndex) {
 }
 
 export function addHelpers() {
-  var axis = new window.THREE.AxisHelper(300);
+  var axis = new window.THREE.AxesHelper(300);
   scene.add(axis);
   var camHelp = new window.THREE.CameraHelper(camera);
   scene.add(camHelp);
