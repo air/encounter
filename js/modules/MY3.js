@@ -42,7 +42,7 @@ export function init3d(far, zIndex) {
   var FAR = (far === undefined) ? 10000 : far;
   var theZIndex = (zIndex === undefined) ? 10 : zIndex;
 
-  renderer = new window.THREE.WebGLRenderer();
+  renderer = new window.THREE.WebGLRenderer({ alpha: true });
   camera = new window.THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
   scene = new window.THREE.Scene();
   scene.add(camera);
