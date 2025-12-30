@@ -1,17 +1,19 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<title>Three.js Test Scene</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-<style>
-body {
-  margin: 0;
-  overflow: hidden;
-  background-color: #000000;
-}
-</style>
+  <title>Three.js Test Scene</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000000;
+    }
+  </style>
 </head>
+
 <body>
   <!-- External libraries (non-module) -->
   <script src="node_modules/three/build/three.js"></script>
@@ -29,16 +31,27 @@ body {
     // Add axes helper (red=X, green=Y, blue=Z)
     MY3.addHelpers();
 
-    // Position camera to see the axes
+    // Add a test line from origin to (100, 100, 100)
+    const o = new THREE.Vector3(0, 0, 0);
+    const p = new THREE.Vector3(100, 200, 300);
+    const line = new MY3.Line(o, p);
+    MY3.getScene().add(line);
+    // markers
+    MY3.markerAt(0, 0, 0);
+    MY3.markerAt(100, 200, 300);
+
+    // Position camera to see the axes and line
     const camera = MY3.getCamera();
-    camera.position.set(500, 500, 500);
+    camera.position.set(300, 400, 500);
     camera.lookAt(0, 0, 0);
 
     // Start animation loop (no update callback, just render)
     MY3.startAnimationLoop();
 
     console.log('Test scene loaded - you should see axes helpers (red=X, green=Y, blue=Z)');
-    console.log('MY3 is available in the console as window.MY3');
+    console.log('Plus a colored test line with markers');
+    console.log('MY3 is available in the console');
   </script>
 </body>
+
 </html>
