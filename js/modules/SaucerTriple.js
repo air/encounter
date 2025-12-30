@@ -3,7 +3,7 @@
  * Cyan/grey saucer firing three successive shots with windup sound
  */
 
-import Saucer, { FlickeringBasicMaterial } from './Saucer.js';
+import { Saucer, FlickeringBasicMaterial } from './Saucer.js';
 import { cyan, lightgrey } from './C64.js';
 import { rotateObjectToLookAt } from './MY3.js';
 import { newInstance as Shot_newInstance } from './Shot.js';
@@ -19,28 +19,28 @@ export const MATERIAL = new FlickeringBasicMaterial([cyan, lightgrey], FLICKER_F
 export const SHOT_MATERIAL = new FlickeringBasicMaterial([cyan, lightgrey], FLICKER_FRAMES);
 
 /**
- * SaucerTriple constructor function
- * @param {THREE.Vector3} [location] - Optional spawn location
- * @returns {SaucerTriple} SaucerTriple instance
+ * SaucerTriple ES6 class
+ * Extends Saucer with triple-shot behavior
  */
-export const SaucerTriple = function(location) {
-  Saucer.call(this, MATERIAL, location);
+export class SaucerTriple extends Saucer {
+  constructor(location) {
+    super(MATERIAL, location);
 
-  // override defaults
-  this.SHOTS_TO_FIRE = 3;
+    // override defaults
+    this.SHOTS_TO_FIRE = 3;
 
-  log('new SaucerTriple at ', this.mesh.position);
-  this.setupMoving();
-};
+    log('new SaucerTriple at ', this.mesh.position);
+    this.setupMoving();
+  }
 
-SaucerTriple.prototype = Object.create(Saucer.prototype);
-
-SaucerTriple.prototype.shoot = function() {
-  rotateObjectToLookAt(this.mesh, Player_getPosition());
-  Sound_enemyShoot();
-  const shot = Shot_newInstance(this, this.mesh.position, this.mesh.rotation, SHOT_MATERIAL);
-  getActors().add(shot.actor);
-};
+  shoot() {
+    rotateObjectToLookAt(this.mesh, Player_getPosition());
+    Sound_enemyShoot();
+    const shot = Shot_newInstance(this, this.mesh.position, this.mesh.rotation, SHOT_MATERIAL);
+    getActors().add(shot.actor);
+  }
+}
 
 // Default export for backward compatibility
 export default SaucerTriple;
+
