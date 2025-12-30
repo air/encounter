@@ -1,36 +1,56 @@
 <!doctype html>
 <html lang="en">
-<head>
-<title>encounter</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-<style>
-html {
-  height:100%;
-  background-color: #588D43;
-  background-position: center top;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-image: url("img/attract.png");
-}
 
-body {
-  margin: 0px; /* needed to completely fill the window */
-  overflow: hidden; /* needed to prevent scroll bars */
-}
-</style>
+<head>
+  <title>encounter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+  <!-- Import map for three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js"
+      }
+    }
+  </script>
+
+  <style>
+    html {
+      height: 100%;
+      background-color: #588D43;
+      background-position: center top;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url("img/attract.png");
+    }
+
+    body {
+      margin: 0px;
+      /* needed to completely fill the window */
+      overflow: hidden;
+      /* needed to prevent scroll bars */
+    }
+  </style>
 </head>
+
 <body>
   <!-- External libraries (non-module) -->
-  <script src="node_modules/three/build/three.js"></script>
   <!--<script src="lib/rStats.js"></script>
   <script src="lib/rStats.extras.js"></script>-->
   <script src="lib/FirstPersonControls.js"></script>
   <script src="lib/jsfxr.js"></script>
   <script src="lib/dat.gui.js"></script>
   <script src="lib/tween.min.js"></script>
-  
+
+  <!-- Load THREE globally from module -->
+  <script type="module">
+    import * as THREE from 'three';
+    window.THREE = THREE;
+  </script>
+
   <!-- Main ES6 module entry point -->
   <script type="module" src="js/main.js"></script>
 </body>
+
 </html>

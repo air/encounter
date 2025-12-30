@@ -5,6 +5,16 @@
   <title>Three.js Test Scene</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+  <!-- Import map for three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js"
+      }
+    }
+  </script>
+
   <style>
     body {
       margin: 0;
@@ -15,8 +25,11 @@
 </head>
 
 <body>
-  <!-- External libraries (non-module) -->
-  <script src="node_modules/three/build/three.js"></script>
+  <!-- Load THREE globally from module -->
+  <script type="module">
+    import * as THREE from 'three';
+    window.THREE = THREE;
+  </script>
 
   <!-- Main ES6 module entry point -->
   <script type="module">
