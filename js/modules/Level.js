@@ -159,7 +159,7 @@ export function resetToBeginning() {
 export function set(levelNumber) {
   if (levelNumber < 1 || levelNumber > 8)
   {
-    throw('invalid level number: ' + levelNumber);
+    throw new Error('invalid level number: ' + levelNumber);
   }
   number = levelNumber;
   current = data[number - 1];

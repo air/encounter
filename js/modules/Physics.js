@@ -4,14 +4,24 @@ import * as Obelisk from './Obelisk.js';
 import * as Grid from './Grid.js';
 import * as MY3 from './MY3.js';
 
-// FIXME don't move the shot out by the shortest path (worst case: sideways), retrace the direction. This will break the 'movement as normal' idea
+/**
+ * Physics module - Collision detection and response for game objects
+ * Handles 2D collision detection on the X-Z plane for obelisks and game objects
+ */
 
-// Pass a Vector3 and the radius of the object - does this sphere approach a collision with an Obelisk?
-// Uses a 2D rectangular bounding box check using modulus.
+/**
+ * Fast bounding box check to determine if an object might collide with an obelisk
+ * Uses modulus-based grid checking for efficient broad-phase collision detection
+ * 
+ * @param {THREE.Vector3} position - The position to check
+ * @param {number} radius - The radius of the object at this position
+ * @returns {boolean} True if the object is close enough to require detailed collision checking
+ * @throws {Error} If radius is undefined
+ */
 export function isCloseToAnObelisk(position, radius) {
   if (radius === undefined)
   {
-    throw('required: radius');
+    throw new Error('required: radius');
   }
   // special case for too high (fly mode only)
   if (position.y > (Obelisk.HEIGHT + radius))
@@ -43,8 +53,13 @@ export function isCloseToAnObelisk(position, radius) {
   return true;
 }
 
-// Pass in a Vector3 (Y is ignored!) and radius that might be colliding with an Obelisk. Performs 2D circle intersection check.
-// Returns a Vector3 position for a colliding Obelisk, or undefined if not colliding.
+/**
+ * Precise circle-to-circle collision check in 2D (ignores Y axis)
+ * 
+ * @param {THREE.Vector3} position - Position to check for collision (Y ignored)
+ * @param {number} radius - Radius of the object
+ * @returns {THREE.Vector3|undefined} Position of colliding obelisk, or undefined if no collision
+ */
 export function isCollidingWithObelisk(position, radius) {
   // collision overlap must exceed a small epsilon so we don't count rounding errors
   var COLLISION_EPSILON = 0.01;
@@ -66,7 +81,15 @@ export function isCollidingWithObelisk(position, radius) {
   }
 }
 
-// Collide a moving Object3D with a static point and radius. The object position and rotation will be modified.
+/**
+ * Bounce a moving object off a static circular obstacle using physics reflection
+ * Modifies the object's position and rotation based on collision response
+ * 
+ * @param {THREE.Vector3} staticPoint - Position of static obstacle
+ * @param {number} staticRadius - Radius of static obstacle
+ * @param {THREE.Object3D} object - Moving object that collided (will be modified)
+ * @param {number} objectRadius - Radius of moving object
+ */
 export function bounceObjectOutOfIntersectingCircle(staticPoint, staticRadius, object, objectRadius) {
   // move collider out of the obelisk, get the movement that was executed
   var movement = moveCircleOutOfStaticCircle(staticPoint, staticRadius, object.position, objectRadius);
@@ -95,20 +118,25 @@ export function bounceObjectOutOfIntersectingCircle(staticPoint, staticRadius, o
   object.rotation.y = newRotation;
 }
 
-// Pass in two Vector3 positions, which intersect in the X-Z plane given a radius for each.
-// This function will move the second position out of the first by the shortest path (again on the X-Z plane).
-// All Y values are ignored.
-// Points = Vector3s
-// Radius = radius of the circles on the X-Z plane
-// Returns a Vector3 containing the movement executed, in case that's useful. Y will be zero.
+/**
+ * Separate two overlapping circles by moving one out of the other
+ * Works in 2D on the X-Z plane (Y values are ignored)
+ * 
+ * @param {THREE.Vector3} staticPoint - Position of static circle (not modified)
+ * @param {number} staticRadius - Radius of static circle
+ * @param {THREE.Vector3} movingPoint - Position of moving circle (will be modified)
+ * @param {number} movingRadius - Radius of moving circle
+ * @returns {THREE.Vector3} Vector representing the movement executed (Y will be zero)
+ * @throws {Error} If points are invalid or not intersecting
+ */
 export function moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoint, movingRadius) {
   if (staticPoint.x === undefined)
   {
-    throw('staticPoint must have an x, wrong type?');
+    throw new Error('staticPoint must have an x, wrong type?');
   }
   if (movingPoint.x === undefined)
   {
-    throw('movingPoint must have an x, wrong type?');
+    throw new Error('movingPoint must have an x, wrong type?');
   }
 
   // move the circle a tiny bit further than required, to account for rounding
@@ -122,7 +150,7 @@ export function moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoi
   // if intersecting, this should be negative
   if (distanceBetweenEdges >= 0)
   {
-    throw('no separation needed. Static ' + staticPoint.x + ',' + staticPoint.z + ' radius ' + staticRadius + ', moving ' + movingPoint.x + ',' + movingPoint.z + ' radius ' + movingRadius);
+    throw new Error('no separation needed. Static ' + staticPoint.x + ',' + staticPoint.z + ' radius ' + staticRadius + ', moving ' + movingPoint.x + ',' + movingPoint.z + ' radius ' + movingRadius);
   }
 
   var moveDistance = -distanceBetweenEdges; // moving circle must go this far directly away from static
@@ -144,7 +172,7 @@ export function moveCircleOutOfStaticCircle(staticPoint, staticRadius, movingPoi
   distanceBetweenEdges = centreDistance - staticRadius - movingRadius;
   if (distanceBetweenEdges < 0)
   {
-    throw('separation failed, distance between edges ' + distanceBetweenEdges);
+    throw new Error('separation failed, distance between edges ' + distanceBetweenEdges);
   }
 
   return movement;
