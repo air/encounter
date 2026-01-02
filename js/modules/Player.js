@@ -76,6 +76,9 @@ export function init() {
   //getActors().add(player);
 }
 
+/**
+ * Reset player position to starting location and rotation
+ */
 export function resetPosition() {
   player.position.copy(Grid_playerStartLocation());
 
@@ -86,10 +89,17 @@ export function resetPosition() {
   log('reset player: position ' + player.position.x + ', ' + player.position.y + ', ' + player.position.z + ' and rotation.y ' + player.rotation.y);
 }
 
+/**
+ * Reset player shields to initial value
+ */
 export function resetShieldsLeft() {
   shieldsLeft = PLAYER_LIVES;
 }
 
+/**
+ * Update player state - check for obelisk collisions
+ * Called every frame during gameplay
+ */
 export function update() {
   // if an obelisk is close (fast check), do a detailed collision check
   if (Grid_getIsActive() && isCloseToAnObelisk(player.position, RADIUS)) {
@@ -104,7 +114,10 @@ export function update() {
   }
 }
 
-// player was hit either in Warp or in combat, amend local state.
+/**
+ * Handle player being hit - reduces shields and updates game state
+ * Called when player is hit in Warp or combat
+ */
 export function wasHit() {
   Sound_playerKilled();
   isAlive = false;
@@ -116,9 +129,13 @@ export function wasHit() {
   shieldsLeft -= 1;
 }
 
+/**
+ * Fire a shot from the player ship
+ * Respects shot cooldown and maximum shots in flight
+ */
 export function shoot() {
   if (shotsInFlight < MAX_PLAYERS_SHOTS_ALLOWED) {
-    // FIXME use the clock
+    // TODO: use the clock instead of Date
     var now = new Date().getTime();
     var timeSinceLastShot = now - lastTimeFired;
     if (timeSinceLastShot > SHOT_INTERVAL_MS) {
@@ -131,6 +148,10 @@ export function shoot() {
   }
 }
 
+/**
+ * Award bonus shield to player (max 9 shields)
+ * Called when player completes a level
+ */
 export function awardBonusShield() {
   if (shieldsLeft < PLAYER_MAX_SHIELDS) {
     shieldsLeft += 1;
