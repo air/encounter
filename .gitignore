@@ -1,2 +1,14 @@
 npm-debug.log
 node_modules
+*.log
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.iml
+coverage/
+.nyc_output/
+dist/
+build/

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test UTIL Improvements</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Testing UTIL.js Improvements</h1>
+  <pre id="output"></pre>
+  
+  <script type="module">
+    import { convertSixDigitCssRgbToNumeric, random, randomFromArray } from './js/modules/UTIL.js';
+
+    const output = document.getElementById('output');
+    function log(msg) {
+      output.textContent += msg + '\n';
+      console.log(msg);
+    }
+
+    log('Testing UTIL.js improvements...\n');
+
+    // Test convertSixDigitCssRgbToNumeric
+    try {
+      const result = convertSixDigitCssRgbToNumeric('#ff6699');
+      log('✓ convertSixDigitCssRgbToNumeric("#ff6699") = ' + result + ' (expected: 16737945)');
+      if (result !== 16737945) throw new Error('Incorrect result');
+    } catch (e) {
+      log('✗ convertSixDigitCssRgbToNumeric failed: ' + e.message);
+    }
+
+    // Test error handling for invalid input
+    try {
+      convertSixDigitCssRgbToNumeric('invalid');
+      log('✗ Should have thrown error for invalid input');
+    } catch (e) {
+      log('✓ Correctly throws error for invalid input: ' + e.message);
+    }
+
+    // Test null input
+    try {
+      convertSixDigitCssRgbToNumeric(null);
+      log('✗ Should have thrown error for null input');
+    } catch (e) {
+      log('✓ Correctly throws error for null input: ' + e.message);
+    }
+
+    // Test randomFromArray
+    try {
+      const arr = ['a', 'b', 'c'];
+      const result = randomFromArray(arr);
+      log('✓ randomFromArray([a,b,c]) = ' + result);
+      if (!arr.includes(result)) throw new Error('Result not in array');
+    } catch (e) {
+      log('✗ randomFromArray failed: ' + e.message);
+    }
+
+    // Test error handling for empty array
+    try {
+      randomFromArray([]);
+      log('✗ Should have thrown error for empty array');
+    } catch (e) {
+      log('✓ Correctly throws error for empty array: ' + e.message);
+    }
+
+    // Test error handling for non-array
+    try {
+      randomFromArray('not an array');
+      log('✗ Should have thrown error for non-array');
+    } catch (e) {
+      log('✓ Correctly throws error for non-array: ' + e.message);
+    }
+
+    log('\nAll tests completed!');
+  </script>
+</body>
+</html>

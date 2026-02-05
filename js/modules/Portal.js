@@ -101,7 +101,7 @@ export class Portal {
   // Override in subclasses - this should never be called in production
   getActorUpdateFunction() {
     return (timeDeltaMillis) => {
-      console.log('Portal base update function called - this should be overridden!');
+      // Base update function - should be overridden by subclasses
     };
   }
 }

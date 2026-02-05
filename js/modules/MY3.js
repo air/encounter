@@ -249,7 +249,7 @@ export class Pointer extends window.THREE.Line {
     if (pointAt === undefined) {
       // 1. use a normal vector
       if (!isVectorNormalised(direction)) {
-        throw('direction must be a normal, length: ' + direction.length());
+        throw new Error('direction must be a normal, length: ' + direction.length());
       }
       var endPoint = direction.clone().multiplyScalar(length);
       endPoint.add(position);
